@@ -62,9 +62,17 @@ export default function Home() {
 
       {/* Experience */}
       <section>
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-5">
-          Experience
-        </h2>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground">
+            Experience
+          </h2>
+          <Link
+            href="/work"
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
+          >
+            See all
+          </Link>
+        </div>
         <div className="space-y-5">
           {workItems.map((item) => (
             <div key={item.meta.slug}>
@@ -126,16 +134,7 @@ export default function Home() {
           >
             message
           </Link>{" "}
-          or connect on{" "}
-          <a
-            href="https://linkedin.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-foreground"
-          >
-            LinkedIn
-          </a>
-          . You can also directly{" "}
+          or you can also directly{" "}
           <CalBooking
             customText="book a call"
             className="underline text-foreground cursor-pointer"
