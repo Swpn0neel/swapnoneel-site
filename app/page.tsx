@@ -1,31 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import Carousel from "@/components/carousel";
+import SocialLinks from "@/components/social-links";
 import { getAllWorkItems, getAllProjects } from "@/lib/md";
 import CalBooking from "@/components/cal-booking";
-
-const carouselImages = [
-  {
-    src: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=440&h=280&fit=crop",
-    alt: "Code on screen",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=440&h=280&fit=crop",
-    alt: "Development",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=440&h=280&fit=crop",
-    alt: "Laptop coding",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=440&h=280&fit=crop",
-    alt: "Open source",
-  },
-  {
-    src: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=440&h=280&fit=crop",
-    alt: "Tech workspace",
-  },
-];
 
 export default function Home() {
   const workItems = getAllWorkItems();
@@ -78,8 +55,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Carousel */}
-      <Carousel images={carouselImages} />
+      {/* Social Links */}
+      <SocialLinks />
 
       <hr className="border-border" />
 
