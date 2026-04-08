@@ -2,7 +2,7 @@
 title: "toile"
 date: "2024-06-01"
 description: "A minimal CRUD application to showcase artistic works in an elegant way."
-cover: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=440&h=280&fit=crop"
+cover: "/project/project1.jpg"
 link: "https://github.com"
 ---
 

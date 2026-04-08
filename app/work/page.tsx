@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getAllWorkItems, getAllProjects } from "@/lib/md";
+import ProjectGrid from "@/components/project-grid";
 
 export const metadata = {
   title: "Work — Swapnoneel Saha",
@@ -50,43 +51,7 @@ export default function WorkPage() {
         <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-5">
           Projects
         </h2>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {projects.map((p) => {
-            const href = p.meta.link ?? `/work/${p.meta.slug}`;
-            const isExternal = !!p.meta.link;
-            return (
-              <a
-                key={p.meta.slug}
-                href={href}
-                target={isExternal ? "_blank" : undefined}
-                rel={isExternal ? "noopener noreferrer" : undefined}
-                className="group block rounded-lg overflow-hidden border border-border hover:border-foreground/30 transition-colors"
-              >
-                {p.meta.cover ? (
-                  <Image
-                    src={p.meta.cover}
-                    alt={p.meta.title}
-                    width={220}
-                    height={130}
-                    className="object-cover w-full h-28"
-                  />
-                ) : (
-                  <div className="w-full h-28 bg-secondary flex items-center justify-center text-xs text-muted-foreground font-mono">
-                    {p.meta.title}
-                  </div>
-                )}
-                <div className="p-2">
-                  <p className="text-xs font-semibold">{p.meta.title}</p>
-                  {p.meta.description && (
-                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-                      {p.meta.description}
-                    </p>
-                  )}
-                </div>
-              </a>
-            );
-          })}
-        </div>
+        <ProjectGrid items={projects} />
       </section>
     </div>
   );

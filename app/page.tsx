@@ -2,11 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 import SocialLinks from "@/components/social-links";
 import { getAllWorkItems, getAllProjects } from "@/lib/md";
+import ProjectCarousel from "@/components/project-carousel";
 import CalBooking from "@/components/cal-booking";
 
 export default function Home() {
   const workItems = getAllWorkItems();
-  const projects = getAllProjects().slice(0, 3);
+  const projects = getAllProjects();
 
   return (
     <div className="space-y-10 pb-12">
@@ -112,11 +113,7 @@ export default function Home() {
             See all
           </Link>
         </div>
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
-          {projects.map((p) => (
-            <ProjectCard key={p.meta.slug} item={p} />
-          ))}
-        </div>
+        <ProjectCarousel items={projects} />
       </section>
 
       <hr className="border-border" />
@@ -150,7 +147,7 @@ export default function Home() {
         </h2>
         <ul className="space-y-1 text-sm">
           {[
-            { label: "GitHub", href: "https://github.com" },
+            { label: "GitHub", href: "https://github.com/Swpn0neel/swapnoneel-site" },
             { label: "LinkedIn", href: "https://linkedin.com" },
             { label: "Tutorials Point Profile", href: "https://tutorialspoint.com" },
             { label: "Keploy Blog", href: "https://keploy.io/blog" },
@@ -198,42 +195,3 @@ function WorkCard({
   );
 }
 
-function ProjectCard({
-  item,
-}: {
-  item: { meta: { slug: string; cover?: string; title: string; description?: string; link?: string } };
-}) {
-  const href = item.meta.link ?? `/work/${item.meta.slug}`;
-  const isExternal = !!item.meta.link;
-
-  return (
-    <a
-      href={href}
-      target={isExternal ? "_blank" : undefined}
-      rel={isExternal ? "noopener noreferrer" : undefined}
-      className="group block rounded-lg overflow-hidden border border-border hover:border-foreground/30 transition-colors"
-    >
-      {item.meta.cover ? (
-        <Image
-          src={item.meta.cover}
-          alt={item.meta.title}
-          width={300}
-          height={160}
-          className="object-cover w-full h-36"
-        />
-      ) : (
-        <div className="w-full h-36 bg-secondary flex items-center justify-center text-xs text-muted-foreground">
-          {item.meta.title}
-        </div>
-      )}
-      <div className="p-2">
-        <p className="text-xs font-semibold">{item.meta.title}</p>
-        {item.meta.description && (
-          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">
-            {item.meta.description}
-          </p>
-        )}
-      </div>
-    </a>
-  );
-}

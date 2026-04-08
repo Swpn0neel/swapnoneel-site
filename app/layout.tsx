@@ -28,7 +28,7 @@ export default function RootLayout({
           <Navbar />
           <main>{children}</main>
           <footer className="py-12 mt-8 text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Swapnoneel Saha
+            © {new Date().getFullYear()} Swapnoneel Saha. All rights reserved.
           </footer>
         </div>
         </ThemeProvider>
