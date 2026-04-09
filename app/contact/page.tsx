@@ -46,7 +46,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 pb-12">
+    <div className="max-w-2xl mx-auto space-y-8 pb-12">
       <div className="space-y-2">
         <h1 className="text-3xl font-semibold tracking-tight">Contact</h1>
         <p className="text-muted-foreground text-sm">

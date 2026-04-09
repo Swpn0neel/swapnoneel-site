@@ -3,7 +3,7 @@ title: "TermAI"
 date: "2024-02-15"
 description: "An AI-powered cloud terminal for seamless coding on any device."
 cover: "/project/term-ai.jpg"
-link: "https://github.com/Swpn0neel/term-ai-h4b"
+link: "https://term-ai.vercel.app/"
 ---
 
 ## TermAI

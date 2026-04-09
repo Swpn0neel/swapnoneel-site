@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/navbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import PageTransition from "@/components/page-transition";
 
 export const metadata: Metadata = {
   title: "Swapnoneel Saha",
@@ -29,7 +30,11 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <div className="max-w-2xl mx-auto px-4">
           <Navbar />
-          <main>{children}</main>
+          <main>
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </main>
           <footer 
             className="py-12 mt-8 text-xs text-muted-foreground"
             suppressHydrationWarning
