@@ -49,7 +49,7 @@ export default function RootLayout({
                 <span>↗</span> rss
               </a>
               <a
-                href="https://github.com/Swpn0neel/"
+                href="https://github.com/Swpn0neel/swapnoneel-site"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-foreground transition-colors flex items-center gap-1.5"
