@@ -42,7 +42,7 @@ export function MobileNav() {
 
       {/* Mobile Menu Dropdown */}
       <div
-        className={`absolute top-full left-0 right-0 mt-2 flex flex-col items-center bg-background border border-border shadow-sm rounded-xl py-4 gap-4 z-50 origin-top transition-all duration-300 ease-out ${
+        className={`absolute top-full left-0 right-0 mt-2 flex flex-col items-center bg-background/80 backdrop-blur-[20px] saturate-[160%] border border-border shadow-lg rounded-xl py-4 gap-4 z-50 origin-top transition-all duration-300 ease-out ${
           isOpen
             ? "translate-y-0 opacity-100 scale-y-100 pointer-events-auto"
             : "-translate-y-2 opacity-0 scale-y-95 pointer-events-none"
