@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "path";
 
 if (typeof global !== "undefined") {
   delete (global as any).localStorage;
@@ -13,6 +14,9 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
+  },
+  turbopack: {
+    root: path.resolve("."),
   },
 };
 

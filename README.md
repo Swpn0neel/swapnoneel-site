@@ -1,6 +1,6 @@
 # Swapnoneel Saha — Personal Site
 
-[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-black?style=for-the-badge&logo=shadcnui)](https://ui.shadcn.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
@@ -14,7 +14,7 @@ A premium, minimalist personal portfolio and blog built with the latest web tech
 - **Infinite Project Carousel**: A seamless, auto-scrolling display for showcasing engineering projects and designs.
 - **Achievements & Milestones**: A dedicated section for hackathon wins, open-source contributions, and technical highlights.
 - **Markdown-Driven Content**: Fully dynamic blog, work experience, and project pages powered by local Markdown files.
-- **Modern Tech Stack**: Leveraging Next.js 15 App Router, Tailwind CSS v4, and shadcn/ui for a state-of-the-art developer experience.
+- **Modern Tech Stack**: Leveraging Next.js 16 App Router, Tailwind CSS v4, and shadcn/ui for a state-of-the-art developer experience.
 - **Interactive Integrations**:
   - **Cal.com**: Integrated booking system for scheduling calls.
   - **RSS Feed**: Automated RSS generation for blog updates.
@@ -27,7 +27,7 @@ A premium, minimalist personal portfolio and blog built with the latest web tech
 
 | Layer | Technology |
 |---|---|
-| **Framework** | Next.js 15 (App Router) |
+| **Framework** | Next.js 16 (App Router) |
 | **Styling** | Tailwind CSS v4 + Motion |
 | **Components** | shadcn/ui |
 | **Content** | Markdown + gray-matter + next-mdx-remote |
