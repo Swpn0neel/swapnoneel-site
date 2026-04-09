@@ -2,7 +2,7 @@
 title: "TermAI"
 date: "2024-02-15"
 description: "An AI-powered cloud terminal for seamless coding on any device."
-cover: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=440&h=280&fit=crop"
+cover: "/project/term-ai.jpg"
 link: "https://github.com/Swpn0neel/term-ai-h4b"
 ---
 

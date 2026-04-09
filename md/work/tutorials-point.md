@@ -5,9 +5,7 @@ description: "Technical content creation for one of the world's largest develope
 cover: "https://play-lh.googleusercontent.com/F10OOHNkeNbOf5x9DYpoihAIkLRlSMxCsPHyCErXgm0oM2gZtJwVymJIZoN59v4JJWBZ"
 ---
 
-## Tutorials Point — Technical Writer
 
-**May 2023 – May 2025**
 
 [Tutorials Point](https://www.tutorialspoint.com) is one of the most popular platforms for learning programming and technology, with millions of learners worldwide.
 

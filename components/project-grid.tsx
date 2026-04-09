@@ -22,10 +22,8 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         {items.map((item) => {
-          const isExternal = !!item.meta.link;
-
           return (
             <div
               key={item.meta.slug}
@@ -39,33 +37,16 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
                     alt={item.meta.title}
                     width={400}
                     height={225}
-                    className="object-cover w-full h-36"
+                    className="object-cover w-full aspect-video"
                   />
                 ) : (
-                  <div className="w-full h-36 bg-secondary flex items-center justify-center text-xs text-muted-foreground font-mono px-4 text-center">
+                  <div className="w-full aspect-video bg-secondary flex items-center justify-center text-xs text-muted-foreground font-mono px-4 text-center">
                     {item.meta.title}
                   </div>
                 )}
                 <div className="p-2">
                   <div className="flex items-center justify-between">
                     <p className="text-xs font-semibold">{item.meta.title}</p>
-                    {isExternal && (
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="text-muted-foreground"
-                      >
-                        <path d="M7 7h10v10" />
-                        <path d="M7 17 17 7" />
-                      </svg>
-                    )}
                   </div>
                   {item.meta.description && (
                     <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2 leading-relaxed">

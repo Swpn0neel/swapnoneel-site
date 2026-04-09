@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState, useCallback } from "react";
 
 interface ProjectMeta {
@@ -119,8 +118,8 @@ export default function ProjectOverlay({
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
+              width="16"
+              height="16"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
@@ -136,14 +135,13 @@ export default function ProjectOverlay({
 
         {/* Body */}
         <div className="project-overlay-body">
-          {/* Image side */}
+          {/* Image side — uses plain <img> so the browser respects natural dimensions */}
           <div className="project-overlay-image-wrapper">
             {project?.meta.cover ? (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={project.meta.cover}
                 alt={project.meta.title}
-                width={600}
-                height={340}
                 className="project-overlay-image"
               />
             ) : (
@@ -166,9 +164,11 @@ export default function ProjectOverlay({
                 <h3 className="project-overlay-section-title">Tech Stack</h3>
                 <div className="project-overlay-tags">
                   {techStack.map((tech, i) => {
-                    // Extract bold text or use full string
+                    // Extract bold text or use part before dash
                     const boldMatch = tech.match(/\*\*(.+?)\*\*/);
-                    const label = boldMatch ? boldMatch[1] : tech.split("—")[0].split("–")[0].trim();
+                    const label = boldMatch
+                      ? boldMatch[1]
+                      : tech.split("—")[0].split("–")[0].trim();
                     return (
                       <span key={i} className="project-overlay-tag">
                         {label}
@@ -184,7 +184,7 @@ export default function ProjectOverlay({
                 <h3 className="project-overlay-section-title">Features</h3>
                 <ul className="project-overlay-features">
                   {features.map((feat, i) => {
-                    // Strip markdown bold markers for cleaner display
+                    // Strip markdown bold markers
                     const clean = feat.replace(/\*\*/g, "");
                     return (
                       <li key={i} className="project-overlay-feature-item">
@@ -209,19 +209,20 @@ export default function ProjectOverlay({
               className="project-overlay-link-btn"
             >
               <span>Learn more</span>
+              {/* Tilted external-link arrow — signals redirect to another site */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
+                width="13"
+                height="13"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <path d="M5 12h14" />
-                <path d="m12 5 7 7-7 7" />
+                <path d="M7 7h10v10" />
+                <path d="M7 17 17 7" />
               </svg>
             </a>
           </div>

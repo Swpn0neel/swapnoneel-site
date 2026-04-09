@@ -1,12 +1,12 @@
 ---
-title: "Deep Research Agent"
+title: "Scholarian"
 date: "2024-04-10"
 description: "A Gemini-powered deep-research pipeline for academic papers."
-cover: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=440&h=280&fit=crop"
+cover: "/project/scholarian.jpg"
 link: "https://deep-researching-agent.streamlit.app"
 ---
 
-## Deep Research Agent
+## Scholarian
 
 An intelligent Streamlit-based application that automates the academic research process by integrating multiple paper sources with a Gemini-powered refinement loop.
 

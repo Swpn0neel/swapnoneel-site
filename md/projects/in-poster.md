@@ -1,8 +1,8 @@
 ---
-title: "InPoster"
+title: "In Poster"
 date: "2024-05-15"
 description: "AI-Powered LinkedIn Content Generator."
-cover: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=440&h=280&fit=crop"
+cover: "/project/inposter.jpg"
 link: "https://in-poster-one.vercel.app/"
 ---
 

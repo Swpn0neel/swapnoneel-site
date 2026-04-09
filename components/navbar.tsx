@@ -11,7 +11,7 @@ export default function Navbar() {
       >
         Swapnoneel Saha
       </Link>
-      <div className="flex items-center gap-5">
+      <div className="flex items-center gap-4">
         <div className="hidden md:flex items-center gap-5">
           <Link
             href="/"
@@ -38,8 +38,10 @@ export default function Navbar() {
             contact.
           </Link>
         </div>
-        <ThemeToggle />
-        <MobileNav />
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <MobileNav />
+        </div>
       </div>
     </nav>
   );

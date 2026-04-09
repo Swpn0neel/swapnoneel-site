@@ -1,8 +1,8 @@
 ---
-title: "toile"
+title: "Toile"
 date: "2024-06-01"
 description: "A minimal CRUD application to showcase artistic works in an elegant way."
-cover: "/project/project1.jpg"
+cover: "/project/toile.jpg"
 link: "https://github.com"
 ---
 

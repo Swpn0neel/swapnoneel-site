@@ -1,8 +1,8 @@
 ---
-title: "get-response"
+title: "Get Response"
 date: "2024-03-01"
 description: "A terminal-based AI chatbot and automation tool."
-cover: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=440&h=280&fit=crop"
+cover: "/project/get-response.jpg"
 link: "https://www.npmjs.com/package/get-response"
 ---
 
