@@ -48,25 +48,34 @@ function getAll(folder: string): { meta: PostMeta; content: string }[] {
     .filter(Boolean) as { meta: PostMeta; content: string }[];
 }
 
+function parseDate(dateStr: string): number {
+  if (!dateStr) return 0;
+
+  // Handle ranges like "Jan 2024 - May 2024" or "May 2023 - Present"
+  // We sort by start date (the first part of the range)
+  const parts = dateStr.split(/[-–]/);
+  const startDateStr = parts[0].trim();
+
+  if (startDateStr.toLowerCase() === "present") {
+    return Date.now();
+  }
+
+  const date = new Date(startDateStr);
+  return isNaN(date.getTime()) ? 0 : date.getTime();
+}
+
 export const getAllBlogPosts = () =>
-  getAll("blog").sort(
-    (a, b) =>
-      new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime()
-  );
+  getAll("blog").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date));
 
 export const getBlogPost = (slug: string) => readBySlug("blog", slug);
 
 export const getAllWorkItems = () =>
-  getAll("work").sort(
-    (a, b) =>
-      new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime()
-  );
+  getAll("work").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date));
 
 export const getWorkItem = (slug: string) =>
   readBySlug("work", slug) ?? readBySlug("projects", slug);
 
 export const getAllProjects = () =>
   getAll("projects").sort(
-    (a, b) =>
-      new Date(b.meta.date).getTime() - new Date(a.meta.date).getTime()
+    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
   );

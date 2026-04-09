@@ -1,203 +1,105 @@
-# swapnoneel saha — personal site
+# Swapnoneel Saha — Personal Site
 
-A minimal personal portfolio built with **Next.js 15**, **Tailwind CSS v4**, and **shadcn/ui**. Content is managed through Markdown files in the `md/` folder — no CMS, no database.
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-black?style=for-the-badge&logo=shadcnui)](https://ui.shadcn.com/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+
+A premium, minimalist personal portfolio and blog built with the latest web technologies. Designed for high performance, accessibility, and architectural elegance.
 
 ---
 
-## Tech Stack
+## 🚀 Features
 
-| Layer | Tool |
+- **Infinite Project Carousel**: A seamless, auto-scrolling display for showcasing engineering projects and designs.
+- **Achievements & Milestones**: A dedicated section for hackathon wins, open-source contributions, and technical highlights.
+- **Markdown-Driven Content**: Fully dynamic blog, work experience, and project pages powered by local Markdown files.
+- **Modern Tech Stack**: Leveraging Next.js 15 App Router, Tailwind CSS v4, and shadcn/ui for a state-of-the-art developer experience.
+- **Interactive Integrations**:
+  - **Cal.com**: Integrated booking system for scheduling calls.
+  - **RSS Feed**: Automated RSS generation for blog updates.
+  - **EmailJS**: Smooth contact form functionality.
+  - **Responsive Layout**: Optimized for all devices with vibrant micro-animations.
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
 |---|---|
-| Framework | Next.js 15 (App Router) |
-| Language | TypeScript |
-| Styling | Tailwind CSS v4 + shadcn/ui (new-york, neutral) |
-| Content | Markdown files parsed with `gray-matter` + `next-mdx-remote` |
-| Package manager | pnpm |
-| Carousel | embla-carousel-react |
-| Syntax highlighting | rehype-highlight |
-| Deployment | Vercel (recommended) |
+| **Framework** | Next.js 15 (App Router) |
+| **Styling** | Tailwind CSS v4 + Motion |
+| **Components** | shadcn/ui |
+| **Content** | Markdown + gray-matter + next-mdx-remote |
+| **Animations** | CSS Transitions + Tailwind Animate |
+| **Package Manager** | pnpm |
 
 ---
 
-## Prerequisites
+## 📂 Project Structure
 
-Make sure you have these installed:
-
-- **Node.js** v18 or higher — [install here](https://nodejs.org/)
-- **pnpm** — install with `npm install -g pnpm`
-- **Git** — [install here](https://git-scm.com/)
-
----
-
-## Setup & Running Locally
-
-```bash
-# 1. Clone the repo
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
-cd YOUR_REPO_NAME
-
-# 2. Install dependencies
-pnpm install
-
-# 3. Run the dev server
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
----
-
-## File Structure
-
-```
+```text
 swapnoneel-site/
-├── app/                        # Next.js App Router pages
-│   ├── globals.css             # Global styles + Tailwind
-│   ├── layout.tsx              # Root layout (navbar, footer)
-│   ├── page.tsx                # Home page
-│   ├── not-found.tsx           # 404 page
-│   ├── blog/
-│   │   ├── page.tsx            # Blog listing (grouped by year)
-│   │   └── [slug]/
-│   │       └── page.tsx        # Individual blog post
-│   └── work/
-│       ├── page.tsx            # Work page (experience + projects)
-│       └── [slug]/
-│           └── page.tsx        # Individual work/project detail
-│
-├── components/
-│   ├── navbar.tsx              # Top navigation bar
-│   └── carousel.tsx            # Auto-scrolling image carousel
-│
-├── lib/
-│   ├── md.ts                   # Markdown reading utilities
-│   └── utils.ts                # shadcn cn() helper
-│
-├── md/                         # ← ALL YOUR CONTENT LIVES HERE
-│   ├── blog/                   # Blog post .md files
-│   │   ├── getting-started-with-python.md
-│   │   ├── what-is-rag.md
-│   │   └── ...
-│   ├── work/                   # Experience entries
-│   │   ├── keploy.md
-│   │   ├── tutorials-point.md
-│   │   └── ...
-│   └── projects/               # Project entries
-│       ├── toile.md
-│       ├── get-response.md
-│       └── ...
-│
-├── public/
-│   └── img/
-│       └── pfp.png             # ← Add your profile photo here
-│
-├── next.config.ts
-├── package.json
-├── postcss.config.mjs
-├── tailwind.config.ts (auto-detected by v4)
-├── tsconfig.json
-├── components.json             # shadcn/ui config
-└── .prettierrc.json
+├── app/                # Next.js App Router (pages and layouts)
+│   ├── blog/           # Blog listing and dynamic post pages
+│   ├── work/           # Work experience and project details
+│   └── globals.css     # Design system and Tailwind v4 config
+├── components/         # Reusable UI components (Navbar, Carousel, etc.)
+├── lib/                # Shared utilities and Markdown parsers
+├── md/                 # ← All data resides here (blog, work, projects)
+│   ├── blog/           # .md files for blog posts
+│   ├── work/           # .md files for professional experience
+│   └── projects/       # .md files for portfolio projects
+├── public/             # Static assets (images, icons, etc.)
+└── components.json     # shadcn/ui configuration
 ```
 
 ---
 
-## Customising Content
+## ⚙️ Setup & Development
 
-### Adding / Editing Your Profile Photo
+### Prerequisites
+- [Node.js](https://nodejs.org/) v18+
+- [pnpm](https://pnpm.io/) `npm install -g pnpm`
 
-Replace `public/img/pfp.png` with your own photo. Keep it square, ~200×200px minimum.
-
-### Adding a Blog Post
-
-Create a new `.md` file in `md/blog/`:
-
-```md
----
-title: "Your Post Title"
-date: "2025-01-15"
-description: "A short description shown in previews."
----
-
-Your content here in **Markdown**.
-```
-
-The blog listing page automatically picks it up and groups it by year.
-
-### Adding a Work Experience Entry
-
-Create a new `.md` file in `md/work/`:
-
-```md
----
-title: "Role — Company (Read more)"
-date: "Jan 2025 - Present"
-description: "Short description of what you did."
-cover: "https://link-to-company-logo.png"
----
-
-## Company Name — Your Role
-
-Full description in Markdown...
-```
-
-If the experience should link to an external site instead of a detail page, add:
-
-```md
-link: "https://company-website.com"
-```
-
-### Adding a Project
-
-Create a new `.md` file in `md/projects/`:
-
-```md
----
-title: "project-name"
-date: "2024-06-01"
-description: "One-line description."
-cover: "https://image-url.com/preview.jpg"
-link: "https://github.com/you/project"   # optional, links externally
----
-
-Full writeup in Markdown...
-```
-
-### Updating Personal Info & Links
-
-Edit these files:
-- **`app/page.tsx`** — bio text, contact email, links section
-- **`app/layout.tsx`** — site metadata (title, description for SEO)
-- **`components/navbar.tsx`** — your name in the nav
+### Installation
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Swpn0neel/swapnoneel-site.git
+   cd swapnoneel-site
+   ```
+2. **Install dependencies:**
+   ```bash
+   pnpm install
+   ```
+3. **Run the development server:**
+   ```bash
+   pnpm dev
+   ```
+Wait for the site to be available at `http://localhost:3000`.
 
 ---
 
-## Building for Production
+## 📝 Configuration & Customization
 
-```bash
-pnpm build
-pnpm start
-```
+### Content Management
+- **Projects/Work/Blog**: Simply add or edit `.md` files in the respective `md/` subdirectories. The site automatically parses metadata (frontmatter) and renders content.
+- **Bio & Links**: Update your professional details in `app/page.tsx` and social links in the `SocialLinks` component.
 
----
-
-## Deploying to Vercel (Recommended)
-
-1. Push your repo to GitHub
-2. Go to [vercel.com](https://vercel.com) and import your repo
-3. Vercel auto-detects Next.js — just click **Deploy**
-4. Your site will be live at `https://your-project.vercel.app`
-
-To add a custom domain, go to **Settings → Domains** in your Vercel project.
+### Media
+- **Profile Picture**: Replace `public/img/pfp.jpg` with your own photo. The UI supports an interactive flip-card effect using `pfp-hover.png`.
 
 ---
 
-## Adding Embla Carousel Autoplay
+## 🚢 Deployment
 
-The carousel uses `embla-carousel-autoplay`. Install it:
+The project is optimized for **Vercel**.
+1. Push your changes to GitHub.
+2. Connect your repository to Vercel.
+3. The build settings are auto-detected. Deploy!
 
-```bash
-pnpm add embla-carousel-autoplay
-```
+---
 
-It's already set up in `components/carousel.tsx`.
+## 📜 License
+
+Created by **Swapnoneel Saha**. Feel free to use this as inspiration for your own portfolio.

@@ -13,37 +13,54 @@ export default function Home() {
     <div className="space-y-10 pb-12">
       {/* Hero */}
       <section className="flex flex-col gap-5">
-        <Image
-          src="/img/pfp.png"
-          alt="Swapnoneel Saha"
-          width={72}
-          height={72}
-          className="rounded-full object-cover"
-          priority
-        />
+        <div className="pfp-flip-card mb-2">
+          <div className="pfp-flip-card-inner">
+            <div className="pfp-flip-card-front">
+              <Image
+                src="/img/pfp.jpg"
+                alt="Swapnoneel Saha"
+                width={140}
+                height={140}
+                className="pfp-image-flip"
+                priority
+              />
+            </div>
+            <div className="pfp-flip-card-back">
+              <Image
+                src="/img/pfp-hover.png"
+                alt="Swapnoneel Saha Hover"
+                width={140}
+                height={140}
+                className="pfp-image-flip"
+              />
+            </div>
+          </div>
+        </div>
         <div>
           <h1 className="text-2xl font-semibold tracking-tight mb-3">
             swapnoneel saha
           </h1>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            CS undergrad at MAKAUT, based in West Bengal, India. Self-taught
-            developer. Loves to build and write things.
+          <p className="text-muted-foreground text-sm leading-relaxed lowercase">
+            I am a software engineer and full-stack developer specializing in
+            the architecture of developer-centric tools, high-performance web
+            applications, and automation systems. My work is defined by a focus
+            on reducing technical complexity through better engineering, cleaner
+            interfaces, and intuitive user experiences.
           </p>
-          <p className="text-muted-foreground text-sm leading-relaxed mt-2">
-            I&apos;ve written technical content used by thousands of developers,
-            built DevRel tooling at{" "}
-            <a
-              href="https://keploy.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-foreground hover:opacity-70 transition-opacity"
-            >
-              Keploy
-            </a>
-            , and created an Advanced Python course purchased by{" "}
-            <strong>9800+ users</strong> on Tutorials Point.
+          <p className="text-muted-foreground text-sm leading-relaxed mt-4 lowercase">
+            I&apos;ve spent the past few years building products that can scale and perform well, ranging from developer-facing infrastructure to educational
+            platforms that help thousands of engineers worldwide. This has
+            allowed me to bridge the gap between back-end technical rigor and
+            front-end usability, with deep expertise in python, typescript, and ui/ux design.
           </p>
-          <p className="text-muted-foreground text-sm leading-relaxed mt-2">
+          <p className="text-muted-foreground text-sm leading-relaxed mt-4 lowercase">
+            Currently, I am deep in the development of agentic AI systems,
+            crafting intelligent agents that automate complex, multi-step
+            engineering workflows. I thrive on solving the unsolved
+            problems, whether that involves architecting a scalable backend or
+            designing a seamless interaction layer for a new tool.
+          </p>
+          <p className="text-muted-foreground text-sm leading-relaxed mt-4 lowercase">
             Reach me at{" "}
             <a
               href="mailto:swapnoneelsaha111@gmail.com"
@@ -75,7 +92,7 @@ export default function Home() {
           </Link>
         </div>
         <div className="space-y-5">
-          {workItems.map((item) => (
+          {workItems.map((item, i) => (
             <div key={item.meta.slug}>
               {item.meta.link ? (
                 <a
@@ -94,10 +111,25 @@ export default function Home() {
                   <WorkCard item={item} />
                 </Link>
               )}
-              <hr className="border-border mt-5" />
+              {i < workItems.length - 1 && <hr className="border-border mt-5" />}
             </div>
           ))}
+          <div className="mt-6">
+            <hr className="border-border" />
+            <div className="flex justify-end py-6">
+              <Link
+                href="/work/others"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 group/more"
+              >
+                <span className="group-hover/more:underline">View More</span>
+                <span className="text-[10px]">→</span>
+              </Link>
+            </div>
+            <hr className="border-border" />
+          </div>
         </div>
+
+
       </section>
 
       {/* Projects */}
@@ -140,31 +172,6 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Links */}
-      <section>
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-3">
-          Links
-        </h2>
-        <ul className="space-y-1 text-sm">
-          {[
-            { label: "GitHub", href: "https://github.com/Swpn0neel/swapnoneel-site" },
-            { label: "LinkedIn", href: "https://linkedin.com" },
-            { label: "Tutorials Point Profile", href: "https://tutorialspoint.com" },
-            { label: "Keploy Blog", href: "https://keploy.io/blog" },
-          ].map((link) => (
-            <li key={link.label}>
-              <a
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors underline"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </section>
     </div>
   );
 }
