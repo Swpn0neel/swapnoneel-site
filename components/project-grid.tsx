@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
+import { OptimizedImage } from "./optimized-image";
 import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
@@ -18,7 +18,9 @@ interface ProjectItem {
 }
 
 export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
-  const [activeProject, setActiveProject] = useState<ProjectOverlayData | null>(null);
+  const [activeProject, setActiveProject] = useState<ProjectOverlayData | null>(
+    null
+  );
 
   return (
     <>
@@ -30,17 +32,17 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
               onClick={() => setActiveProject(item)}
               className="cursor-pointer"
             >
-              <div className="group block rounded-lg overflow-hidden border border-border hover:border-foreground/30 transition-colors h-full">
+              <div className="group border-border hover:border-foreground/30 block h-full overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
-                  <Image
+                  <OptimizedImage
                     src={item.meta.cover}
                     alt={item.meta.title}
                     width={400}
                     height={225}
-                    className="object-cover w-full aspect-video"
+                    className="aspect-video"
                   />
                 ) : (
-                  <div className="w-full aspect-video bg-secondary flex items-center justify-center text-xs text-muted-foreground font-mono px-4 text-center">
+                  <div className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
                     {item.meta.title}
                   </div>
                 )}
@@ -49,7 +51,7 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
                     <p className="text-xs font-semibold">{item.meta.title}</p>
                   </div>
                   {item.meta.description && (
-                    <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2 leading-relaxed">
+                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-relaxed">
                       {item.meta.description}
                     </p>
                   )}

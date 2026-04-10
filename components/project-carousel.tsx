@@ -2,8 +2,8 @@
 
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
 import { useCallback, useRef, useState } from "react";
+import { OptimizedImage } from "./optimized-image";
 import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
@@ -70,24 +70,24 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
             const cardContent = (
               <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
-                  <Image
+                  <OptimizedImage
                     src={item.meta.cover}
                     alt={item.meta.title}
-                    width={400}
-                    height={225}
-                    className="h-36 w-full object-cover"
+                    width={480}
+                    height={270}
+                    className="h-44"
                   />
                 ) : (
-                  <div className="bg-secondary text-muted-foreground flex h-36 w-full items-center justify-center px-4 text-center font-mono text-xs">
+                  <div className="bg-secondary text-muted-foreground flex h-44 w-full items-center justify-center px-4 text-center font-mono text-xs">
                     {item.meta.title}
                   </div>
                 )}
-                <div className="p-2">
+                <div className="p-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold">{item.meta.title}</p>
+                    <p className="text-sm font-semibold">{item.meta.title}</p>
                   </div>
                   {item.meta.description && (
-                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-relaxed">
+                    <p className="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed">
                       {item.meta.description}
                     </p>
                   )}
@@ -98,8 +98,8 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
             return (
               <div
                 key={i}
-                className="embla__slide mr-3 shrink-0"
-                style={{ width: 220 }}
+                className="embla__slide mr-4 shrink-0"
+                style={{ width: 280 }}
                 onClick={() => setActiveProject(item)}
                 role="group"
                 aria-roledescription="slide"

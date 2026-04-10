@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { OptimizedImage } from "./optimized-image";
 
 interface ProjectMeta {
   slug: string;
@@ -108,9 +109,7 @@ export default function ProjectOverlay({
       >
         {/* Header bar */}
         <div className="project-overlay-header">
-          <span className="project-overlay-title">
-            {project?.meta.title}
-          </span>
+          <span className="project-overlay-title">{project?.meta.title}</span>
           <button
             onClick={handleClose}
             className="project-overlay-close"
@@ -135,14 +134,15 @@ export default function ProjectOverlay({
 
         {/* Body */}
         <div className="project-overlay-body">
-          {/* Image side — uses plain <img> so the browser respects natural dimensions */}
+          {/* Image side */}
           <div className="project-overlay-image-wrapper">
             {project?.meta.cover ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
+              <OptimizedImage
                 src={project.meta.cover}
                 alt={project.meta.title}
-                className="project-overlay-image"
+                width={480}
+                height={270}
+                fit="contain"
               />
             ) : (
               <div className="project-overlay-image-placeholder">
@@ -188,7 +188,9 @@ export default function ProjectOverlay({
                     const clean = feat.replace(/\*\*/g, "");
                     return (
                       <li key={i} className="project-overlay-feature-item">
-                        <span className="project-overlay-feature-bullet">›</span>
+                        <span className="project-overlay-feature-bullet">
+                          ›
+                        </span>
                         {clean}
                       </li>
                     );
