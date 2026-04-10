@@ -24,7 +24,7 @@ export default function Navbar() {
         href="/"
         className="text-foreground hover:border-border border-b border-transparent text-sm font-medium transition-opacity duration-300 hover:opacity-60"
       >
-        Swapnoneel Saha
+        Swapnoneel
       </Link>
       <div className="flex items-center gap-4">
         <div className="hidden items-center gap-5 md:flex">
