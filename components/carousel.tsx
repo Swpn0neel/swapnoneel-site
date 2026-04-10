@@ -1,7 +1,7 @@
 "use client";
 
-import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
+import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
 import { useRef } from "react";
 
@@ -18,24 +18,33 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
     autoplayRef.current,
   ]);
 
-  // Duplicate images for a seamless infinite feel
   const doubled = [...images, ...images];
 
   return (
-    <div className="embla w-full overflow-hidden" ref={emblaRef}>
+    <div
+      className="embla w-full overflow-hidden"
+      ref={emblaRef}
+      role="region"
+      aria-label="Image carousel"
+      aria-roledescription="carousel"
+    >
       <div className="embla__container flex">
         {doubled.map((img, i) => (
           <div
             key={i}
-            className="embla__slide flex-shrink-0 mr-4 rounded-lg overflow-hidden"
+            className="embla__slide mr-4 flex-shrink-0 overflow-hidden rounded-lg"
             style={{ width: 280, height: 180 }}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Slide ${(i % images.length) + 1} of ${images.length}: ${img.alt}`}
+            tabIndex={-1}
           >
             <Image
               src={img.src}
               alt={img.alt}
               width={280}
               height={180}
-              className="object-cover w-full h-full"
+              className="h-full w-full object-cover"
             />
           </div>
         ))}
