@@ -1,3 +1,4 @@
+import { BackToTop } from "@/components/back-to-top";
 import Navbar from "@/components/navbar";
 import PageTransition from "@/components/page-transition";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -36,6 +37,7 @@ export default function RootLayout({
             <main id="main-content" tabIndex={-1}>
               <PageTransition>{children}</PageTransition>
             </main>
+            <BackToTop />
             <footer
               className="text-muted-foreground mt-8 py-12 text-xs"
               suppressHydrationWarning

@@ -58,9 +58,15 @@ export default function SocialLinks() {
   const autoplayRef = useRef(
     Autoplay({ delay: 2500, stopOnInteraction: false })
   );
-  const [emblaRef] = useEmblaCarousel({ loop: true, align: "start" }, [
-    autoplayRef.current,
-  ]);
+  const [emblaRef] = useEmblaCarousel(
+    {
+      loop: true,
+      align: "start",
+      duration: 40, // Slower, smoother feel for social icons
+      dragFree: true,
+    },
+    [autoplayRef.current]
+  );
 
   // Duplicate the links array to allow continuous infinite scrolling feeling
   const doubled = [...links, ...links, ...links];

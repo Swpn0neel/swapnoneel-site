@@ -24,7 +24,12 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
     Autoplay({ delay: 2500, stopOnInteraction: false })
   );
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: "start" },
+    {
+      loop: true,
+      align: "start",
+      duration: 30, // Smoother transition
+      dragFree: true, // Less "snappy", more fluid
+    },
     [autoplayRef.current]
   );
 
