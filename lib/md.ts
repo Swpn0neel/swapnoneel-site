@@ -69,10 +69,6 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
-export const getAllBlogPosts = cache(() =>
-  getAll("blog").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date))
-);
-
 export const getBlogPost = cache((slug: string) => readBySlug("blog", slug));
 
 export const getAllWorkItems = cache(() =>
