@@ -45,7 +45,8 @@ export default async function BlogPostPage({
 
   const cleanMarkdown = (post.content?.markdown || "")
     .replace(/!\[.*?\]\(.*?\)/g, "")
-    .replace(/<\/?mark(?:\s+[^>]*?)?>/gi, "");
+    .replace(/<\/?mark(?:\s+[^>]*?)?>/gi, "")
+    .replace(/%%?\[.*?\]/g, "");
 
   return (
     <article className="pb-16">

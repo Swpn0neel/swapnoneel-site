@@ -25,14 +25,14 @@ A premium, minimalist personal portfolio and blog built with the latest web tech
 
 ## 🛠️ Tech Stack
 
-| Layer | Technology |
-|---|---|
-| **Framework** | Next.js 16 (App Router) |
-| **Styling** | Tailwind CSS v4 + Motion |
-| **Components** | shadcn/ui |
-| **Content** | Markdown + gray-matter + next-mdx-remote |
-| **Animations** | CSS Transitions + Tailwind Animate |
-| **Package Manager** | pnpm |
+| Layer               | Technology                               |
+| ------------------- | ---------------------------------------- |
+| **Framework**       | Next.js 16 (App Router)                  |
+| **Styling**         | Tailwind CSS v4 + Motion                 |
+| **Components**      | shadcn/ui                                |
+| **Content**         | Markdown + gray-matter + next-mdx-remote |
+| **Animations**      | CSS Transitions + Tailwind Animate       |
+| **Package Manager** | pnpm                                     |
 
 ---
 
@@ -59,10 +59,12 @@ swapnoneel-site/
 ## ⚙️ Setup & Development
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) v18+
 - [pnpm](https://pnpm.io/) `npm install -g pnpm`
 
 ### Installation
+
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Swpn0neel/swapnoneel-site.git
@@ -76,17 +78,19 @@ swapnoneel-site/
    ```bash
    pnpm dev
    ```
-Wait for the site to be available at `http://localhost:3000`.
+   Wait for the site to be available at `http://localhost:3000`.
 
 ---
 
 ## 📝 Configuration & Customization
 
 ### Content Management
+
 - **Projects/Work/Blog**: Simply add or edit `.md` files in the respective `md/` subdirectories. The site automatically parses metadata (frontmatter) and renders content.
 - **Bio & Links**: Update your professional details in `app/page.tsx` and social links in the `SocialLinks` component.
 
 ### Media
+
 - **Profile Picture**: Replace `public/img/pfp.jpg` with your own photo. The UI supports an interactive flip-card effect using `pfp-hover.png`.
 
 ---
@@ -94,6 +98,7 @@ Wait for the site to be available at `http://localhost:3000`.
 ## 🚢 Deployment
 
 The project is optimized for **Vercel**.
+
 1. Push your changes to GitHub.
 2. Connect your repository to Vercel.
 3. The build settings are auto-detected. Deploy!

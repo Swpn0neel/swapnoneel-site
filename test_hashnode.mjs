@@ -25,7 +25,7 @@ async function fetchHashnodePosts() {
   });
 
   const body = await response.json();
-  const posts = body.data.publication.posts.edges.map(e => e.node);
+  const posts = body.data.publication.posts.edges.map((e) => e.node);
   console.log(JSON.stringify(posts, null, 2));
 }
 

@@ -18,17 +18,17 @@ export default function ProjectCard({ item }: ProjectCardProps) {
   const isExternal = !!item.meta.link;
 
   const CardContent = (
-    <div className="group block rounded-lg overflow-hidden border border-border hover:border-foreground/30 transition-colors h-full">
+    <div className="group border-border hover:border-foreground/30 block h-full overflow-hidden rounded-lg border transition-colors">
       {item.meta.cover ? (
         <Image
           src={item.meta.cover}
           alt={item.meta.title}
           width={400}
           height={225}
-          className="object-cover w-full h-36"
+          className="h-36 w-full object-cover"
         />
       ) : (
-        <div className="w-full h-36 bg-secondary flex items-center justify-center text-xs text-muted-foreground font-mono px-4 text-center">
+        <div className="bg-secondary text-muted-foreground flex h-36 w-full items-center justify-center px-4 text-center font-mono text-xs">
           {item.meta.title}
         </div>
       )}
@@ -54,7 +54,7 @@ export default function ProjectCard({ item }: ProjectCardProps) {
           )}
         </div>
         {item.meta.description && (
-          <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2 leading-relaxed">
+          <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-relaxed">
             {item.meta.description}
           </p>
         )}

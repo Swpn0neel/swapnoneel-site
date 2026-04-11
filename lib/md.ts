@@ -65,12 +65,16 @@ function parseDate(dateStr: string): number {
 }
 
 export const getAllBlogPosts = () =>
-  getAll("blog").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date));
+  getAll("blog").sort(
+    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
+  );
 
 export const getBlogPost = (slug: string) => readBySlug("blog", slug);
 
 export const getAllWorkItems = () =>
-  getAll("work").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date));
+  getAll("work").sort(
+    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
+  );
 
 export const getWorkItem = (slug: string) =>
   readBySlug("work", slug) ?? readBySlug("projects", slug);
