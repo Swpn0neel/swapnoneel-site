@@ -26,8 +26,18 @@ export function readBySlug(
   folder: string,
   slug: string
 ): { meta: PostMeta; content: string } | null {
-  const mdPath = path.join(mdDir, folder, `${slug}.md`);
-  const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
+  const safeBase = path.normalize(mdDir).endsWith(path.sep)
+    ? path.normalize(mdDir)
+    : path.normalize(mdDir) + path.sep;
+
+  const baseDir = path.normalize(path.join(mdDir, folder));
+  const mdPath = path.normalize(path.join(baseDir, `${slug}.md`));
+  const mdxPath = path.normalize(path.join(baseDir, `${slug}.mdx`));
+
+  if (!mdPath.startsWith(safeBase) || !mdxPath.startsWith(safeBase)) {
+    return null;
+  }
+
   const filePath = fs.existsSync(mdPath)
     ? mdPath
     : fs.existsSync(mdxPath)
