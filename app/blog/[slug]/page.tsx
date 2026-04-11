@@ -1,6 +1,7 @@
 import { siteConfig } from "@/lib/config";
 import { getAllBlogPosts, getBlogPost } from "@/lib/hashnode";
 import { i18n } from "@/lib/i18n";
+import { safeJsonLd } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -57,7 +58,7 @@ export default async function BlogPostPage({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "BlogPosting",
             headline: post.title,

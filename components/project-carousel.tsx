@@ -20,9 +20,11 @@ interface ProjectItem {
   content: string;
 }
 
+const AUTOPLAY_DELAY_MS = 2500;
+
 export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
   const autoplayRef = useRef(
-    Autoplay({ delay: 2500, stopOnInteraction: false })
+    Autoplay({ delay: AUTOPLAY_DELAY_MS, stopOnInteraction: false })
   );
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
