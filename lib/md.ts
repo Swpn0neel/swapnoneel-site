@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import { cache } from "react";
 
 const mdDir = path.join(process.cwd(), "md");
 
@@ -22,31 +23,35 @@ function getAllSlugs(folder: string): string[] {
     .map((f) => f.replace(/\.mdx?$/, ""));
 }
 
-export function readBySlug(
-  folder: string,
-  slug: string
-): { meta: PostMeta; content: string } | null {
-  const mdPath = path.join(mdDir, folder, `${slug}.md`);
-  const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
-  const filePath = fs.existsSync(mdPath)
-    ? mdPath
-    : fs.existsSync(mdxPath)
-      ? mdxPath
-      : null;
-  if (!filePath) return null;
-  const raw = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(raw);
-  return {
-    meta: { slug, ...(data as Omit<PostMeta, "slug">) },
-    content,
-  };
-}
+export const readBySlug = cache(
+  (
+    folder: string,
+    slug: string
+  ): { meta: PostMeta; content: string } | null => {
+    const mdPath = path.join(mdDir, folder, `${slug}.md`);
+    const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
+    const filePath = fs.existsSync(mdPath)
+      ? mdPath
+      : fs.existsSync(mdxPath)
+        ? mdxPath
+        : null;
+    if (!filePath) return null;
+    const raw = fs.readFileSync(filePath, "utf8");
+    const { data, content } = matter(raw);
+    return {
+      meta: { slug, ...(data as Omit<PostMeta, "slug">) },
+      content,
+    };
+  }
+);
 
-function getAll(folder: string): { meta: PostMeta; content: string }[] {
-  return getAllSlugs(folder)
-    .map((slug) => readBySlug(folder, slug))
-    .filter(Boolean) as { meta: PostMeta; content: string }[];
-}
+const getAll = cache(
+  (folder: string): { meta: PostMeta; content: string }[] => {
+    return getAllSlugs(folder)
+      .map((slug) => readBySlug(folder, slug))
+      .filter(Boolean) as { meta: PostMeta; content: string }[];
+  }
+);
 
 function parseDate(dateStr: string): number {
   if (!dateStr) return 0;
@@ -64,22 +69,22 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
-export const getAllBlogPosts = () =>
-  getAll("blog").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+export const getAllBlogPosts = cache(() =>
+  getAll("blog").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date))
+);
 
-export const getBlogPost = (slug: string) => readBySlug("blog", slug);
+export const getBlogPost = cache((slug: string) => readBySlug("blog", slug));
 
-export const getAllWorkItems = () =>
-  getAll("work").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+export const getAllWorkItems = cache(() =>
+  getAll("work").sort((a, b) => parseDate(b.meta.date) - parseDate(a.meta.date))
+);
 
-export const getWorkItem = (slug: string) =>
-  readBySlug("work", slug) ?? readBySlug("projects", slug);
+export const getWorkItem = cache(
+  (slug: string) => readBySlug("work", slug) ?? readBySlug("projects", slug)
+);
 
-export const getAllProjects = () =>
+export const getAllProjects = cache(() =>
   getAll("projects").sort(
     (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  )
+);
