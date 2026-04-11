@@ -53,7 +53,8 @@ export const siteConfig = {
   },
   hashnode: {
     host: "swapnoneel.hashnode.dev",
-    graphQlEndpoint: "https://gql.hashnode.com/",
+    graphQlEndpoint:
+      process.env.HASHNODE_GQL_ENDPOINT || "https://gql.hashnode.com/",
     rssUrl: "https://swapnoneel.hashnode.dev/rss.xml",
   },
   repository: {

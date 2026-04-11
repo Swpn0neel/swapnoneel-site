@@ -16,7 +16,9 @@ async function fetchHashnodePosts() {
     }
   `;
 
-  const response = await fetch("https://gql.hashnode.com/", {
+  const endpoint =
+    process.env.HASHNODE_GQL_ENDPOINT || "https://gql.hashnode.com/";
+  const response = await fetch(endpoint, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
