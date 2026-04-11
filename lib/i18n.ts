@@ -118,6 +118,10 @@ export const i18n = {
       credentialsMissing:
         "EmailJS credentials are not configured in environment variables.",
       sendFailedPrefix: "Failed to send:",
+      invalidEmail: "Please enter a valid email address.",
+      nameTooLong: "Name must be less than 100 characters.",
+      messageTooLong: "Message must be less than 5000 characters.",
+      allFieldsRequired: "All fields are required.",
     },
     bookCall: {
       title: "Book a Call",

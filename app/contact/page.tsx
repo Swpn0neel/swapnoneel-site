@@ -35,6 +35,34 @@ export default function ContactPage() {
     setSuccess(false);
 
     const formData = new FormData(e.currentTarget);
+    const name = String(formData.get("name") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const message = String(formData.get("message") || "").trim();
+
+    if (!name || !email || !message) {
+      setError(i18n.contactPage.errors.allFieldsRequired);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (name.length > 100) {
+      setError(i18n.contactPage.errors.nameTooLong);
+      setIsSubmitting(false);
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (email.length > 255 || !emailRegex.test(email)) {
+      setError(i18n.contactPage.errors.invalidEmail);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (message.length > 5000) {
+      setError(i18n.contactPage.errors.messageTooLong);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
@@ -46,9 +74,9 @@ export default function ContactPage() {
       }
 
       const templateParams = {
-        name: formData.get("name"),
-        email: formData.get("email"),
-        message: formData.get("message"),
+        name,
+        email,
+        message,
       };
 
       await emailjs.send(serviceId, templateId, templateParams, publicKey);
@@ -90,6 +118,7 @@ export default function ContactPage() {
               name="name"
               type="text"
               required
+              maxLength={100}
               className="border-input focus-visible:ring-ring flex w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10"
               placeholder={i18n.contactPage.placeholders.name}
             />
@@ -104,6 +133,7 @@ export default function ContactPage() {
               name="email"
               type="email"
               required
+              maxLength={255}
               className="border-input focus-visible:ring-ring flex w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10"
               placeholder={i18n.contactPage.placeholders.email}
             />
@@ -117,6 +147,7 @@ export default function ContactPage() {
               id="message"
               name="message"
               required
+              maxLength={5000}
               rows={6}
               className="border-input focus-visible:ring-ring flex w-full resize-y rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
               placeholder={i18n.contactPage.placeholders.message}
