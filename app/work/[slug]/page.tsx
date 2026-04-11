@@ -11,11 +11,17 @@ export const dynamicParams = false;
 export async function generateStaticParams() {
   const work = getAllWorkItems();
   const projects = getAllProjects();
-  const slugs = new Set([
-    ...work.map((p) => p.meta.slug),
-    ...projects.map((p) => p.meta.slug),
-  ]);
-  return Array.from(slugs).map((slug) => ({ slug }));
+  const slugs = new Set<string>();
+
+  for (const item of work) slugs.add(item.meta.slug);
+  for (const item of projects) slugs.add(item.meta.slug);
+
+  const params = [];
+  for (const slug of slugs) {
+    params.push({ slug });
+  }
+
+  return params;
 }
 
 export async function generateMetadata({

@@ -1,5 +1,5 @@
-import { cache } from "react";
 import { siteConfig } from "@/lib/config";
+import { cache } from "react";
 
 export type HashnodePost = {
   title: string;
@@ -70,8 +70,9 @@ export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
   }
 });
 
-export const getBlogPost = cache(async (slug: string): Promise<HashnodePost | null> => {
-  const query = `
+export const getBlogPost = cache(
+  async (slug: string): Promise<HashnodePost | null> => {
+    const query = `
     query Publication {
       publication(host: "${siteConfig.hashnode.host}") {
         post(slug: "${slug}") {
@@ -87,17 +88,18 @@ export const getBlogPost = cache(async (slug: string): Promise<HashnodePost | nu
     }
   `;
 
-  try {
-    const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
-      next: { revalidate: 3600 },
-    });
-    const { data }: HashnodePostResponse = await res.json();
-    return data?.publication?.post ?? null;
-  } catch (error) {
-    console.error("Failed to fetch blog post from Hashnode", error);
-    return null;
+    try {
+      const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query }),
+        next: { revalidate: 3600 },
+      });
+      const { data }: HashnodePostResponse = await res.json();
+      return data?.publication?.post ?? null;
+    } catch (error) {
+      console.error("Failed to fetch blog post from Hashnode", error);
+      return null;
+    }
   }
-});
+);
