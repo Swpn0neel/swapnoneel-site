@@ -1,5 +1,6 @@
 import ProjectGrid from "@/components/project-grid";
 import { i18n } from "@/lib/i18n";
+import { blurPlaceholder } from "@/lib/blur";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
 import Image from "next/image";
@@ -140,6 +141,8 @@ function ExperienceRow({
           width={36}
           height={36}
           className="flex-shrink-0 rounded-md object-cover"
+          placeholder="blur"
+          blurDataURL={blurPlaceholder}
         />
       ) : (
         <div className="bg-secondary h-9 w-9 flex-shrink-0 rounded-md" />

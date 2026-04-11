@@ -11,6 +11,7 @@ interface OptimizedImageProps {
   className?: string;
   priority?: boolean;
   fit?: "cover" | "contain" | "fill";
+  blurDataURL?: string;
 }
 
 export function OptimizedImage({
@@ -21,13 +22,13 @@ export function OptimizedImage({
   className = "",
   priority = false,
   fit = "cover",
+  blurDataURL,
 }: OptimizedImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
 
   return (
     <div className="bg-secondary/30 relative overflow-hidden">
-      {/* Skeleton placeholder */}
       <div
         className={`bg-secondary/50 absolute inset-0 transition-opacity duration-300 ${
           isLoaded || hasError ? "pointer-events-none opacity-0" : "opacity-100"
@@ -37,7 +38,6 @@ export function OptimizedImage({
         <div className="absolute inset-0 animate-pulse" />
       </div>
 
-      {/* Actual image */}
       {!hasError && (
         <Image
           src={src}
@@ -50,11 +50,11 @@ export function OptimizedImage({
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
           priority={priority}
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          placeholder={blurDataURL ? "blur" : undefined}
+          blurDataURL={blurDataURL}
         />
       )}
 
-      {/* Error fallback */}
       {hasError && (
         <div
           className="bg-secondary/50 text-muted-foreground absolute inset-0 flex items-center justify-center p-4 text-center font-mono text-xs"

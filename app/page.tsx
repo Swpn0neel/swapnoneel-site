@@ -2,6 +2,7 @@ import CalBooking from "@/components/cal-booking";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/fade-in";
 import ProjectCarousel from "@/components/project-carousel";
 import SocialLinks from "@/components/social-links";
+import { blurPlaceholder } from "@/lib/blur";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
@@ -27,6 +28,8 @@ export default function Home() {
                   height={140}
                   className="pfp-image-flip"
                   priority
+                  placeholder="blur"
+                  blurDataURL={blurPlaceholder}
                 />
               </div>
               <div className="pfp-flip-card-back">
@@ -36,6 +39,8 @@ export default function Home() {
                   width={140}
                   height={140}
                   className="pfp-image-flip"
+                  placeholder="blur"
+                  blurDataURL={blurPlaceholder}
                 />
               </div>
             </div>
@@ -198,6 +203,8 @@ function WorkCard({
           width={60}
           height={60}
           className="mt-0.5 flex-shrink-0 rounded-md object-cover"
+          placeholder="blur"
+          blurDataURL={blurPlaceholder}
         />
       )}
       <div className="flex-1">

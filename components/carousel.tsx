@@ -3,6 +3,7 @@
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
+import { blurPlaceholder } from "@/lib/blur";
 import { useRef } from "react";
 
 type CarouselImage = {
@@ -45,6 +46,8 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
               width={280}
               height={180}
               className="h-full w-full object-cover"
+              placeholder="blur"
+              blurDataURL={blurPlaceholder}
             />
           </div>
         ))}

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { blurPlaceholder } from "@/lib/blur";
 import Link from "next/link";
 
 interface ProjectCardProps {
@@ -26,6 +27,8 @@ export default function ProjectCard({ item }: ProjectCardProps) {
           width={400}
           height={225}
           className="h-36 w-full object-cover"
+          placeholder="blur"
+          blurDataURL={blurPlaceholder}
         />
       ) : (
         <div className="bg-secondary text-muted-foreground flex h-36 w-full items-center justify-center px-4 text-center font-mono text-xs">
