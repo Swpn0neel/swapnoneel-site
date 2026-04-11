@@ -88,8 +88,21 @@ export function MobileNav() {
     };
   }, [isOpen]);
 
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).id === "mobile-menu-overlay") {
+      closeMenu();
+    }
+  };
+
   return (
     <div className="md:hidden">
+      {isOpen && (
+        <div
+          id="mobile-menu-overlay"
+          className="fixed inset-0 z-40"
+          onClick={handleOverlayClick}
+        />
+      )}
       <button
         ref={menuButtonRef}
         onClick={toggleMenu}
