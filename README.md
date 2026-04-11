@@ -1,5 +1,7 @@
 # Swapnoneel Saha — Personal Site
 
+**Live Site:** [swapnoneel.site](https://www.swapnoneel.site)
+
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
 [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-black?style=for-the-badge&logo=shadcnui)](https://ui.shadcn.com/)
@@ -87,7 +89,7 @@ swapnoneel-site/
 ### Content Management
 
 - **Projects/Work/Blog**: Simply add or edit `.md` files in the respective `md/` subdirectories. The site automatically parses metadata (frontmatter) and renders content.
-- **Bio & Links**: Update your professional details in `app/page.tsx` and social links in the `SocialLinks` component.
+- **Site Configuration**: Core site details such as your bio, email, social links, Cal.com scheduling link, and Hashnode URL are managed centrally in `lib/config.ts`.
 
 ### Media
 
