@@ -20,11 +20,14 @@ export const metadata: Metadata = {
     template: `%s — ${siteConfig.person.fullName}`,
   },
   description: siteConfig.metadata.description,
-  metadataBase: new URL("https://swapnoneel.site"),
+  metadataBase: new URL("https://www.swapnoneel.site"),
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: siteConfig.person.fullName,
     description: siteConfig.metadata.description,
-    url: "https://swapnoneel.site",
+    url: "https://www.swapnoneel.site",
     siteName: siteConfig.person.fullName,
     type: "website",
     locale: "en_US",
@@ -70,6 +73,30 @@ export default function RootLayout({
         className={`${inter.variable} bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
       >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "Person",
+                name: siteConfig.person.fullName,
+                url: "https://www.swapnoneel.site",
+                image: `https://www.swapnoneel.site${siteConfig.images.avatar}`,
+                sameAs: [
+                  "https://x.com/swapnoneel123",
+                  "https://github.com/Swpn0neel",
+                  "https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/",
+                  "https://swapnoneel.hashnode.dev",
+                ],
+                jobTitle: "Software Engineer",
+                worksFor: {
+                  "@type": "Organization",
+                  name: "Freelance",
+                },
+                description: siteConfig.metadata.description,
+              }),
+            }}
+          />
           <a href="#main-content" className="skip-to-content">
             {i18n.common.skipToContent}
           </a>

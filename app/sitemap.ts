@@ -1,4 +1,5 @@
-import { getAllBlogPosts, getAllProjects, getAllWorkItems } from "@/lib/md";
+import { getAllBlogPosts } from "@/lib/hashnode";
+import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import type { MetadataRoute } from "next";
 
 function parseValidDate(dateStr: string | undefined): Date {
@@ -7,9 +8,9 @@ function parseValidDate(dateStr: string | undefined): Date {
   return isNaN(date.getTime()) ? new Date() : date;
 }
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://swapnoneel.site";
-  const blogPosts = getAllBlogPosts();
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = "https://www.swapnoneel.site";
+  const blogPosts = await getAllBlogPosts();
   const workItems = getAllWorkItems();
   const projects = getAllProjects();
 
@@ -47,8 +48,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   ];
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.meta.slug}`,
-    lastModified: parseValidDate(post.meta.date),
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: parseValidDate(post.publishedAt),
     changeFrequency: "monthly" as const,
     priority: 0.8,
   }));

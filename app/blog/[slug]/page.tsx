@@ -1,3 +1,4 @@
+import { siteConfig } from "@/lib/config";
 import { getAllBlogPosts, getBlogPost } from "@/lib/hashnode";
 import { i18n } from "@/lib/i18n";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -24,6 +25,9 @@ export async function generateMetadata({
   return {
     title: post.title,
     description: post.brief,
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
   };
 }
 
@@ -50,6 +54,27 @@ export default async function BlogPostPage({
 
   return (
     <article className="pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BlogPosting",
+            headline: post.title,
+            description: post.brief,
+            datePublished: post.publishedAt,
+            author: {
+              "@type": "Person",
+              name: siteConfig.person.fullName,
+              url: "https://www.swapnoneel.site",
+            },
+            mainEntityOfPage: {
+              "@type": "WebPage",
+              "@id": `https://www.swapnoneel.site/blog/${slug}`,
+            },
+          }),
+        }}
+      />
       <div className="mb-8">
         <Link
           href="/blog"
