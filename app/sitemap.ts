@@ -1,4 +1,4 @@
-import { getAllBlogPosts, getAllWorkItems } from "@/lib/md";
+import { getAllBlogPosts, getAllProjects, getAllWorkItems } from "@/lib/md";
 import type { MetadataRoute } from "next";
 
 function parseValidDate(dateStr: string | undefined): Date {
@@ -8,9 +8,10 @@ function parseValidDate(dateStr: string | undefined): Date {
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://swapnoneel.com";
+  const baseUrl = "https://swapnoneel.site";
   const blogPosts = getAllBlogPosts();
   const workItems = getAllWorkItems();
+  const projects = getAllProjects();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {
@@ -30,6 +31,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/work/others`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
     {
       url: `${baseUrl}/contact`,
@@ -53,5 +60,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...blogRoutes, ...workRoutes];
+  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+    url: `${baseUrl}/work/${project.meta.slug}`,
+    lastModified: parseValidDate(project.meta.date),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  const allRoutes = [
+    ...staticRoutes,
+    ...blogRoutes,
+    ...workRoutes,
+    ...projectRoutes,
+  ];
+  const uniqueRoutes = Array.from(
+    new Map(allRoutes.map((route) => [route.url, route])).values()
+  );
+
+  return uniqueRoutes;
 }

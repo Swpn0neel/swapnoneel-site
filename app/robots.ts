@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
     },
-    sitemap: "https://swapnoneel.com/sitemap.xml",
+    sitemap: "https://swapnoneel.site/sitemap.xml",
   };
 }

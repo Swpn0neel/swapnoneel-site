@@ -1,6 +1,6 @@
 export type NavItemKey = "home" | "blog" | "work" | "contact";
 
-export type FooterLinkKey = "rss" | "github";
+export type FooterLinkKey = "rss" | "sitemap" | "github";
 
 export type SocialBrand =
   | "github"
@@ -70,6 +70,7 @@ export const navItems: readonly NavItem[] = [
 
 export const footerLinks: readonly FooterLink[] = [
   { href: siteConfig.hashnode.rssUrl, key: "rss" },
+  { href: "/sitemap.xml", key: "sitemap" },
   { href: siteConfig.repository.sourceUrl, key: "github" },
 ];
 

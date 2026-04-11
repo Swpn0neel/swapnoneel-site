@@ -21,6 +21,7 @@ export const i18n = {
   },
   footer: {
     rss: "rss",
+    sitemap: "sitemap",
     github: "github",
     rightsReserved: "All rights reserved.",
   },

@@ -20,11 +20,11 @@ export const metadata: Metadata = {
     template: `%s — ${siteConfig.person.fullName}`,
   },
   description: siteConfig.metadata.description,
-  metadataBase: new URL("https://swapnoneel.com"),
+  metadataBase: new URL("https://swapnoneel.site"),
   openGraph: {
     title: siteConfig.person.fullName,
     description: siteConfig.metadata.description,
-    url: "https://swapnoneel.com",
+    url: "https://swapnoneel.site",
     siteName: siteConfig.person.fullName,
     type: "website",
     locale: "en_US",
