@@ -1,9 +1,9 @@
 "use client";
 
+import { blurPlaceholder } from "@/lib/blur";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import Image from "next/image";
-import { blurPlaceholder } from "@/lib/blur";
 import { useRef } from "react";
 
 type CarouselImage = {

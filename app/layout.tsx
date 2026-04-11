@@ -5,7 +5,14 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { footerLinks, siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -13,10 +20,39 @@ export const metadata: Metadata = {
     template: `%s — ${siteConfig.person.fullName}`,
   },
   description: siteConfig.metadata.description,
+  metadataBase: new URL("https://swapnoneel.com"),
   openGraph: {
     title: siteConfig.person.fullName,
     description: siteConfig.metadata.description,
+    url: "https://swapnoneel.com",
+    siteName: siteConfig.person.fullName,
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: siteConfig.images.avatar,
+        width: 140,
+        height: 140,
+        alt: siteConfig.person.fullName,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary",
+    title: siteConfig.person.fullName,
+    description: siteConfig.metadata.description,
+    images: [siteConfig.images.avatar],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   icons: {
     icon: siteConfig.images.icon,
@@ -30,7 +66,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-background text-foreground min-h-screen antialiased transition-colors duration-500 ease-in-out">
+      <body
+        className={`${inter.variable} bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
+      >
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <a href="#main-content" className="skip-to-content">
             {i18n.common.skipToContent}
