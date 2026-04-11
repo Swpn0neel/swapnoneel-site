@@ -50,21 +50,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
     lastModified: parseValidDate(post.publishedAt),
-    changeFrequency: "monthly" as const,
+    changeFrequency: "monthly",
     priority: 0.8,
   }));
 
   const workRoutes: MetadataRoute.Sitemap = workItems.map((item) => ({
     url: `${baseUrl}/work/${item.meta.slug}`,
     lastModified: parseValidDate(item.meta.date),
-    changeFrequency: "monthly" as const,
+    changeFrequency: "monthly",
     priority: 0.7,
   }));
 
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
     url: `${baseUrl}/work/${project.meta.slug}`,
     lastModified: parseValidDate(project.meta.date),
-    changeFrequency: "monthly" as const,
+    changeFrequency: "monthly",
     priority: 0.6,
   }));
 
