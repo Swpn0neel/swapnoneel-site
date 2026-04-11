@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { siteConfig } from "@/lib/config";
 
 export type HashnodePost = {
@@ -36,7 +37,7 @@ type HashnodePostResponse = {
   };
 };
 
-export async function getAllBlogPosts(): Promise<HashnodePost[]> {
+export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
   const query = `
     query Publication {
       publication(host: "${siteConfig.hashnode.host}") {
@@ -67,9 +68,9 @@ export async function getAllBlogPosts(): Promise<HashnodePost[]> {
     console.error("Failed to fetch blog posts from Hashnode", error);
     return [];
   }
-}
+});
 
-export async function getBlogPost(slug: string): Promise<HashnodePost | null> {
+export const getBlogPost = cache(async (slug: string): Promise<HashnodePost | null> => {
   const query = `
     query Publication {
       publication(host: "${siteConfig.hashnode.host}") {
@@ -99,4 +100,4 @@ export async function getBlogPost(slug: string): Promise<HashnodePost | null> {
     console.error("Failed to fetch blog post from Hashnode", error);
     return null;
   }
-}
+});
