@@ -1,8 +1,9 @@
-import Link from "next/link";
 import { getAllBlogPosts } from "@/lib/hashnode";
+import { i18n } from "@/lib/i18n";
+import Link from "next/link";
 
 export const metadata = {
-  title: "Blog — Swapnoneel Saha",
+  title: i18n.blog.title,
 };
 
 export default async function BlogPage() {
@@ -22,7 +23,7 @@ export default async function BlogPage() {
     <div className="pb-12">
       {years.map((year) => (
         <section key={year} className="mb-8">
-          <h2 className="text-sm font-semibold mb-4">{year}</h2>
+          <h2 className="mb-4 text-sm font-semibold">{year}</h2>
           <div className="space-y-0">
             {grouped[year].map((post, i) => {
               const d = new Date(post.publishedAt);
@@ -31,12 +32,12 @@ export default async function BlogPage() {
                 <div key={post.slug}>
                   <Link
                     href={`/blog/${post.slug}`}
-                    className="flex items-center justify-between py-3 group"
+                    className="group flex items-center justify-between py-3"
                   >
-                    <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                    <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
                       {post.title}
                     </span>
-                    <span className="text-xs text-muted-foreground ml-4 flex-shrink-0">
+                    <span className="text-muted-foreground ml-4 flex-shrink-0 text-xs">
                       {dateStr}
                     </span>
                   </Link>

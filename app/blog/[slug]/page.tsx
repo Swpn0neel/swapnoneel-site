@@ -1,9 +1,12 @@
-import { getBlogPost, getAllBlogPosts } from "@/lib/hashnode";
+import { getAllBlogPosts, getBlogPost } from "@/lib/hashnode";
+import { i18n } from "@/lib/i18n";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
-import Link from "next/link";
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();
@@ -19,7 +22,7 @@ export async function generateMetadata({
   const post = await getBlogPost(slug);
   if (!post) return {};
   return {
-    title: `${post.title} — Swapnoneel Saha`,
+    title: post.title,
     description: post.brief,
   };
 }
@@ -42,28 +45,28 @@ export default async function BlogPostPage({
 
   const cleanMarkdown = (post.content?.markdown || "")
     .replace(/!\[.*?\]\(.*?\)/g, "")
-    .replace(/<\/?mark>/g, "");
+    .replace(/<\/?mark(?:\s+[^>]*?)?>/gi, "");
 
   return (
     <article className="pb-16">
       <div className="mb-8">
         <Link
           href="/blog"
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
         >
-          ← blog
+          ← {i18n.blog.backLink}
         </Link>
-        <h1 className="text-xl font-semibold mt-4 mb-2">{post.title}</h1>
-        <p className="text-xs text-muted-foreground flex items-center justify-between">
+        <h1 className="mt-4 mb-2 text-xl font-semibold">{post.title}</h1>
+        <p className="text-muted-foreground flex items-center justify-between text-xs">
           <span>{dateStr}</span>
           {post.url && (
             <a
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground border border-border px-2 py-1 rounded hover:bg-secondary transition-colors"
+              className="text-foreground border-border hover:bg-secondary rounded border px-2 py-1 transition-colors"
             >
-              Read on Hashnode ↗
+              {i18n.blog.readOnHashnode}
             </a>
           )}
         </p>

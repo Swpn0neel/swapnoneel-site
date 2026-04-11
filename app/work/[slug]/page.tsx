@@ -1,9 +1,12 @@
-import { getWorkItem, getAllWorkItems, getAllProjects } from "@/lib/md";
+import { i18n } from "@/lib/i18n";
+import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
-import Link from "next/link";
+
+export const dynamicParams = false;
 
 export async function generateStaticParams() {
   const work = getAllWorkItems();
@@ -24,7 +27,7 @@ export async function generateMetadata({
   const item = getWorkItem(slug);
   if (!item) return {};
   return {
-    title: `${item.meta.title} — Swapnoneel Saha`,
+    title: item.meta.title,
     description: item.meta.description,
   };
 }
@@ -43,14 +46,14 @@ export default async function WorkItemPage({
       <div className="mb-8">
         <Link
           href="/work"
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
         >
-          ← work
+          ← {i18n.work.otherExperience.backLink}
         </Link>
-        <h1 className="text-xl font-semibold mt-4 mb-1">{item.meta.title}</h1>
-        <p className="text-xs text-muted-foreground">{item.meta.date}</p>
+        <h1 className="mt-4 mb-1 text-xl font-semibold">{item.meta.title}</h1>
+        <p className="text-muted-foreground text-xs">{item.meta.date}</p>
         {item.meta.description && (
-          <p className="text-sm text-muted-foreground mt-2">
+          <p className="text-muted-foreground mt-2 text-sm">
             {item.meta.description}
           </p>
         )}

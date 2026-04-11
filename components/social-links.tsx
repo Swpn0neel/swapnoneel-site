@@ -1,45 +1,10 @@
 "use client";
 
+import { socialLinks } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRef } from "react";
-
-const links = [
-  { name: "github", brand: "github", url: "https://github.com/Swpn0neel" },
-  {
-    name: "linkedin",
-    brand: "linkedin",
-    url: "https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/",
-  },
-  { name: "x", brand: "x", url: "https://x.com/swapnoneel123" },
-  {
-    name: "leetcode",
-    brand: "leetcode",
-    url: "https://leetcode.com/u/Swapnoneel/",
-  },
-  {
-    name: "instagram",
-    brand: "instagram",
-    url: "https://instagram.com/swapnoneel111",
-  },
-  {
-    name: "hashnode",
-    brand: "hashnode",
-    url: "https://swapnoneel.hashnode.dev",
-  },
-  { name: "dev.to", brand: "devdotto", url: "https://dev.to/swapnoneel123" },
-  {
-    name: "letterboxd",
-    brand: "letterboxd",
-    url: "https://letterboxd.com/Swapnoneel/",
-  },
-  {
-    name: "discord",
-    brand: "discord",
-    url: "https://discord.com/users/729954975735873537",
-  },
-  { name: "telegram", brand: "telegram", url: "https://t.me/swapnoneel123" },
-];
 
 function LinkedInIcon({ className }: { className?: string }) {
   return (
@@ -68,15 +33,14 @@ export default function SocialLinks() {
     [autoplayRef.current]
   );
 
-  // Duplicate the links array to allow continuous infinite scrolling feeling
-  const doubled = [...links, ...links, ...links];
+  const doubled = [...socialLinks, ...socialLinks, ...socialLinks];
 
   return (
     <div
       className="embla w-full overflow-hidden"
       ref={emblaRef}
       role="region"
-      aria-label="Social links"
+      aria-label={i18n.common.socialLinksRegion}
       aria-roledescription="carousel"
     >
       <div className="embla__container flex">
@@ -85,7 +49,7 @@ export default function SocialLinks() {
 
           return (
             <div
-              key={i}
+              key={`${link.name}-${i}`}
               className="embla__slide mr-3 shrink-0"
               role="group"
               aria-roledescription="slide"

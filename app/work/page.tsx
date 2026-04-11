@@ -1,40 +1,41 @@
+import ProjectGrid from "@/components/project-grid";
+import { i18n } from "@/lib/i18n";
+import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { getAllWorkItems, getAllProjects } from "@/lib/md";
-import ProjectGrid from "@/components/project-grid";
-import { Trophy, Award, GitBranch, Users, LineChart } from "lucide-react";
 
 export const metadata = {
-  title: "Work — Swapnoneel Saha",
+  title: "Work",
 };
 
 const achievements = [
   {
-    text: "Winner of the Hack Around the World 2 Hackathon offered by MLH Hacks.",
+    text: i18n.work.achievements[0],
     icon: Trophy,
   },
   {
-    text: "Second Runner-Up of Hack 4 Bengal 3.0, Eastern India’s Largest Offline Hackathon.",
+    text: i18n.work.achievements[1],
     icon: Award,
   },
   {
-    text: "Second Runner-Up of the Treasure Hacks 3.0 Hackathon among 600 participants.",
+    text: i18n.work.achievements[2],
     icon: Award,
   },
   {
-    text: "Winner of MAKATHON, an intra-university hackathon under Smart India Hackathon ‘23.",
+    text: i18n.work.achievements[3],
     icon: Trophy,
   },
   {
-    text: "Contributed to multiple large Open-Source projects like MindsDB, Keploy & was a contributor at GSSOC ’23.",
+    text: i18n.work.achievements[4],
     icon: GitBranch,
   },
   {
-    text: "Organized multiple educational sessions for students at our University involving DSA, Development & Open-Source.",
+    text: i18n.work.achievements[5],
     icon: Users,
   },
   {
-    text: "Solved over 1100+ questions on LeetCode, and have an overall contest rating of 1650+.",
+    text: i18n.work.achievements[6],
     icon: LineChart,
   },
 ];
@@ -44,11 +45,11 @@ export default function WorkPage() {
   const projects = getAllProjects();
 
   return (
-    <div className="pb-16 space-y-10">
+    <div className="space-y-10 pb-16">
       {/* Experience */}
       <section>
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-5">
-          Experience
+        <h2 className="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
+          {i18n.work.sections.experience}
         </h2>
         <div className="space-y-0">
           {workItems.map((item, i) => (
@@ -58,14 +59,14 @@ export default function WorkPage() {
                   href={item.meta.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 py-4 group"
+                  className="group flex items-center gap-3 py-4"
                 >
                   <ExperienceRow item={item} />
                 </a>
               ) : (
                 <Link
                   href={`/work/${item.meta.slug}`}
-                  className="flex items-center gap-3 py-4 group"
+                  className="group flex items-center gap-3 py-4"
                 >
                   <ExperienceRow item={item} />
                 </Link>
@@ -78,22 +79,23 @@ export default function WorkPage() {
             <div className="flex justify-end py-6">
               <Link
                 href="/work/others"
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1 group/more"
+                className="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"
               >
-                <span className="group-hover/more:underline">View More</span>
+                <span className="group-hover/more:underline">
+                  {i18n.common.viewMore}
+                </span>
                 <span className="text-[10px]">→</span>
               </Link>
             </div>
             <hr className="border-border" />
           </div>
         </div>
-
       </section>
 
       {/* Projects */}
       <section>
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-5">
-          Projects
+        <h2 className="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
+          {i18n.work.sections.projects}
         </h2>
         <ProjectGrid items={projects} />
       </section>
@@ -102,17 +104,17 @@ export default function WorkPage() {
 
       {/* Achievements */}
       <section>
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-5">
-          Achievements
+        <h2 className="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
+          {i18n.work.sections.achievements}
         </h2>
         <div className="space-y-4">
           {achievements.map((achievement, i) => (
-            <div key={i} className="flex gap-4 group items-center">
-              <div className="p-1.5 rounded-md bg-secondary/50 text-muted-foreground group-hover:text-primary transition-colors">
+            <div key={i} className="group flex items-center gap-4">
+              <div className="bg-secondary/50 text-muted-foreground group-hover:text-primary rounded-md p-1.5 transition-colors">
                 <achievement.icon size={16} />
               </div>
               <div className="flex-1 space-y-1">
-                <p className="text-sm leading-relaxed text-foreground/90 group-hover:text-foreground transition-colors">
+                <p className="text-foreground/90 group-hover:text-foreground text-sm leading-relaxed transition-colors">
                   {achievement.text}
                 </p>
               </div>
@@ -137,23 +139,21 @@ function ExperienceRow({
           alt={item.meta.title}
           width={36}
           height={36}
-          className="rounded-md object-cover flex-shrink-0"
+          className="flex-shrink-0 rounded-md object-cover"
         />
       ) : (
-        <div className="w-9 h-9 rounded-md bg-secondary flex-shrink-0" />
+        <div className="bg-secondary h-9 w-9 flex-shrink-0 rounded-md" />
       )}
       <div className="flex-1">
         <p className="text-sm font-medium group-hover:underline">
           {item.meta.title}
         </p>
-        <p className="text-xs text-muted-foreground">{item.meta.date}</p>
+        <p className="text-muted-foreground text-xs">{item.meta.date}</p>
       </div>
-      <span className="text-xs text-muted-foreground group-hover:text-foreground transition-all flex items-center gap-1">
-        <span className="group-hover:underline">Read more</span>
+      <span className="text-muted-foreground group-hover:text-foreground flex items-center gap-1 text-xs transition-all">
+        <span className="group-hover:underline">{i18n.common.readMore}</span>
         <span className="text-[10px] no-underline">→</span>
       </span>
-
-
     </>
   );
 }

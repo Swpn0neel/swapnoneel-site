@@ -1,7 +1,8 @@
+import { i18n } from "@/lib/i18n";
 import Link from "next/link";
 
 export const metadata = {
-  title: "Other Experience — Swapnoneel Saha",
+  title: i18n.work.otherExperience.title,
 };
 
 export default function OthersPage() {
@@ -10,44 +11,39 @@ export default function OthersPage() {
       <div className="mb-8">
         <Link
           href="/work"
-          className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
         >
-          ← work
+          ← {i18n.work.otherExperience.backLink}
         </Link>
-        <h1 className="text-xl font-semibold mt-4 mb-1">Freelancing</h1>
-        <p className="text-xs text-muted-foreground">Dec, 2022 - Present</p>
-        <p className="text-sm font-medium mt-2">
-          Web Developer, UI/UX Designer & Python Developer
+        <h1 className="mt-4 mb-1 text-xl font-semibold">
+          {i18n.work.otherExperience.role}
+        </h1>
+        <p className="text-muted-foreground text-xs">
+          {i18n.work.otherExperience.date}
+        </p>
+        <p className="mt-2 text-sm font-medium">
+          {i18n.work.otherExperience.subtitle}
         </p>
       </div>
 
       <div className="prose prose-sm max-w-none">
-        <p>
-          Collaborated with diverse business clients to deliver innovative
-          digital solutions across web development, design, and automation.
-        </p>
+        <p>{i18n.work.otherExperience.intro}</p>
         <ul>
           <li>
-            <strong>UI/UX Design:</strong> Created frame designs and UI/UX
-            solutions for multiple business clients associated with hotels,
-            restaurants, and medical hospitals, helping them stand out through
-            innovative and user-centric designs.
+            <strong>{i18n.work.otherExperience.bulletTitles.design}</strong>{" "}
+            {i18n.work.otherExperience.bullets.design}
           </li>
           <li>
-            <strong>Python Development:</strong> Developed bespoke Python
-            software for image analysis, data processing, and task automation,
-            significantly enhancing operational efficiency for clients.
+            <strong>{i18n.work.otherExperience.bulletTitles.python}</strong>{" "}
+            {i18n.work.otherExperience.bullets.python}
           </li>
           <li>
-            <strong>Web Development:</strong> Crafted custom websites tailored to
-            the unique needs of small to medium-sized businesses, including
-            jewellery and textile shops, to drive online presence and customer
-            engagement.
+            <strong>{i18n.work.otherExperience.bulletTitles.web}</strong>{" "}
+            {i18n.work.otherExperience.bullets.web}
           </li>
           <li>
-            <strong>Content & Promotion:</strong> Wrote persuasive promotional
-            content for startups and created eye-catching promotional posters to
-            captivate audiences and drive brand recognition.
+            <strong>{i18n.work.otherExperience.bulletTitles.content}</strong>{" "}
+            {i18n.work.otherExperience.bullets.content}
           </li>
         </ul>
       </div>

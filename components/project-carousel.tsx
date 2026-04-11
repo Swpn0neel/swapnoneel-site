@@ -1,5 +1,6 @@
 "use client";
 
+import { i18n } from "@/lib/i18n";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useRef, useState } from "react";
@@ -62,7 +63,7 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
         onKeyDown={onKeyDown}
         tabIndex={0}
         role="region"
-        aria-label="Projects carousel"
+        aria-label={i18n.common.projectsCarousel}
         aria-roledescription="carousel"
       >
         <div className="embla__container flex">
@@ -97,7 +98,7 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
 
             return (
               <div
-                key={i}
+                key={`${item.meta.slug}-${i}`}
                 className="embla__slide mr-4 shrink-0"
                 style={{ width: 280 }}
                 onClick={() => setActiveProject(item)}

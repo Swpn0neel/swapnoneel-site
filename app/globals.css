@@ -89,6 +89,55 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ─── Selection & Cursor ─── */
+::selection {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+/* Disable selection for images and icons */
+img,
+svg,
+video,
+canvas,
+.no-select {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+/* Regular pointer looking cursor instead of text I-beam */
+body,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+blockquote,
+label,
+strong,
+em,
+b,
+i {
+  cursor: default;
+}
+
+/* Ensure interactive elements have correct cursors */
+a,
+button,
+[role="button"],
+.cursor-pointer {
+  cursor: pointer !important;
+}
+
+input,
+textarea {
+  cursor: text;
+}
+
 /* Carousel */
 .embla {
   overflow: hidden;

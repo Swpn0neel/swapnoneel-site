@@ -2,6 +2,8 @@ import CalBooking from "@/components/cal-booking";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/fade-in";
 import ProjectCarousel from "@/components/project-carousel";
 import SocialLinks from "@/components/social-links";
+import { siteConfig } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,8 +21,8 @@ export default function Home() {
             <div className="pfp-flip-card-inner">
               <div className="pfp-flip-card-front">
                 <Image
-                  src="/img/pfp.jpg"
-                  alt="Swapnoneel Saha"
+                  src={siteConfig.images.avatar}
+                  alt={i18n.home.hero.avatarAlt}
                   width={140}
                   height={140}
                   className="pfp-image-flip"
@@ -29,8 +31,8 @@ export default function Home() {
               </div>
               <div className="pfp-flip-card-back">
                 <Image
-                  src="/img/pfp-hover.png"
-                  alt="Swapnoneel Saha Hover"
+                  src={siteConfig.images.avatarHover}
+                  alt={i18n.home.hero.avatarHoverAlt}
                   width={140}
                   height={140}
                   className="pfp-image-flip"
@@ -42,47 +44,30 @@ export default function Home() {
         <div>
           <FadeIn delay={0.1}>
             <h1 className="mb-3 text-2xl font-semibold tracking-tight">
-              swapnoneel saha
+              {siteConfig.person.displayName}
             </h1>
           </FadeIn>
-          <FadeIn delay={0.15}>
-            <p className="text-muted-foreground text-sm leading-relaxed lowercase">
-              I am a software engineer and full-stack developer specializing in
-              the architecture of developer-centric tools, high-performance web
-              applications, and automation systems. My work is defined by a
-              focus on reducing technical complexity through better engineering,
-              cleaner interfaces, and intuitive user experiences.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.2}>
-            <p className="text-muted-foreground mt-4 text-sm leading-relaxed lowercase">
-              I&apos;ve spent the past few years building products that can
-              scale and perform well, ranging from developer-facing
-              infrastructure to educational platforms that help thousands of
-              engineers worldwide. This has allowed me to bridge the gap between
-              back-end technical rigor and front-end usability, with deep
-              expertise in python, typescript, and ui/ux design.
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.25}>
-            <p className="text-muted-foreground mt-4 text-sm leading-relaxed lowercase">
-              Currently, I am deep in the development of agentic AI systems,
-              crafting intelligent agents that automate complex, multi-step
-              engineering workflows. I thrive on solving the unsolved problems,
-              whether that involves architecting a scalable backend or designing
-              a seamless interaction layer for a new tool.
-            </p>
-          </FadeIn>
+          {i18n.home.hero.paragraphs.map((paragraph, index) => (
+            <FadeIn key={paragraph} delay={0.15 + index * 0.05}>
+              <p
+                className={`text-muted-foreground text-sm leading-relaxed lowercase ${
+                  index > 0 ? "mt-4" : ""
+                }`}
+              >
+                {paragraph}
+              </p>
+            </FadeIn>
+          ))}
           <FadeIn delay={0.3}>
             <p className="text-muted-foreground mt-4 text-sm leading-relaxed lowercase">
-              Reach me at{" "}
+              {i18n.home.hero.reachMeLabel}{" "}
               <a
-                href="mailto:swapnoneelsaha111@gmail.com"
+                href={`mailto:${siteConfig.person.email}`}
                 className="text-foreground underline transition-opacity hover:opacity-70"
               >
-                swapnoneelsaha111@gmail.com
+                {siteConfig.person.email}
               </a>{" "}
-              :)
+              {i18n.home.hero.reachMeSuffix}
             </p>
           </FadeIn>
         </div>
@@ -100,13 +85,13 @@ export default function Home() {
         <FadeIn>
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-              Experience
+              {i18n.home.sections.experience}
             </h2>
             <Link
               href="/work"
               className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
             >
-              See all
+              {i18n.common.seeAll}
             </Link>
           </div>
         </FadeIn>
@@ -143,7 +128,9 @@ export default function Home() {
               href="/work/others"
               className="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"
             >
-              <span className="group-hover/more:underline">View More</span>
+              <span className="group-hover/more:underline">
+                {i18n.common.viewMore}
+              </span>
               <span className="text-[10px]">→</span>
             </Link>
           </div>
@@ -156,13 +143,13 @@ export default function Home() {
         <FadeIn>
           <div className="mb-5 flex items-center justify-between">
             <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-              Projects
+              {i18n.home.sections.projects}
             </h2>
             <Link
               href="/work"
               className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
             >
-              See all
+              {i18n.common.seeAll}
             </Link>
           </div>
         </FadeIn>
@@ -177,19 +164,19 @@ export default function Home() {
       <FadeIn>
         <section>
           <h2 className="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
-            Contact
+            {i18n.home.sections.contact}
           </h2>
           <p className="text-muted-foreground text-sm">
-            Shoot me a{" "}
+            {i18n.home.contact.intro}{" "}
             <Link href="/contact" className="text-foreground underline">
-              message
+              {i18n.home.contact.messageLink}
             </Link>{" "}
-            or you can also directly{" "}
+            {i18n.home.contact.middle}{" "}
             <CalBooking
-              customText="book a call"
+              customText={i18n.home.contact.bookCall}
               className="text-foreground cursor-pointer underline"
             />{" "}
-            with me.
+            {i18n.home.contact.outro}
           </p>
         </section>
       </FadeIn>

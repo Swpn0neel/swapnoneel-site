@@ -1,3 +1,5 @@
+import { siteConfig } from "@/lib/config";
+
 export type HashnodePost = {
   title: string;
   slug: string;
@@ -12,13 +14,32 @@ export type HashnodePost = {
   url?: string;
 };
 
-const HASHNODE_GQL_ENDPOINT = "https://gql.hashnode.com/";
-const HOST = "swapnoneel.hashnode.dev";
+type HashnodePostEdge = {
+  node: HashnodePost;
+};
+
+type HashnodeListResponse = {
+  data?: {
+    publication?: {
+      posts?: {
+        edges?: HashnodePostEdge[];
+      };
+    };
+  };
+};
+
+type HashnodePostResponse = {
+  data?: {
+    publication?: {
+      post?: HashnodePost | null;
+    };
+  };
+};
 
 export async function getAllBlogPosts(): Promise<HashnodePost[]> {
   const query = `
     query Publication {
-      publication(host: "${HOST}") {
+      publication(host: "${siteConfig.hashnode.host}") {
         posts(first: 50) {
           edges {
             node {
@@ -34,14 +55,14 @@ export async function getAllBlogPosts(): Promise<HashnodePost[]> {
   `;
 
   try {
-    const res = await fetch(HASHNODE_GQL_ENDPOINT, {
+    const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query }),
       next: { revalidate: 3600 }, // Cache for 1 hour
     });
-    const { data } = await res.json();
-    return data?.publication?.posts?.edges?.map((edge: any) => edge.node) || [];
+    const { data }: HashnodeListResponse = await res.json();
+    return data?.publication?.posts?.edges?.map((edge) => edge.node) ?? [];
   } catch (error) {
     console.error("Failed to fetch blog posts from Hashnode", error);
     return [];
@@ -51,7 +72,7 @@ export async function getAllBlogPosts(): Promise<HashnodePost[]> {
 export async function getBlogPost(slug: string): Promise<HashnodePost | null> {
   const query = `
     query Publication {
-      publication(host: "${HOST}") {
+      publication(host: "${siteConfig.hashnode.host}") {
         post(slug: "${slug}") {
           title
           slug
@@ -66,14 +87,14 @@ export async function getBlogPost(slug: string): Promise<HashnodePost | null> {
   `;
 
   try {
-    const res = await fetch(HASHNODE_GQL_ENDPOINT, {
+    const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ query }),
       next: { revalidate: 3600 },
     });
-    const { data } = await res.json();
-    return data?.publication?.post || null;
+    const { data }: HashnodePostResponse = await res.json();
+    return data?.publication?.post ?? null;
   } catch (error) {
     console.error("Failed to fetch blog post from Hashnode", error);
     return null;

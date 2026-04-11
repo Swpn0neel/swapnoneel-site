@@ -1,16 +1,11 @@
 "use client";
 
+import { navItems } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
 import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
-
-const navItems = [
-  { href: "/", label: "home." },
-  { href: "/blog", label: "blog." },
-  { href: "/work", label: "work." },
-  { href: "/contact", label: "contact." },
-];
 
 export function MobileNav() {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -107,7 +102,7 @@ export function MobileNav() {
         ref={menuButtonRef}
         onClick={toggleMenu}
         className="text-muted-foreground hover:text-foreground hover:bg-secondary/50 focus-visible:ring-ring relative z-[60] flex items-center justify-center rounded-md p-2 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-        aria-label="Toggle menu"
+        aria-label={i18n.common.toggleMenu}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
       >
@@ -137,7 +132,7 @@ export function MobileNav() {
         }`}
         role="dialog"
         aria-modal="true"
-        aria-label="Navigation menu"
+        aria-label={i18n.common.navigationMenu}
       >
         {navItems.map((item) => (
           <Link
@@ -147,7 +142,7 @@ export function MobileNav() {
             className="text-foreground focus-visible:ring-ring w-full rounded-md py-2 text-center text-sm font-medium transition-opacity hover:opacity-60 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
             aria-current={pathname === item.href ? "page" : undefined}
           >
-            {item.label}
+            {i18n.nav[item.key]}
           </Link>
         ))}
       </div>

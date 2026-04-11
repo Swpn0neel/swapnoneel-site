@@ -1,5 +1,6 @@
 "use client";
 
+import { i18n } from "@/lib/i18n";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { OptimizedImage } from "./optimized-image";
 
@@ -107,7 +108,7 @@ export default function ProjectOverlay({
       }}
       role="dialog"
       aria-modal="true"
-      aria-label={project?.meta.title ?? "Project details"}
+      aria-label={project?.meta.title ?? i18n.common.projectDetails}
     >
       <div
         className={`project-overlay-panel ${isVisible ? "project-overlay-panel--visible" : ""}`}
@@ -118,7 +119,7 @@ export default function ProjectOverlay({
           <button
             onClick={handleClose}
             className="project-overlay-close"
-            aria-label="Close overlay"
+            aria-label={i18n.common.closeOverlay}
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -166,7 +167,9 @@ export default function ProjectOverlay({
 
             {techStack.length > 0 && (
               <div className="project-overlay-section">
-                <h3 className="project-overlay-section-title">Tech Stack</h3>
+                <h3 className="project-overlay-section-title">
+                  {i18n.overlay.techStack}
+                </h3>
                 <div className="project-overlay-tags">
                   {techStack.map((tech, i) => {
                     // Extract bold text or use part before dash
@@ -186,7 +189,9 @@ export default function ProjectOverlay({
 
             {features.length > 0 && (
               <div className="project-overlay-section">
-                <h3 className="project-overlay-section-title">Features</h3>
+                <h3 className="project-overlay-section-title">
+                  {i18n.overlay.features}
+                </h3>
                 <ul className="project-overlay-features">
                   {features.map((feat, i) => {
                     // Strip markdown bold markers
@@ -215,7 +220,7 @@ export default function ProjectOverlay({
               rel="noopener noreferrer"
               className="project-overlay-link-btn"
             >
-              <span>Learn more</span>
+              <span>{i18n.common.learnMore}</span>
               {/* Tilted external-link arrow — signals redirect to another site */}
               <svg
                 xmlns="http://www.w3.org/2000/svg"

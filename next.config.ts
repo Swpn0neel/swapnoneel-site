@@ -2,9 +2,8 @@ import type { NextConfig } from "next";
 import path from "path";
 
 if (typeof global !== "undefined") {
-  delete (global as any).localStorage;
+  delete (globalThis as { localStorage?: unknown }).localStorage;
 }
-
 
 const nextConfig: NextConfig = {
   images: {
