@@ -10,7 +10,9 @@ async function f() {
       }
     }
   }`;
-  const r = await fetch("https://gql.hashnode.com/", {
+  const endpoint =
+    process.env.HASHNODE_GQL_ENDPOINT || "https://gql.hashnode.com/";
+  const r = await fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query: q }),
