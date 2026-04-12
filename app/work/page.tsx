@@ -141,8 +141,6 @@ function ExperienceRow({
           width={36}
           height={36}
           className="flex-shrink-0 rounded-md object-cover"
-          placeholder="blur"
-          blurDataURL={blurPlaceholder}
         />
       ) : (
         <div className="bg-secondary h-9 w-9 flex-shrink-0 rounded-md" />

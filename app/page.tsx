@@ -203,8 +203,6 @@ function WorkCard({
           width={60}
           height={60}
           className="mt-0.5 flex-shrink-0 rounded-md object-cover"
-          placeholder="blur"
-          blurDataURL={blurPlaceholder}
         />
       )}
       <div className="flex-1">
