@@ -4,6 +4,7 @@ import PageTransition from "@/components/page-transition";
 import { ThemeProvider } from "@/components/theme-provider";
 import { footerLinks, siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
+import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -76,7 +77,7 @@ export default function RootLayout({
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
-              __html: JSON.stringify({
+              __html: safeJsonLd({
                 "@context": "https://schema.org",
                 "@type": "Person",
                 name: siteConfig.person.fullName,

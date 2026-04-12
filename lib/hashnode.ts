@@ -37,6 +37,24 @@ type HashnodePostResponse = {
   };
 };
 
+async function fetchFromHashnode<T>(
+  query: string,
+  errorMessage: string
+): Promise<T | null> {
+  try {
+    const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ query }),
+      next: { revalidate: 3600 },
+    });
+    return (await res.json()) as T;
+  } catch (error) {
+    console.error(errorMessage, error);
+    return null;
+  }
+}
+
 export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
   const query = `
     query Publication {
@@ -55,19 +73,13 @@ export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
     }
   `;
 
-  try {
-    const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-    const { data }: HashnodeListResponse = await res.json();
-    return data?.publication?.posts?.edges?.map((edge) => edge.node) ?? [];
-  } catch (error) {
-    console.error("Failed to fetch blog posts from Hashnode", error);
-    return [];
-  }
+  const response = await fetchFromHashnode<HashnodeListResponse>(
+    query,
+    "Failed to fetch blog posts from Hashnode"
+  );
+  return (
+    response?.data?.publication?.posts?.edges?.map((edge) => edge.node) ?? []
+  );
 });
 
 export const getBlogPost = cache(
@@ -88,18 +100,10 @@ export const getBlogPost = cache(
     }
   `;
 
-    try {
-      const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query }),
-        next: { revalidate: 3600 },
-      });
-      const { data }: HashnodePostResponse = await res.json();
-      return data?.publication?.post ?? null;
-    } catch (error) {
-      console.error("Failed to fetch blog post from Hashnode", error);
-      return null;
-    }
+    const response = await fetchFromHashnode<HashnodePostResponse>(
+      query,
+      "Failed to fetch blog post from Hashnode"
+    );
+    return response?.data?.publication?.post ?? null;
   }
 );

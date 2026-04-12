@@ -1,0 +1,27 @@
+--- lib/hashnode.ts
++++ lib/hashnode.ts
+@@ -107,21 +107,8 @@
+     }
+   \`;
+
+-<<<<<<< HEAD
+-    try {
+-      const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
+-        method: "POST",
+-        headers: { "Content-Type": "application/json" },
+-        body: JSON.stringify({ query }),
+-        next: { revalidate: 3600 },
+-      });
+-      const { data }: HashnodePostResponse = await res.json();
+-      return data?.publication?.post ?? null;
+-    } catch (error) {
+-      console.error("Failed to fetch blog post from Hashnode", error);
+-      return null;
+-    }
+-=======
+     const response = await fetchFromHashnode<HashnodePostResponse>(
+       query,
+       "Failed to fetch blog post from Hashnode"
+     );
+     return response?.data?.publication?.post ?? null;
+->>>>>>> origin/main
