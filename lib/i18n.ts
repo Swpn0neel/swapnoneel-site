@@ -23,6 +23,7 @@ export const i18n = {
     rss: "rss",
     sitemap: "sitemap",
     github: "github",
+    resume: "resume",
     rightsReserved: "All rights reserved.",
   },
   home: {
@@ -135,5 +136,43 @@ export const i18n = {
   overlay: {
     techStack: "Tech Stack",
     features: "Features",
+  },
+  resume: {
+    pageTitle: "Resume",
+    jobTitle: "Software Engineer & Full-stack Developer",
+    downloadPdf: "Download PDF",
+    hireMe: "Hire Me",
+    summaryHeading: "Summary",
+    summaryContent: "Software Engineer specializing in Agentic AI, high-performance full-stack systems, and developer-centric tools. Proven track record in building scalable applications and contributing to open-source infrastructure.",
+    skillsHeading: "Core Competencies",
+    skillsCategories: {
+      languages: "Languages",
+      frameworks: "Frameworks",
+      tools: "Tools & Tech",
+    },
+    experienceHeading: "Experience",
+    projectsHeading: "Selected Projects",
+    educationHeading: "Education",
+    achievementsHeading: "Achievements",
+    education: [
+      {
+        school: "MAKAUT",
+        degree: "B.Tech in Computer Science & Engineering",
+        date: "2022 \u2014 2026",
+        result: "CGPA: 8.2",
+      },
+      {
+        school: "Kalyani Public School",
+        degree: "12th Boards (CBSE)",
+        date: "2020 \u2014 2022",
+        result: "93%",
+      },
+      {
+        school: "The Central Modern School",
+        degree: "10th Boards (ICSE)",
+        date: "2018 \u2014 2020",
+        result: "97%",
+      },
+    ],
   },
 } as const;

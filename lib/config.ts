@@ -1,6 +1,6 @@
-export type NavItemKey = "home" | "blog" | "work" | "contact";
+export type NavItemKey = "home" | "blog" | "work" | "contact" | "resume";
 
-export type FooterLinkKey = "rss" | "sitemap" | "github";
+export type FooterLinkKey = "rss" | "sitemap" | "github" | "resume";
 
 export type SocialBrand =
   | "github"
@@ -64,8 +64,8 @@ export const siteConfig = {
 
 export const navItems: readonly NavItem[] = [
   { href: "/", key: "home" },
-  { href: "/blog", key: "blog" },
   { href: "/work", key: "work" },
+  { href: "/blog", key: "blog" },
   { href: "/contact", key: "contact" },
 ];
 
@@ -73,6 +73,7 @@ export const footerLinks: readonly FooterLink[] = [
   { href: siteConfig.hashnode.rssUrl, key: "rss" },
   { href: "/sitemap.xml", key: "sitemap" },
   { href: siteConfig.repository.sourceUrl, key: "github" },
+  { href: "/resume", key: "resume" },
 ];
 
 export const socialLinks: readonly SocialLink[] = [
