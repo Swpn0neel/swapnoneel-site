@@ -4,6 +4,7 @@ export const i18n = {
     blog: "blog.",
     work: "work.",
     contact: "contact.",
+    resume: "resume.",
   },
   common: {
     skipToContent: "Skip to main content",
