@@ -7,6 +7,7 @@ import { i18n } from "@/lib/i18n";
 import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Link from "next/link";
 import "./globals.css";
 
 const inter = Inter({
@@ -69,7 +70,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
         className={`${inter.variable} bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
       >
@@ -102,27 +103,38 @@ export default function RootLayout({
             {i18n.common.skipToContent}
           </a>
           <div className="mx-auto max-w-2xl px-4">
-            <Navbar />
+            <div className="print:hidden">
+              <Navbar />
+            </div>
             <main id="main-content" tabIndex={-1}>
               <PageTransition>{children}</PageTransition>
             </main>
-            <BackToTop />
+            <div className="print:hidden">
+              <BackToTop />
+            </div>
             <footer
-              className="text-muted-foreground mt-8 py-12 text-xs"
+              className="text-muted-foreground mt-8 py-12 text-xs print:hidden"
               suppressHydrationWarning
             >
               <div className="mb-4 flex gap-4 text-sm lowercase">
-                {footerLinks.map((link) => (
-                  <a
-                    key={link.key}
-                    href={link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="hover:text-foreground flex items-center gap-1.5 transition-colors"
-                  >
-                    <span>↗</span> {i18n.footer[link.key]}
-                  </a>
-                ))}
+                {footerLinks.map((link) => {
+                  const isInternal = link.href.startsWith("/");
+                  const LinkComponent = isInternal ? Link : "a";
+                  const extraProps = isInternal
+                    ? {}
+                    : { target: "_blank", rel: "noopener noreferrer" };
+
+                  return (
+                    <LinkComponent
+                      key={link.key}
+                      href={link.href}
+                      {...extraProps}
+                      className="hover:text-foreground flex items-center gap-1.5 transition-colors"
+                    >
+                      <span>↗</span> {i18n.footer[link.key]}
+                    </LinkComponent>
+                  );
+                })}
               </div>
               <p>
                 © {new Date().getFullYear()} {siteConfig.person.fullName}.{" "}

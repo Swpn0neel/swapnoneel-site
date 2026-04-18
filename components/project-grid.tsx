@@ -24,7 +24,7 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {items.map((item) => {
           return (
             <div

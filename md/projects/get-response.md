@@ -3,7 +3,7 @@ title: "Get Response"
 date: "2024-03-01"
 description: "A terminal-based AI chatbot and automation tool."
 cover: "/project/get-response.jpg"
-link: "https://www.npmjs.com/package/get-response"
+link: "https://get-response-site.vercel.app"
 ---
 
 ## Get Response

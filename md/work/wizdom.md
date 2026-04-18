@@ -1,7 +1,7 @@
 ---
-title: "Full-stack Developer (Contract) — Wizdom"
+title: "Full-stack Developer — Wizdom"
 date: "Jan 2024 - May 2024"
-description: "Revamped UI, optimized code, and improved podcast experience at Wizdom as a contractual full-stack developer."
+description: "Revamped UI, optimized code, and improved podcast experience at Wizdom."
 cover: "https://wizdomapp.com/wp-content/uploads/2024/06/cropped-favi_wizdom-192x192.png"
 ---
 

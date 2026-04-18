@@ -79,6 +79,7 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                     width={480}
                     height={270}
                     className="h-44"
+                    priority={i === 0}
                   />
                 ) : (
                   <div className="bg-secondary text-muted-foreground flex h-44 w-full items-center justify-center px-4 text-center font-mono text-xs">
