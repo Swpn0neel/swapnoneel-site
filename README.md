@@ -9,6 +9,8 @@
 
 A premium, minimalist personal portfolio and blog built with the latest web technologies. Designed for high performance, accessibility, and architectural elegance.
 
+![Portfolio](./public/img/headshot.png)
+
 ---
 
 ## 🚀 Features
