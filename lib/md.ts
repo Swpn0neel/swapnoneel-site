@@ -51,6 +51,12 @@ function getAll(folder: string): { meta: PostMeta; content: string }[] {
 function parseDate(dateStr: string): number {
   if (!dateStr) return 0;
 
+  // If it's a full ISO date (YYYY-MM-DD), don't split it
+  if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+    const date = new Date(dateStr);
+    return isNaN(date.getTime()) ? 0 : date.getTime();
+  }
+
   // Handle ranges like "Jan 2024 - May 2024" or "May 2023 - Present"
   // We sort by start date (the first part of the range)
   const parts = dateStr.split(/[-–]/);

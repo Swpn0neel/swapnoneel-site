@@ -1,6 +1,6 @@
 ---
 title: "Scholarian"
-date: "2024-04-10"
+date: "2026-04-15"
 description: "A Gemini-powered deep-research pipeline for academic papers."
 cover: "/project/scholarian.jpg"
 link: "https://deep-researching-agent.streamlit.app"
