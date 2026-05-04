@@ -2,6 +2,7 @@ import CalBooking from "@/components/cal-booking";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/fade-in";
 import ProjectCarousel from "@/components/project-carousel";
 import SocialLinks from "@/components/social-links";
+import { ViewMore } from "@/components/view-more";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
@@ -123,17 +124,7 @@ export default function Home() {
         </StaggerContainer>
         <div className="mt-6">
           <hr className="border-border" />
-          <div className="flex justify-end py-6">
-            <Link
-              href="/work/others"
-              className="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"
-            >
-              <span className="group-hover/more:underline">
-                {i18n.common.viewMore}
-              </span>
-              <span className="text-[10px]">→</span>
-            </Link>
-          </div>
+          <ViewMore href="/work/others" />
           <hr className="border-border" />
         </div>
       </section>
