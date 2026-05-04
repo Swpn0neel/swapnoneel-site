@@ -73,14 +73,16 @@ function parseDate(dateStr: string): number {
 export const getBlogPost = (slug: string) => readBySlug("blog", slug);
 
 export const getAllWorkItems = () =>
-  getAll("work").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  getAll("work")
+    .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
+    .sort((a, b) => b.dateValue - a.dateValue)
+    .map(({ item }) => item);
 
 export const getWorkItem = (slug: string) =>
   readBySlug("work", slug) ?? readBySlug("projects", slug);
 
 export const getAllProjects = () =>
-  getAll("projects").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  getAll("projects")
+    .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
+    .sort((a, b) => b.dateValue - a.dateValue)
+    .map(({ item }) => item);
