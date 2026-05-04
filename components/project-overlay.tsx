@@ -29,11 +29,20 @@ function parseSection(content: string, heading: string): string[] {
   );
   const match = content.match(regex);
   if (!match) return [];
-  return match[1]
-    .split("\n")
-    .filter((line) => line.trim().startsWith("-"))
-    .map((line) => line.replace(/^-\s*/, "").trim())
-    .filter(Boolean);
+
+  const lines = match[1].split("\n");
+  const result: string[] = [];
+
+  for (const line of lines) {
+    if (line.trim().startsWith("-")) {
+      const cleaned = line.replace(/^-\s*/, "").trim();
+      if (cleaned) {
+        result.push(cleaned);
+      }
+    }
+  }
+
+  return result;
 }
 
 export default function ProjectOverlay({

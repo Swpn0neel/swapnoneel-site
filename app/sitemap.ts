@@ -74,9 +74,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...workRoutes,
     ...projectRoutes,
   ];
-  const uniqueRoutes = Array.from(
-    new Map(allRoutes.map((route) => [route.url, route])).values()
-  );
 
-  return uniqueRoutes;
+  const routeMap = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const route of allRoutes) {
+    routeMap.set(route.url, route);
+  }
+
+  return Array.from(routeMap.values());
 }
