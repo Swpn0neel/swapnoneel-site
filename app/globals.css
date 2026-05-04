@@ -676,7 +676,8 @@ html {
   }
 
   /* Reset layout constraints for print */
-  .max-w-2xl, .max-w-3xl {
+  .max-w-2xl,
+  .max-w-3xl {
     max-width: 100% !important;
     width: 100% !important;
     margin: 0 !important;
@@ -684,40 +685,72 @@ html {
   }
 
   /* Reduce spacing to fit on one page */
-  .mb-12 { margin-bottom: 1rem !important; }
-  .mb-10 { margin-bottom: 0.75rem !important; }
-  .mb-8 { margin-bottom: 0.5rem !important; }
-  .mb-6 { margin-bottom: 0.4rem !important; }
-  .mb-4 { margin-bottom: 0.3rem !important; }
-  
-  .gap-10 { gap: 1rem !important; }
-  .gap-8 { gap: 0.75rem !important; }
-  .gap-6 { gap: 0.5rem !important; }
-  
-  .space-y-10 { gap: 1rem !important; }
-  .space-y-8 > * + * { margin-top: 0.5rem !important; }
-  .space-y-6 > * + * { margin-top: 0.4rem !important; }
-  .space-y-4 > * + * { margin-top: 0.3rem !important; }
-  .space-y-3 > * + * { margin-top: 0.2rem !important; }
+  .mb-12 {
+    margin-bottom: 1rem !important;
+  }
+  .mb-10 {
+    margin-bottom: 0.75rem !important;
+  }
+  .mb-8 {
+    margin-bottom: 0.5rem !important;
+  }
+  .mb-6 {
+    margin-bottom: 0.4rem !important;
+  }
+  .mb-4 {
+    margin-bottom: 0.3rem !important;
+  }
+
+  .gap-10 {
+    gap: 1rem !important;
+  }
+  .gap-8 {
+    gap: 0.75rem !important;
+  }
+  .gap-6 {
+    gap: 0.5rem !important;
+  }
+
+  .space-y-10 {
+    gap: 1rem !important;
+  }
+  .space-y-8 > * + * {
+    margin-top: 0.5rem !important;
+  }
+  .space-y-6 > * + * {
+    margin-top: 0.4rem !important;
+  }
+  .space-y-4 > * + * {
+    margin-top: 0.3rem !important;
+  }
+  .space-y-3 > * + * {
+    margin-top: 0.2rem !important;
+  }
 
   /* Ensure no forced page breaks within items */
-  section, .group, .border {
+  section,
+  .group,
+  .border {
     break-inside: avoid;
   }
 
   /* Clean up border transparency in print */
-  .border, .border-b {
+  .border,
+  .border-b {
     border-color: #eee !important;
   }
 
   /* Remove background colors for better printing */
-  .bg-secondary\/10, .bg-secondary\/20, .bg-secondary\/40 {
+  .bg-secondary\/10,
+  .bg-secondary\/20,
+  .bg-secondary\/40 {
     background-color: transparent !important;
     border: 1px solid #eee !important;
   }
 
   /* Sticky/Fixed elements should definitely be hidden if not already */
-  .fixed, .sticky {
+  .fixed,
+  .sticky {
     display: none !important;
   }
 }
