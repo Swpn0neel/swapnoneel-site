@@ -81,18 +81,18 @@ function parseDate(dateStr: string): number {
 
 export const getBlogPost = cache((slug: string) => readBySlug("blog", slug));
 
-export const getAllWorkItems = cache(() =>
-  getAll("work").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  )
-);
+export const getAllWorkItems = () =>
+  getAll("work")
+    .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
+    .sort((a, b) => b.dateValue - a.dateValue)
+    .map(({ item }) => item);
 
 export const getWorkItem = cache((slug: string) =>
   readBySlug("work", slug) ?? readBySlug("projects", slug)
 );
 
-export const getAllProjects = cache(() =>
-  getAll("projects").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  )
-);
+export const getAllProjects = () =>
+  getAll("projects")
+    .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
+    .sort((a, b) => b.dateValue - a.dateValue)
+    .map(({ item }) => item);
