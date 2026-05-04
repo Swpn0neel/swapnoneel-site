@@ -1,6 +1,7 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import { cache } from "react";
 
 const mdDir = path.join(process.cwd(), "md");
 
@@ -70,17 +71,20 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
-export const getBlogPost = (slug: string) => readBySlug("blog", slug);
+export const getBlogPost = cache((slug: string) => readBySlug("blog", slug));
 
-export const getAllWorkItems = () =>
+export const getAllWorkItems = cache(() =>
   getAll("work").sort(
     (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  )
+);
 
-export const getWorkItem = (slug: string) =>
-  readBySlug("work", slug) ?? readBySlug("projects", slug);
+export const getWorkItem = cache((slug: string) =>
+  readBySlug("work", slug) ?? readBySlug("projects", slug)
+);
 
-export const getAllProjects = () =>
+export const getAllProjects = cache(() =>
   getAll("projects").sort(
     (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  )
+);
