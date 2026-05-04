@@ -9,8 +9,8 @@ import remarkGfm from "remark-gfm";
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
-  const work = getAllWorkItems();
-  const projects = getAllProjects();
+  const work = await getAllWorkItems();
+  const projects = await getAllProjects();
   const slugs = new Set<string>();
 
   for (const item of work) slugs.add(item.meta.slug);
@@ -30,7 +30,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = getWorkItem(slug);
+  const item = await getWorkItem(slug);
   if (!item) return {};
   return {
     title: item.meta.title,
@@ -44,7 +44,7 @@ export default async function WorkItemPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = getWorkItem(slug);
+  const item = await getWorkItem(slug);
   if (!item) notFound();
 
   return (

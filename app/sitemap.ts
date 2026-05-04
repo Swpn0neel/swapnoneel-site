@@ -11,8 +11,8 @@ function parseValidDate(dateStr: string | undefined): Date {
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = "https://www.swapnoneel.site";
   const blogPosts = await getAllBlogPosts();
-  const workItems = getAllWorkItems();
-  const projects = getAllProjects();
+  const workItems = await getAllWorkItems();
+  const projects = await getAllProjects();
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {

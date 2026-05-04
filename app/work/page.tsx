@@ -1,5 +1,4 @@
 import ProjectGrid from "@/components/project-grid";
-import { blurPlaceholder } from "@/lib/blur";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
@@ -41,9 +40,9 @@ const achievements = [
   },
 ];
 
-export default function WorkPage() {
-  const workItems = getAllWorkItems();
-  const projects = getAllProjects();
+export default async function WorkPage() {
+  const workItems = await getAllWorkItems();
+  const projects = await getAllProjects();
 
   return (
     <div className="space-y-10 pb-16">

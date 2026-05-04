@@ -1,6 +1,7 @@
-import fs from "fs";
+import fs from "fs/promises";
 import matter from "gray-matter";
 import path from "path";
+import { cache } from "react";
 
 const mdDir = path.join(process.cwd(), "md");
 
@@ -13,74 +14,123 @@ export type PostMeta = {
   link?: string;
 };
 
-function getAllSlugs(folder: string): string[] {
+const getAllSlugs = cache(async (folder: string): Promise<string[]> => {
   const dir = path.join(mdDir, folder);
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx?$/, ""));
-}
+  try {
+    const files = await fs.readdir(dir);
+    return files
+      .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
+      .map((f) => f.replace(/\.mdx?$/, ""));
+  } catch (err: unknown) {
+    if (
+      err &&
+      typeof err === "object" &&
+      "code" in err &&
+      err.code === "ENOENT"
+    )
+      return [];
+    throw err;
+  }
+});
 
-export function readBySlug(
-  folder: string,
-  slug: string
-): { meta: PostMeta; content: string } | null {
-  const mdPath = path.join(mdDir, folder, `${slug}.md`);
-  const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
-  const filePath = fs.existsSync(mdPath)
-    ? mdPath
-    : fs.existsSync(mdxPath)
-      ? mdxPath
-      : null;
-  if (!filePath) return null;
-  const raw = fs.readFileSync(filePath, "utf8");
-  const { data, content } = matter(raw);
-  return {
-    meta: { slug, ...(data as Omit<PostMeta, "slug">) },
-    content,
-  };
-}
+export const readBySlug = cache(
+  async (
+    folder: string,
+    slug: string
+  ): Promise<{ meta: PostMeta; content: string } | null> => {
+    let raw: string;
+    try {
+      const mdPath = path.join(mdDir, folder, `${slug}.md`);
+      raw = await fs.readFile(mdPath, "utf8");
+    } catch (err: unknown) {
+      if (
+        err &&
+        typeof err === "object" &&
+        "code" in err &&
+        err.code !== "ENOENT"
+      )
+        throw err;
+      try {
+        const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
+        raw = await fs.readFile(mdxPath, "utf8");
+      } catch (err2: unknown) {
+        if (
+          err2 &&
+          typeof err2 === "object" &&
+          "code" in err2 &&
+          err2.code !== "ENOENT"
+        )
+          throw err2;
+        return null;
+      }
+    }
+    const { data, content } = matter(raw);
+    return {
+      meta: { slug, ...(data as Omit<PostMeta, "slug">) },
+      content,
+    };
+  }
+);
 
-function getAll(folder: string): { meta: PostMeta; content: string }[] {
-  return getAllSlugs(folder)
-    .map((slug) => readBySlug(folder, slug))
-    .filter(Boolean) as { meta: PostMeta; content: string }[];
-}
+const getAll = cache(
+  async (folder: string): Promise<{ meta: PostMeta; content: string }[]> => {
+    const slugs = await getAllSlugs(folder);
+    const items = await Promise.all(
+      slugs.map((slug) => readBySlug(folder, slug))
+    );
+    return items.filter(Boolean) as { meta: PostMeta; content: string }[];
+  }
+);
+
+const parseDateCache = new Map<string, number>();
 
 function parseDate(dateStr: string): number {
   if (!dateStr) return 0;
 
-  // If it's a full ISO date (YYYY-MM-DD), don't split it
+  if (parseDateCache.has(dateStr)) {
+    return parseDateCache.get(dateStr)!;
+  }
+
+  let result = 0;
   if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
     const date = new Date(dateStr);
-    return isNaN(date.getTime()) ? 0 : date.getTime();
+    result = isNaN(date.getTime()) ? 0 : date.getTime();
+  } else {
+    const parts = dateStr.split(/[-–]/);
+    const startDateStr = parts[0].trim();
+
+    if (startDateStr.toLowerCase() === "present") {
+      result = Date.now();
+    } else {
+      const date = new Date(startDateStr);
+      result = isNaN(date.getTime()) ? 0 : date.getTime();
+    }
   }
 
-  // Handle ranges like "Jan 2024 - May 2024" or "May 2023 - Present"
-  // We sort by start date (the first part of the range)
-  const parts = dateStr.split(/[-–]/);
-  const startDateStr = parts[0].trim();
-
-  if (startDateStr.toLowerCase() === "present") {
-    return Date.now();
-  }
-
-  const date = new Date(startDateStr);
-  return isNaN(date.getTime()) ? 0 : date.getTime();
+  parseDateCache.set(dateStr, result);
+  return result;
 }
 
-export const getBlogPost = (slug: string) => readBySlug("blog", slug);
+export const getBlogPost = async (slug: string) => readBySlug("blog", slug);
 
-export const getAllWorkItems = () =>
-  getAll("work").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+export const getAllWorkItems = cache(async () => {
+  const items = await getAll("work");
+  return items
+    .map((item) => [item, parseDate(item.meta.date)] as const)
+    .sort((a, b) => b[1] - a[1])
+    .map(([item]) => item);
+});
 
-export const getWorkItem = (slug: string) =>
-  readBySlug("work", slug) ?? readBySlug("projects", slug);
+export const getWorkItem = cache(async (slug: string) => {
+  const workItem = await readBySlug("work", slug);
+  if (workItem) return workItem;
+  return await readBySlug("projects", slug);
+});
 
-export const getAllProjects = () =>
-  getAll("projects").sort(
-    (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+export const getAllProjects = cache(async () => {
+  const items = await getAll("projects");
+  return items
+    .map((item) => [item, parseDate(item.meta.date)] as const)
+    .sort((a, b) => b[1] - a[1])
+    .map(([item]) => item);
+});

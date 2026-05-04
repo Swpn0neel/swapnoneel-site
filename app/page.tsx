@@ -8,9 +8,9 @@ import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Home() {
-  const workItems = getAllWorkItems();
-  const projects = getAllProjects();
+export default async function Home() {
+  const workItems = await getAllWorkItems();
+  const projects = await getAllProjects();
 
   return (
     <div className="space-y-10 pb-12">

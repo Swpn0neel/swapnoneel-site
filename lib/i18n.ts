@@ -144,7 +144,8 @@ export const i18n = {
     downloadPdf: "Download PDF",
     hireMe: "Hire Me",
     summaryHeading: "Summary",
-    summaryContent: "Software Engineer specializing in Agentic AI, high-performance full-stack systems, and developer-centric tools. Proven track record in building scalable applications and contributing to open-source infrastructure.",
+    summaryContent:
+      "Software Engineer specializing in Agentic AI, high-performance full-stack systems, and developer-centric tools. Proven track record in building scalable applications and contributing to open-source infrastructure.",
     skillsHeading: "Core Competencies",
     skillsCategories: {
       languages: "Languages",
