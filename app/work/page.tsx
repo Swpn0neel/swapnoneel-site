@@ -1,6 +1,5 @@
 import ProjectGrid from "@/components/project-grid";
 import { ViewMore } from "@/components/view-more";
-import { blurPlaceholder } from "@/lib/blur";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
