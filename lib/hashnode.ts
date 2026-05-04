@@ -39,13 +39,14 @@ type HashnodePostResponse = {
 
 async function fetchFromHashnode<T>(
   query: string,
-  errorMessage: string
+  errorMessage: string,
+  variables?: Record<string, any>
 ): Promise<T | null> {
   try {
     const res = await fetch(siteConfig.hashnode.graphQlEndpoint, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({ query, variables }),
       next: { revalidate: 3600 },
     });
     return (await res.json()) as T;
@@ -57,8 +58,8 @@ async function fetchFromHashnode<T>(
 
 export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
   const query = `
-    query Publication {
-      publication(host: "${siteConfig.hashnode.host}") {
+    query Publication($host: String!) {
+      publication(host: $host) {
         posts(first: 50) {
           edges {
             node {
@@ -75,7 +76,8 @@ export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
 
   const response = await fetchFromHashnode<HashnodeListResponse>(
     query,
-    "Failed to fetch blog posts from Hashnode"
+    "Failed to fetch blog posts from Hashnode",
+    { host: siteConfig.hashnode.host }
   );
   return (
     response?.data?.publication?.posts?.edges?.map((edge) => edge.node) ?? []
@@ -85,9 +87,9 @@ export const getAllBlogPosts = cache(async (): Promise<HashnodePost[]> => {
 export const getBlogPost = cache(
   async (slug: string): Promise<HashnodePost | null> => {
     const query = `
-    query Publication {
-      publication(host: "${siteConfig.hashnode.host}") {
-        post(slug: "${slug}") {
+    query Publication($host: String!, $slug: String!) {
+      publication(host: $host) {
+        post(slug: $slug) {
           title
           slug
           publishedAt
@@ -102,7 +104,8 @@ export const getBlogPost = cache(
 
     const response = await fetchFromHashnode<HashnodePostResponse>(
       query,
-      "Failed to fetch blog post from Hashnode"
+      "Failed to fetch blog post from Hashnode",
+      { host: siteConfig.hashnode.host, slug }
     );
     return response?.data?.publication?.post ?? null;
   }
