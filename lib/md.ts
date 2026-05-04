@@ -1,8 +1,14 @@
 import fs from "fs";
 import matter from "gray-matter";
 import path from "path";
+import { cache } from "react";
 
 const mdDir = path.join(process.cwd(), "md");
+
+function isPathSafe(filePath: string): boolean {
+  const relative = path.relative(mdDir, filePath);
+  return !relative.startsWith("..") && !path.isAbsolute(relative);
+}
 
 export type PostMeta = {
   slug: string;
@@ -15,7 +21,7 @@ export type PostMeta = {
 
 function getAllSlugs(folder: string): string[] {
   const dir = path.join(mdDir, folder);
-  if (!fs.existsSync(dir)) return [];
+  if (!isPathSafe(dir) || !fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
@@ -28,6 +34,9 @@ export function readBySlug(
 ): { meta: PostMeta; content: string } | null {
   const mdPath = path.join(mdDir, folder, `${slug}.md`);
   const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
+
+  if (!isPathSafe(mdPath) || !isPathSafe(mdxPath)) return null;
+
   const filePath = fs.existsSync(mdPath)
     ? mdPath
     : fs.existsSync(mdxPath)
@@ -70,17 +79,20 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
-export const getBlogPost = (slug: string) => readBySlug("blog", slug);
+export const getBlogPost = cache((slug: string) => readBySlug("blog", slug));
 
-export const getAllWorkItems = () =>
+export const getAllWorkItems = cache(() =>
   getAll("work").sort(
     (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  )
+);
 
-export const getWorkItem = (slug: string) =>
-  readBySlug("work", slug) ?? readBySlug("projects", slug);
+export const getWorkItem = cache((slug: string) =>
+  readBySlug("work", slug) ?? readBySlug("projects", slug)
+);
 
-export const getAllProjects = () =>
+export const getAllProjects = cache(() =>
   getAll("projects").sort(
     (a, b) => parseDate(b.meta.date) - parseDate(a.meta.date)
-  );
+  )
+);
