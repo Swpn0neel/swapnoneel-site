@@ -5,6 +5,11 @@ import { cache } from "react";
 
 const mdDir = path.join(process.cwd(), "md");
 
+function isPathSafe(filePath: string): boolean {
+  const relative = path.relative(mdDir, filePath);
+  return !relative.startsWith("..") && !path.isAbsolute(relative);
+}
+
 export type PostMeta = {
   slug: string;
   title: string;
@@ -16,7 +21,7 @@ export type PostMeta = {
 
 function getAllSlugs(folder: string): string[] {
   const dir = path.join(mdDir, folder);
-  if (!fs.existsSync(dir)) return [];
+  if (!isPathSafe(dir) || !fs.existsSync(dir)) return [];
   return fs
     .readdirSync(dir)
     .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
@@ -29,6 +34,9 @@ export function readBySlug(
 ): { meta: PostMeta; content: string } | null {
   const mdPath = path.join(mdDir, folder, `${slug}.md`);
   const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
+
+  if (!isPathSafe(mdPath) || !isPathSafe(mdxPath)) return null;
+
   const filePath = fs.existsSync(mdPath)
     ? mdPath
     : fs.existsSync(mdxPath)
