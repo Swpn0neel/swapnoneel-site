@@ -34,7 +34,7 @@ export const i18n = {
       title: "swapnoneel saha",
       paragraphs: [
         "I am a software engineer and full-stack developer specializing in the architecture of developer-centric tools, high-performance web applications, and automation systems. My work is defined by a focus on reducing technical complexity through better engineering, cleaner interfaces, and intuitive user experiences.",
-        "I've spent the past few years building products that can scale and perform well, ranging from developer-facing infrastructure to educational platforms that help thousands of engineers worldwide. This has allowed me to bridge the gap between back-end technical rigor and front-end usability, with deep expertise in python, typescript, and ui/ux design.",
+        // "I've spent the past few years building products that can scale and perform well, ranging from developer-facing infrastructure to educational platforms that help thousands of engineers worldwide. This has allowed me to bridge the gap between back-end technical rigor and front-end usability, with deep expertise in python, typescript, and ui/ux design.",
         "Currently, I am deep in the development of agentic AI systems, crafting intelligent agents that automate complex, multi-step engineering workflows. I thrive on solving the unsolved problems, whether that involves architecting a scalable backend or designing a seamless interaction layer for a new tool.",
       ],
       reachMeLabel: "Reach me at",

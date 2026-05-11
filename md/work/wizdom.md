@@ -1,5 +1,5 @@
 ---
-title: "Full-stack Developer — Wizdom"
+title: "Software Developer • Wizdom"
 date: "Jan 2024 - May 2024"
 description: "Revamped UI, optimized code, and improved podcast experience at Wizdom."
 cover: "https://wizdomapp.com/wp-content/uploads/2024/06/cropped-favi_wizdom-192x192.png"
@@ -9,8 +9,8 @@ cover: "https://wizdomapp.com/wp-content/uploads/2024/06/cropped-favi_wizdom-192
 
 ### What I did
 
-- **Revamped their old UI** and built a modern, intuitive interface for their app, significantly improving the overall user experience and aesthetic appeal.
-- **Optimized the codebase**, focusing on performance improvements and scalability to ensure a smoother experience for thousands of users.
-- **Expanded and rebuilt their web presence**, creating responsive and high-performance websites that align with their new branding.
+- **Revamped the old UI** and built a modern, intuitive interface for their app, significantly improving the overall user experience for over 20,000 users.
+- **Optimized the codebase** with a focus on performance and scalability, significantly reducing load times by **1200-1800ms** and ensuring a smoother experience across the platform.
+- **Expanded and rebuilt their website**, creating responsive and high-performance websites that align with their new branding.
 - **Enhanced the podcast experience**, implementing features that improved audio playback and user engagement with audio content.
-- Worked closely with the product team to transition from legacy systems to a modern full-stack architecture.
+- **Coordinated with the product and design teams** to successfully transition from legacy systems to a modern tech stack.

@@ -120,15 +120,13 @@ export default function RootLayout({
                 {footerLinks.map((link) => {
                   const isInternal = link.href.startsWith("/");
                   const LinkComponent = isInternal ? Link : "a";
-                  const extraProps = isInternal
-                    ? {}
-                    : { target: "_blank", rel: "noopener noreferrer" };
 
                   return (
                     <LinkComponent
                       key={link.key}
                       href={link.href}
-                      {...extraProps}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="hover:text-foreground flex items-center gap-1.5 transition-colors"
                     >
                       <span>↗</span> {i18n.footer[link.key]}

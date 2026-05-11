@@ -1,26 +1,29 @@
 ---
 title: "Scholarian"
 date: "2026-04-15"
-description: "A Gemini-powered deep-research pipeline for academic papers."
+description: "A high-end research platform designed to transform academic tools into a focused, analytical journey."
 cover: "/project/scholarian.jpg"
-link: "https://deep-researching-agent.streamlit.app"
+link: "https://scholarian.vercel.app"
 ---
 
 ## Scholarian
 
-An intelligent Streamlit-based application that automates the academic research process by integrating multiple paper sources with a Gemini-powered refinement loop.
+A high-end, editorial research platform that replaces manual literature reviews with an intelligent pipeline that scours semantic databases and engages in context-aware interrogation.
 
 ### Tech Stack
 
-- **Python & Streamlit** — for the user interface and core logic
-- **Google Gemini AI** — for embeddings, text generation, and ranking
-- **MongoDB** — for user authentication and chat storage
-- **Academic APIs** — Semantic Scholar, arXiv, Crossref, IEEE, and SerpAPI integrations
+- **Next.js 15 & TypeScript** — for a premium, type-safe analytical lens workspace
+- **Google Gemini AI** — powering query enrichment and automated synthesis
+- **Supabase** — for database persistence and secure authentication
+- **Zustand** — for global state management and optimistic UI updates
+- **Tailwind CSS 4.0** — for a custom-curated, responsive design system
+- **Base UI & Radix** — for high-quality, accessible UI components
 
 ### Features
 
-- **Deep-Research Pipeline** — automated paper fetching, deduplication, and ranking
-- **AI-Generated Reports** — comprehensive research reports synthesized from top-ranked papers
-- **Refinement Loop** — refine reports or ask specific questions based on current findings
-- **Multi-Source Fetching** — integration with multiple academic databases for thorough searches
-- **User Management** — secure authentication and persistent research history via MongoDB
+- **Persistent Research History** — every search run and report is persisted via Supabase
+- **Stateful Research Pipeline** — real-time tracking from query enrichment to report generation
+- **Optimistic UI Updates** — instantaneous sidebar navigation and chat management
+- **Smart Refinement** — built-in intent analysis for narrowing down research topics
+- **Analytical Lens Workspace** — premium responsive dashboard optimized for all devices
+- **PDF Export Engine** — generate high-fidelity PDF versions of research reports

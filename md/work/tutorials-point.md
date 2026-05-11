@@ -1,5 +1,5 @@
 ---
-title: "Technical Writer — Tutorials Point"
+title: "Technical Writer • Tutorials Point"
 date: "May 2023 - May 2025"
 description: "Technical content creation for one of the world's largest developer learning platforms."
 cover: "https://play-lh.googleusercontent.com/F10OOHNkeNbOf5x9DYpoihAIkLRlSMxCsPHyCErXgm0oM2gZtJwVymJIZoN59v4JJWBZ"
@@ -9,6 +9,7 @@ cover: "https://play-lh.googleusercontent.com/F10OOHNkeNbOf5x9DYpoihAIkLRlSMxCsP
 
 ### What I did
 
-- Created an **Advanced Python Course** with over 40+ modules that was purchased by **9,800+ users** over a period of 12 months — making it one of the most successful courses I've shipped.
-- Contributed to **MySQL** and **Web Development** courses, helping onboard a large number of new learners to the platform.
+- Created an **Advanced Python Course** with over **40 modules** that was purchased by **9,800+ users** over a period of 12 months, making it one of the most successful courses I've shipped.
+- Contributed to **MySQL** and **Web Development** courses which helped on-board new learners to the platform.
+- As a content manager, **edited over 200 articles** from 10+ technical writers who worked under me.
 - Maintained clarity, accuracy, and accessibility in all written content, keeping it approachable for beginners while technically sound for intermediate developers.
