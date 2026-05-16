@@ -8,7 +8,7 @@ A premium, minimalist personal portfolio and blog built with the latest web tech
 
 ---
 
-## 🚀 Features
+## Features
 
 - **Infinite Project Carousel**: A seamless, auto-scrolling display for showcasing engineering projects and designs.
 - **Achievements & Milestones**: A dedicated section for hackathon wins, open-source contributions, and technical highlights.
@@ -22,7 +22,7 @@ A premium, minimalist personal portfolio and blog built with the latest web tech
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer               | Technology                               |
 | ------------------- | ---------------------------------------- |
@@ -35,7 +35,7 @@ A premium, minimalist personal portfolio and blog built with the latest web tech
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 swapnoneel-site/
@@ -55,7 +55,7 @@ swapnoneel-site/
 
 ---
 
-## ⚙️ Setup & Development
+## Setup & Development
 
 ### Prerequisites
 
@@ -81,7 +81,7 @@ swapnoneel-site/
 
 ---
 
-## 📝 Configuration & Customization
+## Configuration & Customization
 
 ### Content Management
 
@@ -94,7 +94,7 @@ swapnoneel-site/
 
 ---
 
-## 🚢 Deployment
+## Deployment
 
 The project is optimized for **Vercel**.
 
@@ -103,7 +103,5 @@ The project is optimized for **Vercel**.
 3. The build settings are auto-detected. Deploy!
 
 ---
-
-## 📜 License
 
 Created by **Swapnoneel Saha**. Feel free to use this as inspiration for your own portfolio.
