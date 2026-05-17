@@ -17,7 +17,7 @@ export function ViewMore({ href, label }: ViewMoreProps) {
         <span className="group-hover/more:underline">
           {label || i18n.common.viewMore}
         </span>
-        <ArrowUpRight className="h-3 w-3 transition-transform group-hover/more:-translate-y-0.5 group-hover/more:translate-x-0.5" />
+        <ArrowUpRight className="h-3 w-3" />
       </Link>
     </div>
   );
