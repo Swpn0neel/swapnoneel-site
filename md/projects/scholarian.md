@@ -1,6 +1,6 @@
 ---
 title: "Scholarian"
-date: "2026-04-15"
+date: "2026-05-07"
 description: "A high-end research platform designed to transform academic tools into a focused, analytical journey."
 cover: "/project/scholarian.jpg"
 link: "https://scholarian.vercel.app"

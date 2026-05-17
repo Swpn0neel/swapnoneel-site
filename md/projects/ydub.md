@@ -1,6 +1,6 @@
 ---
 title: "Y Dub"
-date: "2023-09-01"
+date: "2026-05-01"
 description: "A premium AI-powered video dubbing platform design."
 cover: "/project/ydub.jpg"
 link: "https://www.figma.com/design/QtUW4ih2Ny2pRE4ZerZ0Me/SIH-23?node-id=0-1&t=haIB25SKp7zo507e-1"

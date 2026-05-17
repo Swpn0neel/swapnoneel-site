@@ -1,6 +1,6 @@
 ---
 title: "TermAI"
-date: "2025-02-15"
+date: "2026-05-04"
 description: "An AI-powered cloud terminal for seamless coding on any device."
 cover: "/project/term-ai.jpg"
 link: "https://term-ai.vercel.app/"

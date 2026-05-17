@@ -1,6 +1,6 @@
 ---
 title: "Get Response"
-date: "2024-10-01"
+date: "2026-05-06"
 description: "A terminal-based AI chatbot and automation tool."
 cover: "/project/get-response.jpg"
 link: "https://get-response-site.vercel.app"

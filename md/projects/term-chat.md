@@ -1,6 +1,6 @@
 ---
 title: "Term Chat"
-date: "2026-04-24"
+date: "2026-05-09"
 description: "A terminal-based messaging hub for real-time communication, collaboration, and AI-powered interactions."
 cover: "/project/term-chat.jpg"
 link: "https://term-chat.vercel.app"
