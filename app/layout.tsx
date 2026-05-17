@@ -102,11 +102,11 @@ export default function RootLayout({
           <a href="#main-content" className="skip-to-content">
             {i18n.common.skipToContent}
           </a>
-          <div className="mx-auto max-w-2xl px-4">
+          <div className="mx-auto max-w-2xl px-4 flex flex-col min-h-screen">
             <div className="print:hidden">
               <Navbar />
             </div>
-            <main id="main-content" tabIndex={-1}>
+            <main id="main-content" tabIndex={-1} className="flex-1">
               <PageTransition>{children}</PageTransition>
             </main>
             <div className="print:hidden">

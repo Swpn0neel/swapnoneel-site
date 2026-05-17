@@ -196,7 +196,7 @@ export default async function BlogPostPage({
               );
             },
             mark: ({ children }) => (
-              <mark className="!bg-white !text-black dark:!bg-white dark:!text-black font-semibold px-1.5 py-0.5 rounded-sm mx-0.5 shadow-sm no-underline inline-block text-[0.9em]">
+              <mark className="bg-white! text-black! dark:bg-white! dark:text-black! font-semibold px-1.5 py-0.5 rounded-sm mx-0.5 shadow-sm no-underline inline-block text-[0.9em]">
                 {children}
               </mark>
             ),
