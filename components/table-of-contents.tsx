@@ -28,7 +28,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
         onClick={() => setIsExpanded(!isExpanded)}
         className="w-full flex items-center justify-between p-4 md:p-5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground/80 hover:text-foreground transition-all duration-300 select-none focus:outline-none group cursor-pointer"
       >
-        <span className="group-hover:translate-x-[1px] transition-transform duration-300">
+        <span className="group-hover:translate-x-px transition-transform duration-300">
           Table of Contents
         </span>
         <ChevronDown

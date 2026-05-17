@@ -182,7 +182,7 @@ Now you can run your package, and it should work perfectly!!
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650425160/b8d12272-5801-4c13-87fa-243a88244d8f.png align="center")
 
-## **Publish Your NPM Package**
+## *Publish Your NPM Package*
 
 To publish your package on the NPM registry, you need to have an account. And, I hope you have created that previously!!
 

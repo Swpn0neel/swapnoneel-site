@@ -24,7 +24,7 @@ Alongside this, I was working on building a CRUD application called “Toile”,
 
 ### December, 2023
 
-Completed the work on **<mark>Toile</mark>**! It took around a month to make it fully ready. But it turned out to be pretty good. You can check it out from here: [https://toile.vercel.app](https://toile.vercel.app)
+Completed the work on **Toile**! It took around a month to make it fully ready. But it turned out to be pretty good. You can check it out from here: [https://toile.vercel.app](https://toile.vercel.app)
 
 I started learning Dynamic Programming, because I noticed that there were a lot of questions coming from that during the contests. Also, I continued that habit of solving DSA problems regularly and managed to cross the 300+ mark of solving Leetcode problems. And, as I’ve solved all the Daily Problems of this month, I earned a badge for that.
 
@@ -46,7 +46,7 @@ And, I maintained my consistency of solving DSA problems regularly and I was abl
 
 The month started with a small contractual work for re-designing the UI of a start-up named Wizdom. So, there were a lot of revisions and talking extensively with the teams. As I was alone in the project, it was pretty exhilarating but I was able to deliver the task within two weeks. Although I’ve done UI/UX designing gigs before, but this was a bit different because it was a fully-working start-up rather than stand-alone clients!
 
-Also, me and my friend @[Sam Maji](@sammaji) decided to created a small SaaS project called, **<mark>InPoster</mark>**([https://inposter.vercel.app](https://inposter.vercel.app)) which will generate you viral LinkedIn posts with hashtags and other decorations just by taking some keywords from you about the topic. We challenged ourselves to build the project within one night, and we successfully did that, but it took some more days to improve some of the features and fix the bugs!
+Also, me and my friend [Sam Maji](https://github.com/sammaji) decided to created a small SaaS project called, **InPoster**([https://inposter.vercel.app](https://inposter.vercel.app)) which will generate you viral LinkedIn posts with hashtags and other decorations just by taking some keywords from you about the topic. We challenged ourselves to build the project within one night, and we successfully did that, but it took some more days to improve some of the features and fix the bugs!
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1731092318237/24a382a5-96bb-4d11-b7aa-108afad301e2.png align="center")
 
@@ -74,7 +74,7 @@ Also, I worked on improving a old project of mine called [MAKAUT Buddy](https://
 
 Additionally, I wanted to create something unique and decided to create some `npm` packages. So, I created my first package called `swapnoneel`, which will give a short bio about me and all of my social handles when you run `npx swapnoneel` from your terminal. This was just the beginning, because I planned to create way more complex projects than this!
 
-And the best part about the month was that I got a remote opportunity to work as an **<mark>Intern with Keploy</mark>**, because of my extensive contributions to their projects in the recent times 🥳
+And the best part about the month was that I got a remote opportunity to work as an **Intern with Keploy**, because of my extensive contributions to their projects in the recent times 🥳
 
 ### June, 2024
 
@@ -86,15 +86,15 @@ Delivered a python-based ML project for a research scholar, and as a part of it 
 
 ### July, 2023
 
-In my previous blog, I mentioned that I attended Eastern India’s biggest hackathon “Hack 4 Bengal 2.0”, but sadly we had to return mid-way because of an unavoidable circumstance. So, it was the time to make it a success in their next iteration, “[Hack 4 Bengal 3.0](https://www.hack4bengal.tech)”. So at very end of last month, me along with my other two teammates @[Tuhin Poddar](@Tuhin114) and @[Sam Maji](@sammaji) attended the hackathon. We created a <mark>cloud-based AI powered terminal</mark> called “[Term AI](https://term-ai.vercel.app)”, that let’s you code from anywhere at anytime from whichever device you want, which frees you from the hassle of carrying a laptop or relying on a desktop while travelling. It was really fun to make this project, because at this point we are making something unique that can be used by folks in their day-to-day life!
+In my previous blog, I mentioned that I attended Eastern India’s biggest hackathon “Hack 4 Bengal 2.0”, but sadly we had to return mid-way because of an unavoidable circumstance. So, it was the time to make it a success in their next iteration, “[Hack 4 Bengal 3.0](https://www.hack4bengal.tech)”. So at very end of last month, me along with my other two teammates [Tuhin Poddar](https://github.com/Tuhin114) and [Sam Maji](https://github.com/sammaji) attended the hackathon. We created a cloud-based AI powered terminal called “[Term AI](https://term-ai.vercel.app)”, that let’s you code from anywhere at anytime from whichever device you want, which frees you from the hassle of carrying a laptop or relying on a desktop while travelling. It was really fun to make this project, because at this point we are making something unique that can be used by folks in their day-to-day life!
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1731093334429/8cc5cee5-a976-4c33-a5dc-563e0ae4d62e.png align="center")
 
-And, we ended up **<mark>winning the prize of second runner-up</mark>** among all of the 300+ participants. It was a really enjoyable moment for us, because from failing to stay throughout the hackathon in last year to winning it in this year, felt like a redemption arc for me! And it genuinely felt extremely good!
+And, we ended up **winning the prize of second runner-up** among all of the 300+ participants. It was a really enjoyable moment for us, because from failing to stay throughout the hackathon in last year to winning it in this year, felt like a redemption arc for me! And it genuinely felt extremely good!
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1731167476958/0c89adf8-a6cf-4c66-844a-e23159b3efa2.png align="center")
 
-Also, I organized an open-source bootcamp under the hood of Keploy, called the “**<mark>Keploy Rain of Code</mark>**”, which led to an massive upsurge of open-source contributors for Keploy, and it was an unique experience for me to guide and manage so many folks all at once, and giving each one of them equal attention! The program was a great success and we were able to get a lot of new quality contributors.
+Also, I organized an open-source bootcamp under the hood of Keploy, called the “**Keploy Rain of Code**”, which led to an massive upsurge of open-source contributors for Keploy, and it was an unique experience for me to guide and manage so many folks all at once, and giving each one of them equal attention! The program was a great success and we were able to get a lot of new quality contributors.
 
 ### August, 2024
 
@@ -108,7 +108,7 @@ This month was a bit hectic for me, as I was dealing with some personal problems
 
 ### October, 2024
 
-This month, I created a <mark>RAG-based AI chatbot for Keploy</mark>, which is being trained on the Keploy docs and gives response for each and every Keploy-related question that you ask it!
+This month, I created a RAG-based AI chatbot for Keploy, which is being trained on the Keploy docs and gives response for each and every Keploy-related question that you ask it!
 
 Other than this, I worked on delivering a couple of articles for a client and worked on creating the code documentation for an early-stage startup. Also, I worked on making a website design as a part of another gig.
 
@@ -116,17 +116,17 @@ Other than this, I worked on delivering a couple of articles for a client and wo
 
 I have tried to mention most of the important stuff here. But I want to mention/clarify some things that weren't mentioned in the timeline or haven’t got reflected enough:
 
-* <mark>Solving DSA problems was a integral part of my journey</mark>, and almost everyday I practiced problems on Leetcode, starting from November, last year. And I’ve been highly consistent in doing that!
+* Solving DSA problems was a integral part of my journey, and almost everyday I practiced problems on Leetcode, starting from November, last year. And I’ve been highly consistent in doing that!
     
     ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1731097936631/9892cf9a-b21c-4b9d-9787-749937c80916.png align="center")
     
 * I’ve mentioned about only the important or substantial freelancing works that have influenced my journey and have taken quite a few days or weeks to finish. Other than the mentioned ones, I’ve done a lot of other works in the freelancing space, which aren’t that worthwhile to mention.
     
-* In few places, I’ve mentioned about what I’ve done while working within Keploy. But please take note that these were just a few things that I really loved working on, or was worthy of mentioning here. <mark>Being a DevRel is a lot more than this</mark>!
+* In few places, I’ve mentioned about what I’ve done while working within Keploy. But please take note that these were just a few things that I really loved working on, or was worthy of mentioning here. Being a DevRel is a lot more than this!
     
 * I invested majority of my freelancing money in stocks or spent them in buying assets. And also, I gifted myself a Nothing Phone (2a) this year, and also built a completely new work-setup for me in our house! Other than these, I paid the semester fees this year, all by myself; and also have taken care of my closed ones.
     
-* In my last year’s blog, I had mentioned that I was <mark>mentoring my juniors and guiding them</mark>, which I did consistently throughout this year too, but I didn’t felt the need to mention it here and elaborating on that front. If you are eager to learn more about it, you can go through our [LinkedIn page](https://www.linkedin.com/company/the-async-devs/).
+* In my last year’s blog, I had mentioned that I was mentoring my juniors and guiding them, which I did consistently throughout this year too, but I didn’t felt the need to mention it here and elaborating on that front. If you are eager to learn more about it, you can go through our [LinkedIn page](https://www.linkedin.com/company/the-async-devs/).
     
 * I was active on Twitter(X) throughout this time, and was able to grow my follower count up to 1800 people. You can checkout my profile from [here](https://x.com/swapnoneel123)! And tried to be as active on LinkedIn as possible, you can checkout my LinkedIn profile from [here](https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/).
     

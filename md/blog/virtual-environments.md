@@ -4,15 +4,11 @@ title: "Virtual Environments"
 date: "2023-01-27T16:11:48.129Z"
 description: "What is a Virtual Environment?\nA virtual environment is a tool used to isolate specific Python environments on a single machine, allowing you to work on multiple projects with different dependencies and packages without conflicts. This can be especia..."
 link: "https://swapnoneel.hashnode.dev/virtual-environments"
----
-
-%%[social] 
-
-## What is a <mark>Virtual Environment</mark>?
+---## What is a Virtual Environment?
 
 A virtual environment is a tool used to isolate specific Python environments on a single machine, allowing you to work on multiple projects with different dependencies and packages without conflicts. This can be especially useful when working on projects that have conflicting package versions or packages that are not compatible with each other.
 
-## How to <mark>create</mark> it?
+## How to create it?
 
 To create a virtual environment in Python, you can use the venv module that comes with Python. Here's an example of how to create a virtual environment and activate it:
 
@@ -29,7 +25,7 @@ myenv\Scripts\activate.bat
 
 Once the virtual environment is activated, any packages that you install using pip will be installed in the virtual environment, rather than in the global Python environment. This allows you to have a separate set of packages for each project, without affecting the packages installed in the global environment.
 
-## How to <mark>deactivate</mark> it?
+## How to deactivate it?
 
 To deactivate the virtual environment, you can use the deactivate command:
 
@@ -40,7 +36,7 @@ deactivate
 
 It's just that simple!!
 
-## The "<mark>requirements.txt</mark>" file
+## The "requirements.txt" file
 
 In addition to creating and activating a virtual environment, it can be useful to create a requirements.txt file that lists the packages and their versions that your project depends on. This file can be used to easily install all the required packages in a new environment.
 

@@ -6,11 +6,11 @@ description: "Introduction\nThe enumerate function in Python converts a data col
 link: "https://swapnoneel.hashnode.dev/enumerate-function-in-python"
 ---
 
-# Introduction
+## Introduction
 
 The enumerate function in Python **converts a data collection object into an enumerate object**. Enumerate returns an object that contains a counter as a key for each value within an object, making items within the collection easier to access.
 
-# Enumerate Function
+## Enumerate Function
 
 The enumerate function is a built-in function in Python that allows you to loop over a sequence (such as a list, tuple, or string) and get the index and value of each element in the sequence at the same time. Here's a basic example of how it works:
 
@@ -31,7 +31,7 @@ The output of this code will be:
 
 As you can see, the enumerate function returns a tuple containing the index and value of each element in the sequence. You can use the for loop to unpack these tuples and assign them to variables, as shown in the example above.
 
-## Changing the start index
+### Changing the start index
 
 By default, the enumerate function starts the index at 0, but you can specify a different starting index by passing it as an argument to the enumerate function:
 
@@ -84,7 +84,7 @@ for index, c in enumerate(s):
     print(index, c)
 ```
 
-# Conclusion
+## Conclusion
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 

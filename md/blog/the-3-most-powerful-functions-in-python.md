@@ -6,11 +6,11 @@ description: "Introduction\nIn Python, the map, filter, and reduce functions are
 link: "https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-python"
 ---
 
-# Introduction
+## Introduction
 
 In Python, the `map`, `filter`, and `reduce` functions are built-in functions that allow you to apply a function to a sequence of elements and return a new sequence. These functions are known as higher-order functions, as they take other functions as arguments.
 
-# The `map()` function
+## The `map()` function
 
 The `map()` function applies a function to each element in a sequence and returns a new sequence containing the transformed elements. The `map()` function has the following syntax:
 
@@ -35,7 +35,7 @@ print(list(doubled))
 
 In the above example, the lambda function `lambda x: x * 2` is used to double each element in the numbers list. The map function applies the lambda function to each element in the list and returns a new list containing the doubled numbers.
 
-# The filter() method
+## The filter() method
 
 The filter function filters a sequence of elements based on a given predicate (a function that returns a boolean value) and returns a new sequence containing only the elements that meet the predicate. The filter function has the following syntax:
 
@@ -60,7 +60,7 @@ print(list(evens))
 
 In the above example, the lambda function `lambda x: x % 2 == 0` is used to filter the numbers list and return only the even numbers. The filter function applies the lambda function to each element in the list and returns a new list containing only the even numbers.
 
-# The reduce() method
+## The reduce() method
 
 The reduce function is a higher-order function that applies a function to a sequence and returns a single value. It is a part of the functools module in Python and has the following syntax:
 
@@ -91,7 +91,7 @@ In the above example, the reduce function applies the lambda function `lambda x,
 
 It is important to note that the reduce function requires the functools module to be imported in order to use it.
 
-# Conclusion
+## Conclusion
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 

@@ -6,13 +6,13 @@ description: "Introduction\nThe os module in Python is a built-in library that p
 link: "https://swapnoneel.hashnode.dev/os-modules-in-python"
 ---
 
-# Introduction
+## Introduction
 
 The os module in Python is a built-in library that provides functions for interacting with the operating system. It allows you to perform a wide variety of tasks, such as reading and writing files, interacting with the file system, and running system commands.
 
 There are a lot of methods in the os module. But, here we will be discussing only the most important and commonly used methods of the os module.
 
-# Reading and Writing Files
+## Reading and Writing Files
 
 The os module provides functions for opening, reading, and writing files. For example, to open a file for reading, you can use the open function:
 
@@ -44,7 +44,7 @@ os.write(f, b"Hello, world!")
 os.close(f)
 ```
 
-# Interacting with the File System
+## Interacting with the File System
 
 The os module also provides functions for interacting with the file system. For example, you can use the `os.listdir` function to get a list of the files in a directory:
 
@@ -65,7 +65,7 @@ import os
 os.mkdir("newdir")
 ```
 
-# Running System Commands
+## Running System Commands
 
 Finally, the os module provides functions for running system commands. For example, you can use the `os.system` function to run a command and get the output:
 
@@ -93,7 +93,7 @@ print(output)  # Output: ['myfile.txt', 'otherfile.txt']
 f.close()
 ```
 
-# Conclusion
+## Conclusion
 
 In summary, the os module in Python is a built-in library that provides a wide variety of functions for interacting with the operating system. It allows you to perform tasks such as reading and writing files, interacting with the file system, and running system commands. The above-discussed methods are the most commonly used and are very important to remember.
 

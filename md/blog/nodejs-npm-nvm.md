@@ -31,7 +31,7 @@ Based on the operating systems, the installation process is different and varied
     * Follow the installation steps, and please **make sure to check the box that says "Install Node.js and npm."**
         
 
-### **macOS**
+### *macOS*
 
 1. You have to install **Homebrew** if you haven't already. To do that, open the terminal and run:
     
@@ -46,7 +46,7 @@ Based on the operating systems, the installation process is different and varied
     ```
     
 
-### **Linux**
+### *Linux*
 
 It's extremely easy to install `node.js` and `npm` in Linux. Just run these two commands in the terminal:
 

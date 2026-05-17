@@ -6,7 +6,7 @@ cover: "https://web.archive.org/web/20240417063106/https://cdn.hashnode.com/res/
 link: "https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python"
 ---
 
-# Introduction
+## Introduction
 
 In our recent AI-revolutionized world, to design proper machine learning workflows is important for getting insights, making predictions, and also solving complex problems. Python, with its vast collection of libraries and frameworks, is the go-to language for developing machine learning models and workflows. So, that's why, understanding the steps involved in designing machine learning workflows in Python is essential to progress in this field.
 
@@ -14,7 +14,7 @@ In this article, we will explore the fundamental steps and considerations that g
 
 So, let's dive in and discover the key components of designing machine learning workflows in Python. By the end of this article, you'll have a solid foundation to tackle real-world machine learning challenges and unleash the power of Python in your data-driven endeavors.
 
-# What's the process?
+## What's the process?
 
 To design a machine learning workflow, we have to perform and maintain some specific steps which are crucial. They are stated below:
 
@@ -121,11 +121,11 @@ import joblib
 joblib.dump(best_model, 'model.pkl')
 ```
 
-***Now, with all these covered, it may seem overwhelming to you, so let’s check some examples to solidify your concepts.***
+Now, with all these covered, it may seem overwhelming to you, so let’s check some examples to solidify your concepts.
 
-# Examples
+## Examples
 
-## Machine Learning workflow for Image Classification using the Fashion MNIST dataset
+### Machine Learning workflow for Image Classification using the Fashion MNIST dataset
 
 Here's an example of a machine learning workflow for image classification using the Fashion MNIST dataset. The workflow includes data loading, preprocessing, model selection, training, evaluation, and saving the trained model. Let’s check the code sample, how we are doing that-
 
@@ -184,7 +184,7 @@ When the code is run through the terminal, the model is trained, evaluated and t
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1706888496190/80a5fff8-8809-43d7-b8cc-8459949edd5c.png align="center")
 
-## Machine Learning workflow for Sentiment Analysis using the IMDb movie review dataset
+### Machine Learning workflow for Sentiment Analysis using the IMDb movie review dataset
 
 Let’s get into the example of a machine learning workflow for sentiment analysis using the IMDb movie review dataset. The workflow includes data preparation, feature engineering, model selection, training, evaluation, and deployment. Let’s dive into the code and check how we are doing that-
 
@@ -253,7 +253,7 @@ When the code is run through the terminal, the model is trained, evaluated and t
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889095784/94b6cb10-93a0-4b56-8e9d-0cd704d94764.png align="center")
 
-# Conclusion
+## Conclusion
 
 Thank you for reading the blog! I hope you found it informative and valuable. For more information, follow me on [**Twitter (swapnoneel123**](http://twitter.com/swapnoneel123)**)** where I share more such content through my tweets and threads. And, please consider sharing it with others on **Twitter** and tag me in your post so I can see it too. You can also check my [**GitHub (Swpn0neel)**](https://github.com/Swpn0neel) to see my projects.
 
