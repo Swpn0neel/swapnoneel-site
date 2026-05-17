@@ -79,7 +79,38 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
-export const getBlogPost = cache((slug: string) => readBySlug("blog", slug));
+export type BlogPost = {
+  title: string;
+  slug: string;
+  publishedAt: string;
+  brief?: string;
+  content?: {
+    markdown: string;
+  };
+  url?: string;
+};
+
+export const getBlogPost = cache((slug: string): BlogPost | null => {
+  const post = readBySlug("blog", slug);
+  if (!post) return null;
+  return {
+    title: post.meta.title,
+    slug: post.meta.slug,
+    publishedAt: post.meta.date,
+    brief: post.meta.description,
+    content: {
+      markdown: post.content,
+    },
+    url: post.meta.link,
+  };
+});
+
+export const getAllBlogPosts = cache((): BlogPost[] => {
+  return getAllSlugs("blog")
+    .map((slug) => getBlogPost(slug))
+    .filter(Boolean)
+    .sort((a, b) => new Date(b!.publishedAt).getTime() - new Date(a!.publishedAt).getTime()) as BlogPost[];
+});
 
 export const getAllWorkItems = () =>
   getAll("work")

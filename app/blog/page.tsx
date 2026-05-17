@@ -1,4 +1,4 @@
-import { getAllBlogPosts } from "@/lib/hashnode";
+import { getAllBlogPosts } from "@/lib/md";
 import { i18n } from "@/lib/i18n";
 import Link from "next/link";
 

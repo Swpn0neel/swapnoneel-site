@@ -1,5 +1,5 @@
 import { navItems } from "@/lib/config";
-import { getAllBlogPosts } from "@/lib/hashnode";
+import { getAllBlogPosts } from "@/lib/md";
 import Link from "next/link";
 
 async function getRandomPost() {
