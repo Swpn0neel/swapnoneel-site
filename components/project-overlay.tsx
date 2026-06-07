@@ -1,8 +1,8 @@
 "use client";
 
 import { i18n } from "@/lib/i18n";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { OptimizedImage } from "./optimized-image";
 
 interface ProjectMeta {
   slug: string;
@@ -55,7 +55,6 @@ export default function ProjectOverlay({
 
   useEffect(() => {
     if (project) {
-      // Tiny delay so the mount animation can play
       requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           setIsVisible(true);
@@ -122,9 +121,27 @@ export default function ProjectOverlay({
       <div
         className={`project-overlay-panel ${isVisible ? "project-overlay-panel--visible" : ""}`}
       >
-        {/* Header bar */}
-        <div className="project-overlay-header">
-          <span className="project-overlay-title">{project?.meta.title}</span>
+        {/* Hero image — full bleed, no border, no padding */}
+        <div className="project-overlay-hero">
+          {project?.meta.cover ? (
+            <Image
+              src={project.meta.cover}
+              alt={project?.meta.title ?? ""}
+              fill
+              className="project-overlay-hero-img"
+              sizes="(max-width: 640px) 100vw, 860px"
+              priority
+            />
+          ) : (
+            <div className="project-overlay-hero-placeholder">
+              <span>{project?.meta.title}</span>
+            </div>
+          )}
+
+          {/* Gradient fade at bottom of image into content area */}
+          <div className="project-overlay-hero-fade" />
+
+          {/* Floating close button on top of image */}
           <button
             onClick={handleClose}
             className="project-overlay-close"
@@ -145,33 +162,63 @@ export default function ProjectOverlay({
               <path d="m6 6 12 12" />
             </svg>
           </button>
-        </div>
 
-        {/* Body */}
-        <div className="project-overlay-body">
-          {/* Image side */}
-          <div className="project-overlay-image-wrapper">
-            {project?.meta.cover ? (
-              <OptimizedImage
-                src={project.meta.cover}
-                alt={project.meta.title}
-                width={480}
-                height={270}
-                fit="contain"
-              />
-            ) : (
-              <div className="project-overlay-image-placeholder">
-                <span>{project?.meta.title}</span>
-              </div>
+          {/* Title floated on top of hero gradient */}
+          <div className="project-overlay-hero-title-bar">
+            <h2 className="project-overlay-hero-title">{project?.meta.title}</h2>
+            {projectLink && (
+              <a 
+                href={projectLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="project-overlay-glass-link"
+                aria-label={i18n.common.learnMore}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M7 7h10v10" />
+                  <path d="M7 17 17 7" />
+                </svg>
+              </a>
             )}
           </div>
+        </div>
 
-          {/* Details side */}
-          <div className="project-overlay-details">
-            {project?.meta.description && (
-              <p className="project-overlay-description">
-                {project.meta.description}
-              </p>
+        {/* Scrollable info below the hero */}
+        <div className="project-overlay-info">
+          {project?.meta.description && (
+            <p className="project-overlay-description">
+              {project.meta.description}
+            </p>
+          )}
+
+          <div className="project-overlay-info-grid">
+            {features.length > 0 && (
+              <div className="project-overlay-section">
+                <h3 className="project-overlay-section-title">
+                  {i18n.overlay.features}
+                </h3>
+                <ul className="project-overlay-features">
+                  {features.map((feat, i) => {
+                    const clean = feat.replace(/\*\*/g, "");
+                    return (
+                      <li key={i} className="project-overlay-feature-item">
+                        <span className="project-overlay-feature-bullet">›</span>
+                        {clean}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             )}
 
             {techStack.length > 0 && (
@@ -181,7 +228,6 @@ export default function ProjectOverlay({
                 </h3>
                 <div className="project-overlay-tags">
                   {techStack.map((tech, i) => {
-                    // Extract bold text or use part before dash
                     const boldMatch = tech.match(/\*\*(.+?)\*\*/);
                     const label = boldMatch
                       ? boldMatch[1]
@@ -195,59 +241,10 @@ export default function ProjectOverlay({
                 </div>
               </div>
             )}
-
-            {features.length > 0 && (
-              <div className="project-overlay-section">
-                <h3 className="project-overlay-section-title">
-                  {i18n.overlay.features}
-                </h3>
-                <ul className="project-overlay-features">
-                  {features.map((feat, i) => {
-                    // Strip markdown bold markers
-                    const clean = feat.replace(/\*\*/g, "");
-                    return (
-                      <li key={i} className="project-overlay-feature-item">
-                        <span className="project-overlay-feature-bullet">
-                          ›
-                        </span>
-                        {clean}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            )}
           </div>
         </div>
 
-        {/* Footer with link button */}
-        {projectLink && (
-          <div className="project-overlay-footer">
-            <a
-              href={projectLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-overlay-link-btn"
-            >
-              <span>{i18n.common.learnMore}</span>
-              {/* Tilted external-link arrow — signals redirect to another site */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="13"
-                height="13"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M7 7h10v10" />
-                <path d="M7 17 17 7" />
-              </svg>
-            </a>
-          </div>
-        )}
+
       </div>
     </div>
   );

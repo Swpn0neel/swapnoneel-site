@@ -16,7 +16,7 @@ An award-winning design concept developed for the Smart India Hackathon 2023, ai
 
 ### Features
 
-- **256+ Language Support** — a massive scaling concept designed to make global knowledge truly accessible
-- **Lightning-Fast Translation** — UI workflow optimized for translating educational resources in seconds using deep learning
-- **Affordability First** — designed with a focus on student accessibility, featuring low-cost tiers for individual users
-- **Knowledge Explorer** — an intuitive "Explore" functionality to discover translated resources from language A to language B
+- **256+ language support**, a massive scaling concept designed to make global knowledge truly accessible
+- **Lightning-fast translation** where the UI workflow is optimized for translating educational resources in seconds using deep learning
+- Designed with a focus on student accessibility, featuring **low-cost tiers** for individual users
+- An intuitive **"Explore" functionality** to discover translated resources from language A to language B

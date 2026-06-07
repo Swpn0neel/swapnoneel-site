@@ -78,7 +78,7 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                     alt={item.meta.title}
                     width={480}
                     height={270}
-                    className="h-44"
+                    className="h-44 transition duration-500 group-hover:scale-110"
                     priority={i === 0}
                   />
                 ) : (

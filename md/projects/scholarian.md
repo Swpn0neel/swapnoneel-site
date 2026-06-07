@@ -12,18 +12,20 @@ A high-end, editorial research platform that replaces manual literature reviews 
 
 ### Tech Stack
 
-- **Next.js 15 & TypeScript** — for a premium, type-safe analytical lens workspace
+- **Next.js** — for a premium, type-safe analytical lens workspace
+- **TypeScript** — for a premium, type-safe analytical lens workspace
 - **Google Gemini AI** — powering query enrichment and automated synthesis
 - **Supabase** — for database persistence and secure authentication
 - **Zustand** — for global state management and optimistic UI updates
-- **Tailwind CSS 4.0** — for a custom-curated, responsive design system
-- **Base UI & Radix** — for high-quality, accessible UI components
+- **Tailwind CSS** — for a custom-curated, responsive design system
+- **Base UI** — for high-quality, accessible UI components
+- **Radix** — for high-quality, accessible UI components
 
 ### Features
 
-- **Persistent Research History** — every search run and report is persisted via Supabase
-- **Stateful Research Pipeline** — real-time tracking from query enrichment to report generation
-- **Optimistic UI Updates** — instantaneous sidebar navigation and chat management
-- **Smart Refinement** — built-in intent analysis for narrowing down research topics
-- **Analytical Lens Workspace** — premium responsive dashboard optimized for all devices
-- **PDF Export Engine** — generate high-fidelity PDF versions of research reports
+- **Persistent research history** for every search run and report is persisted via Supabase
+- **Stateful research pipeline** for real-time tracking from query enrichment to report generation
+- **Smart mode** that prioritizes the finding of the absolute best papers through repeated searches
+- **Smart refinement** is built-in for intent analysis to narrow down research topics
+- **Analytical lens workspace** for a premium responsive dashboard optimized for all devices
+- **PDF export engine** that generates high-fidelity PDF versions of research reports

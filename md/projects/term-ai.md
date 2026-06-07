@@ -12,16 +12,20 @@ A powerful, browser-based cloud terminal environment that combines traditional c
 
 ### Tech Stack
 
-- **Next.js 14 & Socket.io** — for the core application and real-time terminal synchronization
-- **xterm.js & node-pty** — for a full-featured, interactive browser-based terminal
+- **Next.js 14** — for the core application and real-time terminal synchronization
+- **Socket.io** — for the core application and real-time terminal synchronization
+- **xterm.js** — for a full-featured, interactive browser-based terminal
+- **node-pty** — for a full-featured, interactive browser-based terminal
 - **Integrated AI** — specialized assistant for command execution and task automation
-- **Docker & Google Cloud Run** — for scalable infrastructure and containerized environments
-- **MongoDB & Prisma** — for robust data persistence and user session management
+- **Docker** — for scalable infrastructure and containerized environments
+- **Google Cloud Run** — for scalable infrastructure and containerized environments
+- **MongoDB** — for robust data persistence and user session management
+- **Prisma** — for robust data persistence and user session management
 
 ### Features
 
-- **Interactive Terminal** — full-featured CLI access with Neovim integration directly in the browser
-- **AI-Powered Assistance** — context-aware help for debugging, command suggestions, and automation
-- **GitHub Synchronization** — seamless project management with built-in cloning and saving capabilities
-- **Multi-Device Support** — mobile-friendly design allowing for development on tablets and smartphones
-- **Real-time Terminal Proxy** — low-latency terminal responsiveness powered by Socket.io and node-pty
+- **Interactive terminal** with a full-featured CLI access with Neovim integration directly in the browser
+- **AI-Powered assistance** with context-aware help for debugging, command suggestions, and automation
+- **GitHub synchronization** for seamless project management with built-in cloning and saving capabilities
+- **Multi-device support** with mobile-friendly design allowing for development on tablets and smartphones
+- **Real-time terminal proxy** for low-latency terminal responsiveness powered by socket.io and node-pty

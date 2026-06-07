@@ -44,7 +44,7 @@ export function OptimizedImage({
           alt={alt}
           width={width}
           height={height}
-          className={`h-full w-full object-${fit} transition-opacity duration-300 ${
+          className={`h-full w-full object-${fit} transition duration-300 ${
             isLoaded ? "opacity-100" : "opacity-0"
           } ${className}`}
           onLoad={() => setIsLoaded(true)}

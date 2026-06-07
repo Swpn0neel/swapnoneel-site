@@ -21,15 +21,17 @@ export default function ProjectCard({ item }: ProjectCardProps) {
   const CardContent = (
     <div className="group border-border hover:border-foreground/30 block h-full overflow-hidden rounded-lg border transition-colors">
       {item.meta.cover ? (
-        <Image
-          src={item.meta.cover}
-          alt={item.meta.title}
-          width={400}
-          height={225}
-          className="h-36 w-full object-cover"
-          placeholder="blur"
-          blurDataURL={blurPlaceholder}
-        />
+        <div className="h-36 w-full overflow-hidden relative">
+          <Image
+            src={item.meta.cover}
+            alt={item.meta.title}
+            width={400}
+            height={225}
+            className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+            placeholder="blur"
+            blurDataURL={blurPlaceholder}
+          />
+        </div>
       ) : (
         <div className="bg-secondary text-muted-foreground flex h-36 w-full items-center justify-center px-4 text-center font-mono text-xs">
           {item.meta.title}

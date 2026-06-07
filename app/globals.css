@@ -269,12 +269,9 @@ mark {
 .project-overlay-panel {
   position: relative;
   width: 100%;
-  max-width: 920px;
+  max-width: 760px;
   max-height: 88vh;
-  /* Frosted-glass semi-transparency to match site's clean aesthetic */
-  background: hsl(var(--background) / 0.82);
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  background: hsl(var(--background));
   border: 1px solid hsl(var(--border));
   border-radius: 16px;
   overflow: hidden;
@@ -282,8 +279,8 @@ mark {
   flex-direction: column;
   box-shadow:
     0 0 0 1px hsl(var(--border) / 0.5),
-    0 32px 72px -12px rgba(0, 0, 0, 0.35),
-    0 8px 28px -8px rgba(0, 0, 0, 0.2);
+    0 32px 72px -12px rgba(0, 0, 0, 0.45),
+    0 8px 28px -8px rgba(0, 0, 0, 0.25);
   /* Enter animation */
   opacity: 0;
   transform: scale(0.93) translateY(20px);
@@ -297,77 +294,90 @@ mark {
   transform: scale(1) translateY(0);
 }
 
-.project-overlay-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.1rem;
-  border-bottom: 1px solid hsl(var(--border));
-  background: transparent;
-  flex-shrink: 0;
-}
-
-.project-overlay-title {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.03em;
-  color: hsl(var(--foreground));
-}
-
+/* Close button floats over the top-right corner of the hero image */
 .project-overlay-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   border: none;
-  background: transparent;
-  color: hsl(var(--muted-foreground));
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #ffffff;
   cursor: pointer;
   transition:
     background 0.18s,
-    color 0.18s;
+    transform 0.18s;
 }
 
 .project-overlay-close:hover {
-  background: hsl(var(--secondary));
-  color: hsl(var(--foreground));
+  background: rgba(0, 0, 0, 0.72);
+  transform: scale(1.1);
 }
 
-.project-overlay-body {
-  display: flex;
-  flex-direction: row;
-  flex: 1;
-  min-height: 0;
+/* ─── Overlay: stacked vertical hero layout ─── */
+
+/* Hero image block — full bleed, no padding, no border */
+.project-overlay-hero {
+  position: relative;
+  width: 100%;
+  /* Match exact 16:9 thumbnail ratio — no cropping */
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: hsl(var(--secondary) / 0.6);
 }
 
-/* Image side — natural aspect ratio, no cropping */
-.project-overlay-image-wrapper {
-  flex: 0 0 52%;
-  max-width: 52%;
-  background: hsl(var(--secondary) / 0.5);
+.project-overlay-hero-img {
+  object-fit: contain;
+  object-position: center center;
+  transition: transform 0.6s ease;
+}
+
+/* Bottom gradient fade so title is readable over the image */
+.project-overlay-hero-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  pointer-events: none;
+}
+
+/* Title sitting on the gradient at the bottom of the hero */
+.project-overlay-hero-title-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem 1.25rem 0.85rem;
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  border-right: 1px solid hsl(var(--border));
-  /* Min height so the panel always has substance */
-  min-height: 280px;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
-.project-overlay-image {
-  width: 100%;
-  height: auto;
-  max-height: 420px;
-  object-fit: contain;
-  border-radius: 8px;
-  display: block;
+.project-overlay-hero-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+  margin: 0;
 }
 
-.project-overlay-image-placeholder {
+.project-overlay-hero-placeholder {
   width: 100%;
-  height: 260px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -377,15 +387,27 @@ mark {
   text-align: center;
 }
 
-/* Details side */
-.project-overlay-details {
-  flex: 1;
-  padding: 1.4rem 1.5rem;
+/* Scrollable info section below hero */
+.project-overlay-info {
+  flex: 1 1 0%;
+  min-height: 0;
   overflow-y: auto;
+  padding: 1.25rem 1.4rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 1.1rem;
+  gap: 1rem;
 }
+
+/* Layout for features and tech stack */
+.project-overlay-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+
+
+
 
 .project-overlay-description {
   font-size: 0.78rem;
@@ -458,70 +480,47 @@ mark {
   font-size: 0.8rem;
 }
 
-.project-overlay-footer {
+
+
+.project-overlay-glass-link {
   display: flex;
+  align-items: center;
   justify-content: center;
-  padding: 0.8rem 1rem;
-  border-top: 1px solid hsl(var(--border));
-  background: transparent;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: hsl(var(--background) / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  transition: all 0.3s ease;
   flex-shrink: 0;
 }
 
-.project-overlay-link-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.45rem;
-  padding: 0.45rem 1.4rem;
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  color: hsl(var(--background));
-  background: hsl(var(--foreground));
-  border: none;
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  transition:
-    opacity 0.2s,
-    transform 0.15s;
+.project-overlay-glass-link:hover {
+  background: hsl(var(--background) / 0.95);
+  border-color: hsl(var(--foreground) / 0.2);
+  color: hsl(var(--foreground));
 }
 
-.project-overlay-link-btn:hover {
-  opacity: 0.82;
-  transform: translateY(-1px);
+.project-overlay-glass-link:active {
+  background: hsl(var(--background) / 1);
 }
 
-.project-overlay-link-btn:active {
-  transform: translateY(0);
-  opacity: 0.9;
-}
-
-/* Responsive: stack on narrow screens */
+/* Responsive */
 @media (max-width: 640px) {
   .project-overlay-backdrop {
-    padding: 1rem;
-    align-items: center;
-  }
-  .project-overlay-body {
-    flex-direction: column;
-    overflow-y: auto;
-  }
-  .project-overlay-image-wrapper {
-    flex: 0 0 auto;
-    max-width: 100%;
-    min-height: unset;
     padding: 0.75rem;
-    border-right: none;
-    border-bottom: 1px solid hsl(var(--border));
-  }
-  .project-overlay-image {
-    max-height: 200px;
   }
   .project-overlay-panel {
-    max-height: 88vh;
-    border-radius: 16px;
+    max-height: 85vh;
     max-width: 100%;
   }
+  .project-overlay-hero {
+    aspect-ratio: 16 / 9;
+  }
+
 }
 
 /* ─── 3D Flip Card ─── */

@@ -16,7 +16,6 @@ A high-fidelity design conceptualized for the Smart India Hackathon 2023, focuse
 
 ### Features
 
-- **Lip-Sync Conceptualization** — crafted an intuitive interface for a deep-learning-based lip-syncing engine
-- **Inclusive Language Strategy** — designed to accommodate multi-script layouts for 32+ Indian languages
-- **Growth-Driven UI** — incorporated high-impact data visualization (10x watch time, 300% revenue) to bridge user trust
-- **User-Centric FAQ & Onboarding** — structured to address common concerns about AI naturalness and cloning capabilities
+- **Lip-sync conceptualization** with an intuitive interface for a deep-learning-based lip-syncing engine
+- **Inclusive language strategy** designed to accommodate multi-script layouts for 32+ Indian languages
+- **Growth-driven UI** that incorporated high-impact data visualization (10x watch time, 300% revenue) to bridge user trust

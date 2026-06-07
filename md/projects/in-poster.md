@@ -15,13 +15,12 @@ A high-performance content generation tool that transforms simple keywords into 
 - **Next.js 14** — modern framework with App Router
 - **Google Gemini AI** — powered by the 2.5 Flash model for fast generation
 - **Clerk** — robust authentication and user management
-- **Prisma & PostgreSQL** — reliable data persistence and ORM
+- **Prisma** — reliable data persistence and ORM
+- **PostgreSQL** — reliable data persistence and ORM
 - **Recoil** — efficient global state management
 
 ### Features
 
-- **AI Post Generation** — instantly convert topics into high-quality posts
-- **Smart Hashtags** — toggleable hashtag generation to boost reach
-- **One-Click Copy** — seamless flow from generation to posting
-- **Saved Favorites** — store and manage generated content for future use
-- **Tiered Plans** — subscription-ready architecture with database-managed states
+- **AI Post generation** that instantly convert topics into high-quality posts
+- Toggleable **hashtag generation** to boost reach
+- **One-click copy** for a seamless flow from generation to posting

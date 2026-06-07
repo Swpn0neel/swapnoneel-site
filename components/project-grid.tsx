@@ -39,7 +39,7 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
                     alt={item.meta.title}
                     width={400}
                     height={225}
-                    className="aspect-video"
+                    className="aspect-video transition duration-500 group-hover:scale-110"
                   />
                 ) : (
                   <div className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
