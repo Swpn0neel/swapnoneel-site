@@ -185,7 +185,7 @@ export default async function BlogPostPage({
       <TableOfContents headings={headings} />
 
       {/* Main Content */}
-      <div className="prose prose-sm max-w-none [&>*:first-child]:mt-0">
+      <div className="prose prose-sm justify-text max-w-none [&>*:first-child]:mt-0">
         <MDXRemote
           source={cleanMarkdown}
           options={{

@@ -105,14 +105,14 @@ export default function Home() {
                   href={item.meta.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start gap-3"
+                  className="group flex items-center gap-3"
                 >
                   <WorkCard item={item} />
                 </a>
               ) : (
                 <Link
                   href={`/work/${item.meta.slug}`}
-                  className="group flex items-start gap-3"
+                  className="group flex items-center gap-3"
                 >
                   <WorkCard item={item} />
                 </Link>
@@ -189,7 +189,7 @@ function WorkCard({
           alt={item.meta.title}
           width={60}
           height={60}
-          className="mt-0.5 shrink-0 rounded-md object-cover"
+          className="shrink-0 rounded-md object-cover"
         />
       )}
       <div className="flex-1">

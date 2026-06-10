@@ -109,8 +109,8 @@ export default function ContactPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="name" className="mb-9 text-sm font-medium">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="name" className="block text-sm font-medium">
               {i18n.contactPage.labels.name}
             </label>
             <input
@@ -124,8 +124,8 @@ export default function ContactPage() {
             />
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="email" className="text-sm font-medium">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="email" className="block text-sm font-medium">
               {i18n.contactPage.labels.email}
             </label>
             <input
@@ -139,8 +139,8 @@ export default function ContactPage() {
             />
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="message" className="text-sm font-medium">
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="message" className="block text-sm font-medium">
               {i18n.contactPage.labels.message}
             </label>
             <textarea
@@ -169,16 +169,16 @@ export default function ContactPage() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-8 items-center justify-center rounded-md px-4 text-sm font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+          className="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-8 items-center justify-center gap-2 rounded-md px-4 text-sm leading-none font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           {isSubmitting ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
               {i18n.contactPage.sendingMessage}
             </>
           ) : (
             <>
-              <Send className="mr-2 h-4 w-4" />
+              <Send className="h-4 w-4 shrink-0" />
               {i18n.contactPage.sendMessage}
             </>
           )}

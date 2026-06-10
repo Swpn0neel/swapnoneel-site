@@ -60,14 +60,14 @@ export default function WorkPage() {
                   href={item.meta.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-start gap-3 py-4"
+                  className="group flex items-center gap-3 py-4"
                 >
                   <ExperienceRow item={item} />
                 </a>
               ) : (
                 <Link
                   href={`/work/${item.meta.slug}`}
-                  className="group flex items-start gap-3 py-4"
+                  className="group flex items-center gap-3 py-4"
                 >
                   <ExperienceRow item={item} />
                 </Link>
@@ -130,10 +130,10 @@ function ExperienceRow({
           alt={item.meta.title}
           width={60}
           height={60}
-          className="mt-0.5 shrink-0 rounded-md object-cover"
+          className="shrink-0 rounded-md object-cover"
         />
       ) : (
-        <div className="bg-secondary mt-0.5 h-[60px] w-[60px] shrink-0 rounded-md" />
+        <div className="bg-secondary h-[60px] w-[60px] shrink-0 rounded-md" />
       )}
       <div className="flex-1">
         <p className="text-sm font-medium group-hover:underline">
@@ -141,7 +141,7 @@ function ExperienceRow({
         </p>
         <p className="text-muted-foreground mt-0.5 text-xs">{item.meta.date}</p>
       </div>
-      <span className="text-muted-foreground group-hover:text-foreground flex items-center gap-1 pt-1 text-xs transition-all">
+      <span className="text-muted-foreground group-hover:text-foreground hidden items-center gap-1 text-xs transition-all sm:flex">
         <span className="group-hover:underline">{i18n.common.readMore}</span>
         <span className="text-[10px] no-underline">→</span>
       </span>
