@@ -51,9 +51,8 @@ export default function Home() {
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <FadeIn key={paragraph} delay={0.15 + index * 0.05}>
               <p
-                className={`text-muted-foreground text-sm leading-relaxed lowercase ${
-                  index > 0 ? "mt-4" : ""
-                }`}
+                className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
+                  }`}
               >
                 {paragraph}
               </p>
@@ -188,7 +187,7 @@ function WorkCard({
           alt={item.meta.title}
           width={60}
           height={60}
-          className="mt-0.5 flex-shrink-0 rounded-md object-cover"
+          className="mt-0.5 shrink-0 rounded-md object-cover"
         />
       )}
       <div className="flex-1">

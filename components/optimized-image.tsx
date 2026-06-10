@@ -9,6 +9,7 @@ interface OptimizedImageProps {
   width: number;
   height: number;
   className?: string;
+  wrapperClassName?: string;
   priority?: boolean;
   fit?: "cover" | "contain" | "fill";
   blurDataURL?: string;
@@ -20,6 +21,7 @@ export function OptimizedImage({
   width,
   height,
   className = "",
+  wrapperClassName = "",
   priority = false,
   fit = "cover",
   blurDataURL,
@@ -28,7 +30,7 @@ export function OptimizedImage({
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className="bg-secondary/30 relative overflow-hidden">
+    <div className={`bg-secondary/30 relative overflow-hidden ${wrapperClassName}`}>
       <div
         className={`bg-secondary/50 absolute inset-0 transition-opacity duration-300 ${
           isLoaded || hasError ? "pointer-events-none opacity-0" : "opacity-100"

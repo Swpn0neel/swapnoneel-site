@@ -1,5 +1,4 @@
-import { blurPlaceholder } from "@/lib/blur";
-import Image from "next/image";
+import { OptimizedImage } from "@/components/optimized-image";
 import Link from "next/link";
 
 interface ProjectCardProps {
@@ -22,14 +21,12 @@ export default function ProjectCard({ item }: ProjectCardProps) {
     <div className="group border-border hover:border-foreground/30 block h-full overflow-hidden rounded-lg border transition-colors">
       {item.meta.cover ? (
         <div className="h-36 w-full overflow-hidden relative">
-          <Image
+          <OptimizedImage
             src={item.meta.cover}
             alt={item.meta.title}
             width={400}
             height={225}
-            className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-            placeholder="blur"
-            blurDataURL={blurPlaceholder}
+            className="transition duration-500 group-hover:scale-110"
           />
         </div>
       ) : (

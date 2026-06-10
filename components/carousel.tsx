@@ -1,9 +1,8 @@
 "use client";
 
-import { blurPlaceholder } from "@/lib/blur";
+import { OptimizedImage } from "@/components/optimized-image";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
 import { useRef } from "react";
 
 type CarouselImage = {
@@ -40,17 +39,13 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
             aria-label={`Slide ${(i % images.length) + 1} of ${images.length}: ${img.alt}`}
             tabIndex={-1}
           >
-            <Image
+            <OptimizedImage
               src={img.src}
               alt={img.alt}
               width={280}
               height={180}
-              className="h-full w-full object-cover"
-              placeholder="blur"
-              blurDataURL={blurPlaceholder}
-              priority={i < 4} // Preload the initial visible images
-              sizes="280px" // Provide exact size for better srcset generation
-              quality={85} // Balance between quality and performance
+              className="h-full w-full"
+              priority={i < 4}
             />
           </div>
         ))}
