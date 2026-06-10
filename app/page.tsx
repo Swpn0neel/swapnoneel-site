@@ -6,7 +6,6 @@ import { ViewMore } from "@/components/view-more";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
-import blurMap from "@/lib/blur-map.json";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,6 +37,7 @@ export default function Home() {
                   width={140}
                   height={140}
                   className="pfp-image-flip"
+                  priority
                 />
               </div>
             </div>
@@ -52,8 +52,9 @@ export default function Home() {
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <FadeIn key={paragraph} delay={0.15 + index * 0.05}>
               <p
-                className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
-                  }`}
+                className={`text-muted-foreground text-sm leading-relaxed lowercase ${
+                  index > 0 ? "mt-4" : ""
+                }`}
               >
                 {paragraph}
               </p>

@@ -1,4 +1,4 @@
-export function safeJsonLd(data: any): string {
+export function safeJsonLd(data: unknown): string {
   const json = JSON.stringify(data);
   if (!json) return "";
 

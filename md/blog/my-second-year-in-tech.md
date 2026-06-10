@@ -116,20 +116,13 @@ Other than this, I worked on delivering a couple of articles for a client and wo
 
 I have tried to mention most of the important stuff here. But I want to mention/clarify some things that weren't mentioned in the timeline or haven’t got reflected enough:
 
-* Solving DSA problems was a integral part of my journey, and almost everyday I practiced problems on Leetcode, starting from November, last year. And I’ve been highly consistent in doing that!
-    
-    ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1731097936631/9892cf9a-b21c-4b9d-9787-749937c80916.png align="center")
-    
-* I’ve mentioned about only the important or substantial freelancing works that have influenced my journey and have taken quite a few days or weeks to finish. Other than the mentioned ones, I’ve done a lot of other works in the freelancing space, which aren’t that worthwhile to mention.
-    
-* In few places, I’ve mentioned about what I’ve done while working within Keploy. But please take note that these were just a few things that I really loved working on, or was worthy of mentioning here. Being a DevRel is a lot more than this!
-    
-* I invested majority of my freelancing money in stocks or spent them in buying assets. And also, I gifted myself a Nothing Phone (2a) this year, and also built a completely new work-setup for me in our house! Other than these, I paid the semester fees this year, all by myself; and also have taken care of my closed ones.
-    
-* In my last year’s blog, I had mentioned that I was mentoring my juniors and guiding them, which I did consistently throughout this year too, but I didn’t felt the need to mention it here and elaborating on that front. If you are eager to learn more about it, you can go through our [LinkedIn page](https://www.linkedin.com/company/the-async-devs/).
-    
-* I was active on Twitter(X) throughout this time, and was able to grow my follower count up to 1800 people. You can checkout my profile from [here](https://x.com/swapnoneel123)! And tried to be as active on LinkedIn as possible, you can checkout my LinkedIn profile from [here](https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/).
-    
+- Solving DSA problems was a integral part of my journey, and almost everyday I practiced problems on Leetcode, starting from November, last year. And I’ve been highly consistent in doing that!
+  ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1731097936631/9892cf9a-b21c-4b9d-9787-749937c80916.png align="center")
+- I’ve mentioned about only the important or substantial freelancing works that have influenced my journey and have taken quite a few days or weeks to finish. Other than the mentioned ones, I’ve done a lot of other works in the freelancing space, which aren’t that worthwhile to mention.
+- In few places, I’ve mentioned about what I’ve done while working within Keploy. But please take note that these were just a few things that I really loved working on, or was worthy of mentioning here. Being a DevRel is a lot more than this!
+- I invested majority of my freelancing money in stocks or spent them in buying assets. And also, I gifted myself a Nothing Phone (2a) this year, and also built a completely new work-setup for me in our house! Other than these, I paid the semester fees this year, all by myself; and also have taken care of my closed ones.
+- In my last year’s blog, I had mentioned that I was mentoring my juniors and guiding them, which I did consistently throughout this year too, but I didn’t felt the need to mention it here and elaborating on that front. If you are eager to learn more about it, you can go through our [LinkedIn page](https://www.linkedin.com/company/the-async-devs/).
+- I was active on Twitter(X) throughout this time, and was able to grow my follower count up to 1800 people. You can checkout my profile from [here](https://x.com/swapnoneel123)! And tried to be as active on LinkedIn as possible, you can checkout my LinkedIn profile from [here](https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/).
 
 ## Was I able to meet my expectations?
 

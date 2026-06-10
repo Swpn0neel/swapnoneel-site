@@ -1,9 +1,9 @@
 "use client";
 
+import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import { SmoothImage } from "@/components/smooth-image";
 import { useRef } from "react";
 
 type CarouselImage = {

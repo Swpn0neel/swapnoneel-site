@@ -1,11 +1,11 @@
 "use client";
 
+import { SmoothImage } from "@/components/smooth-image";
+import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useRef, useState } from "react";
-import blurMap from "@/lib/blur-map.json";
-import { SmoothImage } from "@/components/smooth-image";
 import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
@@ -74,7 +74,7 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
             const cardContent = (
               <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
-                  <div className="h-[200px] w-full overflow-hidden relative">
+                  <div className="relative h-[200px] w-full overflow-hidden">
                     <SmoothImage
                       src={item.meta.cover}
                       alt={item.meta.title}
@@ -82,7 +82,9 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                       height={270}
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                       priority={i === 0}
-                      blurDataURL={(blurMap as Record<string, string>)[item.meta.cover]}
+                      blurDataURL={
+                        (blurMap as Record<string, string>)[item.meta.cover]
+                      }
                     />
                   </div>
                 ) : (

@@ -19,9 +19,8 @@ So, let's dive in and discover the key components of designing machine learning 
 To design a machine learning workflow, we have to perform and maintain some specific steps which are crucial. They are stated below:
 
 1. ### Data Preparation
-    
-    It is a crucial step in designing machine learning workflows. It involves ensuring that the data is in a suitable format and quality for the subsequent stages of the workflow.
-    
+
+   It is a crucial step in designing machine learning workflows. It involves ensuring that the data is in a suitable format and quality for the subsequent stages of the workflow.
 
 ```python
 # Import necessary libraries
@@ -46,9 +45,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 ```
 
 1. ### Feature Engineering
-    
-    It is the next step that comes after Data Preparation. It involves transforming raw data into a format that can effectively represent the underlying patterns and relationships in them.
-    
+
+   It is the next step that comes after Data Preparation. It involves transforming raw data into a format that can effectively represent the underlying patterns and relationships in them.
 
 ```python
 # Extract relevant features from the data
@@ -62,9 +60,8 @@ X_test_pca = pca.transform(X_test)
 ```
 
 1. ### Model Selection
-    
-    The model selection section involves choosing an appropriate algorithm or model architecture that best fits the problem at hand. It includes tasks such as determining the type of problem selecting the appropriate model class (e.g., decision trees, neural networks, support vector machines), and tuning hyperparameters to optimize model performance.
-    
+
+   The model selection section involves choosing an appropriate algorithm or model architecture that best fits the problem at hand. It includes tasks such as determining the type of problem selecting the appropriate model class (e.g., decision trees, neural networks, support vector machines), and tuning hyperparameters to optimize model performance.
 
 ```python
 # Import necessary libraries
@@ -93,9 +90,8 @@ best_model = model_rf if np.mean(scores_rf) > np.mean(scores_lr) else model_lr
 ```
 
 1. ### Model Training and Evaluation
-    
-    The model training process involves feeding the input data and corresponding labels into the model, adjusting the model's internal parameters iteratively using optimization techniques (e.g., gradient descent), and updating the parameters to minimize the specified loss function. Evaluation metrics such as accuracy, precision, recall, or mean squared error are calculated to quantify the model's predictive performance.
-    
+
+   The model training process involves feeding the input data and corresponding labels into the model, adjusting the model's internal parameters iteratively using optimization techniques (e.g., gradient descent), and updating the parameters to minimize the specified loss function. Evaluation metrics such as accuracy, precision, recall, or mean squared error are calculated to quantify the model's predictive performance.
 
 ```python
 # Train the selected model on the training set
@@ -111,9 +107,8 @@ recall = recall_score(y_test, y_pred)
 ```
 
 1. ### Model Deployment
-    
-    The Model Deployment section involves making the trained machine learning model available for use in real-world applications. This process includes preparing the model for deployment, such as converting it into a deployable format or packaging it into a containerized environment.
-    
+
+   The Model Deployment section involves making the trained machine learning model available for use in real-world applications. This process includes preparing the model for deployment, such as converting it into a deployable format or packaging it into a containerized environment.
 
 ```python
 # Save the trained model to a file
@@ -166,17 +161,11 @@ model.save("fashion_mnist_model.h5")
 Now, let’s see how the workflow works:
 
 1. We import the necessary libraries, including TensorFlow and Keras, which provide high-level APIs for building and training deep learning models.
-    
-2. The Fashion MNIST dataset is loaded using the [keras.datasets.fashion](http://keras.datasets.fashion)\_mnist module and is split into training and testing sets, and the images and labels are stored in variables X\_train, y\_train, X\_test, and y\_test, respectively.
-    
+2. The Fashion MNIST dataset is loaded using the [keras.datasets.fashion](http://keras.datasets.fashion)\_mnist module and is split into training and testing sets, and the images and labels are stored in variables X_train, y_train, X_test, and y_test, respectively.
 3. Pre-processing the data: The pixel values of the images are scaled to a range of 0 to 1 by dividing them by 255. This normalization step ensures that the input data is in a suitable range for the model.
-    
 4. Model Selection: We create a sequential model using keras.models.Sequential(). In this example, we use a simple architecture with a flattening layer, a dense layer with 128 units and ReLU activation, and a dense output layer with 10 units (corresponding to the number of classes in the dataset) and softmax activation.
-    
-5. Model Training: We compile the model using model.compile() with the Adam optimizer, sparse categorical cross-entropy loss function, and accuracy as the evaluation metric. The model is trained using [model.fit](http://model.fit)() with the training data (X\_train and y\_train) for a specified number of epochs.
-    
+5. Model Training: We compile the model using model.compile() with the Adam optimizer, sparse categorical cross-entropy loss function, and accuracy as the evaluation metric. The model is trained using [model.fit](http://model.fit)() with the training data (X_train and y_train) for a specified number of epochs.
 6. Model Evaluation: We evaluate the trained model on the test set using model.evaluate(). The test loss and accuracy are calculated and printed.
-    
 
 Saving the trained model: We save the trained model to a file using [model.save](http://model.save)().
 
@@ -231,23 +220,14 @@ joblib.dump(vectorizer, 'vectorizer.pkl')
 Now, let’s see how the workflow works:
 
 1. We start by importing the necessary libraries, including Pandas for data manipulation, scikit-learn for machine learning functionality, and joblib for model serialization.
-    
 2. The IMDb movie review dataset is loaded using [pd.read](http://pd.read)\_csv() into a Pandas DataFrame called df. The dataset contains two columns: "review" (textual movie reviews) and "sentiment" (positive or negative sentiment).
-    
 3. Data Preparation: We assign the "review" column to X and the "sentiment" column to Y, which prepares the data for training and testing.
-    
-4. Splitting the data: The train\_test\_split() function is used to split the data into training and testing sets. We assign 80% of the data to training and 20% to testing. The random\_state parameter ensures reproducibility of the split.
-    
-5. Feature Engineering: We use the TfidfVectorizer from scikit-learn to convert the textual reviews into numerical features. The fit\_transform() function is applied to the training set (X\_train), and the transform() function is applied to the testing set (X\_test), as you can clearly see in the code.
-    
+4. Splitting the data: The train_test_split() function is used to split the data into training and testing sets. We assign 80% of the data to training and 20% to testing. The random_state parameter ensures reproducibility of the split.
+5. Feature Engineering: We use the TfidfVectorizer from scikit-learn to convert the textual reviews into numerical features. The fit_transform() function is applied to the training set (X_train), and the transform() function is applied to the testing set (X_test), as you can clearly see in the code.
 6. Model Selection: We choose a logistic regression model for sentiment analysis. In this example, we use scikit-learn's LogisticRegression() class.
-    
-7. Model Training: We fit the logistic regression model to the training data using [model.fit](http://model.fit)() with the training vectors (X\_train\_vectors) and corresponding labels (y\_train).
-    
-8. Model Evaluation: We make predictions on the testing set using model.predict() with the testing vectors (X\_test\_vectors). The accuracy is calculated by comparing the predicted labels (y\_pred) with the actual labels (y\_test).
-    
+7. Model Training: We fit the logistic regression model to the training data using [model.fit](http://model.fit)() with the training vectors (X_train_vectors) and corresponding labels (y_train).
+8. Model Evaluation: We make predictions on the testing set using model.predict() with the testing vectors (X_test_vectors). The accuracy is calculated by comparing the predicted labels (y_pred) with the actual labels (y_test).
 9. Model Deployment: And finally, we save the trained model and vectorizer using joblib.dump() for future use and deployment.
-    
 
 When the code is run through the terminal, the model is trained, evaluated and the accuracy is printed, as shown below:
 

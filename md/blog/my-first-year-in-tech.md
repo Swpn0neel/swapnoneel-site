@@ -43,11 +43,11 @@ Continued learning JavaScript from both Code with Harry and Coursera. And, I sta
 Now with the skills I have learned so far, I was thinking of putting them to the test by attending a Hackathon. So, I grabbed one of my classmates and a 2nd-year guy from another college. Our small team had a diverse skill set, and we decided to participate in "**Treasure Hacks 3.0**". Our project was "Lab for All" (Website link: [https://labforall.vercel.app](https://labforall.vercel.app), GitHub link: [https://github.com/Swpn0neel/treasure-hacks-labforall](https://github.com/Swpn0neel/treasure-hacks-labforall))
 
 > We planned to make a project on the Ed-Tech field and the idea was to create a platform where the users can get assistance, particularly in their lab assignments, from video lectures to notes, and viva questions to 3D simulations.
-> 
+>
 > While working on the project, I got to know about how you have to make the site design before starting to code, and that attracted me a lot and planted the seed inside me to start designing in Figma, which I planned to learn in the near future.
-> 
+>
 > Strangely enough, till now I haven't learned about Git and GitHub. But I had to grasp it now for the obvious reason of collaboration in my Hackathon project. And it was a significant bump in my Tech learning journey.
-> 
+>
 > Also, while doing the project I had to learn Firebase as it was needed for data storing and user authentication, and it was my part to complete that job.
 
 The best part is, we completed the project within the time limit and implemented all the planned features. And to our amazement, **we won the Hackathon being the second runner-up**.
@@ -61,6 +61,7 @@ Our first-semester final exam happened this month and was stretched over a perio
 This month, I also focused on my blogging and wrote around 8-9 articles. Also, I started working on my [personal portfolio website](http://swapnoneel.vercel.app) and completed it. It took just over two weeks to do that. Learned a bit of React and JavaScript while building my portfolio, and also worked on file handling and its modules in Python.
 
 [Check out the tweet/post](https://twitter.com/swapnoneel123/status/1630930494840864768)
+
 #### March, 2023
 
 After a lot of grinding web development for some months, I decided to switch the gear a bit and decided to start doing DSA. Now for doing that, I rarely used any guide or video tutorials, but relied on solving more and more Leetcode problems (you can check my [Leetcode profile, here](https://leetcode.com/Swapnoneel/)) based on my previous knowledge of arrays, strings and recursion. By doing so, I solved just over 30 problems and approached around 100 problems in that venture.
@@ -121,18 +122,12 @@ Started taking weekly mentorship sessions for my juniors, so that they could lea
 
 I have mentioned almost everything here. But I want to mention some things that weren't mentioned in the timeline.
 
-* Python and its vast library have always been with me throughout my learning journey and earned me the majority of my bucks through freelancing.
-    
-* I was able to purchase an ASUS TUF A15 laptop all by myself through freelancing ventures, and also manage a lot of my personal expenses besides making a little bit of savings for myself.
-    
-* Since January, I've been active on Twitter and made a family of over 500 folks.
-    
-* College academics were never my priority and I tried to ignore it as much as possible and gave the least possible amount of time to it.
-    
-* Although I started my journey with the help of video tutorials, as time passed I majorly relied on official documentation and blogs because of their simplicity and least time requirement.
-    
-* Other than the mentioned stuff, I had to learn quite a few other things like API management, handling ML models, and many more for project requirements. It's impossible for me to mention all of them in a single blog 😅.
-    
+- Python and its vast library have always been with me throughout my learning journey and earned me the majority of my bucks through freelancing.
+- I was able to purchase an ASUS TUF A15 laptop all by myself through freelancing ventures, and also manage a lot of my personal expenses besides making a little bit of savings for myself.
+- Since January, I've been active on Twitter and made a family of over 500 folks.
+- College academics were never my priority and I tried to ignore it as much as possible and gave the least possible amount of time to it.
+- Although I started my journey with the help of video tutorials, as time passed I majorly relied on official documentation and blogs because of their simplicity and least time requirement.
+- Other than the mentioned stuff, I had to learn quite a few other things like API management, handling ML models, and many more for project requirements. It's impossible for me to mention all of them in a single blog 😅.
 
 ## My plans for the Second year
 

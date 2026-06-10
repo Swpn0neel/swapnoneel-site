@@ -28,15 +28,10 @@ The derived class inherits features from the base class where new features can b
 ## Types of Inheritance
 
 1. Single Inheritance
-    
 2. Multiple Inheritance
-    
 3. Multilevel Inheritance
-    
 4. Hierarchical Inheritance
-    
 5. Hybrid Inheritance
-    
 
 ## Single Inheritance
 
@@ -64,7 +59,7 @@ class Animal:
     def __init__(self, name, species):
         self.name = name
         self.species = species
-        
+
     def make_sound(self):
         print("Sound made by the animal")
 ```
@@ -76,7 +71,7 @@ class Dog(Animal):
     def __init__(self, name, breed):
         Animal.__init__(self, name, species="Dog")
         self.breed = breed
-        
+
     def make_sound(self):
         print("Bark!")
 ```
@@ -109,21 +104,21 @@ class Animal:
     def __init__(self, name, species):
         self.name = name
         self.species = species
-        
+
     def make_sound(self):
         print("Sound made by the animal")
-        
+
 class Mammal:
     def __init__(self, name, fur_color):
         self.name = name
         self.fur_color = fur_color
-        
+
 class Dog(Animal, Mammal):
     def __init__(self, name, breed, fur_color):
         Animal.__init__(self, name, species="Dog")
         Mammal.__init__(self, name, fur_color)
         self.breed = breed
-        
+
     def make_sound(self):
         print("Bark!")
 ```
@@ -143,10 +138,10 @@ In Python, multilevel inheritance is achieved by using the class hierarchy. The 
 ```python
 class BaseClass:
     # Base class code
-    
+
 class DerivedClass1(BaseClass):
     # Derived class 1 code
-    
+
 class DerivedClass2(DerivedClass1):
     # Derived class 2 code
 ```
@@ -162,25 +157,25 @@ class Animal:
     def __init__(self, name, species):
         self.name = name
         self.species = species
-        
+
     def show_details(self):
         print(f"Name: {self.name}")
         print(f"Species: {self.species}")
-        
+
 class Dog(Animal):
     def __init__(self, name, breed):
         Animal.__init__(self, name, species="Dog")
         self.breed = breed
-        
+
     def show_details(self):
         Animal.show_details(self)
         print(f"Breed: {self.breed}")
-        
+
 class GoldenRetriever(Dog):
     def __init__(self, name, color):
         Dog.__init__(self, name, breed="Golden Retriever")
         self.color = color
-        
+
     def show_details(self):
         Dog.show_details(self)
         print(f"Color: {self.color}")
@@ -244,34 +239,34 @@ class Human:
   def __init__(self, name, age):
     self.name = name
     self.age = age
-    
+
   def show_details(self):
     print("Name:", self.name)
     print("Age:", self.age)
-    
+
 class Person(Human):
   def __init__(self, name, age, address):
     Human.__init__(self, name, age)
     self.address = address
-    
+
   def show_details(self):
     Human.show_details(self)
     print("Address:", self.address)
-    
+
 class Program:
   def __init__(self, program_name, duration):
     self.program_name = program_name
     self.duration = duration
-    
+
   def show_details(self):
     print("Program Name:", self.program_name)
     print("Duration:", self.duration)
-    
+
 class Student(Person):
   def __init__(self, name, age, address, program):
     Person.__init__(self, name, age, address)
     self.program = program
-    
+
   def show_details(self):
     Person.show_details(self)
     self.program.show_details()

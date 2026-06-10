@@ -30,7 +30,9 @@ export function OptimizedImage({
   const [hasError, setHasError] = useState(false);
 
   return (
-    <div className={`bg-secondary/30 relative overflow-hidden ${wrapperClassName}`}>
+    <div
+      className={`bg-secondary/30 relative overflow-hidden ${wrapperClassName}`}
+    >
       <div
         className={`bg-secondary/50 absolute inset-0 transition-opacity duration-300 ${
           isLoaded || hasError ? "pointer-events-none opacity-0" : "opacity-100"

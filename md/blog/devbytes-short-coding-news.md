@@ -28,14 +28,10 @@ Take advantage of amazing opportunities with DevBytes! Keep yourself informed ab
 
 ## Additional Features
 
-* **Code Snippets:** Easily learn and apply coding tips and tricks by reading and executing the attached code on the go.
-    
-* **Crypto Watch**: Stay updated on your preferred cryptocurrencies at all times using the convenient on-the-go feature.
-    
-* **Deals and Discounts**: Take advantage of amazing deals and promotions on fantastic products or subscriptions.
-    
-* **Product of the Day**: Discover handpicked productivity tools on your feed.
-    
+- **Code Snippets:** Easily learn and apply coding tips and tricks by reading and executing the attached code on the go.
+- **Crypto Watch**: Stay updated on your preferred cryptocurrencies at all times using the convenient on-the-go feature.
+- **Deals and Discounts**: Take advantage of amazing deals and promotions on fantastic products or subscriptions.
+- **Product of the Day**: Discover handpicked productivity tools on your feed.
 
 ## Conclusion
 

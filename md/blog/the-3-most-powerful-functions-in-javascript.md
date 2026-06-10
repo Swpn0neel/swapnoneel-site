@@ -33,7 +33,7 @@ Now, let's check with an example, how we can use this in our code!!
 ```javascript
 const nums = [1, 2, 3, 4, 5];
 
-const squaredNums = nums.map((num) => (num * num));
+const squaredNums = nums.map((num) => num * num);
 
 console.log(squaredNums);
 ```
@@ -88,8 +88,9 @@ Let's consider that we want to find the product of all the elements in an array.
 const nums = [1, 2, 3, 4, 5];
 
 const product = nums.reduce(
-(accumulator, currentValue) => accumulator * currentValue, 
-1);
+  (accumulator, currentValue) => accumulator * currentValue,
+  1
+);
 
 console.log(product);
 ```

@@ -25,18 +25,16 @@ def __init__(self):
 	# initializations
 ```
 
-`__init__` is one of the reserved functions(dunder methods*) in Python. In Object Oriented Programming, it is known as a constructor.
+`__init__` is one of the reserved functions(dunder methods\*) in Python. In Object Oriented Programming, it is known as a constructor.
 
-*\*We will be covering Dunder Methods in Python in complete detail in the upcoming blogs, so make sure to follow me on Hashnode to get notified.*
+_\*We will be covering Dunder Methods in Python in complete detail in the upcoming blogs, so make sure to follow me on Hashnode to get notified._
 
 ### Types of Constructors
 
 In Python, there are two types of Constructors; namely,
 
 1. Parameterizedd Constructor
-    
 2. Default Constructor
-    
 
 #### Parameterized Constructor
 

@@ -3,7 +3,6 @@ import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
-import blurMap from "@/lib/blur-map.json";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -142,7 +141,7 @@ function ExperienceRow({
         </p>
         <p className="text-muted-foreground mt-0.5 text-xs">{item.meta.date}</p>
       </div>
-      <span className="text-muted-foreground group-hover:text-foreground flex items-center gap-1 text-xs transition-all pt-1">
+      <span className="text-muted-foreground group-hover:text-foreground flex items-center gap-1 pt-1 text-xs transition-all">
         <span className="group-hover:underline">{i18n.common.readMore}</span>
         <span className="text-[10px] no-underline">→</span>
       </span>

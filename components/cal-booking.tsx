@@ -26,7 +26,14 @@ export default function CalBooking({ className, customText }: CalBookingProps) {
       });
       calDark("ui", {
         theme: "dark",
-        styles: { branding: { brandColor: "#ffffff" } },
+        cssVarsPerTheme: {
+          light: {
+            "cal-brand": "#ffffff",
+          },
+          dark: {
+            "cal-brand": "#ffffff",
+          },
+        },
         hideEventTypeDetails: false,
         layout: "month_view",
       });
@@ -36,7 +43,14 @@ export default function CalBooking({ className, customText }: CalBookingProps) {
       });
       calLight("ui", {
         theme: "light",
-        styles: { branding: { brandColor: "#000000" } },
+        cssVarsPerTheme: {
+          light: {
+            "cal-brand": "#000000",
+          },
+          dark: {
+            "cal-brand": "#000000",
+          },
+        },
         hideEventTypeDetails: false,
         layout: "month_view",
       });

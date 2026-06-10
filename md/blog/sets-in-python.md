@@ -4,7 +4,9 @@ title: "Sets in Python"
 date: "2023-01-25T18:09:15.443Z"
 description: "Introduction\nSets are unordered collection of data items. They store multiple items in a single variable. Set items are separated by commas and enclosed within curly brackets {}. Sets are unchangeable, meaning you cannot change items of the set once ..."
 link: "https://swapnoneel.hashnode.dev/sets-in-python"
----## Introduction
+---
+
+## Introduction
 
 Sets are unordered collection of data items. They store multiple items in a single variable. Set items are separated by commas and enclosed within curly brackets {}. Sets are unchangeable, meaning you cannot change items of the set once created. Sets do not contain duplicate items.
 
@@ -50,7 +52,7 @@ Carla
 
 Sets in python more or less work in the same way as sets in mathematics. We can perform operations like union and intersection on the sets just like in mathematics.
 
-### *I. Union and Update*
+### _I. Union and Update_
 
 The union() and update() methods prints all items that are present in the two sets. The union() method returns a new set whereas update() method adds item into the existing set from another set.
 
@@ -84,9 +86,9 @@ print(cities)
 {'Berlin', 'Madrid', 'Tokyo', 'Delhi', 'Kabul', 'Seoul'}
 ```
 
-### *II. intersection and intersection\_update()*
+### _II. intersection and intersection_update()_
 
-The intersection() and intersection\_update() methods prints only items that are similar to both the sets. The intersection() method returns a new set whereas intersection\_update() method updates into the existing set from another set.
+The intersection() and intersection_update() methods prints only items that are similar to both the sets. The intersection() method returns a new set whereas intersection_update() method updates into the existing set from another set.
 
 #### Example
 
@@ -118,9 +120,9 @@ print(cities)
 {'Tokyo', 'Madrid'}
 ```
 
-### *III. symmetric\_difference and symmetric\_difference\_update()*
+### _III. symmetric_difference and symmetric_difference_update()_
 
-The symmetric\_difference() and symmetric\_difference\_update() methods prints only items that are not similar to both the sets. The symmetric\_difference() method returns a new set whereas symmetric\_difference\_update() method updates into the existing set from another set.
+The symmetric_difference() and symmetric_difference_update() methods prints only items that are not similar to both the sets. The symmetric_difference() method returns a new set whereas symmetric_difference_update() method updates into the existing set from another set.
 
 #### Example
 
@@ -152,9 +154,9 @@ print(cities)
 {'Kabul', 'Delhi', 'Berlin', 'Seoul'}
 ```
 
-### **IV.** difference() and difference\_update()
+### **IV.** difference() and difference_update()
 
-The difference() and difference\_update() methods prints only items that are only present in the original set and not in both the sets. The difference() method returns a new set whereas difference\_update() method updates into the existing set from another set.
+The difference() and difference_update() methods prints only items that are only present in the original set and not in both the sets. The difference() method returns a new set whereas difference_update() method updates into the existing set from another set.
 
 #### Example
 

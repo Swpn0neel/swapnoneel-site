@@ -22,11 +22,11 @@ Compare it with a cup, for example, a cup is an object, with properties. It has 
 
 ```javascript
 const cup = {
-    color : "black",
-    design : "cylindrical",
-    weight : 300,
-    material : "glass"
-}
+  color: "black",
+  design: "cylindrical",
+  weight: 300,
+  material: "glass",
+};
 ```
 
 ## What is JSON?
@@ -61,11 +61,11 @@ And that's why, we use JSON primarily in data transmission between a server and 
 
 It might have been already clear to you how JS Objects and JSON have a lot of dissimilarities between them. But to further develop on that, here are some more aspects where they differ from each other:
 
-|  | JavaScript Objects | JSON |
-| --- | --- | --- |
-| Flexibility | It can contain functions and support methods that can manipulate the object's data. | It is purely a data format and cannot hold functions. |
-| Syntax | Objects can be declared using the object literal syntax, constructor functions, or the `class` keyword starting from ES6. | JSON closely resembles JavaScript object literal syntax, but it has stricter rules. For example, property names must be double-quoted, and trailing commas are not allowed. |
-| Purpose | They are used within JavaScript code to organize data and functionality. | It's a language-independent text format that is used to transmit data between a server and web application or as a file format. |
+|             | JavaScript Objects                                                                                                        | JSON                                                                                                                                                                        |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Flexibility | It can contain functions and support methods that can manipulate the object's data.                                       | It is purely a data format and cannot hold functions.                                                                                                                       |
+| Syntax      | Objects can be declared using the object literal syntax, constructor functions, or the `class` keyword starting from ES6. | JSON closely resembles JavaScript object literal syntax, but it has stricter rules. For example, property names must be double-quoted, and trailing commas are not allowed. |
+| Purpose     | They are used within JavaScript code to organize data and functionality.                                                  | It's a language-independent text format that is used to transmit data between a server and web application or as a file format.                                             |
 
 ## Conclusion
 

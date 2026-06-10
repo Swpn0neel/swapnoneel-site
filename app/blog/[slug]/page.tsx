@@ -1,14 +1,15 @@
+import { ImageWithSkeleton } from "@/components/image-with-skeleton";
+import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/config";
-import { getAllBlogPosts, getBlogPost } from "@/lib/md";
 import { i18n } from "@/lib/i18n";
+import { getAllBlogPosts, getBlogPost } from "@/lib/md";
 import { safeJsonLd } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { ReactNode } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
-import { ImageWithSkeleton } from "@/components/image-with-skeleton";
-import { TableOfContents } from "@/components/table-of-contents";
 
 export const dynamicParams = false;
 
@@ -42,47 +43,57 @@ const generateSlug = (text: string) => {
     .replace(/-+/g, "-");
 };
 
-const getRawText = (node: any): string => {
+const getRawText = (node: ReactNode): string => {
   if (!node) return "";
   if (typeof node === "string") return node;
   if (typeof node === "number") return String(node);
-  if (Array.isArray(node)) return node.map(getRawText).join("");
-  if (node.props && node.props.children) return getRawText(node.props.children);
+  if (Array.isArray(node))
+    return (node as ReactNode[]).map(getRawText).join("");
+  if (
+    node &&
+    typeof node === "object" &&
+    "props" in node &&
+    node.props &&
+    typeof node.props === "object" &&
+    "children" in node.props
+  ) {
+    return getRawText((node.props as { children?: ReactNode }).children);
+  }
   return "";
 };
 
 function extractHeadings(markdown: string) {
   const headings: { text: string; slug: string; level: number }[] = [];
-  
+
   // Normalize carriage returns to avoid trailing \r on Windows
   const normalized = markdown.replace(/\r\n/g, "\n");
-  
+
   // Remove multi-line code blocks entirely to avoid matching comments like ## inside code
   const withoutCodeBlocks = normalized
     .replace(/```[\s\S]*?```/g, "")
     .replace(/~~~[\s\S]*?~~~/g, "");
-    
+
   const lines = withoutCodeBlocks.split("\n");
-  
+
   for (const line of lines) {
     // Match h1 to h4 markdown headings
     const match = line.match(/^(#{1,4})\s+(.+)$/);
     if (match) {
       const level = match[1].length;
       let rawText = match[2].trim();
-      
+
       // Strip all HTML tags completely
       rawText = rawText.replace(/<[^>]*>/g, "");
-      
+
       // Strip markdown formatting symbols (bold, italic, inline code backticks)
       rawText = rawText
         .replace(/\*\*|__/g, "")
         .replace(/\*|_/g, "")
         .replace(/`([^`]+)`/g, "$1");
-      
+
       rawText = rawText.trim();
       if (!rawText) continue;
-      
+
       headings.push({
         text: rawText,
         slug: generateSlug(rawText),
@@ -112,7 +123,10 @@ export default async function BlogPostPage({
   });
 
   const cleanMarkdown = (post.content?.markdown || "")
-    .replace(/<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi, "[<mark>$1</mark>]($2)")
+    .replace(
+      /<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi,
+      "[<mark>$1</mark>]($2)"
+    )
     .replace(/(!\[.*?\]\(([^)]*?))\s+align=".*?"\)/g, "$1)")
     .replace(/%%?\[.*?\]/g, "");
 
@@ -149,9 +163,7 @@ export default async function BlogPostPage({
           ← {i18n.blog.backLink}
         </Link>
 
-
-
-        <h1 className="mt-4 mb-2 text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+        <h1 className="text-foreground mt-4 mb-2 text-2xl font-bold tracking-tight md:text-3xl">
           {post.title}
         </h1>
         <p className="text-muted-foreground flex items-center justify-between text-xs">
@@ -189,14 +201,14 @@ export default async function BlogPostPage({
                 <ImageWithSkeleton
                   src={props.src || ""}
                   alt={props.alt || ""}
-                  className="mx-auto max-w-full h-auto rounded-lg border border-border transition-all duration-300 hover:scale-[1.005]"
+                  className="border-border mx-auto h-auto max-w-full rounded-lg border transition-all duration-300 hover:scale-[1.005]"
                   wrapperClassName="my-6 rounded-lg"
                   loading="eager"
                 />
               );
             },
             mark: ({ children }) => (
-              <mark className="bg-white! text-black! dark:bg-white! dark:text-black! font-semibold px-1.5 py-0.5 rounded-sm mx-0.5 shadow-sm no-underline inline-block text-[0.9em]">
+              <mark className="mx-0.5 inline-block rounded-sm bg-white! px-1.5 py-0.5 text-[0.9em] font-semibold text-black! no-underline shadow-sm dark:bg-white! dark:text-black!">
                 {children}
               </mark>
             ),

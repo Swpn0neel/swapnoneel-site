@@ -1,8 +1,8 @@
 "use client";
 
+import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
-import { SmoothImage } from "@/components/smooth-image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface ProjectMeta {
@@ -132,7 +132,9 @@ export default function ProjectOverlay({
               className="project-overlay-hero-img"
               sizes="(max-width: 640px) 100vw, 860px"
               priority
-              blurDataURL={(blurMap as Record<string, string>)[project.meta.cover]}
+              blurDataURL={
+                (blurMap as Record<string, string>)[project.meta.cover]
+              }
             />
           ) : (
             <div className="project-overlay-hero-placeholder">
@@ -167,9 +169,11 @@ export default function ProjectOverlay({
 
           {/* Title floated on top of hero gradient */}
           <div className="project-overlay-hero-title-bar">
-            <h2 className="project-overlay-hero-title">{project?.meta.title}</h2>
+            <h2 className="project-overlay-hero-title">
+              {project?.meta.title}
+            </h2>
             {projectLink && (
-              <a 
+              <a
                 href={projectLink}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -214,7 +218,9 @@ export default function ProjectOverlay({
                     const clean = feat.replace(/\*\*/g, "");
                     return (
                       <li key={i} className="project-overlay-feature-item">
-                        <span className="project-overlay-feature-bullet">›</span>
+                        <span className="project-overlay-feature-bullet">
+                          ›
+                        </span>
                         {clean}
                       </li>
                     );
@@ -245,8 +251,6 @@ export default function ProjectOverlay({
             )}
           </div>
         </div>
-
-
       </div>
     </div>
   );

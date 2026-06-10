@@ -10,10 +10,8 @@ link: "https://swapnoneel.hashnode.dev/introduction-to-oops"
 
 In programming languages, mainly there are two approaches that are used to write programs or code.
 
-* Procedural Programming
-    
-* Object-Oriented Programming
-    
+- Procedural Programming
+- Object-Oriented Programming
 
 In the previous blogs, I have covered almost all of the advanced nitty-gritty of Python. So, in this one and also in the upcoming blogs we will be diving right into the space of Object Oriented Programming(OOP). The basic idea of object-oriented programming (OOP) is to use classes and objects to represent real-world concepts and entities.
 

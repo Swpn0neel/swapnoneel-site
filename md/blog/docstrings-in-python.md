@@ -4,7 +4,9 @@ title: "Docstrings in python"
 date: "2023-01-25T14:42:32.056Z"
 description: "Introduction\nPython docstrings are the string literals that appear right after the definition of a function, method, class, or module.\nExample\ndef square(n):\n    '''Takes in a number n, returns the square of n'''\n    print(n**2)\nsquare(5)\n\nHere,\n'''T..."
 link: "https://swapnoneel.hashnode.dev/docstrings-in-python"
----## Introduction
+---
+
+## Introduction
 
 Python docstrings are the string literals that appear right after the definition of a function, method, class, or module.
 

@@ -109,7 +109,10 @@ export const getAllBlogPosts = cache((): BlogPost[] => {
   return getAllSlugs("blog")
     .map((slug) => getBlogPost(slug))
     .filter(Boolean)
-    .sort((a, b) => new Date(b!.publishedAt).getTime() - new Date(a!.publishedAt).getTime()) as BlogPost[];
+    .sort(
+      (a, b) =>
+        new Date(b!.publishedAt).getTime() - new Date(a!.publishedAt).getTime()
+    ) as BlogPost[];
 });
 
 export const getAllWorkItems = () =>
@@ -118,8 +121,8 @@ export const getAllWorkItems = () =>
     .sort((a, b) => b.dateValue - a.dateValue)
     .map(({ item }) => item);
 
-export const getWorkItem = cache((slug: string) =>
-  readBySlug("work", slug) ?? readBySlug("projects", slug)
+export const getWorkItem = cache(
+  (slug: string) => readBySlug("work", slug) ?? readBySlug("projects", slug)
 );
 
 export const getAllProjects = () =>

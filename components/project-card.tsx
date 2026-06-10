@@ -1,5 +1,5 @@
-import blurMap from "@/lib/blur-map.json";
 import { SmoothImage } from "@/components/smooth-image";
+import blurMap from "@/lib/blur-map.json";
 import Link from "next/link";
 
 interface ProjectCardProps {
@@ -21,7 +21,7 @@ export default function ProjectCard({ item }: ProjectCardProps) {
   const CardContent = (
     <div className="group border-border hover:border-foreground/30 block h-full overflow-hidden rounded-lg border transition-colors">
       {item.meta.cover ? (
-        <div className="h-36 w-full overflow-hidden relative">
+        <div className="relative h-36 w-full overflow-hidden">
           <SmoothImage
             src={item.meta.cover}
             alt={item.meta.title}

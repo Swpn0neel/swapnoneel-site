@@ -19,34 +19,28 @@ Based on the operating systems, the installation process is different and varied
 ### Windows
 
 1. **Download the Installer**:
-    
-    * Go to the official Node.js website: [nodejs.org](https://nodejs.org/).
-        
-    * Download the LTS (Long Term Support) version, because it happens to be the most stable version.
-        
-2. **Run the Installer**:
-    
-    * Open the downloaded `.msi` file and run the installer.
-        
-    * Follow the installation steps, and please **make sure to check the box that says "Install Node.js and npm."**
-        
+   - Go to the official Node.js website: [nodejs.org](https://nodejs.org/).
+   - Download the LTS (Long Term Support) version, because it happens to be the most stable version.
 
-### *macOS*
+2. **Run the Installer**:
+   - Open the downloaded `.msi` file and run the installer.
+   - Follow the installation steps, and please **make sure to check the box that says "Install Node.js and npm."**
+
+### _macOS_
 
 1. You have to install **Homebrew** if you haven't already. To do that, open the terminal and run:
-    
-    ```bash
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    ```
-    
-2. Now, we can install `node.js` and `npm` with Homebrew:
-    
-    ```bash
-    brew install node
-    ```
-    
 
-### *Linux*
+   ```bash
+   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   ```
+
+2. Now, we can install `node.js` and `npm` with Homebrew:
+
+   ```bash
+   brew install node
+   ```
+
+### _Linux_
 
 It's extremely easy to install `node.js` and `npm` in Linux. Just run these two commands in the terminal:
 
@@ -64,7 +58,7 @@ node -v
 npm -v
 ```
 
-> *If you are on Windows, Powershell may cause some issues, so try to use Command Prompt in that case. It will work!!*
+> _If you are on Windows, Powershell may cause some issues, so try to use Command Prompt in that case. It will work!!_
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716553688790/eaf89f25-9858-410e-9ebc-082022a6697e.png align="center")
 
@@ -75,7 +69,6 @@ NVM stands for Node Version Manager and it's a command-line tool that helps us t
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554276508/db2ae459-9cd3-41fe-837f-29c2ea3d8671.png align="center")
 
 1. ### Check available node versions
-    
 
 Before installing any node version, let's first check the available Node versions. To do that, we can simply run the following command in our terminal:
 
@@ -88,7 +81,6 @@ After running this, you get something like this:
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716555882030/1d1e966c-c139-4c92-a68e-a64cbde6b661.png align="center")
 
 2. ### Installing the latest node version
-    
 
 To install the latest version of node.js, you can simply run this command,
 
@@ -105,7 +97,6 @@ nvm install lts
 ```
 
 3. ### Install multiple Node versions
-    
 
 One of the most interesting part of NVM is you can install multiple versions of Node at the same time and use any of them based on your convenience!!
 
@@ -120,7 +111,6 @@ nvm install 20.12
 Also, as NVM follows semantic versioning, you can install v18.17 and use any of the following version under 18.17, like 18.17.0, 18.17.1, etc. Here, 18 represents the major version, 17 represents the minor version, and 1 represents the patch version!!
 
 4. ### Installing specific Node versions
-    
 
 You can install any specific node version, by running this command,-
 
@@ -135,7 +125,6 @@ But, to ensure that your given version is valid, make sure to run `nvm ls availa
 Also, once you install a version of Node, the corresponding version of NPM is also installed alongside with it. So you don’t need to install NPM separately!!
 
 5. ### Check installed Node versions in your system
-    
 
 To check the list of all node versions that you have installed on your system, you can simply run,-
 
@@ -148,7 +137,6 @@ And, you will see a response like this:
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716560504142/21e3f56e-e0d9-415f-96e9-816e2ccb40da.png align="center")
 
 6. ### Switching Node versions
-    
 
 As you can see in the previous image that I'm currently using `20.13.1`. Now, if I want to switch my version to another one like `18.17.0`. I can simply use the following command:
 
@@ -159,7 +147,6 @@ nvm use 18.17.0
 In your case, you can put your desired version in place of `18.17.0`, but first make sure it is a valid version number and it is installed on your system!!
 
 7. ### Uninstall a Node version
-    
 
 To uninstall an already installed Node version that you no longer think is useful, you can do that by running the command,-
 

@@ -17,6 +17,7 @@ Now, let’s check out the top 5 best Python IDE as of 2024. But keep in mind, a
 Developed by JetBrains, PyCharm is one of the most popular Python IDE, offering a feature-rich experience with an emphasis on productivity. It is designed with professional developers in mind, with features that make it ideal for working on larger projects.
 
 ### Key Features:
+
 - PyCharm provides an advanced code editor with code completion, real-time error checking, and linting.
 - It has powerful refactoring and debugging tools.
 - It has scientific library support, ideal for data science and machine learning.
@@ -25,11 +26,13 @@ Developed by JetBrains, PyCharm is one of the most popular Python IDE, offering 
 ![PyCharm Professional](https://textdata.cn/images/blog/pycharm-professional.png)
 
 ### Pros:
+
 - PyCharm supports smart code navigation and quick fixes.
 - Easy integration with Python packages and virtual environments.
 - Professional version supports web development frameworks like Django and Flask.
 
 ### Cons:
+
 - PyCharm can be heavy on system resources, especially for older machines.
 - The Professional edition of PyCharm is paid.
 
@@ -40,6 +43,7 @@ Developed by JetBrains, PyCharm is one of the most popular Python IDE, offering 
 Microsoft’s VS Code is one of the most popular go-to option for every developers for its extensive customization and support options. Though not an IDE by default, it offers excellent support for Python with the addition of extensions.
 
 ### Key Features:
+
 - VS Code supports Python through the Python extension, which includes IntelliSense, debugging, and more.
 - It has extensive library of extensions for different programming languages, including support for Git, Docker, and Jupyter Notebooks.
 - Also, it has built-in terminal and Git integration.
@@ -47,11 +51,13 @@ Microsoft’s VS Code is one of the most popular go-to option for every develope
 ![VS Code](https://external-preview.redd.it/Uz0PH-r8nGx8gU9UCHURirqrtXgLhtqJiNDVgT03jtw.jpg?auto=webp&s=580d0dc62b6581d2a8ff8e628d3bea5d53bdf5d2)
 
 ### Pros:
+
 - VS Code is lightweight and open-source, with regular updates.
 - It’s highly customizable with a wide range of themes and settings.
 - It’s suitable for multiple languages, making it a great all-rounder.
 
 ### Cons:
+
 - VS Code requires extensions to achieve full functionality, which may be overwhelming for beginners.
 - It lacks some built-in Python-specific features that a dedicated IDE might offer.
 
@@ -64,11 +70,13 @@ Spyder is specifically designed for data science and comes pre-packaged with too
 ![Spyder](https://www.spyder-ide.org/assets/media/website_screenshot.png)
 
 ### Pros:
+
 - It is free and open-source.
 - It’s ideal for data scientists, with built-in support for libraries and tools they frequently use.
 - Additionally, the variable explorer of Spyder is way better than the other counterparts; and it allows you to interactively browse and manage the objects generated running your code.
 
 ### Cons:
+
 - Spyder is not suitable for web development or general-purpose programming.
 - It provides limited features for large-scale software engineering projects.
 
@@ -79,6 +87,7 @@ Spyder is specifically designed for data science and comes pre-packaged with too
 Jupyter Notebook has become a staple in the data science community due to its interactive nature. The best thing about Jupyter is, it allows developers to write code, run it, and view the output in the same environment, ideal for experimenting and sharing insights. It is one the best Python IDE used by many developers.
 
 ### Key Features:
+
 - Code cells allow running small chunks of code independently, which is great for prototyping.
 - Markdown cells enable easy documentation alongside code.
 - It has excellent support for data science libraries and data visualization.
@@ -86,10 +95,12 @@ Jupyter Notebook has become a staple in the data science community due to its in
 ![Jupyter Notebook](https://nightingalehq.ai/knowledgebase/glossary/what-is-jupyter/jupyter_hu55e85fab71a39b400081f279496f95b4_62056_1200x675_fill_q75_box_smart1.jpg)
 
 ### Pros:
+
 - Jupyter is perfect for exploratory data analysis and visualization.
 - It’s easy to share and document work, making it suitable for collaborative projects.
 
 ### Cons:
+
 - It is not designed for full-scale application development.
 - Using Jupyter, managing larger projects and multiple files can be challenging.
 
@@ -100,6 +111,7 @@ Jupyter Notebook has become a staple in the data science community due to its in
 Thonny is the best Python IDE tailored for those just starting with Python. It is simple, beginner-friendly, and also, it comes with an easy-to-use interface and includes debugging tools that make it ideal for students and those who are new to coding.
 
 ### Key Features:
+
 - Thonny provides easy debugging with visual step-through for each line of code.
 - It is a simple editor that eliminates distractions for beginners.
 - It includes Python installation, so users don’t need to worry about setting up Python separately.
@@ -107,10 +119,12 @@ Thonny is the best Python IDE tailored for those just starting with Python. It i
 ![Thonny](https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6k9ie5hy36v36d09lqo.png)
 
 ### Pros:
+
 - It’s user-friendly and free to use.
 - The step-through debugging that it provides helps beginners learn the basics of Python.
 
 ### Cons:
+
 - It has very limited functionality for advanced projects.
 - The extensions and customization options are limited.
 

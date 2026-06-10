@@ -19,6 +19,7 @@ Semantic Versioning, sometimes abbreviated to SemVer, is a software versioning s
 ![Semantic Versioning Structure](https://cdn.hashnode.com/res/hashnode/image/upload/v1717267689583/94e58a9e-c8c5-4fbc-9a80-29081327b784.png)
 
 For the 2.6.8 version, for example:
+
 - 2 is its MAJOR version.
 - 6 is the MINOR version.
 - 8 is the PATCH version.

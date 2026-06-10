@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { ChevronDown } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 interface Post {
   slug: string;
@@ -28,7 +28,9 @@ export function BlogList({ posts }: BlogListProps) {
   const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
 
   // Initialize all years as expanded (false means not collapsed)
-  const [collapsedYears, setCollapsedYears] = useState<Record<string, boolean>>({});
+  const [collapsedYears, setCollapsedYears] = useState<Record<string, boolean>>(
+    {}
+  );
 
   const toggleYear = (year: string) => {
     setCollapsedYears((prev) => ({
@@ -46,19 +48,19 @@ export function BlogList({ posts }: BlogListProps) {
             {/* Year Accordion Trigger */}
             <button
               onClick={() => toggleYear(year)}
-              className="w-full flex items-center justify-between py-2 group select-none focus:outline-none cursor-pointer"
+              className="group flex w-full cursor-pointer items-center justify-between py-2 select-none focus:outline-none"
             >
               <div className="flex items-center gap-2.5">
-                <h2 className="text-sm font-semibold text-foreground group-hover:text-muted-foreground transition-colors">
+                <h2 className="text-foreground group-hover:text-muted-foreground text-sm font-semibold transition-colors">
                   {year}
                 </h2>
-                <span className="text-[10px] text-muted-foreground/60 bg-secondary/65 px-2 py-0.5 rounded-full font-mono font-medium leading-none">
+                <span className="text-muted-foreground/60 bg-secondary/65 rounded-full px-2 py-0.5 font-mono text-[10px] leading-none font-medium">
                   {grouped[year].length}
                 </span>
               </div>
               <ChevronDown
                 className={cn(
-                  "h-4 w-4 text-muted-foreground/50 group-hover:text-foreground transition-all duration-300",
+                  "text-muted-foreground/50 group-hover:text-foreground h-4 w-4 transition-all duration-300",
                   isCollapsed ? "-rotate-90" : "rotate-0"
                 )}
               />
@@ -87,7 +89,7 @@ export function BlogList({ posts }: BlogListProps) {
                             <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
                               {post.title}
                             </span>
-                            <span className="text-muted-foreground ml-4 shrink-0 text-xs font-mono">
+                            <span className="text-muted-foreground ml-4 shrink-0 font-mono text-xs">
                               {dateStr}
                             </span>
                           </Link>
@@ -108,4 +110,3 @@ export function BlogList({ posts }: BlogListProps) {
     </div>
   );
 }
-

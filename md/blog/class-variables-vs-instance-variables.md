@@ -17,13 +17,13 @@ Class variables are defined at the class level and are shared among all instance
 ```python
 class MyClass:
     class_variable = 0
-    
+
     def __init__(self):
         MyClass.class_variable += 1
-        
+
     def print_class_variable(self):
         print(MyClass.class_variable)
-        
+
 
 obj1 = MyClass()
 obj2 = MyClass()
@@ -42,7 +42,7 @@ Instance variables are defined at the instance level and are unique to each inst
 class MyClass:
     def __init__(self, name):
         self.name = name
-        
+
     def print_name(self):
         print(self.name)
 

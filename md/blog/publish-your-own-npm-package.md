@@ -58,24 +58,15 @@ npm init
 
 Now, you will prompted to give some answers, I'm mentioning the utility of each one of them:
 
-* `package-name`: It should be the name of your package that you want to publish. Also, remember that it must be lowercase and may only include hyphens.
-    
-* `version`: The initial value is `1.0.0`. You may change it to `0.1.0` and release the full version `1.0.0` later!! You will be updating the version number each time when you update your package using [semantic versioning](https://www.freecodecamp.org/news/semantic-versioning-1fd6f57749f7/).
-    
-* `description`: You can provide a description of your package here, explaining about what your package does and how to use it.
-    
-* `entry point`: The entry file for your code. The default value is `index.js`.
-    
-* `test command`: Here, you can add the command you want to run when a user runs `npm run test`. To keep things simple, you may keep it blank for now!!
-    
-* `git repository`: The link to your remote repository on GitHub. It's optional, but it's better if you can add the GitHub repository link here!!
-    
-* `keywords`: Add relevant keywords that will help others find your package on the NPM registry. It's optional too, and you can leave it blank for now!!
-    
-* `author`: Add your name.
-    
-* `license`: You can add a license or use the default license, Internet Systems Consortium (ISC) License.
-    
+- `package-name`: It should be the name of your package that you want to publish. Also, remember that it must be lowercase and may only include hyphens.
+- `version`: The initial value is `1.0.0`. You may change it to `0.1.0` and release the full version `1.0.0` later!! You will be updating the version number each time when you update your package using [semantic versioning](https://www.freecodecamp.org/news/semantic-versioning-1fd6f57749f7/).
+- `description`: You can provide a description of your package here, explaining about what your package does and how to use it.
+- `entry point`: The entry file for your code. The default value is `index.js`.
+- `test command`: Here, you can add the command you want to run when a user runs `npm run test`. To keep things simple, you may keep it blank for now!!
+- `git repository`: The link to your remote repository on GitHub. It's optional, but it's better if you can add the GitHub repository link here!!
+- `keywords`: Add relevant keywords that will help others find your package on the NPM registry. It's optional too, and you can leave it blank for now!!
+- `author`: Add your name.
+- `license`: You can add a license or use the default license, Internet Systems Consortium (ISC) License.
 
 Once you provide all these information, a file will be created called `package.json` that will kinda look like this:
 
@@ -94,7 +85,7 @@ For this tutorial, I will be writing my code in the `index.js` file.
 
 **💡 Reminder!!**
 
-*Please add the following line at the start of the code because it tells the operating system to use the Node.js interpreter to execute the script. It allows us to run the script by simply typing its filename, without having to specify the full path to the Node.js interpreter.*
+_Please add the following line at the start of the code because it tells the operating system to use the Node.js interpreter to execute the script. It allows us to run the script by simply typing its filename, without having to specify the full path to the Node.js interpreter._
 
 ```javascript
 #!/usr/bin/env node
@@ -154,7 +145,7 @@ chmod +x index.js
 
 **Windows**
 
-*Note that, for this to work perfectly, you need to have*`git`*installed on your system!!*
+_Note that, for this to work perfectly, you need to have_`git`_installed on your system!!_
 
 ```bash
 git update-index --chmod=+x index.js
@@ -182,7 +173,7 @@ Now you can run your package, and it should work perfectly!!
 
 ![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650425160/b8d12272-5801-4c13-87fa-243a88244d8f.png align="center")
 
-## *Publish Your NPM Package*
+## _Publish Your NPM Package_
 
 To publish your package on the NPM registry, you need to have an account. And, I hope you have created that previously!!
 

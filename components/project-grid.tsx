@@ -1,7 +1,8 @@
 "use client";
 
+import { SmoothImage } from "@/components/smooth-image";
+import blurMap from "@/lib/blur-map.json";
 import { useState } from "react";
-import { OptimizedImage } from "./optimized-image";
 import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
@@ -34,13 +35,18 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
             >
               <div className="group border-border hover:border-foreground/30 block h-full overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
-                  <OptimizedImage
-                    src={item.meta.cover}
-                    alt={item.meta.title}
-                    width={400}
-                    height={225}
-                    className="aspect-video transition duration-500 group-hover:scale-110"
-                  />
+                  <div className="relative aspect-video w-full overflow-hidden">
+                    <SmoothImage
+                      src={item.meta.cover}
+                      alt={item.meta.title}
+                      width={400}
+                      height={225}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                      blurDataURL={
+                        (blurMap as Record<string, string>)[item.meta.cover]
+                      }
+                    />
+                  </div>
                 ) : (
                   <div className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
                     {item.meta.title}

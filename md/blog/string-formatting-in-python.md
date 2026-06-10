@@ -4,7 +4,9 @@ title: "String formatting in python"
 date: "2023-01-25T07:50:52.768Z"
 description: "Introduction\nString formatting can be done in python using the format method.\ntxt = \"For only {price:.2f} dollars!\"\nprint(txt.format(price = 49))\n\nf-strings in python\nIt is a new string formatting mechanism introduced by the PEP 498. It is also known..."
 link: "https://swapnoneel.hashnode.dev/string-formatting-in-python"
----### Introduction
+---
+
+### Introduction
 
 String formatting can be done in python using the format method.
 
@@ -22,10 +24,10 @@ When we prefix the string with the letter 'f', the string becomes the f-string i
 ### Example
 
 ```python
-val = 'Geeks'  
-print(f"{val}for{val} is a portal for {val}.")  
-name = 'Tushar'  
-age = 23  
+val = 'Geeks'
+print(f"{val}for{val} is a portal for {val}.")
+name = 'Tushar'
+age = 23
 print(f"Hello, My name is {name} and I'm {age} years old.")
 ```
 
