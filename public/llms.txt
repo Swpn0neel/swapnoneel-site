@@ -1,0 +1,169 @@
+# Swapnoneel Saha
+> Machine-readable developer profile and project index of Swapnoneel Saha — Software Engineer & Full-stack Developer specializing in Agentic AI, high-performance web applications, and developer tools.
+
+## About Me
+Swapnoneel is a software engineer based in India, with extensive experience building scalable, developer-centric software systems and automation tools. He is currently focused on architecting agentic AI systems that automate complex, multi-step engineering workflows, bridging the gap between deep backend engineering and clean, intuitive user interfaces.
+
+*   **Email:** swapnoneelsaha111@gmail.com
+*   **Website:** https://swapnoneel.site
+*   **Location:** India
+*   **Open For:** Full-time opportunities, freelancing, and technical collaborations.
+
+---
+
+## Core Competencies
+
+### Languages
+*   **TypeScript / JavaScript** (ES6+, Node.js, React ecosystem)
+*   **Python** (OOP, scripting, RAG pipelines, ML workflows)
+*   **GoLang** (API development, CLI tools)
+*   **Java** (Backend systems)
+*   **SQL** (Relational database modeling)
+*   **C / C++** (Algorithms and data structures)
+
+### Frameworks & Libraries
+*   **Web Frameworks:** Next.js (App Router, Turbopack), React, TanStack Start, Django, Flask, Express, Socket.io
+*   **Database & ORMs:** Prisma, Mongoose, Appwrite Backend
+*   **Styling & Animations:** Tailwind CSS v4, Motion (Framer Motion), GSAP, Radix UI, Base UI, Tailwind Animate
+
+### Tools & Infrastructure
+*   **Containerization & Deployments:** Docker, Google Cloud Run, Vercel
+*   **Databases:** MongoDB, PostgreSQL, Supabase, Cloudflare R2 (storage)
+*   **Development Tools:** Git, GitHub API, Neovim, Tree-Sitter compilers, MessagePack, Fastembed, Tesseract.js, PDF-Parse
+*   **Design:** UI/UX prototyping in Figma
+
+---
+
+## Professional Experience
+
+### DevRel Engineer • Keploy
+*May 2024 – Dec 2024* | [Keploy Website](https://keploy.io)
+*   **Description:** Worked on Keploy, an open-source API testing platform that auto-generates test cases and mock data from real traffic.
+*   **Impact & Core Achievements:**
+    *   **RAG-Powered AI Integration:** Designed and implemented a fully-functional RAG-based AI chatbot for Keploy's documentation workspace, lowering developer integration friction and decreasing documentation navigation time.
+    *   **Cross-Language Integration Scaffolding:** Engineered and shipped multiple end-to-end sample application integrations in Rust, Go, Spring Boot, Flask, and Django to prove Keploy's test case generation capabilities.
+    *   **Core UI/UX Revamp:** Re-architected and polished key structural sections of the Keploy landing homepage, increasing visual clarity and conversion rates for visiting developers.
+    *   **Developer Advocacy & Community Building:** Structured and directed *Keploy Rain of Code*, an open-source outreach campaign. Mentored and led 50+ contributors, driving core code commits and building a sustainable pipeline for junior developer recruitment.
+    *   **Technical Content Optimization:** Authored 25+ technical deep-dives on API architectures and test generation while optimizing community social channels, delivering a **120% growth in developer engagement** and a **30% rise in follower count**.
+
+### Technical Writer • Tutorials Point
+*May 2023 – May 2025* | [Tutorials Point](https://www.tutorialspoint.com)
+*   **Description:** Authored and managed developer tutorials for a platform with millions of active users.
+*   **Impact & Core Achievements:**
+    *   **Curriculum Development & Monetization:** Designed and authored a comprehensive *Advanced Python Course* spanning over 40 technical modules. The course scaled to **9,800+ paid students** within 12 months, making it one of the platform's highest-converting resources.
+    *   **Developer Onboarding Acceleration:** Created curriculum and educational paths for MySQL and frontend engineering, enabling smoother onboarding for beginner developers.
+    *   **Editorial Leadership:** Acted as Content Lead and managed review cycles for **200+ technical publications** submitted by a team of 10+ contributing writers, ensuring rigorous coding standards and readability.
+
+### Software Developer • Wizdom
+*Jan 2024 – May 2024* | [Wizdom App](https://wizdomapp.com)
+*   **Description:** Rebuilt client-facing systems for a book insights and podcast platform with over 20,000 users.
+*   **Impact & Core Achievements:**
+    *   **UI/UX Modernization:** Re-engineered application UI layouts into a clean, modern design system, enhancing the daily visual interface for **20,000+ active users**.
+    *   **Performance Optimization:** Refactored React rendering paths, optimized bundle sizes, and streamlined API payloads, shaving **1200ms – 1800ms** off initial page load times.
+    *   **Audio Pipeline Upgrade:** Rebuilt the core podcast streaming interface to enhance buffering, playback stability, and audio control elements, increasing average user session times.
+    *   **System Migration:** Led the transition of legacy codebase structures to a modern Next.js/React framework stack, collaborating with product managers to minimize downtime.
+
+---
+
+## Key Projects
+
+### [ANRL](https://anrl-site.vercel.app)
+*AI-Native Representation Language*
+*   **Pitch & Impact:** An innovative graph-native representation language built explicitly to replace verbose, human-centric data serialization formats (JSON, YAML) with transformer-optimized schemas. By encoding token significance directly, it eliminates context drift and structural noise in LLMs.
+*   **Rigorous Implementation:** 
+    *   Designed a parser compiler in Rust for ultra-fast compilation.
+    *   Utilized MessagePack to yield dense, sub-token binary serialization.
+    *   Integrated Tree-Sitter for code syntax analysis and Fastembed for opt-in semantic enrichment to detect implicit document dependencies.
+    *   **Results:** Significantly reduces delimiter token overhead by over 40%, preventing model context fragmentation.
+
+### [Folio](https://fo1io.vercel.app)
+*Premium Developer Portfolio Engine*
+*   **Pitch & Impact:** A drag-and-drop web builder empowering designers and developers to deploy fully-customized, high-performance portfolios without writing any code.
+*   **Rigorous Implementation:**
+    *   Built on TanStack Start and TypeScript for absolute type safety and sub-second page loads.
+    *   Developed drag-and-drop mechanics using `@dnd-kit` to allow live-updating UI canvases.
+    *   Integrated Supabase for immediate data persistence, secure OAuth, and dynamic asset bucket management.
+
+### [Get Response](https://get-response-site.vercel.app)
+*CLI AI Assistant & Automation Hub*
+*   **Pitch & Impact:** An intelligent terminal-based assistant that converts plain English prompts into automated terminal actions, bridging the CLI shell with OpenAI/Gemini models to accelerate shell engineering workflows.
+*   **Rigorous Implementation:**
+    *   Leveraged Google Gemini API to dynamically scaffold scripts and execute commands.
+    *   Integrated Tesseract.js and PDF-Parse to extract content from images and papers directly in the console.
+    *   Built code parsing pipelines mapping visual structural diagrams using Mermaid.js.
+    *   **Results:** Removes context switching by bringing AI debugging and Stack Exchange lookups straight to the shell.
+
+### [Scholarian](https://scholarian.vercel.app)
+*Editorial Research Platform*
+*   **Pitch & Impact:** An academic literature analysis platform that automates systematic paper reviews and research pipelines.
+*   **Rigorous Implementation:**
+    *   Built using Next.js, Google Gemini API, and Supabase for persistent history lookup.
+    *   Managed optimistic state updates via Zustand.
+    *   Created custom search iteration loops designed to refine search intents, along with a high-fidelity PDF report generation engine.
+    *   **Results:** Accelerates the academic literature review cycle by automating systematic querying and structured extraction.
+
+### [TermAI](https://term-ai.vercel.app)
+*Cloud Terminal and AI Workspace*
+*   **Pitch & Impact:** A secure, cloud-hosted coding terminal proxy that permits low-latency developer actions from any mobile or desktop screen.
+*   **Rigorous Implementation:**
+    *   Utilized Next.js, Socket.io, and node-pty to bridge containerized cloud runtimes with interactive shell environments.
+    *   Supported complete browser-based terminal interfaces (with Neovim capabilities) inside Docker containers.
+    *   Integrated a context-aware AI command suggestions system.
+
+### [Term Chat](https://term-chat.vercel.app)
+*Terminal-Based Social & Chat Hub*
+*   **Pitch & Impact:** A terminal-native messaging application and group server allowing developers to communicate, share files, and collaborate without leaving their development environments.
+*   **Rigorous Implementation:**
+    *   Built with Node.js and Socket.io, utilizing Supabase for real-time presence management and chat history storage.
+    *   Integrated Cloudflare R2 storage, enabling users to seamlessly upload and share files/directories (which are zipped automatically on-the-fly) from the terminal.
+    *   Secured login credentials using client-side password encryption and bcrypt.
+
+### [Toile](https://toile.vercel.app)
+*Artistic Portfolio Dashboard*
+*   **Pitch & Impact:** A minimalistic CRUD application crafted to showcase digital designs and art portfolios using premium animations.
+*   **Rigorous Implementation:**
+    *   Leveraged React.js with GSAP timeline sequencing to build smooth, high-fidelity page transitions and layouts.
+    *   Built on Appwrite serverless functions for database persistence and authentication.
+
+---
+
+## Education
+
+*   **B.Tech in Computer Science & Engineering** (2022 – 2026) | *MAKAUT* (CGPA: 8.2/10)
+*   **12th CBSE Board** (2020 – 2022) | *Kalyani Public School* (Score: 93%)
+*   **10th ICSE Board** (2018 – 2020) | *The Central Modern School* (Score: 97%)
+
+---
+
+## Achievements & Milestones
+
+*   **Hackathon Success:**
+    *   **Winner:** MLH *Hack Around the World 2.0*
+    *   **Second Runner-Up:** *Hack 4 Bengal 3.0* (Eastern India's largest offline hackathon)
+    *   **Second Runner-Up:** *Treasure Hacks 3.0* (out of 600+ participants)
+    *   **Winner:** Intra-university *MAKATHON* (Smart India Hackathon '23 stage)
+*   **Data Structures & Algorithms:** Solved 1100+ challenges on LeetCode with a contest rating of 1650+.
+*   **Open-Source Contributions:** Actively contributed to open-source infrastructure tools like *MindsDB* and *Keploy*. Contributor at GirlScript Summer of Code (GSSOC) 23.
+
+---
+
+## Blog & Writing Topics
+Swapnoneel publishes deep-dives into programming paradigms and web architectures. Major publication categories include:
+
+*   **Python Deep Dives:** Object-Oriented Programming (OOP), getters/setters, class/instance variables, magic methods, constructors, decorators, string formatting, virtual environments, custom libraries (OS, Fastembed).
+*   **JavaScript & Node.js:** High-order array functions, publishing NPM packages, Node/NPM/NVM configurations, object serialization vs JSON.
+*   **Software Design & Testing:** The testing pyramid, API mocks, semantic versioning, and machine learning pipeline designs.
+*   **Personal Developer Journeys:** First and second year reflection journals mapping hackathons, technical learning curves, and software design principles.
+
+---
+
+## Connect & Crawler Links
+
+*   **GitHub:** https://github.com/Swpn0neel
+*   **LinkedIn:** https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/
+*   **X (formerly Twitter):** https://x.com/swapnoneel123
+*   **LeetCode:** https://leetcode.com/u/Swapnoneel/
+*   **Instagram:** https://instagram.com/swapnoneel111
+*   **Hashnode:** https://swapnoneel.hashnode.dev
+*   **Dev.to:** https://dev.to/swapnoneel123
+*   **Letterboxd:** https://letterboxd.com/Swapnoneel/

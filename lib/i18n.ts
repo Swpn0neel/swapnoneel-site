@@ -21,9 +21,8 @@ export const i18n = {
     closeOverlay: "Close overlay",
   },
   footer: {
-    rss: "rss",
-    sitemap: "sitemap",
-    github: "github",
+    llms: "llms.txt",
+    source: "source",
     resume: "resume",
     rightsReserved: "All rights reserved.",
   },

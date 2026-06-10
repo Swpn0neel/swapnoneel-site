@@ -1,6 +1,6 @@
 export type NavItemKey = "home" | "blog" | "work" | "contact" | "resume";
 
-export type FooterLinkKey = "rss" | "sitemap" | "github" | "resume";
+export type FooterLinkKey = "source" | "resume" | "llms";
 
 export type SocialBrand =
   | "github"
@@ -70,10 +70,9 @@ export const navItems: readonly NavItem[] = [
 ];
 
 export const footerLinks: readonly FooterLink[] = [
-  { href: siteConfig.hashnode.rssUrl, key: "rss" },
-  { href: "/sitemap.xml", key: "sitemap" },
-  { href: siteConfig.repository.sourceUrl, key: "github" },
   { href: "/resume", key: "resume" },
+  { href: siteConfig.repository.sourceUrl, key: "source" },
+  { href: "/llms.txt", key: "llms" },
 ];
 
 export const socialLinks: readonly SocialLink[] = [
