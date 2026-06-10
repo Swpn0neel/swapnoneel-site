@@ -3,7 +3,7 @@
 import blurMap from "@/lib/blur-map.json";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
-import Image from "next/image";
+import { SmoothImage } from "@/components/smooth-image";
 import { useRef } from "react";
 
 type CarouselImage = {
@@ -40,13 +40,12 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
             aria-label={`Slide ${(i % images.length) + 1} of ${images.length}: ${img.alt}`}
             tabIndex={-1}
           >
-            <Image
+            <SmoothImage
               src={img.src}
               alt={img.alt}
               width={280}
               height={180}
               className="h-full w-full object-cover"
-              placeholder="blur"
               blurDataURL={(blurMap as Record<string, string>)[img.src]}
               priority={i < 4}
               sizes="280px"

@@ -17,11 +17,11 @@ async function generateBlurMap() {
         const buffer = await fs.readFile(filePath);
         
         const metadata = await sharp(buffer).metadata();
-        const resizeHeight = Math.round((metadata.height / metadata.width) * 8) || 8;
+        const resizeHeight = Math.round((metadata.height / metadata.width) * 16) || 16;
         
         const resized = await sharp(buffer)
-          .resize(8, resizeHeight)
-          .webp({ quality: 20 })
+          .resize(16, resizeHeight)
+          .webp({ quality: 80 })
           .toBuffer();
         
         const base64 = `data:image/webp;base64,${resized.toString("base64")}`;

@@ -2,7 +2,7 @@
 
 import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
-import Image from "next/image";
+import { SmoothImage } from "@/components/smooth-image";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 interface ProjectMeta {
@@ -125,14 +125,13 @@ export default function ProjectOverlay({
         {/* Hero image — full bleed, no border, no padding */}
         <div className="project-overlay-hero">
           {project?.meta.cover ? (
-            <Image
+            <SmoothImage
               src={project.meta.cover}
               alt={project?.meta.title ?? ""}
               fill
               className="project-overlay-hero-img"
               sizes="(max-width: 640px) 100vw, 860px"
               priority
-              placeholder="blur"
               blurDataURL={(blurMap as Record<string, string>)[project.meta.cover]}
             />
           ) : (
