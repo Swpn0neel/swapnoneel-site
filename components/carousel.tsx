@@ -33,7 +33,7 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
         {doubled.map((img, i) => (
           <div
             key={i}
-            className="embla__slide mr-4 flex-shrink-0 overflow-hidden rounded-lg"
+            className="embla__slide mr-4 shrink-0 overflow-hidden rounded-lg"
             style={{ width: 280, height: 180 }}
             role="group"
             aria-roledescription="slide"
@@ -48,6 +48,9 @@ export default function Carousel({ images }: { images: CarouselImage[] }) {
               className="h-full w-full object-cover"
               placeholder="blur"
               blurDataURL={blurPlaceholder}
+              priority={i < 4} // Preload the initial visible images
+              sizes="280px" // Provide exact size for better srcset generation
+              quality={85} // Balance between quality and performance
             />
           </div>
         ))}

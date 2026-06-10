@@ -2,7 +2,7 @@
 title: "DevRel Engineer • Keploy"
 date: "May 2024 - Dec 2024"
 description: "Developer Relations Engineering at Keploy, an open-source API testing platform."
-cover: "https://avatars.githubusercontent.com/u/92252339?s=200&v=4"
+cover: "/work/keploy.jpg"
 ---
 
 [Keploy](https://keploy.io) is an open-source, developer-friendly API testing platform that auto-generates test cases and data mocks from real traffic.

@@ -1,5 +1,6 @@
 "use client";
 
+import { blurPlaceholder } from "@/lib/blur";
 import { i18n } from "@/lib/i18n";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -131,6 +132,8 @@ export default function ProjectOverlay({
               className="project-overlay-hero-img"
               sizes="(max-width: 640px) 100vw, 860px"
               priority
+              placeholder="blur"
+              blurDataURL={blurPlaceholder}
             />
           ) : (
             <div className="project-overlay-hero-placeholder">
