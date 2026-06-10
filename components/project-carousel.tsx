@@ -78,11 +78,11 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                     alt={item.meta.title}
                     width={480}
                     height={270}
-                    className="h-44 transition duration-500 group-hover:scale-110"
+                    className="h-[200px] transition duration-500 group-hover:scale-110"
                     priority={i === 0}
                   />
                 ) : (
-                  <div className="bg-secondary text-muted-foreground flex h-44 w-full items-center justify-center px-4 text-center font-mono text-xs">
+                  <div className="bg-secondary text-muted-foreground flex h-[200px] w-full items-center justify-center px-4 text-center font-mono text-xs">
                     {item.meta.title}
                   </div>
                 )}
@@ -103,7 +103,7 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
               <div
                 key={`${item.meta.slug}-${i}`}
                 className="embla__slide mr-4 shrink-0"
-                style={{ width: 280 }}
+                style={{ width: 320 }}
                 onClick={() => setActiveProject(item)}
                 role="group"
                 aria-roledescription="slide"
