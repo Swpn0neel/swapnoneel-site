@@ -1,0 +1,19 @@
+{
+  "/work/keploy.jpg": "data:image/webp;base64,UklGRqYAAABXRUJQVlA4WAoAAAAQAAAABwAABwAAQUxQSEEAAAAAAgBdcAABAAAAY9v6YwADAABo5vLnKQACAQAIV7zZHwABAHr8//+WAAAP5M++7/wsAASREwAhQgwAAA8FAQAAAABWUDggPgAAAJABAJ0BKggACAAFQHwlsAJ0ANgJQAD4x9ebmbqN4vDiJkoorHbx2kC+q8kqmCcz+N/q18mSm9x3j36qhoAA",
+  "/work/tutorials-point.jpg": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAADwAQCdASoIAAgABUB8JaACdAD5i5dBqAAA/rD3mne/Xz96ibE2nBBNtRS8GGDaQiXjxNEZELFSgCFS6cMIjVIAAAA=",
+  "/work/wizdom.png": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAADQAQCdASoIAAgABUB8JagCdAEecgUgAAD5YA+72LITK+/iR279R1DzJvtWxKL3vqD+IKJo0AA=",
+  "/project/anrl.jpg": "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACQAQCdASoIAAUABUB8JaQAAsemwsAA/qs4Q3QRv19H7il6iX3Frd3R49WAAAAA",
+  "/project/folio.jpg": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAADQAQCdASoIAAUABUB8JbACdAEU95p3QAD+6fwI+NC4PnKNbDvoLzP0X9rgAA==",
+  "/project/get-response.jpg": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAACwAQCdASoIAAUABUB8JbACdADyfwWAAPlBtlW/Tu9a89+Qhylni2rm3BqnzxnavJ3bCjSfowAAAA==",
+  "/project/inposter.jpg": "data:image/webp;base64,UklGRkgAAABXRUJQVlA4IDwAAADwAQCdASoIAAUABUB8JbACdLoAArSdlOAA/gYeR6ZZ0yPu7PtnKguLApsk1hfxHrS1n6lw9Hk4LMdAAAA=",
+  "/project/omnilearner.jpg": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoIAAUABUB8JbACdADyf/7UAPlAzQNho2yHhHQgaBCVUGgBcxJKxmtldvo/62vNAAA=",
+  "/project/scholarian.jpg": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoIAAUABUB8JbACdAD0h/pcAP7jUk37j2DgDR06W7YlDYit8kLy/FMM+B3mKTqnMAA=",
+  "/project/term-ai.jpg": "data:image/webp;base64,UklGRjQAAABXRUJQVlA4ICgAAADQAQCdASoIAAUABUB8JZgCdAEQCTmyUAD+6+OnunsXAHHIcNTnAAAA",
+  "/project/term-chat.jpg": "data:image/webp;base64,UklGRkoAAABXRUJQVlA4ID4AAACwAQCdASoIAAUABUB8JbACdADx+IRAAP6s0u09Xg/3utzGBPpERNIZJeGzXZ7CWrWBmAqtYl+aMipYcxwAAA==",
+  "/project/toile.jpg": "data:image/webp;base64,UklGRjgAAABXRUJQVlA4ICwAAACwAQCdASoIAAUABUB8JQBOgB5vdqIAAP7b5d5+LdEdXwDmHKmNRRRy0IAAAA==",
+  "/project/ydub.jpg": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAACwAQCdASoIAAUABUB8JaACdAD5ad7QAP4Fdq96b40YmH3nfOrtpurGd9GF2+q3sJuyqAAA",
+  "/img/headshot.png": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4WAoAAAAQAAAABwAABAAAQUxQSBMAAAABF3D3/4iIQSCQJLnkxBH9DygeAFZQOCAaAAAAMAEAnQEqCAAFAAVAfCWkAANwAP7wcXUuQAA=",
+  "/img/pfp-circle.png": "data:image/webp;base64,UklGRpQAAABXRUJQVlA4WAoAAAAQAAAABwAABwAAQUxQSDQAAAABYBtJkpNL6OoDR0NSr0y02LHIISLCfDmOxS0UJEoYueCiXQFE/KWBS7poQkGiBvOh1N4NVlA4IDoAAACQAQCdASoIAAgABUB8JaQAApplHeAA/t2e3N70EW5ECjGcxh4T6faz7msB9IsGZYenn02iP+kSUAAA",
+  "/img/pfp-hover.png": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAQCdASoIAAgABUB8JbACdAD0MZIAAADJA4H+k2QfFa5Qvym6gnBXohN4MaGv4RRX4B3m4L4NNLCakUuOBF7hDEAAAA==",
+  "/img/pfp.jpg": "data:image/webp;base64,UklGRkIAAABXRUJQVlA4IDYAAACwAQCdASoIAAgABUB8JaQAAp3GWr8AAP7ddgEGpnjrmQPyMkW6pvDEbG/mZUvTM9I2Ir6AAAA="
+}

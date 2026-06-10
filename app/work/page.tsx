@@ -3,6 +3,7 @@ import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
+import blurMap from "@/lib/blur-map.json";
 import Image from "next/image";
 import Link from "next/link";
 

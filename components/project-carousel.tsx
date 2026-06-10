@@ -4,7 +4,8 @@ import { i18n } from "@/lib/i18n";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useRef, useState } from "react";
-import { OptimizedImage } from "./optimized-image";
+import blurMap from "@/lib/blur-map.json";
+import Image from "next/image";
 import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
@@ -73,14 +74,18 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
             const cardContent = (
               <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
-                  <OptimizedImage
-                    src={item.meta.cover}
-                    alt={item.meta.title}
-                    width={480}
-                    height={270}
-                    className="h-[200px] transition duration-500 group-hover:scale-110"
-                    priority={i === 0}
-                  />
+                  <div className="h-[200px] w-full overflow-hidden relative">
+                    <Image
+                      src={item.meta.cover}
+                      alt={item.meta.title}
+                      width={480}
+                      height={270}
+                      className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                      priority={i === 0}
+                      placeholder="blur"
+                      blurDataURL={(blurMap as Record<string, string>)[item.meta.cover]}
+                    />
+                  </div>
                 ) : (
                   <div className="bg-secondary text-muted-foreground flex h-[200px] w-full items-center justify-center px-4 text-center font-mono text-xs">
                     {item.meta.title}

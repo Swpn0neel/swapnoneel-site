@@ -6,6 +6,7 @@ import { ViewMore } from "@/components/view-more";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import blurMap from "@/lib/blur-map.json";
 import Image from "next/image";
 import Link from "next/link";
 
