@@ -36,9 +36,9 @@ export default function ProjectCard({ item }: ProjectCardProps) {
           {item.meta.title}
         </div>
       )}
-      <div className="p-2">
+      <div className="p-4 md:p-5">
         <div className="flex items-center justify-between">
-          <p className="text-xs font-semibold">{item.meta.title}</p>
+          <p className="text-sm font-semibold">{item.meta.title}</p>
           {isExternal && (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -58,7 +58,7 @@ export default function ProjectCard({ item }: ProjectCardProps) {
           )}
         </div>
         {item.meta.description && (
-          <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-relaxed">
+          <p className="text-muted-foreground mt-1.5 line-clamp-2 text-xs leading-relaxed">
             {item.meta.description}
           </p>
         )}

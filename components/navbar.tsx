@@ -21,8 +21,8 @@ export default function Navbar() {
       >
         {siteConfig.person.shortName}
       </Link>
-      <div className="flex items-center gap-4">
-        <div className="hidden items-center gap-5 md:flex">
+      <div className="flex items-center gap-6">
+        <div className="hidden items-center gap-6 md:flex">
           {navItems.map((item) => (
             <Link
               key={item.href}

@@ -169,34 +169,34 @@ textarea {
   font-size: 1.6rem;
   font-weight: 700;
   letter-spacing: -0.02em;
-  margin-top: 1.8em;
-  margin-bottom: 0.6em;
+  margin-top: 2.2em;
+  margin-bottom: 0.8em;
 }
 
 .prose h2 {
   font-size: 1.3rem;
   font-weight: 650;
   letter-spacing: -0.015em;
-  margin-top: 1.6em;
-  margin-bottom: 0.5em;
+  margin-top: 2em;
+  margin-bottom: 0.7em;
 }
 
 .prose h3 {
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: -0.01em;
-  margin-top: 1.4em;
-  margin-bottom: 0.4em;
+  margin-top: 1.8em;
+  margin-bottom: 0.6em;
 }
 
 .prose h4 {
   font-size: 0.95rem;
   font-weight: 600;
-  margin-top: 1.2em;
-  margin-bottom: 0.3em;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
 }
 .prose p {
-  margin-bottom: 1em;
+  margin-bottom: 1.2em;
   line-height: 1.75;
   color: hsl(var(--muted-foreground));
 }
