@@ -1,5 +1,6 @@
 "use client";
 
+import { ImagePreloader } from "@/components/image-preloader";
 import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { useState } from "react";
@@ -42,6 +43,8 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
                       width={400}
                       height={225}
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+                      sizes="(max-width: 640px) 100vw, 50vw"
+                      showSkeleton
                       blurDataURL={
                         (blurMap as Record<string, string>)[item.meta.cover]
                       }
@@ -71,6 +74,10 @@ export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
       <ProjectOverlay
         project={activeProject}
         onClose={() => setActiveProject(null)}
+      />
+
+      <ImagePreloader
+        images={items.map((item) => ({ src: item.meta.cover ?? "" }))}
       />
     </>
   );

@@ -132,6 +132,7 @@ export default function ProjectOverlay({
               className="project-overlay-hero-img"
               sizes="(max-width: 640px) 100vw, 860px"
               priority
+              showSkeleton
               blurDataURL={
                 (blurMap as Record<string, string>)[project.meta.cover]
               }

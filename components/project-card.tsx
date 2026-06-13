@@ -28,6 +28,8 @@ export default function ProjectCard({ item }: ProjectCardProps) {
             width={400}
             height={225}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+            sizes="(max-width: 640px) 100vw, 400px"
+            showSkeleton
             blurDataURL={(blurMap as Record<string, string>)[item.meta.cover]}
           />
         </div>

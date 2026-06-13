@@ -4,6 +4,15 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
 /* ─── Skip to Content ─── */
 .skip-to-content {
   position: absolute;

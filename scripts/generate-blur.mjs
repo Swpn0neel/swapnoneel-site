@@ -9,34 +9,39 @@ async function generateBlurMap() {
 
   for (const dir of dirsToScan) {
     const dirPath = path.join(publicDir, dir);
+
     try {
       const files = await fs.readdir(dirPath);
+
       for (const file of files) {
         if (!file.match(/\.(png|jpe?g|webp|gif|avif)$/i)) continue;
+
         const filePath = path.join(dirPath, file);
-        const buffer = await fs.readFile(filePath);
+        const image = sharp(filePath);
+        const metadata = await image.metadata();
+        const width = metadata.width || 16;
+        const height = metadata.height || 16;
+        const resizeHeight = Math.max(1, Math.round((height / width) * 16));
 
-        const metadata = await sharp(buffer).metadata();
-        const resizeHeight =
-          Math.round((metadata.height / metadata.width) * 16) || 16;
-
-        const resized = await sharp(buffer)
+        const resized = await image
           .resize(16, resizeHeight)
-          .webp({ quality: 80 })
+          .webp({ quality: 70 })
           .toBuffer();
 
-        const base64 = `data:image/webp;base64,${resized.toString("base64")}`;
-        const relativePath = `/${dir}/${file}`;
-        blurMap[relativePath] = base64;
+        blurMap[`/${dir}/${file}`] =
+          `data:image/webp;base64,${resized.toString("base64")}`;
       }
-    } catch (e) {
-      console.log(`Skipping ${dirPath}:`, e.message);
+    } catch (error) {
+      console.warn(`Skipping ${dirPath}:`, error.message);
     }
   }
 
   const outPath = path.join(process.cwd(), "lib", "blur-map.json");
-  await fs.writeFile(outPath, JSON.stringify(blurMap, null, 2));
+  await fs.writeFile(outPath, `${JSON.stringify(blurMap, null, 2)}\n`);
   console.log("Successfully generated lib/blur-map.json");
 }
 
-generateBlurMap();
+generateBlurMap().catch((error) => {
+  console.error(error);
+  process.exit(1);
+});

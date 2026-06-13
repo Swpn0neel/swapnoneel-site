@@ -5,61 +5,60 @@ import { ComponentProps, useState } from "react";
 
 interface SmoothImageProps extends Omit<
   ComponentProps<typeof Image>,
-  "blurDataURL"
+  "placeholder" | "blurDataURL"
 > {
   blurDataURL?: string;
+  showSkeleton?: boolean;
 }
 
 export function SmoothImage({
   className = "",
   blurDataURL,
   alt = "",
+  showSkeleton = false,
   ...props
 }: SmoothImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
-
-  // If no blurDataURL is provided, fallback to standard Next.js Image
-  if (!blurDataURL) {
-    return <Image className={className} alt={alt} {...props} />;
-  }
-
-  const imageProps = { ...props };
-  // Next.js warns if width/height are passed alongside fill
-  if (imageProps.fill) {
-    delete imageProps.width;
-    delete imageProps.height;
-  }
+  const [hasError, setHasError] = useState(false);
+  const isFill = "fill" in props && props.fill;
 
   return (
-    <div className="relative h-full w-full overflow-hidden">
-      {/* Blurred Background Layer */}
-      <Image
-        {...imageProps}
-        src={blurDataURL}
-        className={`${className} absolute inset-0 -z-10`}
-        style={{ filter: "blur(10px)", transform: "scale(1.1)" }}
-        alt={alt || "placeholder"}
-        priority
-        unoptimized
-      />
+    <div className={`relative overflow-hidden ${isFill ? "size-full" : ""}`}>
+      {showSkeleton && (
+        <div
+          className={`absolute inset-0 transition-opacity duration-500 ${
+            isLoaded || hasError
+              ? "pointer-events-none opacity-0"
+              : "opacity-100"
+          }`}
+          style={{
+            background:
+              "linear-gradient(90deg, hsl(var(--secondary) / 0.3) 30%, hsl(var(--secondary) / 0.65) 50%, hsl(var(--secondary) / 0.3) 70%)",
+            backgroundSize: "200% 100%",
+            animation: "shimmer 1.2s ease-in-out infinite",
+          }}
+        />
+      )}
 
-      {/* Actual High-Res Image */}
-      <Image
-        {...imageProps}
-        alt={alt}
-        className={`${className} absolute inset-0 ${
-          isLoaded ? "opacity-100" : "opacity-0"
-        }`}
-        style={{
-          ...props.style,
-          transition:
-            "opacity 300ms cubic-bezier(0.4, 0, 0.2, 1), scale 500ms cubic-bezier(0.4, 0, 0.2, 1), transform 500ms cubic-bezier(0.4, 0, 0.2, 1)",
-        }}
-        onLoad={(e) => {
-          setIsLoaded(true);
-          if (props.onLoad) props.onLoad(e);
-        }}
-      />
+      {!hasError && (
+        <Image
+          {...props}
+          alt={alt}
+          className={`transition duration-300 ${
+            showSkeleton && !isLoaded ? "opacity-0" : "opacity-100"
+          } ${className}`}
+          placeholder={blurDataURL ? "blur" : undefined}
+          blurDataURL={blurDataURL}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
+        />
+      )}
+
+      {hasError && (
+        <div className="bg-secondary/50 text-muted-foreground flex items-center justify-center p-4 text-center font-mono text-xs">
+          {alt}
+        </div>
+      )}
     </div>
   );
 }

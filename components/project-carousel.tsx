@@ -1,5 +1,6 @@
 "use client";
 
+import { ImagePreloader } from "@/components/image-preloader";
 import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
@@ -82,6 +83,8 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                       height={270}
                       className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
                       priority={i === 0}
+                      sizes="320px"
+                      showSkeleton
                       blurDataURL={
                         (blurMap as Record<string, string>)[item.meta.cover]
                       }
@@ -126,6 +129,10 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
       <ProjectOverlay
         project={activeProject}
         onClose={() => setActiveProject(null)}
+      />
+
+      <ImagePreloader
+        images={items.map((item) => ({ src: item.meta.cover ?? "" }))}
       />
     </>
   );
