@@ -10,6 +10,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
+import { common } from "lowlight";
 
 export const dynamicParams = false;
 export const revalidate = 3600;
@@ -192,7 +193,19 @@ export default async function BlogPostPage({
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeHighlight],
+              rehypePlugins: [
+                [
+                  rehypeHighlight,
+                  {
+                    languages: {
+                      bash: common.bash,
+                      javascript: common.javascript,
+                      json: common.json,
+                      python: common.python,
+                    },
+                  },
+                ],
+              ],
             },
           }}
           components={{
