@@ -72,9 +72,9 @@ export function CalBooking({ className, customText }: CalBookingProps) {
       data-cal-namespace={activeNamespace}
       data-cal-link={siteConfig.calendar.link}
       data-cal-config={JSON.stringify({ layout: "month_view" })}
-      className="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-8 items-center justify-center gap-2 rounded-md px-4 text-sm leading-none font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none"
+      className="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-4 text-sm font-medium leading-none whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none"
     >
-      <Calendar className="h-4 w-4 shrink-0" />
+      <Calendar className="size-[1em] shrink-0" />
       {i18n.calendar.defaultButton}
     </button>
   );

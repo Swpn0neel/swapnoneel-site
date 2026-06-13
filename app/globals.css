@@ -358,20 +358,19 @@ mark {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  border: none;
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  color: #ffffff;
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--background) / 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: hsl(var(--muted-foreground));
   cursor: pointer;
-  transition:
-    background 0.18s,
-    transform 0.18s;
+  transition: all 0.3s ease;
 }
 
 .project-overlay-close:hover {
-  background: rgba(0, 0, 0, 0.72);
-  transform: scale(1.1);
+  background: hsl(var(--background) / 0.95);
+  border-color: hsl(var(--foreground) / 0.2);
+  color: hsl(var(--foreground));
 }
 
 /* ─── Overlay: stacked vertical hero layout ─── */
