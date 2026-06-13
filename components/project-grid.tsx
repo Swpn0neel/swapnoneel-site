@@ -4,7 +4,7 @@ import { ImagePreloader } from "@/components/image-preloader";
 import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { useState } from "react";
-import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
+import { ProjectOverlay, type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
   slug: string;
@@ -19,7 +19,7 @@ interface ProjectItem {
   content: string;
 }
 
-export default function ProjectGrid({ items }: { items: ProjectItem[] }) {
+export function ProjectGrid({ items }: { items: ProjectItem[] }) {
   const [activeProject, setActiveProject] = useState<ProjectOverlayData | null>(
     null
   );

@@ -4,7 +4,7 @@
 
 A premium, minimalist personal portfolio and blog built with the latest web technologies. Designed for high performance, accessibility, and architectural elegance.
 
-![Portfolio](./public/img/headshot.png)
+![Portfolio](./public/img/headshot.webp)
 
 ---
 
@@ -90,7 +90,7 @@ swapnoneel-site/
 
 ### Media
 
-- **Profile Picture**: Replace `public/img/pfp.jpg` with your own photo. The UI supports an interactive flip-card effect using `pfp-hover.png`.
+- **Profile Picture**: Replace `public/img/pfp.jpg` with your own photo. The UI supports an interactive flip-card effect using `pfp-hover.webp`.
 
 ---
 

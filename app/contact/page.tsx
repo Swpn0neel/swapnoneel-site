@@ -1,6 +1,8 @@
 "use client";
 
-import CalBooking from "@/components/cal-booking";
+import { CalBooking } from "@/components/cal-booking";
+import { Button } from "@/components/ui/button";
+import { Input, Textarea } from "@/components/ui/input";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import emailjs from "@emailjs/browser";
@@ -109,50 +111,35 @@ export default function ContactPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="name" className="block text-sm font-medium">
-              {i18n.contactPage.labels.name}
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              maxLength={100}
-              className="border-input focus-visible:ring-ring flex w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10"
-              placeholder={i18n.contactPage.placeholders.name}
-            />
-          </div>
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            required
+            maxLength={100}
+            label={i18n.contactPage.labels.name}
+            placeholder={i18n.contactPage.placeholders.name}
+          />
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="email" className="block text-sm font-medium">
-              {i18n.contactPage.labels.email}
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              maxLength={255}
-              className="border-input focus-visible:ring-ring flex w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10"
-              placeholder={i18n.contactPage.placeholders.email}
-            />
-          </div>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            required
+            maxLength={255}
+            label={i18n.contactPage.labels.email}
+            placeholder={i18n.contactPage.placeholders.email}
+          />
 
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="message" className="block text-sm font-medium">
-              {i18n.contactPage.labels.message}
-            </label>
-            <textarea
-              id="message"
-              name="message"
-              required
-              maxLength={5000}
-              rows={6}
-              className="border-input focus-visible:ring-ring flex w-full resize-y rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
-              placeholder={i18n.contactPage.placeholders.message}
-            />
-          </div>
+          <Textarea
+            id="message"
+            name="message"
+            required
+            maxLength={5000}
+            rows={6}
+            label={i18n.contactPage.labels.message}
+            placeholder={i18n.contactPage.placeholders.message}
+          />
         </div>
 
         {error && (
@@ -166,10 +153,9 @@ export default function ContactPage() {
           </p>
         )}
 
-        <button
+        <Button
           type="submit"
           disabled={isSubmitting}
-          className="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-8 items-center justify-center gap-2 rounded-md px-4 text-sm leading-none font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
         >
           {isSubmitting ? (
             <>
@@ -182,7 +168,7 @@ export default function ContactPage() {
               {i18n.contactPage.sendMessage}
             </>
           )}
-        </button>
+        </Button>
       </form>
 
       <div className="border-border mt-12 border-t pt-8">

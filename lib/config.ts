@@ -43,8 +43,8 @@ export const siteConfig = {
   },
   images: {
     avatar: "/img/pfp.jpg",
-    avatarHover: "/img/pfp-hover.png",
-    icon: "/img/pfp-circle.png",
+    avatarHover: "/img/pfp-hover.webp",
+    icon: "/img/pfp-circle.webp",
   },
   calendar: {
     namespaceDark: "dark-booking",

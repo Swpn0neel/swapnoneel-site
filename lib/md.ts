@@ -79,6 +79,12 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
+function estimateReadingTime(markdown: string): number {
+  const text = markdown.replace(/[#*`\[\]()>!|~-]/g, "").trim();
+  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(wordCount / 200));
+}
+
 export type BlogPost = {
   title: string;
   slug: string;
@@ -88,6 +94,7 @@ export type BlogPost = {
     markdown: string;
   };
   url?: string;
+  readingTime?: number;
 };
 
 export const getBlogPost = cache((slug: string): BlogPost | null => {
@@ -102,6 +109,7 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
       markdown: post.content,
     },
     url: post.meta.link,
+    readingTime: estimateReadingTime(post.content),
   };
 });
 

@@ -2,7 +2,7 @@
 title: "Software Developer • Wizdom"
 date: "Jan 2024 - May 2024"
 description: "Revamped UI, optimized code, and improved podcast experience at Wizdom."
-cover: "/work/wizdom.png"
+cover: "/work/wizdom.webp"
 ---
 
 [Wizdom](https://wizdomapp.com) is a platform that provides book summaries and insights via podcasts and readables, helping users learn from the world's best books in minutes.

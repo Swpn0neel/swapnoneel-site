@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { MobileNav } from "./mobile-nav";
 import { ThemeToggle } from "./theme-toggle";
 
-export default function Navbar() {
+export function Navbar() {
   const pathname = usePathname();
 
   return (

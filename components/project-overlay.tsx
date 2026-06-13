@@ -46,7 +46,7 @@ function parseSection(content: string, heading: string): string[] {
   return result;
 }
 
-export default function ProjectOverlay({
+export function ProjectOverlay({
   project,
   onClose,
 }: ProjectOverlayProps) {

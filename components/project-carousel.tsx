@@ -7,7 +7,7 @@ import { i18n } from "@/lib/i18n";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useRef, useState } from "react";
-import ProjectOverlay, { type ProjectOverlayData } from "./project-overlay";
+import { ProjectOverlay, type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
   slug: string;
@@ -24,16 +24,16 @@ interface ProjectItem {
 
 const AUTOPLAY_DELAY_MS = 2500;
 
-export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
+export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
   const autoplayRef = useRef(
-    Autoplay({ delay: AUTOPLAY_DELAY_MS, stopOnInteraction: false })
+    Autoplay({ delay: AUTOPLAY_DELAY_MS, stopOnInteraction: false, playOnInit: true })
   );
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
       align: "start",
-      duration: 30, // Smoother transition
-      dragFree: true, // Less "snappy", more fluid
+      duration: 30,
+      dragFree: true,
     },
     [autoplayRef.current]
   );
@@ -65,6 +65,10 @@ export default function ProjectCarousel({ items }: { items: ProjectItem[] }) {
         className="embla w-full overflow-hidden"
         ref={emblaRef}
         onKeyDown={onKeyDown}
+        onMouseEnter={() => autoplayRef.current?.stop()}
+        onMouseLeave={() => autoplayRef.current?.play()}
+        onFocus={() => autoplayRef.current?.stop()}
+        onBlur={() => autoplayRef.current?.play()}
         tabIndex={0}
         role="region"
         aria-label={i18n.common.projectsCarousel}

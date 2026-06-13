@@ -12,6 +12,7 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 export const dynamicParams = false;
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();
@@ -167,7 +168,7 @@ export default async function BlogPostPage({
           {post.title}
         </h1>
         <p className="text-muted-foreground flex items-center justify-between text-xs">
-          <span>{dateStr}</span>
+          <span>{dateStr} · {post.readingTime} min read</span>
           {post.url && (
             <a
               href={post.url}
@@ -208,7 +209,7 @@ export default async function BlogPostPage({
               );
             },
             mark: ({ children }) => (
-              <mark className="mx-0.5 inline-block rounded-sm bg-white! px-1.5 py-0.5 text-[0.9em] font-semibold text-black! no-underline shadow-sm dark:bg-white! dark:text-black!">
+              <mark className="mx-0.5 inline-block rounded-sm px-1.5 py-0.5 text-[0.9em] font-semibold no-underline shadow-sm">
                 {children}
               </mark>
             ),

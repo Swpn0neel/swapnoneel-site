@@ -1,7 +1,7 @@
-import CalBooking from "@/components/cal-booking";
+import { CalBooking } from "@/components/cal-booking";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/fade-in";
-import ProjectCarousel from "@/components/project-carousel";
-import SocialLinks from "@/components/social-links";
+import { ProjectCarousel } from "@/components/project-carousel";
+import { SocialLinks } from "@/components/social-links";
 import { ViewMore } from "@/components/view-more";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";

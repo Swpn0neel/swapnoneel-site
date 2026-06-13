@@ -1,5 +1,6 @@
 import { StaggerContainer, StaggerItem } from "@/components/fade-in";
 import { ResumeActions } from "@/components/resume-actions";
+import { Button } from "@/components/ui/button";
 import { siteConfig, socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
@@ -351,11 +352,10 @@ export default function ResumePage() {
       </StaggerContainer>
 
       <footer className="border-border mt-20 border-t pt-8 text-center print:hidden">
-        <Link
-          href="/contact"
-          className="bg-foreground text-background hover:bg-foreground/90 inline-flex items-center gap-2 rounded-full px-6 py-2.5 text-sm font-medium transition-colors"
-        >
-          {i18n.resume.hireMe}
+        <Link href="/contact">
+          <Button variant="primary" size="lg" className="rounded-full">
+            {i18n.resume.hireMe}
+          </Button>
         </Link>
       </footer>
     </div>

@@ -1,4 +1,4 @@
-import ProjectGrid from "@/components/project-grid";
+import { ProjectGrid } from "@/components/project-grid";
 import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
