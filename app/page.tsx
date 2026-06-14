@@ -49,8 +49,13 @@ export default function Home() {
               {siteConfig.person.displayName}
             </h1>
           </FadeIn>
+          <FadeIn delay={0.15}>
+            <p className="text-muted-foreground mb-4 text-sm leading-relaxed lowercase">
+              {i18n.home.hero.tagline}
+            </p>
+          </FadeIn>
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
-            <FadeIn key={paragraph} delay={0.15 + index * 0.05}>
+            <FadeIn key={paragraph} delay={0.2 + index * 0.05}>
               <p
                 className={`text-muted-foreground text-sm leading-relaxed lowercase ${
                   index > 0 ? "mt-4" : ""
@@ -60,7 +65,7 @@ export default function Home() {
               </p>
             </FadeIn>
           ))}
-          <FadeIn delay={0.3}>
+          <FadeIn delay={0.35}>
             <p className="text-muted-foreground mt-4 text-sm leading-relaxed lowercase">
               {i18n.home.hero.reachMeLabel}{" "}
               <a

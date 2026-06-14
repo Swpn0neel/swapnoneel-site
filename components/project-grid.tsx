@@ -55,12 +55,12 @@ export function ProjectGrid({ items }: { items: ProjectItem[] }) {
                     {item.meta.title}
                   </div>
                 )}
-                <div className="p-2">
+                <div className="p-3">
                   <div className="flex items-center justify-between">
-                    <p className="text-xs font-semibold">{item.meta.title}</p>
+                    <p className="text-sm font-semibold">{item.meta.title}</p>
                   </div>
                   {item.meta.description && (
-                    <p className="text-muted-foreground mt-0.5 line-clamp-2 text-xs leading-relaxed">
+                    <p className="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed">
                       {item.meta.description}
                     </p>
                   )}

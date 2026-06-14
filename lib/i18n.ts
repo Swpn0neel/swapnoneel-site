@@ -31,10 +31,10 @@ export const i18n = {
       avatarAlt: "Swapnoneel Saha",
       avatarHoverAlt: "Swapnoneel Saha Hover",
       title: "swapnoneel saha",
+      tagline: "i build tools that make developers faster. i specialize in building agentic ai, oss infrastructure, and high-performance web systems.",
       paragraphs: [
-        "I am a software engineer and full-stack developer specializing in the architecture of developer-centric tools, high-performance web applications, and automation systems. My work is defined by a focus on reducing technical complexity through better engineering, cleaner interfaces, and intuitive user experiences.",
-        // "I've spent the past few years building products that can scale and perform well, ranging from developer-facing infrastructure to educational platforms that help thousands of engineers worldwide. This has allowed me to bridge the gap between back-end technical rigor and front-end usability, with deep expertise in python, typescript, and ui/ux design.",
-        "Currently, I am deep in the development of agentic AI systems, crafting intelligent agents that automate complex, multi-step engineering workflows. I thrive on solving the unsolved problems, whether that involves architecting a scalable backend or designing a seamless interaction layer for a new tool.",
+        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to educational platforms reaching 9,800+ learners worldwide. my work sits at the intersection of agentic AI, open-source ecosystems, and full-stack engineering.",
+        "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
       ],
       reachMeLabel: "Reach me at",
       reachMeSuffix: ":)",

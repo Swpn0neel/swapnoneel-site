@@ -79,7 +79,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
             const cardContent = (
               <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
-                  <div className="relative h-[200px] w-full overflow-hidden">
+                  <div className="relative aspect-video w-full overflow-hidden">
                     <SmoothImage
                       src={item.meta.cover}
                       alt={item.meta.title}
@@ -95,7 +95,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                     />
                   </div>
                 ) : (
-                  <div className="bg-secondary text-muted-foreground flex h-[200px] w-full items-center justify-center px-4 text-center font-mono text-xs">
+                  <div className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
                     {item.meta.title}
                   </div>
                 )}
