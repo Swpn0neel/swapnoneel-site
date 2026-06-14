@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -67,42 +66,40 @@ export function BlogList({ posts }: BlogListProps) {
             </button>
 
             {/* Collapsible Content Wrapper */}
-            <AnimatePresence initial={false}>
-              {!isCollapsed && (
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.2, ease: "easeOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="space-y-0 pt-2 pb-4">
-                    {grouped[year].map((post, i) => {
-                      const d = new Date(post.publishedAt);
-                      const dateStr = `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
-                      return (
-                        <div key={post.slug}>
-                          <Link
-                            href={`/blog/${post.slug}`}
-                            className="group flex items-center justify-between py-3"
-                          >
-                            <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
-                              {post.title}
-                            </span>
-                            <span className="text-muted-foreground ml-4 shrink-0 font-mono text-xs">
-                              {dateStr}
-                            </span>
-                          </Link>
-                          {i < grouped[year].length - 1 && (
-                            <hr className="border-border/40" />
-                          )}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div
+              className={`grid transition-all duration-200 ease-out ${
+                isCollapsed
+                  ? "grid-rows-[0fr] opacity-0"
+                  : "grid-rows-[1fr] opacity-100"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <div className="space-y-0 pt-2 pb-4">
+                  {grouped[year].map((post, i) => {
+                    const d = new Date(post.publishedAt);
+                    const dateStr = `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
+                    return (
+                      <div key={post.slug}>
+                        <Link
+                          href={`/blog/${post.slug}`}
+                          className="group flex items-center justify-between py-3"
+                        >
+                          <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
+                            {post.title}
+                          </span>
+                          <span className="text-muted-foreground ml-4 shrink-0 font-mono text-xs">
+                            {dateStr}
+                          </span>
+                        </Link>
+                        {i < grouped[year].length - 1 && (
+                          <hr className="border-border/40" />
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
             <hr className="border-border/40 mt-1" />
           </section>
         );

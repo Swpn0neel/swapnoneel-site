@@ -1,6 +1,5 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 
 interface ImageWithSkeletonProps extends React.ImgHTMLAttributes<HTMLImageElement> {
@@ -12,14 +11,13 @@ export function ImageWithSkeleton({
   alt,
   className = "",
   wrapperClassName = "",
-  loading = "eager", // Preload instantly when the blog detail page is opened!
+  loading = "eager",
   ...props
 }: ImageWithSkeletonProps) {
   const [loaded, setLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  // Check if the image is already cached on mount to load instantly
   useEffect(() => {
     if (imgRef.current && imgRef.current.complete) {
       setLoaded(true);
@@ -28,29 +26,21 @@ export function ImageWithSkeleton({
 
   return (
     <span className={`relative block overflow-hidden ${wrapperClassName}`}>
-      {/* Framer Motion AnimatePresence for smooth skeleton fade-out */}
-      <AnimatePresence mode="wait">
-        {!loaded && !hasError && (
-          <motion.span
-            key="skeleton"
-            initial={{ opacity: 0.6 }}
-            animate={{ opacity: [0.6, 1, 0.6] }}
-            exit={{ opacity: 0, transition: { duration: 0.4 } }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-            className="bg-secondary/35 pointer-events-none absolute inset-0 z-10 flex min-h-[220px] flex-col items-center justify-center rounded-lg"
-          >
-            {/* Elegant Library-driven Rotating Spinner */}
-            <motion.span
-              animate={{ rotate: 360 }}
-              transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
-              className="border-primary/10 border-t-primary/70 h-6 w-6 rounded-full border-2"
-            />
-            <span className="text-muted-foreground/60 mt-2 font-mono text-[10px] select-none">
+      {/* Skeleton overlay — fades out when image loads */}
+      {!hasError && (
+        <span
+          className={`pointer-events-none absolute inset-0 z-10 transition-opacity duration-400 ${
+            loaded ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <span className="bg-secondary/35 flex min-h-[220px] flex-col items-center justify-center rounded-lg">
+            <span className="border-primary/10 border-t-primary/70 h-6 w-6 animate-spin rounded-full border-2" />
+            <span className="text-muted-foreground/60 mt-2 animate-pulse font-mono text-[10px] select-none">
               Instant loading...
             </span>
-          </motion.span>
-        )}
-      </AnimatePresence>
+          </span>
+        </span>
+      )}
 
       {/* Error Fallback */}
       {hasError && (
@@ -59,7 +49,7 @@ export function ImageWithSkeleton({
         </span>
       )}
 
-      {/* Actual Image Component */}
+      {/* Actual Image */}
       {!hasError && src && (
         <img
           ref={imgRef}
