@@ -1,4 +1,3 @@
-import { CalBooking } from "@/components/cal-booking";
 import { FadeIn, StaggerContainer, StaggerItem } from "@/components/fade-in";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SocialLinks } from "@/components/social-links";
@@ -6,8 +5,11 @@ import { ViewMore } from "@/components/view-more";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
+
+const CalBooking = dynamic(() => import("@/components/cal-booking").then((m) => m.CalBooking));
 
 export default function Home() {
   const workItems = getAllWorkItems();

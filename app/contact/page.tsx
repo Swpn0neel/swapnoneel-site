@@ -1,13 +1,14 @@
 "use client";
 
-import { CalBooking } from "@/components/cal-booking";
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
-import emailjs from "@emailjs/browser";
 import { Loader2, Send } from "lucide-react";
+import dynamic from "next/dynamic";
 import React, { useState } from "react";
+
+const CalBooking = dynamic(() => import("@/components/cal-booking").then((m) => m.CalBooking));
 
 function getErrorMessage(error: unknown): string {
   if (typeof error === "object" && error !== null) {
@@ -81,7 +82,8 @@ export default function ContactPage() {
         message,
       };
 
-      await emailjs.send(serviceId, templateId, templateParams, publicKey);
+      const emailjs = await import("@emailjs/browser");
+      await emailjs.default.send(serviceId, templateId, templateParams, publicKey);
       setSuccess(true);
       (e.target as HTMLFormElement).reset();
     } catch (err: unknown) {
