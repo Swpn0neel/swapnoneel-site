@@ -1,6 +1,5 @@
 "use client";
 
-import { ImagePreloader } from "@/components/image-preloader";
 import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
@@ -57,8 +56,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
     [emblaApi]
   );
 
-  const tripled = [...items, ...items, ...items];
-
+  // ponytail: embla loop:true handles infinite scrolling internally
   return (
     <>
       <div
@@ -75,7 +73,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
         aria-roledescription="carousel"
       >
         <div className="embla__container flex">
-          {tripled.map((item, i) => {
+          {items.map((item, i) => {
             const cardContent = (
               <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
                 {item.meta.cover ? (
@@ -120,7 +118,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                 onClick={() => setActiveProject(item)}
                 role="group"
                 aria-roledescription="slide"
-                aria-label={`Slide ${(i % items.length) + 1} of ${items.length}: ${item.meta.title}`}
+                aria-label={`Slide ${i + 1} of ${items.length}: ${item.meta.title}`}
                 tabIndex={-1}
               >
                 {cardContent}
@@ -133,10 +131,6 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
       <ProjectOverlay
         project={activeProject}
         onClose={() => setActiveProject(null)}
-      />
-
-      <ImagePreloader
-        images={items.map((item) => ({ src: item.meta.cover ?? "" }))}
       />
     </>
   );

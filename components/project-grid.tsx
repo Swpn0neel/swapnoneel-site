@@ -1,6 +1,5 @@
 "use client";
 
-import { ImagePreloader } from "@/components/image-preloader";
 import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { useState } from "react";
@@ -74,10 +73,6 @@ export function ProjectGrid({ items }: { items: ProjectItem[] }) {
       <ProjectOverlay
         project={activeProject}
         onClose={() => setActiveProject(null)}
-      />
-
-      <ImagePreloader
-        images={items.map((item) => ({ src: item.meta.cover ?? "" }))}
       />
     </>
   );

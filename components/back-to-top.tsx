@@ -8,48 +8,23 @@ export function BackToTop() {
   const [isBlocked, setIsBlocked] = useState(false);
 
   useEffect(() => {
-    const observer = new MutationObserver(() => {
-      setIsBlocked(document.body.style.overflow === "hidden");
-    });
-
-    observer.observe(document.body, {
-      attributes: true,
-      attributeFilter: ["style"],
-    });
-
-    // Initial check
-    setIsBlocked(document.body.style.overflow === "hidden");
-
-    return () => observer.disconnect();
+    const toggle = () => setIsVisible(window.scrollY > 400);
+    window.addEventListener("scroll", toggle, { passive: true });
+    toggle();
+    return () => window.removeEventListener("scroll", toggle);
   }, []);
 
   useEffect(() => {
-    const toggleVisibility = () => {
-      // Show when user scrolls down 400px
-      if (window.scrollY > 400) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener("scroll", toggleVisibility, { passive: true });
-    // Initial check
-    toggleVisibility();
-
-    return () => window.removeEventListener("scroll", toggleVisibility);
+    const check = () => setIsBlocked(document.body.style.overflow === "hidden");
+    check();
+    const mo = new MutationObserver(check);
+    mo.observe(document.body, { attributes: true, attributeFilter: ["style"] });
+    return () => mo.disconnect();
   }, []);
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
 
   return (
     <button
-      onClick={scrollToTop}
+      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className={`border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-[100] flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 ${
         isVisible && !isBlocked
           ? "translate-y-0 opacity-100"

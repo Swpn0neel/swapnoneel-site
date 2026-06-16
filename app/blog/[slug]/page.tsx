@@ -1,4 +1,3 @@
-import { ImageWithSkeleton } from "@/components/image-with-skeleton";
 import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
@@ -10,7 +9,6 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
-import { common } from "lowlight";
 
 export const dynamicParams = false;
 export const revalidate = 3600;
@@ -115,7 +113,6 @@ export default async function BlogPostPage({
   const post = await getBlogPost(slug);
   if (!post) notFound();
 
-  const SHOW_IMAGES = false; // Set to true to re-enable covers and article body images!
 
   const d = new Date(post.publishedAt);
   const dateStr = d.toLocaleDateString("en-US", {
@@ -193,33 +190,15 @@ export default async function BlogPostPage({
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              rehypePlugins: [
-                [
-                  rehypeHighlight,
-                  {
-                    languages: {
-                      bash: common.bash,
-                      javascript: common.javascript,
-                      json: common.json,
-                      python: common.python,
-                    },
-                  },
-                ],
-              ],
+              // ponytail: rehype-highlight includes common langs by default, no lowlight needed
+              rehypePlugins: [rehypeHighlight],
             },
           }}
           components={{
             img: (props) => {
-              if (!SHOW_IMAGES) return null;
-              return (
-                <ImageWithSkeleton
-                  src={props.src || ""}
-                  alt={props.alt || ""}
-                  className="border-border mx-auto h-auto max-w-full rounded-lg border transition-all duration-300 hover:scale-[1.005]"
-                  wrapperClassName="my-6 rounded-lg"
-                  loading="eager"
-                />
-              );
+              // ponytail: SHOW_IMAGES=false, images disabled — return null
+              void props;
+              return null;
             },
             mark: ({ children }) => (
               <mark className="mx-0.5 inline-block rounded-sm px-1.5 py-0.5 text-[0.9em] font-semibold no-underline shadow-sm">

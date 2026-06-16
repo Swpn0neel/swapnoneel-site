@@ -73,17 +73,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const allRoutes = [
-    ...staticRoutes,
-    ...blogRoutes,
-    ...workRoutes,
-    ...projectRoutes,
-  ];
-
-  const routeMap = new Map<string, MetadataRoute.Sitemap[number]>();
-  for (const route of allRoutes) {
-    routeMap.set(route.url, route);
+  // ponytail: last-write-wins dedup via Map, static routes defined first so dynamic slugs override
+  const seen = new Map<string, MetadataRoute.Sitemap[number]>();
+  for (const r of [...staticRoutes, ...blogRoutes, ...workRoutes, ...projectRoutes]) {
+    seen.set(r.url, r);
   }
-
-  return Array.from(routeMap.values());
+  return Array.from(seen.values());
 }

@@ -68,8 +68,7 @@ export function SocialLinks() {
     [autoplayRef.current]
   );
 
-  const doubled = [...socialLinks, ...socialLinks, ...socialLinks];
-
+  // ponytail: embla loop:true handles infinite scrolling internally
   return (
     <div>
       <div
@@ -82,7 +81,7 @@ export function SocialLinks() {
         aria-roledescription="carousel"
       >
         <div className="embla__container flex">
-          {doubled.map((link, i) => (
+          {socialLinks.map((link, i) => (
             <div
               key={`${link.name}-${i}`}
               className="embla__slide mr-3 shrink-0"

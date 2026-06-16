@@ -1,8 +1,6 @@
 "use client";
 
 import {
-  createContext,
-  useContext,
   useEffect,
   useRef,
   useState,
@@ -64,7 +62,7 @@ export function FadeIn({
   );
 }
 
-const StaggerContext = createContext(false);
+const StaggerContext = { isVisible: false }; // ponytail: removed Context, isVisible passed via parent observer
 
 interface StaggerContainerProps {
   children: ReactNode;
@@ -97,35 +95,35 @@ export function StaggerContainer({
   }, []);
 
   return (
-    <StaggerContext.Provider value={isVisible}>
-      <div
-        ref={ref}
-        className={className}
-        style={{ "--stagger-delay": `${staggerDelay}s` } as React.CSSProperties}
-      >
-        {children}
-      </div>
-    </StaggerContext.Provider>
+    <div
+      ref={ref}
+      className={className}
+      style={{ "--stagger-delay": `${staggerDelay}s`, "--is-visible": isVisible ? "1" : "0" } as React.CSSProperties}
+      data-visible={isVisible}
+    >
+      {children}
+    </div>
   );
 }
 
 interface StaggerItemProps {
   children: ReactNode;
   className?: string;
+  index?: number; // ponytail: caller passes index from .map() — no DOM traversal needed
 }
 
-export function StaggerItem({ children, className = "" }: StaggerItemProps) {
-  const isVisible = useContext(StaggerContext);
+export function StaggerItem({ children, className = "", index = 0 }: StaggerItemProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const [index, setIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (ref.current) {
-      const parent = ref.current.parentElement;
-      if (parent) {
-        setIndex(Array.from(parent.children).indexOf(ref.current));
-      }
-    }
+    const el = ref.current?.closest("[data-visible]");
+    if (!el) return;
+    const update = () => setIsVisible(el.getAttribute("data-visible") === "true");
+    update();
+    const mo = new MutationObserver(update);
+    mo.observe(el, { attributes: true, attributeFilter: ["data-visible"] });
+    return () => mo.disconnect();
   }, []);
 
   return (
