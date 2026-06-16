@@ -9,6 +9,7 @@ interface Post {
   slug: string;
   title: string;
   publishedAt: string;
+  url?: string;
 }
 
 interface BlogListProps {
@@ -77,14 +78,21 @@ export function BlogList({ posts }: BlogListProps) {
                 <div className="space-y-0 pt-2 pb-4">
                   {grouped[year].map((post, i) => {
                     const d = new Date(post.publishedAt);
-                    const dateStr = `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
+                    const dateStr = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
                     return (
                       <div key={post.slug}>
                         <Link
                           href={`/blog/${post.slug}`}
                           className="group flex items-center justify-between py-3"
                         >
-                          <span className="text-muted-foreground group-hover:text-foreground text-sm transition-colors">
+                          <span
+                            className={cn(
+                              "text-muted-foreground text-sm transition-colors",
+                              post.url?.includes("keploy")
+                                ? "group-hover:text-[#FF914D]"
+                                : "group-hover:text-foreground"
+                            )}
+                          >
                             {post.title}
                           </span>
                           <span className="text-muted-foreground ml-4 shrink-0 font-mono text-xs">

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 interface FadeInProps {
   children: ReactNode;
@@ -98,7 +93,12 @@ export function StaggerContainer({
     <div
       ref={ref}
       className={className}
-      style={{ "--stagger-delay": `${staggerDelay}s`, "--is-visible": isVisible ? "1" : "0" } as React.CSSProperties}
+      style={
+        {
+          "--stagger-delay": `${staggerDelay}s`,
+          "--is-visible": isVisible ? "1" : "0",
+        } as React.CSSProperties
+      }
       data-visible={isVisible}
     >
       {children}
@@ -112,14 +112,19 @@ interface StaggerItemProps {
   index?: number; // ponytail: caller passes index from .map() — no DOM traversal needed
 }
 
-export function StaggerItem({ children, className = "", index = 0 }: StaggerItemProps) {
+export function StaggerItem({
+  children,
+  className = "",
+  index = 0,
+}: StaggerItemProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current?.closest("[data-visible]");
     if (!el) return;
-    const update = () => setIsVisible(el.getAttribute("data-visible") === "true");
+    const update = () =>
+      setIsVisible(el.getAttribute("data-visible") === "true");
     update();
     const mo = new MutationObserver(update);
     mo.observe(el, { attributes: true, attributeFilter: ["data-visible"] });

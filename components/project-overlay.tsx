@@ -46,10 +46,7 @@ function parseSection(content: string, heading: string): string[] {
   return result;
 }
 
-export function ProjectOverlay({
-  project,
-  onClose,
-}: ProjectOverlayProps) {
+export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);

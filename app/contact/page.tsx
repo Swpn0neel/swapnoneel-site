@@ -8,7 +8,9 @@ import { Loader2, Send } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useState } from "react";
 
-const CalBooking = dynamic(() => import("@/components/cal-booking").then((m) => m.CalBooking));
+const CalBooking = dynamic(() =>
+  import("@/components/cal-booking").then((m) => m.CalBooking)
+);
 
 function getErrorMessage(error: unknown): string {
   if (typeof error === "object" && error !== null) {
@@ -83,7 +85,12 @@ export default function ContactPage() {
       };
 
       const emailjs = await import("@emailjs/browser");
-      await emailjs.default.send(serviceId, templateId, templateParams, publicKey);
+      await emailjs.default.send(
+        serviceId,
+        templateId,
+        templateParams,
+        publicKey
+      );
       setSuccess(true);
       (e.target as HTMLFormElement).reset();
     } catch (err: unknown) {
@@ -155,10 +162,7 @@ export default function ContactPage() {
           </p>
         )}
 
-        <Button
-          type="submit"
-          disabled={isSubmitting}
-        >
+        <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? (
             <>
               <Loader2 className="size-[1em] shrink-0 animate-spin" />

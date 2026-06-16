@@ -16,9 +16,7 @@ export default function Error({
   return (
     <div className="py-20 text-center">
       <p className="text-muted-foreground text-6xl font-bold">500</p>
-      <p className="text-foreground mt-4 text-lg">
-        Something went wrong.
-      </p>
+      <p className="text-foreground mt-4 text-lg">Something went wrong.</p>
       <p className="text-muted-foreground mt-1 text-sm">
         An unexpected error occurred. Please try again.
       </p>

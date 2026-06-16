@@ -12,9 +12,7 @@ export default function GlobalError({
       <body className="bg-background text-foreground flex min-h-screen items-center justify-center font-sans antialiased">
         <div className="px-4 text-center">
           <p className="text-muted-foreground text-6xl font-bold">500</p>
-          <p className="text-foreground mt-4 text-lg">
-            Critical error
-          </p>
+          <p className="text-foreground mt-4 text-lg">Critical error</p>
           <p className="text-muted-foreground mt-1 text-sm">
             A critical error occurred. Please refresh the page.
           </p>

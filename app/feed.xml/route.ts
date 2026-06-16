@@ -1,5 +1,5 @@
-import { getAllBlogPosts } from "@/lib/md";
 import { siteConfig } from "@/lib/config";
+import { getAllBlogPosts } from "@/lib/md";
 
 export async function GET() {
   const posts = await getAllBlogPosts();
@@ -14,7 +14,7 @@ export async function GET() {
       <guid isPermaLink="true">${baseUrl}/blog/${post.slug}</guid>
       <description><![CDATA[${post.brief || ""}]]></description>
       <pubDate>${new Date(post.publishedAt).toUTCString()}</pubDate>
-    </item>`,
+    </item>`
     )
     .join("\n");
 

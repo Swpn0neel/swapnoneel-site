@@ -25,7 +25,11 @@ const AUTOPLAY_DELAY_MS = 2500;
 
 export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
   const autoplayRef = useRef(
-    Autoplay({ delay: AUTOPLAY_DELAY_MS, stopOnInteraction: false, playOnInit: true })
+    Autoplay({
+      delay: AUTOPLAY_DELAY_MS,
+      stopOnInteraction: false,
+      playOnInit: true,
+    })
   );
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {

@@ -134,10 +134,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-.justify-text p,
-.justify-text li {
-  text-align: justify;
-  text-justify: inter-word;
+@media (min-width: 640px) {
+  .justify-text p,
+  .justify-text li {
+    text-align: justify;
+    text-justify: inter-word;
+  }
 }
 
 /* ─── Selection & Cursor ─── */

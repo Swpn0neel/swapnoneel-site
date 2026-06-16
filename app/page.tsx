@@ -9,7 +9,9 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 
-const CalBooking = dynamic(() => import("@/components/cal-booking").then((m) => m.CalBooking));
+const CalBooking = dynamic(() =>
+  import("@/components/cal-booking").then((m) => m.CalBooking)
+);
 
 export default function Home() {
   const workItems = getAllWorkItems();
@@ -18,7 +20,7 @@ export default function Home() {
   return (
     <div className="space-y-10 pb-12">
       {/* Hero */}
-      <section className="flex flex-col gap-5">
+      <section className="justify-text flex flex-col gap-5">
         <FadeIn>
           <div className="pfp-flip-card mb-2">
             <div className="pfp-flip-card-inner">

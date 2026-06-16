@@ -113,7 +113,6 @@ export default async function BlogPostPage({
   const post = await getBlogPost(slug);
   if (!post) notFound();
 
-
   const d = new Date(post.publishedAt);
   const dateStr = d.toLocaleDateString("en-US", {
     year: "numeric",
@@ -166,7 +165,9 @@ export default async function BlogPostPage({
           {post.title}
         </h1>
         <p className="text-muted-foreground flex items-center justify-between text-xs">
-          <span>{dateStr} · {post.readingTime} min read</span>
+          <span>
+            {dateStr} · {post.readingTime} min read
+          </span>
           {post.url && (
             <a
               href={post.url}
@@ -174,7 +175,9 @@ export default async function BlogPostPage({
               rel="noopener noreferrer"
               className="text-foreground border-border hover:bg-secondary rounded border px-2 py-1 transition-colors"
             >
-              {i18n.blog.readOnHashnode}
+              {post.url.includes("keploy")
+                ? "Read on Keploy Blogs ↗"
+                : i18n.blog.readOnHashnode}
             </a>
           )}
         </p>

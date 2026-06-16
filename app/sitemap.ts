@@ -75,7 +75,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ponytail: last-write-wins dedup via Map, static routes defined first so dynamic slugs override
   const seen = new Map<string, MetadataRoute.Sitemap[number]>();
-  for (const r of [...staticRoutes, ...blogRoutes, ...workRoutes, ...projectRoutes]) {
+  for (const r of [
+    ...staticRoutes,
+    ...blogRoutes,
+    ...workRoutes,
+    ...projectRoutes,
+  ]) {
     seen.set(r.url, r);
   }
   return Array.from(seen.values());
