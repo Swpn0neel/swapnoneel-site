@@ -36,7 +36,9 @@
 }
 
 /* ─── Focus Visible Styles ─── */
-:focus-visible {
+/* Excludes form fields — they use their own subtler ring (see ui/input.tsx)
+   instead of this heavier outline, to avoid stacking both at once. */
+:focus-visible:not(input):not(textarea):not(select) {
   outline: 2px solid hsl(var(--ring, 266 100% 50%));
   outline-offset: 2px;
 }
@@ -124,6 +126,9 @@ button:focus-visible {
 }
 
 html {
+  /* Intentional: scales every rem-based Tailwind utility site-wide by 1.2x
+     (e.g. text-sm renders larger than Tailwind's default text-sm). Don't
+     "fix" this to 100% without re-checking every layout. */
   font-size: 120%;
 }
 

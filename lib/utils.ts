@@ -15,3 +15,22 @@ export function safeJsonLd(data: unknown): string {
     .replace(/\u2028/g, "\\u2028")
     .replace(/\u2029/g, "\\u2029");
 }
+
+export function ogImageUrl(title: string, description?: string): string {
+  const params = new URLSearchParams({ title });
+  if (description) params.set("description", description);
+  return `/api/og?${params.toString()}`;
+}
+
+export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: item.url,
+    })),
+  };
+}

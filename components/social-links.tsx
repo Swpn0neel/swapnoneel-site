@@ -2,6 +2,7 @@
 
 import { socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
+import { SYNCED_SCROLL_DURATION, useSmartAutoplay } from "@/lib/use-smart-autoplay";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRef } from "react";
@@ -64,17 +65,19 @@ function SocialIcon({
 
 export function SocialLinks() {
   const autoplayRef = useRef(
-    Autoplay({ delay: 2500, stopOnInteraction: false, playOnInit: true })
+    Autoplay({ delay: 2500, stopOnInteraction: true, playOnInit: true })
   );
-  const [emblaRef] = useEmblaCarousel(
+  const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
       align: "start",
-      duration: 40,
+      duration: SYNCED_SCROLL_DURATION,
       dragFree: true,
     },
     [autoplayRef.current]
   );
+
+  const { pause, resume } = useSmartAutoplay(emblaApi, autoplayRef.current);
 
   // ponytail: embla loop:true handles infinite scrolling internally
   return (
@@ -82,8 +85,8 @@ export function SocialLinks() {
       <div
         className="embla w-full overflow-hidden"
         ref={emblaRef}
-        onMouseEnter={() => autoplayRef.current?.stop()}
-        onMouseLeave={() => autoplayRef.current?.play()}
+        onMouseEnter={pause}
+        onMouseLeave={resume}
         role="region"
         aria-label={i18n.common.socialLinksRegion}
         aria-roledescription="carousel"
@@ -106,7 +109,7 @@ export function SocialLinks() {
               >
                 <SocialIcon
                   brand={link.brand}
-                  className="text-foreground h-6 w-6 opacity-80 transition-opacity group-hover:opacity-100"
+                  className="text-foreground h-[28px] w-[28px] opacity-80 transition-opacity group-hover:opacity-100"
                 />
               </a>
             </div>

@@ -2,7 +2,7 @@ import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
-import { safeJsonLd } from "@/lib/utils";
+import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -26,11 +26,29 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPost(slug);
   if (!post) return {};
+  const url = `https://www.swapnoneel.site/blog/${slug}`;
+  const ogImage = ogImageUrl(post.title, post.brief);
   return {
     title: post.title,
     description: post.brief,
     alternates: {
       canonical: `/blog/${slug}`,
+    },
+    openGraph: {
+      title: post.title,
+      description: post.brief,
+      url,
+      type: "article",
+      publishedTime: post.publishedAt,
+      images: [
+        { url: ogImage, width: 1200, height: 630, alt: post.title },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.brief,
+      images: [ogImage],
     },
   };
 }
@@ -119,6 +137,14 @@ export default async function BlogPostPage({
     month: "long",
     day: "numeric",
   });
+  const updatedDateStr =
+    post.updatedAt && post.updatedAt !== post.publishedAt
+      ? new Date(post.updatedAt).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : null;
 
   const cleanMarkdown = (post.content?.markdown || "")
     .replace(
@@ -140,7 +166,11 @@ export default async function BlogPostPage({
             "@type": "BlogPosting",
             headline: post.title,
             description: post.brief,
+            image:
+              post.cover ||
+              `https://www.swapnoneel.site${ogImageUrl(post.title, post.brief)}`,
             datePublished: post.publishedAt,
+            ...(post.updatedAt ? { dateModified: post.updatedAt } : {}),
             author: {
               "@type": "Person",
               name: siteConfig.person.fullName,
@@ -153,6 +183,18 @@ export default async function BlogPostPage({
           }),
         }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd(
+            breadcrumbJsonLd([
+              { name: "Home", url: "https://www.swapnoneel.site" },
+              { name: "Blog", url: "https://www.swapnoneel.site/blog" },
+              { name: post.title, url: `https://www.swapnoneel.site/blog/${slug}` },
+            ])
+          ),
+        }}
+      />
       <div className="mb-6">
         <Link
           href="/blog"
@@ -161,12 +203,13 @@ export default async function BlogPostPage({
           ← {i18n.blog.backLink}
         </Link>
 
-        <h1 className="text-foreground mt-4 mb-2 text-2xl font-bold tracking-tight md:text-3xl">
+        <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight md:text-3xl">
           {post.title}
         </h1>
-        <p className="text-muted-foreground flex items-center justify-between text-xs">
+        <p className="text-muted-foreground flex items-center justify-between gap-4 text-xs">
           <span>
             {dateStr} · {post.readingTime} min read
+            {updatedDateStr && ` · Updated ${updatedDateStr}`}
           </span>
           {post.url && (
             <a

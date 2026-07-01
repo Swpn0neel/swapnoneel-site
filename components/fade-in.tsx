@@ -1,6 +1,65 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+
+// One shared IntersectionObserver for every FadeIn / StaggerContainer instance
+// instead of each component creating its own — same rootMargin/behavior for all.
+let sharedObserver: IntersectionObserver | null = null;
+const observerCallbacks = new Map<
+  Element,
+  (entry: IntersectionObserverEntry) => void
+>();
+
+function getSharedObserver() {
+  if (sharedObserver) return sharedObserver;
+  sharedObserver = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        observerCallbacks.get(entry.target)?.(entry);
+      }
+    },
+    { rootMargin: "-50px" }
+  );
+  return sharedObserver;
+}
+
+function useInView(once: boolean) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = getSharedObserver();
+
+    observerCallbacks.set(el, (entry) => {
+      if (entry.isIntersecting) {
+        setIsVisible(true);
+        if (once) {
+          observer.unobserve(el);
+          observerCallbacks.delete(el);
+        }
+      } else if (!once) {
+        setIsVisible(false);
+      }
+    });
+    observer.observe(el);
+
+    return () => {
+      observer.unobserve(el);
+      observerCallbacks.delete(el);
+    };
+  }, [once]);
+
+  return { ref, isVisible };
+}
 
 interface FadeInProps {
   children: ReactNode;
@@ -17,26 +76,7 @@ export function FadeIn({
   className = "",
   once = true,
 }: FadeInProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          if (once) observer.unobserve(el);
-        } else if (!once) {
-          setIsVisible(false);
-        }
-      },
-      { rootMargin: "-50px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [once]);
+  const { ref, isVisible } = useInView(once);
 
   const directionClass: Record<string, string> = {
     up: "slide-in-from-bottom-4",
@@ -57,7 +97,7 @@ export function FadeIn({
   );
 }
 
-const StaggerContext = { isVisible: false }; // ponytail: removed Context, isVisible passed via parent observer
+const StaggerContext = createContext(false);
 
 interface StaggerContainerProps {
   children: ReactNode;
@@ -70,46 +110,27 @@ export function StaggerContainer({
   className = "",
   staggerDelay = 0.1,
 }: StaggerContainerProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { rootMargin: "-50px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const { ref, isVisible } = useInView(true);
 
   return (
-    <div
-      ref={ref}
-      className={className}
-      style={
-        {
-          "--stagger-delay": `${staggerDelay}s`,
-          "--is-visible": isVisible ? "1" : "0",
-        } as React.CSSProperties
-      }
-      data-visible={isVisible}
-    >
-      {children}
-    </div>
+    <StaggerContext.Provider value={isVisible}>
+      <div
+        ref={ref}
+        className={className}
+        style={
+          { "--stagger-delay": `${staggerDelay}s` } as React.CSSProperties
+        }
+      >
+        {children}
+      </div>
+    </StaggerContext.Provider>
   );
 }
 
 interface StaggerItemProps {
   children: ReactNode;
   className?: string;
-  index?: number; // ponytail: caller passes index from .map() — no DOM traversal needed
+  index?: number; // caller passes index from .map() — no DOM traversal needed
 }
 
 export function StaggerItem({
@@ -117,23 +138,10 @@ export function StaggerItem({
   className = "",
   index = 0,
 }: StaggerItemProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current?.closest("[data-visible]");
-    if (!el) return;
-    const update = () =>
-      setIsVisible(el.getAttribute("data-visible") === "true");
-    update();
-    const mo = new MutationObserver(update);
-    mo.observe(el, { attributes: true, attributeFilter: ["data-visible"] });
-    return () => mo.disconnect();
-  }, []);
+  const isVisible = useContext(StaggerContext);
 
   return (
     <div
-      ref={ref}
       className={`${className} ${isVisible ? "animate-in fade-in slide-in-from-bottom-4 duration-500 ease-out" : "opacity-0"}`}
       style={{
         animationDelay: `calc(var(--stagger-delay, 0.1s) * ${index})`,

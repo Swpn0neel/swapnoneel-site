@@ -4,6 +4,7 @@ import { PageTransition } from "@/components/page-transition";
 import { ThemeProvider } from "@/components/theme-provider";
 import { footerLinks, siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
+import { buildPersonSchema } from "@/lib/structured-data";
 import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -87,22 +88,7 @@ export default function RootLayout({
             dangerouslySetInnerHTML={{
               __html: safeJsonLd({
                 "@context": "https://schema.org",
-                "@type": "Person",
-                name: siteConfig.person.fullName,
-                url: "https://www.swapnoneel.site",
-                image: `https://www.swapnoneel.site${siteConfig.images.avatar}`,
-                sameAs: [
-                  "https://x.com/swapnoneel123",
-                  "https://github.com/Swpn0neel",
-                  "https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/",
-                  "https://swapnoneel.hashnode.dev",
-                ],
-                jobTitle: "Software Engineer",
-                worksFor: {
-                  "@type": "Organization",
-                  name: "Freelance",
-                },
-                description: siteConfig.metadata.description,
+                ...buildPersonSchema(),
               }),
             }}
           />

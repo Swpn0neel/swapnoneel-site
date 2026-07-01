@@ -1,9 +1,10 @@
 import { StaggerContainer, StaggerItem } from "@/components/fade-in";
 import { ResumeActions } from "@/components/resume-actions";
 import { Button } from "@/components/ui/button";
-import { siteConfig, socialLinks } from "@/lib/config";
+import { siteConfig, skills, socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { ogImageUrl } from "@/lib/utils";
 import {
   Briefcase,
   Code2,
@@ -55,6 +56,31 @@ function LinkedinIcon({ size = 14 }: { size?: number }) {
 export const metadata = {
   title: i18n.resume.pageTitle,
   description: i18n.resume.summaryContent,
+  alternates: {
+    canonical: "/resume",
+  },
+  openGraph: {
+    title: `${i18n.resume.pageTitle} — ${siteConfig.person.fullName}`,
+    description: i18n.resume.summaryContent,
+    url: "https://www.swapnoneel.site/resume",
+    type: "profile",
+    images: [
+      {
+        url: ogImageUrl(siteConfig.person.fullName, i18n.resume.summaryContent),
+        width: 1200,
+        height: 630,
+        alt: i18n.resume.pageTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${i18n.resume.pageTitle} — ${siteConfig.person.fullName}`,
+    description: i18n.resume.summaryContent,
+    images: [
+      ogImageUrl(siteConfig.person.fullName, i18n.resume.summaryContent),
+    ],
+  },
 };
 
 const socialLinksMap = Object.fromEntries(
@@ -77,36 +103,6 @@ export default function ResumePage() {
   // Find social links for header
   const github = socialLinksMap["github"];
   const linkedin = socialLinksMap["linkedin"];
-
-  const skills = {
-    languages: [
-      "TypeScript",
-      "JavaScript",
-      "Python",
-      "GoLang",
-      "Java",
-      "SQL",
-      "C/C++",
-    ],
-    frameworks: [
-      "Next.js",
-      "Django",
-      "Node.js",
-      "Flask",
-      "Socket.io",
-      "Prisma",
-      "Tailwind CSS",
-    ],
-    tools: [
-      "Docker",
-      "MongoDB",
-      "PostgreSQL",
-      "Git",
-      "RAG (AI)",
-      "API Design",
-      "UI/UX (Figma)",
-    ],
-  };
 
   const achievements = i18n.work.achievements;
 

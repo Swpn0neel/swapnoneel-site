@@ -14,6 +14,7 @@ export type PostMeta = {
   slug: string;
   title: string;
   date: string;
+  updated?: string;
   description?: string;
   cover?: string;
   link?: string;
@@ -89,7 +90,9 @@ export type BlogPost = {
   title: string;
   slug: string;
   publishedAt: string;
+  updatedAt?: string;
   brief?: string;
+  cover?: string;
   content?: {
     markdown: string;
   };
@@ -104,7 +107,9 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
     title: post.meta.title,
     slug: post.meta.slug,
     publishedAt: post.meta.date,
+    updatedAt: post.meta.updated,
     brief: post.meta.description,
+    cover: post.meta.cover,
     content: {
       markdown: post.content,
     },

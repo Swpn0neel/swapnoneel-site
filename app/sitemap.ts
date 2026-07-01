@@ -45,6 +45,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.5,
     },
     {
+      url: `${baseUrl}/resume`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
       url: `${baseUrl}/feed.xml`,
       lastModified: new Date(),
       changeFrequency: "weekly",
@@ -54,7 +60,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: parseValidDate(post.publishedAt),
+    lastModified: parseValidDate(post.updatedAt || post.publishedAt),
     changeFrequency: "monthly",
     priority: 0.8,
   }));

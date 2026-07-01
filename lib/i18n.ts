@@ -95,6 +95,8 @@ export const i18n = {
   },
   blog: {
     title: "Blog",
+    description:
+      "Technical deep-dives, tutorials, and reflections on software engineering, Python, JavaScript, and web development.",
     backLink: "blog",
     readOnHashnode: "Read on Hashnode ↗",
   },
@@ -141,7 +143,7 @@ export const i18n = {
   resume: {
     pageTitle: "Resume",
     jobTitle: "Software Engineer & Full-stack Developer",
-    downloadPdf: "Download PDF",
+    downloadPdf: "Save as PDF",
     hireMe: "Hire Me",
     summaryHeading: "Summary",
     summaryContent:

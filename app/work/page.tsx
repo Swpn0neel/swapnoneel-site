@@ -2,12 +2,40 @@ import { ProjectGrid } from "@/components/project-grid";
 import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+const workDescription =
+  "Professional experience, projects, and achievements of Swapnoneel Saha — Software Engineer specializing in Agentic AI and full-stack development.";
+
 export const metadata = {
   title: "Work",
+  description: workDescription,
+  alternates: {
+    canonical: "/work",
+  },
+  openGraph: {
+    title: "Work",
+    description: workDescription,
+    url: "https://www.swapnoneel.site/work",
+    type: "website",
+    images: [
+      {
+        url: ogImageUrl("Work", workDescription),
+        width: 1200,
+        height: 630,
+        alt: "Work",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Work",
+    description: workDescription,
+    images: [ogImageUrl("Work", workDescription)],
+  },
 };
 
 const achievements = [
@@ -47,6 +75,38 @@ export default function WorkPage() {
 
   return (
     <div className="space-y-10 pb-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Experience",
+            itemListElement: workItems.map((item, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              url: item.meta.link || `https://www.swapnoneel.site/work/${item.meta.slug}`,
+              name: item.meta.title,
+            })),
+          }),
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Projects",
+            itemListElement: projects.map((project, index) => ({
+              "@type": "ListItem",
+              position: index + 1,
+              url: `https://www.swapnoneel.site/work/${project.meta.slug}`,
+              name: project.meta.title,
+            })),
+          }),
+        }}
+      />
       {/* Experience */}
       <section>
         <h2 className="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">

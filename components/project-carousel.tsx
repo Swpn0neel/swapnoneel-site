@@ -1,11 +1,11 @@
 "use client";
 
-import { SmoothImage } from "@/components/smooth-image";
-import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
+import { SYNCED_SCROLL_DURATION, useSmartAutoplay } from "@/lib/use-smart-autoplay";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useCallback, useRef, useState } from "react";
+import { ProjectCard } from "./project-card";
 import { ProjectOverlay, type ProjectOverlayData } from "./project-overlay";
 
 interface ProjectMeta {
@@ -27,7 +27,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
   const autoplayRef = useRef(
     Autoplay({
       delay: AUTOPLAY_DELAY_MS,
-      stopOnInteraction: false,
+      stopOnInteraction: true,
       playOnInit: true,
     })
   );
@@ -35,11 +35,13 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
     {
       loop: true,
       align: "start",
-      duration: 30,
+      duration: SYNCED_SCROLL_DURATION,
       dragFree: true,
     },
     [autoplayRef.current]
   );
+
+  const { pause, resume } = useSmartAutoplay(emblaApi, autoplayRef.current);
 
   const [activeProject, setActiveProject] = useState<ProjectOverlayData | null>(
     null
@@ -67,10 +69,10 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
         className="embla w-full overflow-hidden"
         ref={emblaRef}
         onKeyDown={onKeyDown}
-        onMouseEnter={() => autoplayRef.current?.stop()}
-        onMouseLeave={() => autoplayRef.current?.play()}
-        onFocus={() => autoplayRef.current?.stop()}
-        onBlur={() => autoplayRef.current?.play()}
+        onMouseEnter={pause}
+        onMouseLeave={resume}
+        onFocus={pause}
+        onBlur={resume}
         tabIndex={0}
         role="region"
         aria-label={i18n.common.projectsCarousel}
@@ -79,39 +81,13 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
         <div className="embla__container flex">
           {items.map((item, i) => {
             const cardContent = (
-              <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
-                {item.meta.cover ? (
-                  <div className="relative aspect-video w-full overflow-hidden">
-                    <SmoothImage
-                      src={item.meta.cover}
-                      alt={item.meta.title}
-                      width={480}
-                      height={270}
-                      className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
-                      priority={i === 0}
-                      sizes="320px"
-                      showSkeleton
-                      blurDataURL={
-                        (blurMap as Record<string, string>)[item.meta.cover]
-                      }
-                    />
-                  </div>
-                ) : (
-                  <div className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
-                    {item.meta.title}
-                  </div>
-                )}
-                <div className="p-3">
-                  <div className="flex items-center justify-between">
-                    <p className="text-sm font-semibold">{item.meta.title}</p>
-                  </div>
-                  {item.meta.description && (
-                    <p className="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed">
-                      {item.meta.description}
-                    </p>
-                  )}
-                </div>
-              </div>
+              <ProjectCard
+                item={item}
+                imageWidth={480}
+                imageHeight={270}
+                sizes="320px"
+                priority={i === 0}
+              />
             );
 
             return (

@@ -5,6 +5,8 @@ import { ViewMore } from "@/components/view-more";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { buildPersonSchema } from "@/lib/structured-data";
+import { safeJsonLd } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -19,6 +21,16 @@ export default function Home() {
 
   return (
     <div className="space-y-10 pb-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: safeJsonLd({
+            "@context": "https://schema.org",
+            "@type": "ProfilePage",
+            mainEntity: buildPersonSchema(),
+          }),
+        }}
+      />
       {/* Hero */}
       <section className="justify-text flex flex-col gap-5">
         <FadeIn>
@@ -41,7 +53,6 @@ export default function Home() {
                   width={140}
                   height={140}
                   className="pfp-image-flip"
-                  priority
                 />
               </div>
             </div>

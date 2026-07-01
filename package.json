@@ -3,9 +3,9 @@
   "description": "personal site (swapnoneel)",
   "version": "1.0.0",
   "scripts": {
-    "predev": "node scripts/generate-blur.mjs",
+    "predev": "node scripts/generate-blur.mjs && node scripts/generate-llms-full.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/generate-blur.mjs",
+    "prebuild": "node scripts/generate-blur.mjs && node scripts/generate-llms-full.mjs",
     "build": "next build",
     "start": "next start",
     "format": "prettier --write .",

@@ -111,3 +111,33 @@ export const socialLinks: readonly SocialLink[] = [
   },
   { name: "telegram", brand: "telegram", url: "https://t.me/swapnoneel123" },
 ];
+
+export const skills = {
+  languages: [
+    "TypeScript",
+    "JavaScript",
+    "Python",
+    "GoLang",
+    "Java",
+    "SQL",
+    "C/C++",
+  ],
+  frameworks: [
+    "Next.js",
+    "Django",
+    "Node.js",
+    "Flask",
+    "Socket.io",
+    "Prisma",
+    "Tailwind CSS",
+  ],
+  tools: [
+    "Docker",
+    "MongoDB",
+    "PostgreSQL",
+    "Git",
+    "RAG (AI)",
+    "API Design",
+    "UI/UX (Figma)",
+  ],
+} as const;
