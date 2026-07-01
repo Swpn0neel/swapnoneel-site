@@ -32,7 +32,7 @@ export const i18n = {
       avatarHoverAlt: "Swapnoneel Saha Hover",
       title: "swapnoneel saha",
       tagline:
-        "i build tools that make developers faster. i specialize in building agentic ai, oss infrastructure, and high-performance web systems.",
+        "i build tools that make developers faster and help start-ups grow. i specialize in building agentic ai, oss infrastructure, and high-performance web systems.",
       paragraphs: [
         "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to educational platforms reaching 9,800+ learners worldwide. my work sits at the intersection of agentic AI, open-source ecosystems, and full-stack engineering.",
         "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
