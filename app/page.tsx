@@ -60,8 +60,16 @@ export default function Home() {
         </FadeIn>
         <div>
           <FadeIn delay={0.1}>
-            <h1 className="mb-3 text-2xl font-semibold tracking-tight">
-              {siteConfig.person.displayName}
+            <h1 className="mb-3 flex flex-wrap items-baseline gap-2 text-2xl font-semibold tracking-tight">
+              <span>{siteConfig.person.displayName}</span>
+              <a
+                href="https://hire-swapnoneel.vercel.app"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hire-me-link text-sm font-bold tracking-normal"
+              >
+                (hire_me↗)
+              </a>
             </h1>
           </FadeIn>
           <FadeIn delay={0.15}>
@@ -72,9 +80,8 @@ export default function Home() {
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <FadeIn key={paragraph} delay={0.2 + index * 0.05}>
               <p
-                className={`text-muted-foreground text-sm leading-relaxed lowercase ${
-                  index > 0 ? "mt-4" : ""
-                }`}
+                className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
+                  }`}
               >
                 {paragraph}
               </p>

@@ -20,7 +20,11 @@ async function readFolder(folder) {
     if (!file.match(/\.mdx?$/)) continue;
     const raw = await fs.readFile(path.join(dirPath, file), "utf8");
     const { data, content } = matter(raw);
-    entries.push({ slug: file.replace(/\.mdx?$/, ""), ...data, content: content.trim() });
+    entries.push({
+      slug: file.replace(/\.mdx?$/, ""),
+      ...data,
+      content: content.trim(),
+    });
   }
   return entries;
 }

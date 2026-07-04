@@ -117,9 +117,7 @@ export function StaggerContainer({
       <div
         ref={ref}
         className={className}
-        style={
-          { "--stagger-delay": `${staggerDelay}s` } as React.CSSProperties
-        }
+        style={{ "--stagger-delay": `${staggerDelay}s` } as React.CSSProperties}
       >
         {children}
       </div>

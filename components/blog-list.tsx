@@ -87,7 +87,7 @@ export function BlogList({ posts }: BlogListProps) {
                         >
                           <span
                             className={cn(
-                              "text-muted-foreground text-sm transition-colors min-w-0 truncate",
+                              "text-muted-foreground min-w-0 truncate text-sm transition-colors",
                               post.url?.includes("keploy")
                                 ? "group-hover:text-[#FF914D]"
                                 : "group-hover:text-foreground"

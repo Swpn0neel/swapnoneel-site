@@ -14,11 +14,7 @@ export function buildPersonSchema() {
     jobTitle: "Software Engineer",
     description: siteConfig.metadata.description,
     sameAs: socialLinks.map((link) => link.url),
-    knowsAbout: [
-      ...skills.languages,
-      ...skills.frameworks,
-      ...skills.tools,
-    ],
+    knowsAbout: [...skills.languages, ...skills.frameworks, ...skills.tools],
     alumniOf: i18n.resume.education.map((edu) => ({
       "@type": "EducationalOrganization",
       name: edu.school,

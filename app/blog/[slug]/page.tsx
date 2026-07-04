@@ -40,9 +40,7 @@ export async function generateMetadata({
       url,
       type: "article",
       publishedTime: post.publishedAt,
-      images: [
-        { url: ogImage, width: 1200, height: 630, alt: post.title },
-      ],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
     },
     twitter: {
       card: "summary_large_image",
@@ -190,7 +188,10 @@ export default async function BlogPostPage({
             breadcrumbJsonLd([
               { name: "Home", url: "https://www.swapnoneel.site" },
               { name: "Blog", url: "https://www.swapnoneel.site/blog" },
-              { name: post.title, url: `https://www.swapnoneel.site/blog/${slug}` },
+              {
+                name: post.title,
+                url: `https://www.swapnoneel.site/blog/${slug}`,
+              },
             ])
           ),
         }}
@@ -206,7 +207,7 @@ export default async function BlogPostPage({
         <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight md:text-3xl">
           {post.title}
         </h1>
-        <p className="text-muted-foreground flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 text-xs">
+        <p className="text-muted-foreground flex flex-col gap-3 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span>
             {dateStr} · {post.readingTime} min read
             {updatedDateStr && ` · Updated ${updatedDateStr}`}

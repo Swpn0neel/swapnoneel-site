@@ -141,7 +141,6 @@ body {
 }
 
 @media (min-width: 640px) {
-
   .justify-text p,
   .justify-text li {
     text-align: justify;
@@ -419,9 +418,11 @@ mark {
 .project-overlay-hero-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom,
-      transparent 40%,
-      rgba(0, 0, 0, 0.65) 100%);
+  background: linear-gradient(
+    to bottom,
+    transparent 40%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
   pointer-events: none;
 }
 
@@ -637,7 +638,6 @@ mark {
 
 /* ─── Creative PFP ─── */
 @keyframes pfp-float {
-
   0%,
   100% {
     transform: translateY(0);
@@ -649,7 +649,6 @@ mark {
 }
 
 @keyframes pfp-glow {
-
   0%,
   100% {
     opacity: 0.4;
@@ -727,7 +726,6 @@ html {
 
 /* Skeleton pulse animation */
 @keyframes skeleton-pulse {
-
   0%,
   100% {
     opacity: 0.5;
@@ -770,7 +768,6 @@ html {
 
 /* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
@@ -787,6 +784,39 @@ html {
   .pfp-glow-effect {
     animation: none;
     opacity: 0.4;
+  }
+}
+
+/* ─── Hire Me Link Animated Gradient ─── */
+.hire-me-link {
+  background: linear-gradient(
+    90deg,
+    #ff0055,
+    #ff5500,
+    #ffcc00,
+    #00ffcc,
+    #0066ff,
+    #ff00ff,
+    #ff0055
+  );
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: hire-me-gradient-wave 4s linear infinite;
+  display: inline-block;
+  text-decoration: none;
+}
+
+@keyframes hire-me-gradient-wave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 150% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
   }
 }
 
@@ -852,19 +882,19 @@ html {
     gap: 1rem !important;
   }
 
-  .space-y-8>*+* {
+  .space-y-8 > * + * {
     margin-top: 0.5rem !important;
   }
 
-  .space-y-6>*+* {
+  .space-y-6 > * + * {
     margin-top: 0.4rem !important;
   }
 
-  .space-y-4>*+* {
+  .space-y-4 > * + * {
     margin-top: 0.3rem !important;
   }
 
-  .space-y-3>*+* {
+  .space-y-3 > * + * {
     margin-top: 0.2rem !important;
   }
 
@@ -891,7 +921,8 @@ html {
 
   /* Sticky/Fixed elements should definitely be hidden if not already */
   .fixed,
-  .sticky {
+  .sticky,
+  .hire-me-link {
     display: none !important;
   }
 }

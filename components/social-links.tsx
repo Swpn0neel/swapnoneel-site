@@ -2,7 +2,10 @@
 
 import { socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
-import { SYNCED_SCROLL_DURATION, useSmartAutoplay } from "@/lib/use-smart-autoplay";
+import {
+  SYNCED_SCROLL_DURATION,
+  useSmartAutoplay,
+} from "@/lib/use-smart-autoplay";
 import Autoplay from "embla-carousel-autoplay";
 import useEmblaCarousel from "embla-carousel-react";
 import { useRef } from "react";

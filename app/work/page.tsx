@@ -85,7 +85,9 @@ export default function WorkPage() {
             itemListElement: workItems.map((item, index) => ({
               "@type": "ListItem",
               position: index + 1,
-              url: item.meta.link || `https://www.swapnoneel.site/work/${item.meta.slug}`,
+              url:
+                item.meta.link ||
+                `https://www.swapnoneel.site/work/${item.meta.slug}`,
               name: item.meta.title,
             })),
           }),
