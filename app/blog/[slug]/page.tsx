@@ -206,7 +206,7 @@ export default async function BlogPostPage({
         <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight md:text-3xl">
           {post.title}
         </h1>
-        <p className="text-muted-foreground flex items-center justify-between gap-4 text-xs">
+        <p className="text-muted-foreground flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 text-xs">
           <span>
             {dateStr} · {post.readingTime} min read
             {updatedDateStr && ` · Updated ${updatedDateStr}`}
@@ -216,7 +216,7 @@ export default async function BlogPostPage({
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground border-border hover:bg-secondary rounded border px-2 py-1 transition-colors"
+              className="text-foreground border-border hover:bg-secondary w-fit rounded border px-2 py-1 transition-colors"
             >
               {post.url.includes("keploy")
                 ? "Read on Keploy Blogs ↗"
