@@ -8,6 +8,7 @@
   0% {
     background-position: -200% 0;
   }
+
   100% {
     background-position: 200% 0;
   }
@@ -140,6 +141,7 @@ body {
 }
 
 @media (min-width: 640px) {
+
   .justify-text p,
   .justify-text li {
     text-align: justify;
@@ -200,9 +202,11 @@ textarea {
 .embla {
   overflow: hidden;
 }
+
 .embla__container {
   display: flex;
 }
+
 .embla__slide {
   flex: 0 0 auto;
   min-width: 0;
@@ -248,30 +252,37 @@ textarea {
   margin-top: 1.5em;
   margin-bottom: 0.5em;
 }
+
 .prose p {
   margin-bottom: 1.2em;
   line-height: 1.75;
   color: hsl(var(--muted-foreground));
 }
+
 .prose a {
   text-decoration: underline;
   color: hsl(var(--foreground));
 }
+
 .prose ul,
 .prose ol {
   padding-left: 1.5rem;
   margin-bottom: 1em;
 }
+
 .prose ul {
   list-style-type: disc;
 }
+
 .prose ol {
   list-style-type: decimal;
 }
+
 .prose li {
   margin-bottom: 0.25em;
   color: hsl(var(--muted-foreground));
 }
+
 .prose pre {
   background: hsl(var(--secondary));
   border-radius: 6px;
@@ -280,24 +291,29 @@ textarea {
   margin-bottom: 1em;
   border: 1px solid hsl(var(--border));
 }
+
 .prose code {
   font-family: "Menlo", "Monaco", "Courier New", monospace;
   font-size: 0.875em;
 }
+
 .prose hr {
   border-color: hsl(var(--border));
   margin: 2em 0;
 }
+
 .prose blockquote {
   border-left: 3px solid hsl(var(--border));
   padding-left: 1rem;
   color: hsl(var(--muted-foreground));
   font-style: italic;
 }
+
 .prose strong {
-  color: hsl(var(--foreground));
-  font-weight: 600;
+  color: hsl(var(--foreground) / 0.9);
+  font-weight: 500;
 }
+
 .prose mark,
 mark {
   background-color: hsl(var(--mark-bg)) !important;
@@ -403,11 +419,9 @@ mark {
 .project-overlay-hero-fade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 40%,
-    rgba(0, 0, 0, 0.65) 100%
-  );
+  background: linear-gradient(to bottom,
+      transparent 40%,
+      rgba(0, 0, 0, 0.65) 100%);
   pointer-events: none;
 }
 
@@ -565,10 +579,12 @@ mark {
   .project-overlay-backdrop {
     padding: 0.75rem;
   }
+
   .project-overlay-panel {
     max-height: 85vh;
     max-width: 100%;
   }
+
   .project-overlay-hero {
     aspect-ratio: 16 / 9;
   }
@@ -603,7 +619,8 @@ mark {
   height: 100%;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
-  border-radius: 1.5rem; /* rounded-3xl */
+  border-radius: 1.5rem;
+  /* rounded-3xl */
   overflow: hidden;
   box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
 }
@@ -620,22 +637,26 @@ mark {
 
 /* ─── Creative PFP ─── */
 @keyframes pfp-float {
+
   0%,
   100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
 }
 
 @keyframes pfp-glow {
+
   0%,
   100% {
     opacity: 0.4;
     transform: scale(1);
     filter: blur(12px);
   }
+
   50% {
     opacity: 0.7;
     transform: scale(1.1);
@@ -682,6 +703,7 @@ mark {
     transform 0.2s ease,
     box-shadow 0.2s ease;
 }
+
 .card-hover:hover {
   transform: translateY(-2px);
 }
@@ -705,10 +727,12 @@ html {
 
 /* Skeleton pulse animation */
 @keyframes skeleton-pulse {
+
   0%,
   100% {
     opacity: 0.5;
   }
+
   50% {
     opacity: 0.8;
   }
@@ -746,6 +770,7 @@ html {
 
 /* ─── Reduced Motion ─── */
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -772,7 +797,8 @@ html {
   }
 
   html {
-    font-size: 90% !important; /* Slightly smaller base font for print */
+    font-size: 90% !important;
+    /* Slightly smaller base font for print */
   }
 
   body {
@@ -793,15 +819,19 @@ html {
   .mb-12 {
     margin-bottom: 1rem !important;
   }
+
   .mb-10 {
     margin-bottom: 0.75rem !important;
   }
+
   .mb-8 {
     margin-bottom: 0.5rem !important;
   }
+
   .mb-6 {
     margin-bottom: 0.4rem !important;
   }
+
   .mb-4 {
     margin-bottom: 0.3rem !important;
   }
@@ -809,9 +839,11 @@ html {
   .gap-10 {
     gap: 1rem !important;
   }
+
   .gap-8 {
     gap: 0.75rem !important;
   }
+
   .gap-6 {
     gap: 0.5rem !important;
   }
@@ -819,16 +851,20 @@ html {
   .space-y-10 {
     gap: 1rem !important;
   }
-  .space-y-8 > * + * {
+
+  .space-y-8>*+* {
     margin-top: 0.5rem !important;
   }
-  .space-y-6 > * + * {
+
+  .space-y-6>*+* {
     margin-top: 0.4rem !important;
   }
-  .space-y-4 > * + * {
+
+  .space-y-4>*+* {
     margin-top: 0.3rem !important;
   }
-  .space-y-3 > * + * {
+
+  .space-y-3>*+* {
     margin-top: 0.2rem !important;
   }
 
