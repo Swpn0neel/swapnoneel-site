@@ -6,6 +6,8 @@ import { footerLinks, siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { buildPersonSchema } from "@/lib/structured-data";
 import { safeJsonLd } from "@/lib/utils";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
@@ -134,6 +136,8 @@ export default function RootLayout({
             </footer>
           </div>
         </ThemeProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
