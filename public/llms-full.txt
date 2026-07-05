@@ -53,6 +53,20 @@ Summary: Revamped UI, optimized code, and improved podcast experience at Wizdom.
 - **Enhanced the podcast experience**, implementing features that improved audio playback and user engagement with audio content.
 - **Coordinated with the product and design teams** to successfully transition from legacy systems to a modern tech stack.
 
+## GTM Engineer • Zonko Labs
+URL: https://www.swapnoneel.site/work/zonko
+Date: April 2026 - Present
+Summary: Go-to-Market Engineer at Zonko Labs, a frontier AI lab.
+
+[Zonko Labs](https://zonko.ai) is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
+
+### What I am doing
+
+- Formed the first layer of internal testing for **Luffy**, an AI co-worker in Slack, helping the dev team catch bugs early.
+- Built an internal tool to capture **Luffy's data logs**, generating reports on latency and probable slowdowns.
+- Grew Luffy's userbase from **0 to 50+ users**, mainly startups with 1-50 employees.
+- Stayed in constant contact with early adopters, relaying feedback and feature requests to the dev team, and **rebuilding the company website**, replacing a low-quality, outdated version.
+
 ---
 
 # Projects
