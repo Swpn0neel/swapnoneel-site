@@ -11,6 +11,15 @@ const withBA = withBundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  async rewrites() {
+    return [
+      {
+        // /blog/my-post.md  →  /api/blog/my-post/raw
+        source: "/blog/:slug.md",
+        destination: "/api/blog/:slug/raw",
+      },
+    ];
+  },
   images: {
     remotePatterns: [
       {
