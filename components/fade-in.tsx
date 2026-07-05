@@ -67,6 +67,13 @@ interface FadeInProps {
   direction?: "up" | "down" | "left" | "right" | "none";
   className?: string;
   once?: boolean;
+  /**
+   * priority — set true for above-the-fold elements.
+   * Skips IntersectionObserver entirely so the element is visible from the
+   * very first server-rendered paint, fixing FCP / LCP regressions caused
+   * by opacity-0 being baked into the initial HTML.
+   */
+  priority?: boolean;
 }
 
 export function FadeIn({
@@ -75,8 +82,12 @@ export function FadeIn({
   direction = "up",
   className = "",
   once = true,
+  priority = false,
 }: FadeInProps) {
-  const { ref, isVisible } = useInView(once);
+  // Priority elements bypass the observer — always visible immediately.
+  // Non-priority elements use the normal scroll-reveal path.
+  const scrollReveal = useInView(once);
+  const isVisible = priority ? true : scrollReveal.isVisible;
 
   const directionClass: Record<string, string> = {
     up: "slide-in-from-bottom-4",
@@ -86,11 +97,22 @@ export function FadeIn({
     none: "",
   };
 
+  // Priority elements get a simple CSS fade-in (no JS dependency, no layout shift).
+  // Scroll-reveal elements keep the observer-triggered animation.
+  const animationClass = priority
+    ? "animate-in fade-in duration-500 ease-out"
+    : isVisible
+      ? `animate-in fade-in ${directionClass[direction]} duration-500 ease-out`
+      : "opacity-0";
+
   return (
     <div
-      ref={ref}
-      className={`${className} ${isVisible ? `animate-in fade-in ${directionClass[direction]} duration-500 ease-out` : "opacity-0"}`}
-      style={{ animationDelay: `${delay}s`, animationFillMode: "backwards" }}
+      ref={priority ? undefined : scrollReveal.ref}
+      className={`${className} ${animationClass}`}
+      style={{
+        animationDelay: `${delay}s`,
+        animationFillMode: "backwards",
+      }}
     >
       {children}
     </div>

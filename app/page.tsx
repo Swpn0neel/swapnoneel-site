@@ -33,7 +33,7 @@ export default function Home() {
       />
       {/* Hero */}
       <section className="justify-text flex flex-col gap-5">
-        <FadeIn>
+        <FadeIn priority>
           <div className="pfp-flip-card mb-2">
             <div className="pfp-flip-card-inner">
               <div className="pfp-flip-card-front">
@@ -59,7 +59,7 @@ export default function Home() {
           </div>
         </FadeIn>
         <div>
-          <FadeIn delay={0.1}>
+          <FadeIn delay={0.1} priority>
             <h1 className="mb-3 flex flex-wrap items-baseline gap-2 text-2xl font-semibold tracking-tight">
               <span>{siteConfig.person.displayName}</span>
               <a
@@ -72,13 +72,13 @@ export default function Home() {
               </a>
             </h1>
           </FadeIn>
-          <FadeIn delay={0.15}>
+          <FadeIn delay={0.15} priority>
             <p className="text-muted-foreground mb-4 text-sm leading-relaxed lowercase">
               {i18n.home.hero.tagline}
             </p>
           </FadeIn>
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
-            <FadeIn key={paragraph} delay={0.2 + index * 0.05}>
+            <FadeIn key={paragraph} delay={0.2 + index * 0.05} priority>
               <p
                 className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
                   }`}
@@ -87,7 +87,7 @@ export default function Home() {
               </p>
             </FadeIn>
           ))}
-          <FadeIn delay={0.35}>
+          <FadeIn delay={0.35} priority>
             <p className="text-muted-foreground mt-4 text-sm leading-relaxed lowercase">
               {i18n.home.hero.reachMeLabel}{" "}
               <a
@@ -103,7 +103,7 @@ export default function Home() {
       </section>
 
       {/* Social Links */}
-      <FadeIn delay={0.35}>
+      <FadeIn delay={0.35} priority>
         <SocialLinks />
       </FadeIn>
 

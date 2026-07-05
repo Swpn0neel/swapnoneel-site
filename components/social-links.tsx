@@ -86,7 +86,7 @@ export function SocialLinks() {
   return (
     <div>
       <div
-        className="embla w-full overflow-hidden"
+        className="embla w-full"
         ref={emblaRef}
         onMouseEnter={pause}
         onMouseLeave={resume}
@@ -98,7 +98,7 @@ export function SocialLinks() {
           {socialLinks.map((link, i) => (
             <div
               key={`${link.name}-${i}`}
-              className="embla__slide mr-3 shrink-0"
+              className="embla__slide mr-3 w-24 shrink-0"
               role="group"
               aria-roledescription="slide"
               aria-label={`Link to ${link.name}`}

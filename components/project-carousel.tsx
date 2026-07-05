@@ -69,7 +69,7 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
   return (
     <>
       <div
-        className="embla w-full overflow-hidden"
+        className="embla w-full"
         ref={emblaRef}
         onKeyDown={onKeyDown}
         onMouseEnter={pause}
