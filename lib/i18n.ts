@@ -34,7 +34,7 @@ export const i18n = {
       tagline:
         "i build tools that make developers faster and help startups grow. i specialize in building agentic workflows, oss infrastructure, high-performance web systems, and creating technical content.",
       paragraphs: [
-        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups. my work sits at the intersection of agentic AI, open-source ecosystems, and gowth engineering.",
+        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups. my work sits at the intersection of agentic AI, open-source ecosystems, and growth engineering.",
         // "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
       ],
       reachMeLabel: "Reach me at",
