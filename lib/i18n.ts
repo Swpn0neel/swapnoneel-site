@@ -32,10 +32,10 @@ export const i18n = {
       avatarHoverAlt: "Swapnoneel Saha Hover",
       title: "swapnoneel saha",
       tagline:
-        "i build tools that make developers faster and help start-ups grow. i specialize in building agentic ai, oss infrastructure, and high-performance web systems.",
+        "i build tools that make developers faster and help startups grow. i specialize in building agentic workflows, oss infrastructure, high-performance web systems, and creating technical content.",
       paragraphs: [
-        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to educational platforms reaching 9,800+ learners worldwide. my work sits at the intersection of agentic AI, open-source ecosystems, and full-stack engineering.",
-        "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
+        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups. my work sits at the intersection of agentic AI, open-source ecosystems, and gowth engineering.",
+        // "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
       ],
       reachMeLabel: "Reach me at",
       reachMeSuffix: ":)",
@@ -71,18 +71,20 @@ export const i18n = {
     otherExperience: {
       title: "Other Experience",
       backLink: "work",
-      role: "Freelancing",
+      role: "Freelance & Contractual Works",
       date: "Dec, 2022 - Present",
-      subtitle: "Web Developer, UI/UX Designer & Python Developer",
+      subtitle: "Web Developer, UI/UX Designer, Growth Engineer & Python Developer",
       intro:
-        "Collaborated with diverse business clients to deliver innovative digital solutions across web development, design, and automation.",
+        "Collaborated with diverse business clients and startups to deliver digital solutions across web development, design, automation, agentic AI, and growth engineering.",
       bulletTitles: {
+        growth: "Growth Engineering:",
         design: "UI/UX Design:",
         python: "Python Development:",
         web: "Web Development:",
         content: "Content & Promotion:",
       },
       bullets: {
+        growth: "Worked with two UK-based stealth startups and helped them get to their MVP, finding their early customers and achieving the PMF by gathering the user feedback and iterating on the product.",
         design:
           "Created frame designs and UI/UX solutions for multiple business clients associated with hotels, restaurants, and medical hospitals, helping them stand out through innovative and user-centric designs.",
         python:

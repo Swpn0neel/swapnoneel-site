@@ -32,7 +32,7 @@ export default function Home() {
         }}
       />
       {/* Hero */}
-      <section className="justify-text flex flex-col gap-5">
+      <section className="flex flex-col gap-5">
         <FadeIn priority>
           <div className="pfp-flip-card mb-2">
             <div className="pfp-flip-card-inner">

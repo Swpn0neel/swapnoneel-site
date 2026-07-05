@@ -30,6 +30,10 @@ export default function OthersPage() {
         <p>{i18n.work.otherExperience.intro}</p>
         <ul>
           <li>
+            <strong>{i18n.work.otherExperience.bulletTitles.growth}</strong>{" "}
+            {i18n.work.otherExperience.bullets.growth}
+          </li>
+          <li>
             <strong>{i18n.work.otherExperience.bulletTitles.design}</strong>{" "}
             {i18n.work.otherExperience.bullets.design}
           </li>
