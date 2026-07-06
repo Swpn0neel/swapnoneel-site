@@ -221,7 +221,9 @@ export default async function BlogPostPage({
             >
               {post.url.includes("keploy")
                 ? "Read on Keploy Blogs ↗"
-                : i18n.blog.readOnHashnode}
+                : post.url.includes("dev.to")
+                  ? i18n.blog.readOnDevto
+                  : i18n.blog.readOnHashnode}
             </a>
           )}
         </p>

@@ -73,7 +73,8 @@ export const i18n = {
       backLink: "work",
       role: "Freelance & Contractual Works",
       date: "Dec, 2022 - Present",
-      subtitle: "Web Developer, UI/UX Designer, Growth Engineer & Python Developer",
+      subtitle:
+        "Web Developer, UI/UX Designer, Growth Engineer & Python Developer",
       intro:
         "Collaborated with diverse business clients and startups to deliver digital solutions across web development, design, automation, agentic AI, and growth engineering.",
       bulletTitles: {
@@ -84,7 +85,8 @@ export const i18n = {
         content: "Content & Promotion:",
       },
       bullets: {
-        growth: "Worked with two UK-based stealth startups and helped them get to their MVP, finding their early customers and achieving the PMF by gathering the user feedback and iterating on the product.",
+        growth:
+          "Worked with two UK-based stealth startups and helped them get to their MVP, finding their early customers and achieving the PMF by gathering the user feedback and iterating on the product.",
         design:
           "Created frame designs and UI/UX solutions for multiple business clients associated with hotels, restaurants, and medical hospitals, helping them stand out through innovative and user-centric designs.",
         python:
@@ -101,6 +103,7 @@ export const i18n = {
       "Technical deep-dives, tutorials, and reflections on software engineering, Python, JavaScript, and web development.",
     backLink: "blog",
     readOnHashnode: "Read on Hashnode ↗",
+    readOnDevto: "Read on DEV ↗",
   },
   contactPage: {
     title: "Contact",
