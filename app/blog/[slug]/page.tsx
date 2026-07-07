@@ -209,7 +209,9 @@ export default async function BlogPostPage({
         </h1>
         <p className="text-muted-foreground flex flex-col gap-3 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span>
-            {dateStr} · {post.readingTime} min read
+            {dateStr}
+            {post.wordCount !== undefined && ` · ${post.wordCount} words`}
+            {` · ${post.readingTime} min read`}
             {updatedDateStr && ` · Updated ${updatedDateStr}`}
           </span>
           {post.url && (

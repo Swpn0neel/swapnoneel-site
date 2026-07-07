@@ -80,9 +80,12 @@ function parseDate(dateStr: string): number {
   return isNaN(date.getTime()) ? 0 : date.getTime();
 }
 
-function estimateReadingTime(markdown: string): number {
+function countWords(markdown: string): number {
   const text = markdown.replace(/[#*`\[\]()>!|~-]/g, "").trim();
-  const wordCount = text.split(/\s+/).filter(Boolean).length;
+  return text.split(/\s+/).filter(Boolean).length;
+}
+
+function estimateReadingTime(wordCount: number): number {
   return Math.max(1, Math.round(wordCount / 200));
 }
 
@@ -98,11 +101,13 @@ export type BlogPost = {
   };
   url?: string;
   readingTime?: number;
+  wordCount?: number;
 };
 
 export const getBlogPost = cache((slug: string): BlogPost | null => {
   const post = readBySlug("blog", slug);
   if (!post) return null;
+  const wordCount = countWords(post.content);
   return {
     title: post.meta.title,
     slug: post.meta.slug,
@@ -114,7 +119,8 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
       markdown: post.content,
     },
     url: post.meta.link,
-    readingTime: estimateReadingTime(post.content),
+    readingTime: estimateReadingTime(wordCount),
+    wordCount,
   };
 });
 
