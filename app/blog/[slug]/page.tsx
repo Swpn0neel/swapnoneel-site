@@ -197,12 +197,32 @@ export default async function BlogPostPage({
         }}
       />
       <div className="mb-6">
-        <Link
-          href="/blog"
-          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
-        >
-          ← {i18n.blog.backLink}
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link
+            href="/blog"
+            className="text-muted-foreground hover:text-foreground text-xs transition-colors"
+          >
+            ← {i18n.blog.backLink}
+          </Link>
+          {post.url && (
+            <a
+              href={post.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-xs transition-colors sm:hidden ${
+                post.url.includes("keploy")
+                  ? "text-[#FF914D] hover:text-[#FF914D]/80"
+                  : "text-foreground hover:text-foreground/80"
+              }`}
+            >
+              {post.url.includes("keploy")
+                ? "Read on Keploy Blogs ↗"
+                : post.url.includes("dev.to")
+                  ? i18n.blog.readOnDevto
+                  : i18n.blog.readOnHashnode}
+            </a>
+          )}
+        </div>
 
         <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight md:text-3xl">
           {post.title}
@@ -219,7 +239,11 @@ export default async function BlogPostPage({
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-foreground border-border hover:bg-secondary w-fit rounded border px-2 py-1 transition-colors"
+              className={`border-border hover:bg-secondary hidden w-fit rounded border px-2 py-1 transition-colors sm:inline-flex ${
+                post.url.includes("keploy")
+                  ? "text-[#FF914D] hover:text-[#FF914D]/80"
+                  : "text-foreground hover:text-foreground/80"
+              }`}
             >
               {post.url.includes("keploy")
                 ? "Read on Keploy Blogs ↗"

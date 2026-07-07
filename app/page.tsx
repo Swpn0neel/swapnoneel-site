@@ -80,8 +80,9 @@ export default function Home() {
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <FadeIn key={paragraph} delay={0.2 + index * 0.05} priority>
               <p
-                className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
-                  }`}
+                className={`text-muted-foreground text-sm leading-relaxed lowercase ${
+                  index > 0 ? "mt-4" : ""
+                }`}
               >
                 {paragraph}
               </p>

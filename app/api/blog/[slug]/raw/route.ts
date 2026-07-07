@@ -29,10 +29,13 @@ export async function GET(
       : null;
 
   if (!filePath) {
-    return new Response(`# 404 — Not Found\n\nNo blog post with slug: \`${slug}\``, {
-      status: 404,
-      headers: { "Content-Type": "text/plain; charset=utf-8" },
-    });
+    return new Response(
+      `# 404 — Not Found\n\nNo blog post with slug: \`${slug}\``,
+      {
+        status: 404,
+        headers: { "Content-Type": "text/plain; charset=utf-8" },
+      }
+    );
   }
 
   const raw = fs.readFileSync(filePath, "utf8");

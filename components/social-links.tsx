@@ -98,7 +98,7 @@ export function SocialLinks() {
           {socialLinks.map((link, i) => (
             <div
               key={`${link.name}-${i}`}
-              className="embla__slide mr-2 sm:mr-3 w-20 sm:w-26.5 shrink-0"
+              className="embla__slide mr-2 w-20 shrink-0 sm:mr-3 sm:w-26.5"
               role="group"
               aria-roledescription="slide"
               aria-label={`Link to ${link.name}`}
@@ -108,11 +108,11 @@ export function SocialLinks() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-secondary border-border/60 group flex h-12 w-20 sm:h-16 sm:w-26.5 items-center justify-center rounded-lg sm:rounded-xl border transition-colors hover:bg-black/5 dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
+                className="bg-secondary border-border/60 group flex h-12 w-20 items-center justify-center rounded-lg border transition-colors hover:bg-black/5 sm:h-16 sm:w-26.5 sm:rounded-xl dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
               >
                 <SocialIcon
                   brand={link.brand}
-                  className="text-foreground h-5.5 w-5.5 sm:h-7 sm:w-7 opacity-80 transition-opacity group-hover:opacity-100"
+                  className="text-foreground h-5.5 w-5.5 opacity-80 transition-opacity group-hover:opacity-100 sm:h-7 sm:w-7"
                 />
               </a>
             </div>

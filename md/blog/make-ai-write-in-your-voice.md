@@ -1,5 +1,5 @@
 ---
-title: How I Made an AI Agent Write in My Voice
+title: How I made an AI Agent write in my voice
 date: "2026-07-06T00:00:00.000Z"
 description: "You can make AI write in your voice, but a prompt won't get you there..."
 slug: make-ai-write-in-your-voice

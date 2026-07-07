@@ -111,7 +111,7 @@ export default function RootLayout({
               className="text-muted-foreground mt-8 py-12 text-xs print:hidden"
               suppressHydrationWarning
             >
-              <div className="mb-4 flex flex-col gap-2 min-[400px]:flex-row min-[400px]:gap-4 text-sm lowercase">
+              <div className="mb-4 flex flex-col gap-2 text-sm lowercase min-[400px]:flex-row min-[400px]:gap-4">
                 {footerLinks.map((link) => {
                   const isInternal = link.href.startsWith("/");
                   const LinkComponent = isInternal ? Link : "a";

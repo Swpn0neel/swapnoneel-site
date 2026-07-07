@@ -348,7 +348,7 @@ A high-fidelity design conceptualized for the Smart India Hackathon 2023, focuse
 
 # Blog Posts
 
-## How I Made an AI Agent Write in My Voice
+## How I made an AI Agent write in my voice
 URL: https://www.swapnoneel.site/blog/make-ai-write-in-your-voice
 Date: 2026-07-06T00:00:00.000Z
 Summary: You can make AI write in your voice, but a prompt won't get you there...
