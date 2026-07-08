@@ -1,5 +1,5 @@
 ---
-title: GEO for Developers: Get Cited by ChatGPT and Perplexity
+title: "GEO for Developers: Get Cited by ChatGPT and Perplexity"
 date: "2026-07-08T00:00:00.000Z"
 description: GEO for developers, minus the agency fluff. Here's what actually matters if you want ChatGPT and Perplexity to cite your blog posts in 2026.
 slug: geo-for-developers

@@ -20,29 +20,56 @@ export type PostMeta = {
   link?: string;
 };
 
+function getFilesRecursively(dir: string): string[] {
+  let results: string[] = [];
+  if (!fs.existsSync(dir)) return [];
+  const list = fs.readdirSync(dir);
+  for (const file of list) {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(getFilesRecursively(filePath));
+    } else if (file.endsWith(".md") || file.endsWith(".mdx")) {
+      results.push(filePath);
+    }
+  }
+  return results;
+}
+
 function getAllSlugs(folder: string): string[] {
   const dir = path.join(mdDir, folder);
   if (!isPathSafe(dir) || !fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith(".md") || f.endsWith(".mdx"))
-    .map((f) => f.replace(/\.mdx?$/, ""));
+  return getFilesRecursively(dir).map((filePath) =>
+    path.basename(filePath).replace(/\.mdx?$/, "")
+  );
 }
 
 export function readBySlug(
   folder: string,
   slug: string
 ): { meta: PostMeta; content: string } | null {
-  const mdPath = path.join(mdDir, folder, `${slug}.md`);
-  const mdxPath = path.join(mdDir, folder, `${slug}.mdx`);
+  const dir = path.join(mdDir, folder);
+  if (!isPathSafe(dir) || !fs.existsSync(dir)) return null;
 
-  if (!isPathSafe(mdPath) || !isPathSafe(mdxPath)) return null;
+  const findFileRecursively = (currentDir: string): string | null => {
+    const list = fs.readdirSync(currentDir);
+    for (const file of list) {
+      const filePath = path.join(currentDir, file);
+      const stat = fs.statSync(filePath);
+      if (stat && stat.isDirectory()) {
+        const found = findFileRecursively(filePath);
+        if (found) return found;
+      } else if (
+        (file === `${slug}.md` || file === `${slug}.mdx`) &&
+        isPathSafe(filePath)
+      ) {
+        return filePath;
+      }
+    }
+    return null;
+  };
 
-  const filePath = fs.existsSync(mdPath)
-    ? mdPath
-    : fs.existsSync(mdxPath)
-      ? mdxPath
-      : null;
+  const filePath = findFileRecursively(dir);
   if (!filePath) return null;
   const raw = fs.readFileSync(filePath, "utf8");
   const { data, content } = matter(raw);

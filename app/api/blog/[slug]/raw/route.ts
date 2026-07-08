@@ -14,19 +14,27 @@ export async function GET(
 ) {
   const { slug } = await params;
 
-  // Prevent path traversal
-  const mdPath = path.join(mdDir, `${slug}.md`);
-  const mdxPath = path.join(mdDir, `${slug}.mdx`);
+  // Find file recursively
+  const findFileRecursively = (currentDir: string): string | null => {
+    if (!fs.existsSync(currentDir)) return null;
+    const list = fs.readdirSync(currentDir);
+    for (const file of list) {
+      const filePath = path.join(currentDir, file);
+      const stat = fs.statSync(filePath);
+      if (stat && stat.isDirectory()) {
+        const found = findFileRecursively(filePath);
+        if (found) return found;
+      } else if (
+        (file === `${slug}.md` || file === `${slug}.mdx`) &&
+        isPathSafe(mdDir, filePath)
+      ) {
+        return filePath;
+      }
+    }
+    return null;
+  };
 
-  if (!isPathSafe(mdDir, mdPath) || !isPathSafe(mdDir, mdxPath)) {
-    return new Response("Not found", { status: 404 });
-  }
-
-  const filePath = fs.existsSync(mdPath)
-    ? mdPath
-    : fs.existsSync(mdxPath)
-      ? mdxPath
-      : null;
+  const filePath = findFileRecursively(mdDir);
 
   if (!filePath) {
     return new Response(

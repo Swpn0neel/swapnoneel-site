@@ -4,24 +4,36 @@ import path from "path";
 
 const baseUrl = "https://www.swapnoneel.site";
 
-async function readFolder(folder) {
-  const dirPath = path.join(process.cwd(), "md", folder);
-  let files = [];
-
+async function getFilesRecursively(dir) {
+  let results = [];
+  let list;
   try {
-    files = await fs.readdir(dirPath);
+    list = await fs.readdir(dir);
   } catch (error) {
-    console.warn(`Skipping ${dirPath}:`, error.message);
     return [];
   }
+  for (const file of list) {
+    const filePath = path.join(dir, file);
+    const stat = await fs.stat(filePath);
+    if (stat && stat.isDirectory()) {
+      results = results.concat(await getFilesRecursively(filePath));
+    } else if (file.match(/\.mdx?$/)) {
+      results.push(filePath);
+    }
+  }
+  return results;
+}
+
+async function readFolder(folder) {
+  const dirPath = path.join(process.cwd(), "md", folder);
+  const filePaths = await getFilesRecursively(dirPath);
 
   const entries = [];
-  for (const file of files) {
-    if (!file.match(/\.mdx?$/)) continue;
-    const raw = await fs.readFile(path.join(dirPath, file), "utf8");
+  for (const filePath of filePaths) {
+    const raw = await fs.readFile(filePath, "utf8");
     const { data, content } = matter(raw);
     entries.push({
-      slug: file.replace(/\.mdx?$/, ""),
+      slug: path.basename(filePath).replace(/\.mdx?$/, ""),
       ...data,
       content: content.trim(),
     });
