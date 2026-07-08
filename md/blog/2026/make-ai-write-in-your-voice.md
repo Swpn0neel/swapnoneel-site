@@ -1,14 +1,15 @@
 ---
 title: How I made an AI Agent write in my voice
-date: "2026-07-06T00:00:00.000Z"
-description: "You can make AI write in your voice, but a prompt won't get you there..."
+date: '2026-07-06T00:00:00.000Z'
+description: 'You can make AI write in your voice, but a prompt won''t get you there...'
 slug: make-ai-write-in-your-voice
 tags: [ai, agents, writing, claude, productivity]
-link: https://dev.to/swapnoneel123/how-i-made-an-ai-agent-write-in-my-voice-5dli
-canonical: https://www.swapnoneel.site/blog/make-ai-write-in-your-voice
+link: 'https://dev.to/swapnoneel123/how-i-made-an-ai-agent-write-in-my-voice-5dli'
+canonical: 'https://www.swapnoneel.site/blog/make-ai-write-in-your-voice'
+updated: '2026-07-08T10:18:12.589Z'
 ---
 
-Let's be honest, AI-written blogs have a certain... vibe. You know it, I know it, and your readers can smell it from the very first paragraph.
+Let's be honest, AI-written blogs have a certain... vibe. You know it, I know it, and your readers can smell it from the first paragraph.
 
 But here's my take: you can make AI write in your voice, just not with a "generic" prompt. What actually worked for me is an agent skill with three parts: a voice profile built from seven of my real writing samples, a kill list of AI phrases, and a feedback loop that turns my edits into permanent rules. And here comes the twist, the blog you are reading right now is the very first output of that system!
 

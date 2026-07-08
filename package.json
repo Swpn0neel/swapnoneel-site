@@ -3,10 +3,11 @@
   "description": "personal site (swapnoneel)",
   "version": "1.0.0",
   "scripts": {
-    "predev": "node scripts/generate-blur.mjs && node scripts/generate-llms-full.mjs",
+    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-llms-full.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/generate-blur.mjs && node scripts/generate-llms-full.mjs",
+    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-llms-full.mjs",
     "build": "next build",
+    "update-blog-dates": "node scripts/update-blog-dates.mjs",
     "start": "next start",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
