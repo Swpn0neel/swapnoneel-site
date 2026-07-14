@@ -11,7 +11,7 @@ export function ResumeActions() {
         onClick={() => window.print()}
         variant="secondary"
         size="sm"
-        className="rounded-full"
+        className="rounded-md"
       >
         <Download size={16} />
         {i18n.resume.downloadPdf}

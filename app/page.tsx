@@ -7,6 +7,7 @@ import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { buildPersonSchema } from "@/lib/structured-data";
 import { safeJsonLd } from "@/lib/utils";
+import { PfpSpin } from "@/components/pfp-spin";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,6 +35,7 @@ export default function Home() {
       {/* Hero */}
       <section className="flex flex-col gap-5">
         <FadeIn priority>
+          <PfpSpin>
           <div className="pfp-flip-card mb-2">
             <div className="pfp-flip-card-inner">
               <div className="pfp-flip-card-front">
@@ -57,6 +59,7 @@ export default function Home() {
               </div>
             </div>
           </div>
+          </PfpSpin>
         </FadeIn>
         <div>
           <FadeIn delay={0.1} priority>

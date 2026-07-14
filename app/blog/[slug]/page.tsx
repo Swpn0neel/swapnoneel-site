@@ -232,14 +232,13 @@ export default async function BlogPostPage({
             {dateStr}
             {post.wordCount !== undefined && ` · ${post.wordCount} words`}
             {` · ${post.readingTime} min read`}
-            {updatedDateStr && ` · Updated ${updatedDateStr}`}
           </span>
           {post.url && (
             <a
               href={post.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`border-border hover:bg-secondary hidden w-fit rounded border px-2 py-1 transition-colors sm:inline-flex ${
+              className={`border-border hover:bg-secondary hidden w-fit rounded-sm border px-2 py-1 transition-colors sm:inline-flex ${
                 post.url.includes("keploy")
                   ? "text-[#FF914D] hover:text-[#FF914D]/80"
                   : "text-foreground hover:text-foreground/80"

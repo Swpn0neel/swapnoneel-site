@@ -275,7 +275,7 @@ export default function ResumePage() {
                 {projects.map((project) => (
                   <div
                     key={project.meta.slug}
-                    className="border-border bg-secondary/10 hover:bg-secondary/20 rounded-lg border p-4 transition-colors"
+                    className="border-border bg-secondary/10 hover:bg-secondary/20 rounded-md border p-4 transition-colors"
                   >
                     <h3 className="mb-1 flex items-center justify-between text-sm font-semibold uppercase">
                       {project.meta.title}
@@ -349,7 +349,7 @@ export default function ResumePage() {
 
       <footer className="border-border mt-20 border-t pt-8 text-center print:hidden">
         <Link href="/contact">
-          <Button variant="primary" size="lg" className="rounded-full">
+          <Button variant="primary" size="lg" className="rounded-md">
             {i18n.resume.hireMe}
           </Button>
         </Link>

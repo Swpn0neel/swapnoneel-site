@@ -42,7 +42,7 @@ export default async function NotFound() {
       </div>
 
       {randomPost && (
-        <div className="border-border bg-card mt-12 rounded-lg border p-6">
+        <div className="border-border bg-card mt-12 rounded-md border p-6">
           <p className="text-muted-foreground mb-3 text-center text-xs tracking-widest uppercase">
             Maybe you&apos;ll find this interesting
           </p>
@@ -60,7 +60,7 @@ export default async function NotFound() {
         </div>
       )}
 
-      <div className="border-border bg-card mt-12 rounded-lg border p-6">
+      <div className="border-border bg-card mt-12 rounded-md border p-6">
         <p className="text-muted-foreground mb-3 text-center text-xs tracking-widest uppercase">
           Looking for something specific?
         </p>

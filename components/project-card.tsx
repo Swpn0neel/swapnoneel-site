@@ -27,7 +27,7 @@ export function ProjectCard({
   priority = false,
 }: ProjectCardProps) {
   return (
-    <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-lg border transition-colors">
+    <div className="group border-border hover:border-foreground/30 block h-full cursor-pointer overflow-hidden rounded-md border transition-colors">
       {item.meta.cover ? (
         <div className="relative aspect-video w-full overflow-hidden">
           <SmoothImage

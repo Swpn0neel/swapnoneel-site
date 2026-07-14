@@ -24,7 +24,7 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   );
 
   return (
-    <div className="border-border bg-secondary/15 relative mb-6 rounded-lg border transition-all duration-300">
+    <div className="border-border bg-secondary/15 relative mb-6 rounded-md border transition-all duration-300">
       {/* Clickable Minimal Header Row */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}

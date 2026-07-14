@@ -116,7 +116,7 @@ export function SocialLinks() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-secondary border-border/60 group flex h-12 w-20 items-center justify-center rounded-lg border transition-colors hover:bg-black/5 sm:h-16 sm:w-26.5 sm:rounded-xl dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
+                className="bg-secondary border-border/60 group flex h-12 w-20 items-center justify-center rounded-md border transition-colors hover:bg-black/5 sm:h-16 sm:w-26.5 dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
               >
                 <SocialIcon
                   brand={link.brand}

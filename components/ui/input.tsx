@@ -19,7 +19,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           ref={ref}
           id={id}
           className={cn(
-            "border-input focus-visible:ring-ring/40 flex w-full rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10",
+            "border-input focus-visible:ring-ring/40 flex w-full rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10",
             error && "border-red-500",
             className
           )}
@@ -51,7 +51,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={id}
           className={cn(
-            "border-input focus-visible:ring-ring/40 flex w-full resize-y rounded-md border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+            "border-input focus-visible:ring-ring/40 flex w-full resize-y rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
             error && "border-red-500",
             className
           )}

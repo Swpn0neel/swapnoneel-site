@@ -152,12 +152,12 @@ export default function ContactPage() {
         </div>
 
         {error && (
-          <p className="rounded-md bg-red-500/10 p-3 text-sm font-medium text-red-500">
+          <p className="rounded-sm bg-red-500/10 p-3 text-sm font-medium text-red-500">
             {error}
           </p>
         )}
         {success && (
-          <p className="rounded-md bg-emerald-500/10 p-3 text-sm font-medium text-emerald-500">
+          <p className="rounded-sm bg-emerald-500/10 p-3 text-sm font-medium text-emerald-500">
             {i18n.contactPage.successMessage}
           </p>
         )}

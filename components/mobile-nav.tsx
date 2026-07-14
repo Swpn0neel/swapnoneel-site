@@ -123,7 +123,7 @@ export function MobileNav() {
       <div
         ref={menuRef}
         id="mobile-menu"
-        className={`bg-background/80 border-border absolute top-full right-0 left-0 z-50 mt-2 flex origin-top flex-col items-center gap-4 rounded-xl border py-4 shadow-lg saturate-160 backdrop-blur-[20px] transition-all duration-300 ease-out ${isOpen
+        className={`bg-background/80 border-border absolute top-full right-0 left-0 z-50 mt-2 flex origin-top flex-col items-center gap-4 rounded-md border py-4 shadow-lg saturate-160 backdrop-blur-[20px] transition-all duration-300 ease-out ${isOpen
             ? "pointer-events-auto translate-y-0 scale-y-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-y-95 opacity-0"
           }`}
