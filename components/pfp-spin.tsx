@@ -52,11 +52,24 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
       animRef.current = null;
       const lightNow = isLight();
 
-      // If the theme flipped mid-spin, the animation ended on the wrong face.
-      // Play a quick 180° corrective flip so the final face matches the new theme.
-      if (lightNow !== startedFromLight) {
-        const from = settle(1);          // where the main spin stopped
-        const to = from + 180;         // flip to the opposite face
+      // Check if the cursor is still over the flip card
+      const hovering =
+        ref.current?.querySelector(".pfp-flip-card")?.matches(":hover") ?? false;
+
+      // Where the animation visually ended (mod 360°)
+      const startFace = startedFromLight ? 180 : 0;
+
+      // Desired final face (mod 360°):
+      //   No hover → theme resting:  dark=0°,   light=180°
+      //   Hover    → theme hover:    dark=180°,  light=0°
+      const desiredFace = lightNow
+        ? (hovering ? 0 : 180)
+        : (hovering ? 180 : 0);
+
+      if (startFace !== desiredFace) {
+        // Play a quick 180° corrective flip to land on the right face
+        const from = settle(1);
+        const to   = from + 180;
 
         const fix = inner.animate(
           [
