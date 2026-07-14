@@ -6,6 +6,8 @@ export type SocialBrand =
   | "github"
   | "linkedin"
   | "x"
+  | "reddit"
+  | "dailydev"
   | "leetcode"
   | "instagram"
   | "hashnode"
@@ -84,6 +86,22 @@ export const socialLinks: readonly SocialLink[] = [
   },
   { name: "x", brand: "x", url: "https://x.com/swapnoneel123" },
   {
+    name: "reddit",
+    brand: "reddit",
+    url: "https://www.reddit.com/user/swapnoneel123/",
+  },
+  {
+    name: "daily.dev",
+    brand: "dailydev",
+    url: "https://daily.dev/swapnoneel",
+  },
+  { name: "dev.to", brand: "devdotto", url: "https://dev.to/swapnoneel123" },
+  {
+    name: "hashnode",
+    brand: "hashnode",
+    url: "https://swapnoneel.hashnode.dev",
+  },
+  {
     name: "leetcode",
     brand: "leetcode",
     url: "https://leetcode.com/u/Swapnoneel/",
@@ -94,12 +112,6 @@ export const socialLinks: readonly SocialLink[] = [
     url: "https://instagram.com/swapnoneel111",
   },
   {
-    name: "hashnode",
-    brand: "hashnode",
-    url: "https://swapnoneel.hashnode.dev",
-  },
-  { name: "dev.to", brand: "devdotto", url: "https://dev.to/swapnoneel123" },
-  {
     name: "letterboxd",
     brand: "letterboxd",
     url: "https://letterboxd.com/Swapnoneel/",
@@ -109,7 +121,7 @@ export const socialLinks: readonly SocialLink[] = [
     brand: "discord",
     url: "https://discord.com/users/729954975735873537",
   },
-  { name: "telegram", brand: "telegram", url: "https://t.me/swapnoneel123" },
+  // { name: "telegram", brand: "telegram", url: "https://t.me/swapnoneel123" },
 ];
 
 export const skills = {
