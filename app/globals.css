@@ -606,10 +606,20 @@ mark {
   text-align: center;
   transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   transform-style: preserve-3d;
+  transform: rotateY(0deg); /* Default / Dark theme behavior */
 }
 
+/* Default hover (Dark theme: B/W default -> Color on hover) */
 .pfp-flip-card:hover .pfp-flip-card-inner {
   transform: rotateY(180deg);
+}
+
+/* Light theme overrides (Color default -> B/W on hover) */
+.light .pfp-flip-card-inner {
+  transform: rotateY(180deg);
+}
+.light .pfp-flip-card:hover .pfp-flip-card-inner {
+  transform: rotateY(360deg);
 }
 
 .pfp-flip-card-front,
