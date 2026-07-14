@@ -116,9 +116,9 @@ export const i18n = {
       message: "Message",
     },
     placeholders: {
-      name: "Your Name",
+      name: "your name",
       email: "your@email.com",
-      message: "How can I help you?",
+      message: "how can i help you?",
     },
     sendMessage: "Send Message",
     sendingMessage: "Sending...",
