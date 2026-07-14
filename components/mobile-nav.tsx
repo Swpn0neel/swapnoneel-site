@@ -101,50 +101,53 @@ export function MobileNav() {
       <button
         ref={menuButtonRef}
         onClick={toggleMenu}
-        className="text-muted-foreground hover:text-foreground hover:bg-secondary/50 focus-visible:ring-ring relative z-[60] flex items-center justify-center rounded-md p-2 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+        className="text-muted-foreground hover:text-foreground hover:bg-secondary/50 focus-visible:ring-ring relative z-60 flex items-center justify-center rounded-md p-2 transition-colors duration-300 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
         aria-label={i18n.common.toggleMenu}
         aria-expanded={isOpen}
         aria-controls="mobile-menu"
       >
         <Menu
-          className={`h-4 w-4 transition-all duration-300 ${
-            isOpen
+          className={`h-4 w-4 transition-all duration-300 ${isOpen
               ? "scale-0 rotate-90 opacity-0"
               : "scale-100 rotate-0 opacity-100"
-          }`}
+            }`}
         />
         <X
-          className={`absolute h-4 w-4 transition-all duration-300 ${
-            isOpen
+          className={`absolute h-4 w-4 transition-all duration-300 ${isOpen
               ? "scale-100 rotate-0 opacity-100"
               : "scale-0 -rotate-90 opacity-0"
-          }`}
+            }`}
         />
       </button>
 
       <div
         ref={menuRef}
         id="mobile-menu"
-        className={`bg-background/80 border-border absolute top-full right-0 left-0 z-50 mt-2 flex origin-top flex-col items-center gap-4 rounded-xl border py-4 shadow-lg saturate-[160%] backdrop-blur-[20px] transition-all duration-300 ease-out ${
-          isOpen
+        className={`bg-background/80 border-border absolute top-full right-0 left-0 z-50 mt-2 flex origin-top flex-col items-center gap-4 rounded-xl border py-4 shadow-lg saturate-160 backdrop-blur-[20px] transition-all duration-300 ease-out ${isOpen
             ? "pointer-events-auto translate-y-0 scale-y-100 opacity-100"
             : "pointer-events-none -translate-y-2 scale-y-95 opacity-0"
-        }`}
+          }`}
         role="dialog"
         aria-modal="true"
         aria-label={i18n.common.navigationMenu}
       >
-        {navItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            onClick={closeMenu}
-            className="text-foreground focus-visible:ring-ring w-full rounded-md py-2 text-center text-sm font-medium transition-opacity hover:opacity-60 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-            aria-current={pathname === item.href ? "page" : undefined}
-          >
-            {i18n.nav[item.key]}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          const isActive =
+            pathname === item.href ||
+            (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={closeMenu}
+              className={`hover:text-foreground focus-visible:ring-ring w-full rounded-md py-2 text-center text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/80" : "text-muted-foreground"}`}
+              aria-current={isActive ? "page" : undefined}
+            >
+              {i18n.nav[item.key]}
+            </Link>
+          );
+        })}
       </div>
     </div>
   );

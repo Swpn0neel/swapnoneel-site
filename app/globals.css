@@ -646,6 +646,11 @@ mark {
   object-fit: cover;
 }
 
+/* Custom Zonko Logo Dark Theme Override */
+.dark img[src*="zonko.svg"] {
+  filter: invert(1) brightness(2);
+}
+
 /* ─── Creative PFP ─── */
 @keyframes pfp-float {
   0%,

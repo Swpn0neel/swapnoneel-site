@@ -2,7 +2,7 @@
 title: "GTM Engineer • Zonko Labs"
 date: "April 2026 - July, 2026"
 description: "Go-to-Market Engineer at Zonko Labs, a frontier AI lab."
-cover: "/work/zonko.jpg"
+cover: "/work/zonko.svg"
 ---
 
 [Zonko Labs](https://zonko.ai) is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.

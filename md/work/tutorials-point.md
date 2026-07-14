@@ -2,7 +2,7 @@
 title: "Technical Writer • Tutorials Point"
 date: "May 2023 - May 2025"
 description: "Technical content creation for one of the world's largest developer learning platforms."
-cover: "/work/tutorials-point.jpg"
+cover: "/work/tutorials-point.png"
 ---
 
 [Tutorials Point](https://www.tutorialspoint.com) is one of the most popular platforms for learning programming and technology, with millions of learners worldwide.

@@ -113,11 +113,6 @@ export default async function WorkItemPage({
         </Link>
         <h1 className="mt-4 mb-1 text-xl font-semibold">{item.meta.title}</h1>
         <p className="text-muted-foreground text-xs">{item.meta.date}</p>
-        {item.meta.description && (
-          <p className="text-muted-foreground mt-2 text-sm">
-            {item.meta.description}
-          </p>
-        )}
       </div>
       <div className="prose prose-sm max-w-none">
         <MDXRemote

@@ -9,7 +9,7 @@ export const i18n = {
   common: {
     skipToContent: "Skip to main content",
     seeAll: "See all",
-    viewMore: "View More",
+    viewMore: "View more",
     readMore: "Read more",
     learnMore: "Learn more",
     mainNavigation: "Main navigation",
@@ -32,9 +32,9 @@ export const i18n = {
       avatarHoverAlt: "Swapnoneel Saha Hover",
       title: "swapnoneel saha",
       tagline:
-        "i am an ai engineer and a developer advocate who specializes in accelerating the growth of startups, and in building agentic workflows, oss infrastructure, high-performance web systems, and creating technical content.",
+        "i am an ai engineer and a developer advocate who specializes in accelerating the growth of startups, and in building agentic workflows, open-source ecosystems, high-performance web systems, and creating technical content.",
       paragraphs: [
-        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups. my work sits at the intersection of agentic AI, open-source ecosystems, and growth engineering.",
+        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups. other than that, i am a polymath, i love watching films and enjoy winning hackathons.",
         // "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
       ],
       reachMeLabel: "Reach me at",

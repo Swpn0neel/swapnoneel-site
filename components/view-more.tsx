@@ -1,5 +1,4 @@
 import { i18n } from "@/lib/i18n";
-import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
 interface ViewMoreProps {
@@ -17,7 +16,7 @@ export function ViewMore({ href, label }: ViewMoreProps) {
         <span className="group-hover/more:underline">
           {label || i18n.common.viewMore}
         </span>
-        <ArrowUpRight className="h-3 w-3" />
+        <span className="text-[10px]">→</span>
       </Link>
     </div>
   );

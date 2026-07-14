@@ -23,16 +23,22 @@ export function Navbar() {
       </Link>
       <div className="flex items-center gap-6">
         <div className="hidden items-center gap-6 md:flex">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-muted-foreground hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-              aria-current={pathname === item.href ? "page" : undefined}
-            >
-              {i18n.nav[item.key]}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive =
+              pathname === item.href ||
+              (item.href !== "/" && pathname.startsWith(`${item.href}/`));
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/90" : "text-muted-foreground"}`}
+                aria-current={isActive ? "page" : undefined}
+              >
+                {i18n.nav[item.key]}
+              </Link>
+            );
+          })}
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
