@@ -81,7 +81,7 @@ export default function RootLayout({
       >
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark")document.documentElement.classList.add("dark")}catch(e){}})();`,
+            __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark"){document.documentElement.classList.add("dark")}else if(e!="light"){localStorage.removeItem("theme")}}catch(e){}})();`,
           }}
         />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
