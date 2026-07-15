@@ -81,10 +81,10 @@ export default function RootLayout({
       >
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark"||(!e&&window.matchMedia("(prefers-color-scheme:dark)").matches))document.documentElement.classList.add("dark")}catch(e){}})();`,
+            __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark")document.documentElement.classList.add("dark")}catch(e){}})();`,
           }}
         />
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
