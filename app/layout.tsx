@@ -79,9 +79,15 @@ export default function RootLayout({
         className={`${inter.variable} bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
         suppressHydrationWarning
       >
+        {/* Session-scoped theme: trust sessionStorage, not localStorage.
+            A theme toggled during this session survives reloads and is
+            inherited by tabs opened from the site (browsers clone
+            sessionStorage into them), but a brand-new visit always starts
+            light. localStorage is overwritten to match so next-themes
+            (which reads it) agrees with the pre-hydration class. */}
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var e=localStorage.getItem("theme");if(e==="dark"){document.documentElement.classList.add("dark")}else if(e!="light"){localStorage.removeItem("theme")}}catch(e){}})();`,
+            __html: `(function(){try{var t=sessionStorage.getItem("theme")==="dark"?"dark":"light";localStorage.setItem("theme",t);document.documentElement.classList.toggle("dark",t==="dark")}catch(e){}})();`,
           }}
         />
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
