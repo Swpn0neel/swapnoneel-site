@@ -1,12 +1,23 @@
 ---
-title: "GEO for Developers: Get Cited by ChatGPT and Perplexity"
-date: "2026-07-08T00:00:00.000Z"
-description: GEO for developers, minus the agency fluff. Here's what actually matters if you want ChatGPT and Perplexity to cite your blog posts in 2026.
+title: 'GEO for Developers: Get Cited by ChatGPT and Perplexity'
+date: '2026-07-08T00:00:00.000Z'
+description: >-
+  GEO for developers, minus the agency fluff. Here's what actually matters if
+  you want ChatGPT and Perplexity to cite your blog posts in 2026.
 slug: geo-for-developers
-tags: [seo, geo, ai, blogging, devrel]
+tags:
+  - seo
+  - geo
+  - ai
+  - blogging
+  - devrel
 primary_keyword: GEO for developers
-link: https://dev.to/swapnoneel123/geo-for-developers-get-cited-by-chatgpt-and-perplexity-34mf
-canonical: https://www.swapnoneel.site/blog/geo-for-developers
+link: >-
+  https://dev.to/swapnoneel123/geo-for-developers-get-cited-by-chatgpt-and-perplexity-34mf
+canonical: 'https://www.swapnoneel.site/blog/geo-for-developers'
+cover: >-
+  https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gx9dls1426tvj4bknw4l.png
+updated: '2026-07-18T09:03:09.019Z'
 ---
 
 Have you ever asked ChatGPT or Perplexity a coding question and get a suspiciously specific, correct answer, with zero link back to whoever actually wrote it?
@@ -14,6 +25,8 @@ Have you ever asked ChatGPT or Perplexity a coding question and get a suspicious
 Yeah, that's been happening to my blog too, and I finally sat down to fix it.
 
 So here's the real answer: GEO for developers doesn't need an agency or a 40-page audit. It just needs three simple things: a properly structured content so a model can lift one paragraph and have it make sense on its own, real evidence instead of vague claims, and let the right bots get into your `robots.txt`. That's genuinely most of it, and in this blog I'll walk you through exactly how!
+
+![Dot the Debugger re-inking a return-address stamp as developer writing slides into an AI answers sack with missing source labels.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a877ztvlh1in45i8vcxu.png)
 
 ## What is GEO, actually?
 
@@ -49,11 +62,15 @@ The idea is simple: drop a markdown file at `/llms.txt` summarizing your site so
 
 So add one if you want, it costs you ten minutes and can't hurt. Just don't mistake it for the thing that's going to get you cited. That's the structure and the sourcing, not the file.
 
+![Professor Kernel comparing a light llms.txt scroll against heavier evidence tablets labeled stats, sources, and structure.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gvsazrctmc8kc6t6lrub.png)
+
 ## What if you don't even own your blog?
 
 If you cross-post to Hashnode or Dev.to like I do, you don't control the `robots.txt` on that domain, and you can't add schema markup either. That's the platform's call, not yours.
 
 What you can still control everywhere: the content structure itself, and your canonical URL. Always point the canonical tag back to your personal site, always write the answer-first paragraphs regardless of platform, and let the schema/`robots.txt` tactics apply fully only where you actually own the domain.
+
+![Milo the Micro-Archivist carrying a portable structure case between an owned site shelf and a locked platform rules shelf.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/xobsofohyefwrq57pkq2.png)
 
 ## Is GEO worth your time?
 
@@ -72,5 +89,7 @@ I don't have a clean number for this yet, since I only rebuilt my own process ar
 
 **Do I need schema markup if I only publish on Hashnode or Dev.to?**
 Not directly, since the platform controls that layer. Focus your energy on content structure and canonical URLs instead, those travel with you no matter where you publish.
+
+![Thanks for reading about GEO for Developers](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9xplxu74ikwfrltmxfi.png)
 
 If you're building or rebuilding your own writing process around this, I'd genuinely love to hear what worked for you, drop it in the comments. You can also find me on [X (swapnoneel123)](https://x.com/swapnoneel123) or check out more of my work at [swapnoneel.site](https://www.swapnoneel.site).
