@@ -5,7 +5,7 @@
 Swapnoneel is a software engineer based in India, with extensive experience building scalable, developer-centric software systems and automation tools. He is currently focused on architecting agentic AI systems that automate complex, multi-step engineering workflows, bridging the gap between deep backend engineering and clean, intuitive user interfaces.
 
 *   **Email:** swapnoneelsaha111@gmail.com
-*   **Website:** https://swapnoneel.site
+*   **Website:** https://www.swapnoneel.site
 *   **Location:** India
 *   **Open For:** Full-time opportunities, freelancing, and technical collaborations.
 
@@ -35,6 +35,15 @@ Swapnoneel is a software engineer based in India, with extensive experience buil
 ---
 
 ## Professional Experience
+
+### GTM Engineer • Zonko Labs
+*April 2026 – July 2026* | [Zonko Labs](https://zonko.ai)
+*   **Description:** Zonko Labs is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
+*   **Impact & Core Achievements:**
+    *   **Agent QA & Reliability:** Formed the first layer of internal testing for *Luffy*, an AI co-worker in Slack, catching bugs before they reached core users.
+    *   **Observability Tooling:** Built an internal tool capturing Luffy's data logs and generating reports on latency and probable slowdowns.
+    *   **User Growth:** Grew Luffy's user base from **0 to 50+ users**, primarily startups with 1–50 employees, while relaying early-adopter feedback and feature requests to the dev team.
+    *   **Web Presence:** Rebuilt the company website, replacing a low-quality, outdated version.
 
 ### DevRel Engineer • Keploy
 *May 2024 – Dec 2024* | [Keploy Website](https://keploy.io)
@@ -148,11 +157,14 @@ Swapnoneel is a software engineer based in India, with extensive experience buil
 ---
 
 ## Blog & Writing Topics
-Swapnoneel publishes deep-dives into programming paradigms and web architectures. Major publication categories include:
+Swapnoneel publishes deep-dives into programming paradigms, AI tooling, and web architectures. Major publication categories include:
 
+*   **AI Agents & Agentic Workflows:** Building agent skills for coding agents (Claude Code), making AI write in a personal voice via voice profiles and feedback loops, testing and verifying AI coding agents, and agent reliability/observability in production.
+*   **GEO & Developer SEO:** Generative Engine Optimization for developer blogs — getting cited by ChatGPT, Perplexity, and AI Overviews through content structure, sourced claims, robots.txt configuration, canonical URLs, and llms.txt.
+*   **Deployment & Platforms:** Frontend deployment workflows and platform trade-offs across Vercel, Cloudflare Pages, Netlify, and Railway, including preview-deployment collaboration and pricing models.
+*   **Software Design & Testing:** The testing pyramid, unit vs integration testing, functional testing, chaos testing, access control testing, API mocks, semantic versioning, and machine learning pipeline designs.
 *   **Python Deep Dives:** Object-Oriented Programming (OOP), getters/setters, class/instance variables, magic methods, constructors, decorators, string formatting, virtual environments, custom libraries (OS, Fastembed).
 *   **JavaScript & Node.js:** High-order array functions, publishing NPM packages, Node/NPM/NVM configurations, object serialization vs JSON.
-*   **Software Design & Testing:** The testing pyramid, API mocks, semantic versioning, and machine learning pipeline designs.
 *   **Personal Developer Journeys:** First and second year reflection journals mapping hackathons, technical learning curves, and software design principles.
 
 ---
