@@ -30,8 +30,19 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "cdn.simpleicons.org",
       },
+      {
+        protocol: "https",
+        hostname: "wp.keploy.io",
+      },
+      {
+        protocol: "https",
+        hostname: "dev-to-uploads.s3.us-east-2.amazonaws.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
+    // 40 is the low-res first stage of progressive blog images
+    // (components/smooth-image.tsx), 75 the full-quality upgrade
+    qualities: [40, 75],
     deviceSizes: [640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,
