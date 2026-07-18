@@ -214,6 +214,15 @@ textarea {
 }
 
 /* Prose / MDX content */
+.prose {
+  /* Match the home page's text-sm body size (0.875rem). The `prose-sm`
+     class in markup is inert — the Tailwind typography plugin isn't
+     installed — so without this the prose body falls back to 1rem and
+     renders ~14% larger than the rest of the site. Headings below are
+     rem-sized, so they're unaffected by this base. */
+  font-size: 0.875rem;
+}
+
 .prose h1,
 .prose h2,
 .prose h3,

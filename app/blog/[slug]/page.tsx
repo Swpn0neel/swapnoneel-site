@@ -1,3 +1,4 @@
+import { BlogImage } from "@/components/blog-image";
 import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
@@ -254,6 +255,11 @@ export default async function BlogPostPage({
         </p>
       </div>
 
+      {/* Cover / thumbnail */}
+      {post.cover && (
+        <BlogImage src={post.cover} alt={post.title} priority hideCaption />
+      )}
+
       {/* Table of Contents Box */}
       <TableOfContents headings={headings} />
 
@@ -269,11 +275,12 @@ export default async function BlogPostPage({
             },
           }}
           components={{
-            img: (props) => {
-              // ponytail: SHOW_IMAGES=false, images disabled — return null
-              void props;
-              return null;
-            },
+            img: (props) => (
+              <BlogImage
+                src={typeof props.src === "string" ? props.src : undefined}
+                alt={props.alt}
+              />
+            ),
             mark: ({ children }) => (
               <mark className="mx-0.5 inline-block rounded-sm px-1.5 py-0.5 text-[0.9em] font-semibold no-underline shadow-sm">
                 {children}
