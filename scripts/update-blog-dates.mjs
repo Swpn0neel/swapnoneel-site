@@ -1,6 +1,5 @@
 import { execSync } from "child_process";
 import fs from "fs";
-import path from "path";
 import matter from "gray-matter";
 
 // Determine if we are inside a git repository
@@ -9,7 +8,9 @@ try {
   execSync("git rev-parse --is-inside-work-tree", { stdio: "ignore" });
   isGit = true;
 } catch (e) {
-  console.log("Not a git repository or git is not installed. Skipping automatic blog update checks.");
+  console.log(
+    "Not a git repository or git is not installed. Skipping automatic blog update checks."
+  );
   process.exit(0);
 }
 
@@ -20,14 +21,21 @@ function stableStringify(obj) {
     return "[" + obj.map(stableStringify).join(",") + "]";
   }
   const keys = Object.keys(obj).sort();
-  const parts = keys.map(k => `${JSON.stringify(k)}:${stableStringify(obj[k])}`);
+  const parts = keys.map(
+    (k) => `${JSON.stringify(k)}:${stableStringify(obj[k])}`
+  );
   return "{" + parts.join(",") + "}";
 }
 
 try {
   // Get git status of files in md/blog
-  const statusOutput = execSync("git status --porcelain -- md/blog", { encoding: "utf8" });
-  const lines = statusOutput.split("\n").map(l => l.trim()).filter(Boolean);
+  const statusOutput = execSync("git status --porcelain -- md/blog", {
+    encoding: "utf8",
+  });
+  const lines = statusOutput
+    .split("\n")
+    .map((l) => l.trim())
+    .filter(Boolean);
 
   if (lines.length === 0) {
     console.log("No blog posts modified. Skipping update checks.");
@@ -46,7 +54,8 @@ try {
 
     // Ignore deleted files
     if (status.includes("D")) continue;
-    if (!relativePath.endsWith(".md") && !relativePath.endsWith(".mdx")) continue;
+    if (!relativePath.endsWith(".md") && !relativePath.endsWith(".mdx"))
+      continue;
 
     if (!fs.existsSync(relativePath)) continue;
 
@@ -55,7 +64,9 @@ try {
     try {
       parsedCurrent = matter(currentRaw);
     } catch (e) {
-      console.warn(`[Warning] Failed to parse frontmatter of ${relativePath}: ${e.message}`);
+      console.warn(
+        `[Warning] Failed to parse frontmatter of ${relativePath}: ${e.message}`
+      );
       continue;
     }
 
@@ -69,7 +80,7 @@ try {
       const gitPath = relativePath.replace(/\\/g, "/");
       headContent = execSync(`git show HEAD:${gitPath}`, {
         encoding: "utf8",
-        stdio: ["pipe", "pipe", "ignore"]
+        stdio: ["pipe", "pipe", "ignore"],
       });
     } catch (e) {
       // File doesn't exist in HEAD (untracked/newly added)
@@ -97,7 +108,8 @@ try {
         delete currentData.updated;
         delete headData.updated;
 
-        const metadataChanged = stableStringify(currentData) !== stableStringify(headData);
+        const metadataChanged =
+          stableStringify(currentData) !== stableStringify(headData);
         const bodyChanged = currentBody !== headBody;
 
         hasChanged = metadataChanged || bodyChanged;
@@ -108,13 +120,17 @@ try {
     if (hasChanged) {
       const publishedDateVal = parsedCurrent.data.date;
       if (!publishedDateVal) {
-        console.warn(`[Warning] Missing 'date' (published date) in frontmatter for: ${relativePath}`);
+        console.warn(
+          `[Warning] Missing 'date' (published date) in frontmatter for: ${relativePath}`
+        );
         continue;
       }
 
       const pubDate = new Date(publishedDateVal);
       if (isNaN(pubDate.getTime())) {
-        console.warn(`[Warning] Invalid 'date' in frontmatter for: ${relativePath} (${publishedDateVal})`);
+        console.warn(
+          `[Warning] Invalid 'date' in frontmatter for: ${relativePath} (${publishedDateVal})`
+        );
         continue;
       }
 
@@ -124,9 +140,14 @@ try {
         // If published today, remove/clear 'updated' parameter to keep clean
         if (parsedCurrent.data.updated) {
           delete parsedCurrent.data.updated;
-          const updatedFileContent = matter.stringify(parsedCurrent.content, parsedCurrent.data);
+          const updatedFileContent = matter.stringify(
+            parsedCurrent.content,
+            parsedCurrent.data
+          );
           fs.writeFileSync(relativePath, updatedFileContent, "utf8");
-          console.log(`[Updated] Cleared 'updated' parameter for today's new post: ${relativePath}`);
+          console.log(
+            `[Updated] Cleared 'updated' parameter for today's new post: ${relativePath}`
+          );
         }
       } else {
         // Published on a different day. We should check if 'updated' date is not already today.
@@ -142,9 +163,14 @@ try {
         if (currentUpdatedDateString !== currentDateString) {
           // Update timestamp to the current ISO timestamp
           parsedCurrent.data.updated = currentDate.toISOString();
-          const updatedFileContent = matter.stringify(parsedCurrent.content, parsedCurrent.data);
+          const updatedFileContent = matter.stringify(
+            parsedCurrent.content,
+            parsedCurrent.data
+          );
           fs.writeFileSync(relativePath, updatedFileContent, "utf8");
-          console.log(`[Updated] Set 'updated' timestamp to ${parsedCurrent.data.updated} for: ${relativePath}`);
+          console.log(
+            `[Updated] Set 'updated' timestamp to ${parsedCurrent.data.updated} for: ${relativePath}`
+          );
         }
       }
     }

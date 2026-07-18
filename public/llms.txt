@@ -102,6 +102,14 @@ Swapnoneel is a software engineer based in India, with extensive experience buil
     *   Built code parsing pipelines mapping visual structural diagrams using Mermaid.js.
     *   **Results:** Removes context switching by bringing AI debugging and Stack Exchange lookups straight to the shell.
 
+### [MeshHop](https://mesh-hop.vercel.app)
+*Public Proxy Discovery, Benchmarking, and Browsing Desktop Client*
+*   **Pitch & Impact:** A lightweight, self-contained desktop application that automates discovering, verifying, and rotating public proxies for any chosen region. It secures the final internet hop by routing a dedicated, proxy-hardened browser profile with leak-prevention mechanisms directly through verified exits.
+*   **Rigorous Implementation:**
+    *   Developed a desktop client using Tauri 2 and Rust for local sidecar process controls and minimized resource footprints.
+    *   Engineered a concurrent Node.js search and testing sidecar engine to benchmark candidates against active endpoints, including Cloudflare trace details.
+    *   Designed automated integration hooks launching isolated, proxy-configured Firefox profiles pre-loaded with uBlock Origin.
+
 ### [Scholarian](https://scholarian.vercel.app)
 *Editorial Research Platform*
 *   **Pitch & Impact:** An academic literature analysis platform that automates systematic paper reviews and research pipelines.

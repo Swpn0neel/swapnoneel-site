@@ -25,10 +25,11 @@ export function BackToTop() {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      className={`border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-100 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 ${isVisible && !isBlocked
+      className={`border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-100 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 ${
+        isVisible && !isBlocked
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-4 opacity-0"
-        }`}
+      }`}
       aria-label="Back to top"
     >
       <ArrowUp size={18} strokeWidth={1.5} />

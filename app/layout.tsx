@@ -90,7 +90,11 @@ export default function RootLayout({
             __html: `(function(){try{var t=sessionStorage.getItem("theme")==="dark"?"dark":"light";localStorage.setItem("theme",t);document.documentElement.classList.toggle("dark",t==="dark")}catch(e){}})();`,
           }}
         />
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem={false}
+        >
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{

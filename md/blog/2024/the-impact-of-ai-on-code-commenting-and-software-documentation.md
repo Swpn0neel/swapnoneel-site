@@ -1,6 +1,6 @@
 ---
 title: The Impact of AI on Code Commenting and Software Documentation
-date: '2024-11-15T00:21:42.000Z'
+date: "2024-11-15T00:21:42.000Z"
 description: >-
   Table of Contents In modern software development, clear code documentation and
   commenting are not only just a part of good practices, but also they are
@@ -11,7 +11,7 @@ cover: >-
   https://wp.keploy.io/wp-content/uploads/2024/11/document-and-comment-code-with-ai.webp
 link: >-
   https://keploy.io/blog/community/the-impact-of-ai-on-code-commenting-and-software-documentation
-updated: '2026-07-18T19:12:34.467Z'
+updated: "2026-07-18T19:12:34.467Z"
 ---
 
 In modern software development, clear code documentation and commenting are not only just a part of good practices, but also they are essential for effective collaboration, maintainability, and scaling projects over time. However, they are often neglected due to time constraints or lack of clarity on how much detail is necessary.

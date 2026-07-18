@@ -2,12 +2,12 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1714393417843/65bd36e3-38a3-4300-9603-23c6950d351c.png
 title: Software Testing Pyramid
-date: 'Mon, 29 Apr 2024 12:25:01 GMT'
+date: "Mon, 29 Apr 2024 12:25:01 GMT"
 description: >-
   Structured software testing includes unit, integration, and end-to-end layers
   for efficient defect identification and quality maintenance...
-link: 'https://swapnoneel.hashnode.dev/software-testing-pyramid'
-updated: '2026-07-18T19:12:34.467Z'
+link: "https://swapnoneel.hashnode.dev/software-testing-pyramid"
+updated: "2026-07-18T19:12:34.467Z"
 ---
 
 Software Testing is a process that involves evaluating software components to ensure they meet specified requirements and are defect-free. The main goal of software testing is to verify that the actual software matches the expected requirements, enhancing product quality and customer satisfaction.

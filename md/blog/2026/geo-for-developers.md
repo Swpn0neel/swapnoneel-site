@@ -1,6 +1,6 @@
 ---
-title: 'GEO for Developers: Get Cited by ChatGPT and Perplexity'
-date: '2026-07-08T00:00:00.000Z'
+title: "GEO for Developers: Get Cited by ChatGPT and Perplexity"
+date: "2026-07-08T00:00:00.000Z"
 description: >-
   GEO for developers, minus the agency fluff. Here's what actually matters if
   you want ChatGPT and Perplexity to cite your blog posts in 2026.
@@ -14,10 +14,10 @@ tags:
 primary_keyword: GEO for developers
 link: >-
   https://dev.to/swapnoneel123/geo-for-developers-get-cited-by-chatgpt-and-perplexity-34mf
-canonical: 'https://www.swapnoneel.site/blog/geo-for-developers'
+canonical: "https://www.swapnoneel.site/blog/geo-for-developers"
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gx9dls1426tvj4bknw4l.png
-updated: '2026-07-18T09:03:09.019Z'
+updated: "2026-07-18T09:03:09.019Z"
 ---
 
 Have you ever asked ChatGPT or Perplexity a coding question and get a suspiciously specific, correct answer, with zero link back to whoever actually wrote it?

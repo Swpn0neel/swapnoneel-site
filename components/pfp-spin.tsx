@@ -7,7 +7,9 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
   const animRef = useRef<Animation | null>(null);
 
   function getInner() {
-    return ref.current?.querySelector<HTMLElement>(".pfp-flip-card-inner") ?? null;
+    return (
+      ref.current?.querySelector<HTMLElement>(".pfp-flip-card-inner") ?? null
+    );
   }
 
   function isLight() {
@@ -38,7 +40,7 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
       [
         { transform: `rotateY(${settle(0)}deg)` },
         { transform: `rotateY(${settle(0.25)}deg)`, offset: 0.25 },
-        { transform: `rotateY(${settle(0.5)}deg)`, offset: 0.50 },
+        { transform: `rotateY(${settle(0.5)}deg)`, offset: 0.5 },
         { transform: `rotateY(${settle(0.75)}deg)`, offset: 0.75 },
         { transform: `rotateY(${settle(1)}deg)` },
       ],
@@ -54,7 +56,8 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
 
       // Check if the cursor is still over the flip card
       const hovering =
-        ref.current?.querySelector(".pfp-flip-card")?.matches(":hover") ?? false;
+        ref.current?.querySelector(".pfp-flip-card")?.matches(":hover") ??
+        false;
 
       // Where the animation visually ended (mod 360°)
       const startFace = startedFromLight ? 180 : 0;
@@ -62,14 +65,12 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
       // Desired final face (mod 360°):
       //   No hover → theme resting:  dark=0°,   light=180°
       //   Hover    → theme hover:    dark=180°,  light=0°
-      const desiredFace = lightNow
-        ? (hovering ? 0 : 180)
-        : (hovering ? 180 : 0);
+      const desiredFace = lightNow ? (hovering ? 0 : 180) : hovering ? 180 : 0;
 
       if (startFace !== desiredFace) {
         // Play a quick 180° corrective flip to land on the right face
         const from = settle(1);
-        const to   = from + 180;
+        const to = from + 180;
 
         const fix = inner.animate(
           [
@@ -80,12 +81,18 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
         );
 
         animRef.current = fix;
-        fix.addEventListener("finish", () => { animRef.current = null; });
-        fix.addEventListener("cancel", () => { animRef.current = null; });
+        fix.addEventListener("finish", () => {
+          animRef.current = null;
+        });
+        fix.addEventListener("cancel", () => {
+          animRef.current = null;
+        });
       }
     });
 
-    anim.addEventListener("cancel", () => { animRef.current = null; });
+    anim.addEventListener("cancel", () => {
+      animRef.current = null;
+    });
   }
 
   return (

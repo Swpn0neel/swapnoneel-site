@@ -1,6 +1,6 @@
 ---
 title: Why Vercel is still my default for shipping frontend projects
-date: '2026-07-13T00:00:00.000Z'
+date: "2026-07-13T00:00:00.000Z"
 description: >-
   Why I keep reaching for Vercel for frontend projects — and where Cloudflare,
   Netlify, and Railway are the better choice.
@@ -15,7 +15,7 @@ link: >-
   https://dev.to/swapnoneel123/why-vercel-is-still-my-default-for-shipping-frontend-projects-2dd6
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/aovia04alqss3g389xah.png
-updated: '2026-07-18T09:03:09.019Z'
+updated: "2026-07-18T09:03:09.019Z"
 ---
 
 Last week, I was working on a client project with a fast approaching deadline. The work had already piled up, so I had to move really fast; I was constantly making changes, pushing them straight to GitHub, checking them through the preview link of the deployment, and going straight to the next task. And while doing so, I barely stopped and worried about hosting, because Vercel was already connected. And after successfully delivering the project within the stipulated time, it hit me that I probably could not have moved that quickly if the deployment itself had been another thing to manage.
@@ -25,7 +25,6 @@ That made me realise: Vercel has been my default choice for a long time, and it 
 ![Easy deployment using Vercel](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gcum98tsutf93kuwjt2v.png)
 
 I mostly use Next.js, so I know the tech nerds out there will assume that, it is the entire reason why I choose Vercel, and that's a fair assumption to make, because it's partly true. Vercel develops and maintains Next.js, so of course it provides the best hosting for Next.js, but that's just one side of the coin.
-
 
 ## How I use Vercel in my projects
 
