@@ -65,14 +65,14 @@ export default function Home() {
           <FadeIn delay={0.1} priority>
             <h1 className="mb-3 flex flex-wrap items-baseline gap-2 text-2xl font-semibold tracking-tight">
               <span>{siteConfig.person.displayName}</span>
-              <a
+              {/* <a
                 href="https://hire-swapnoneel.vercel.app"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hire-me-link text-sm font-bold tracking-normal"
               >
                 (hire_me↗)
-              </a>
+              </a> */}
             </h1>
           </FadeIn>
           <FadeIn delay={0.15} priority>

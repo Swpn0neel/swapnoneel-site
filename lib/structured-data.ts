@@ -19,9 +19,5 @@ export function buildPersonSchema() {
       "@type": "EducationalOrganization",
       name: edu.school,
     })),
-    worksFor: {
-      "@type": "Organization",
-      name: "Freelance",
-    },
   };
 }
