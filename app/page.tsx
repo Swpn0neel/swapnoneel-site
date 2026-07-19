@@ -53,6 +53,7 @@ export default function Home() {
                   width={140}
                   height={140}
                   className="pfp-image-flip"
+                  priority
                 />
               </div>
             </div>
