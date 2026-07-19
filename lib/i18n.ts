@@ -66,7 +66,7 @@ export const i18n = {
       "Winner of MAKATHON, an intra-university hackathon under Smart India Hackathon '23.",
       "Contributed to multiple large Open-Source projects like MindsDB, Keploy & was a contributor at GSSOC '23.",
       "Organized multiple educational sessions for students at our University involving DSA, Development & Open-Source.",
-      "Solved over 1100+ questions on LeetCode, and have an overall contest rating of 1650+.",
+      "Solved over 1200+ questions on LeetCode, and have an overall contest rating of 1650+.",
     ],
     otherExperience: {
       title: "Other Experience",

@@ -386,7 +386,6 @@ That made me realise: Vercel has been my default choice for a long time, and it 
 
 I mostly use Next.js, so I know the tech nerds out there will assume that, it is the entire reason why I choose Vercel, and that's a fair assumption to make, because it's partly true. Vercel develops and maintains Next.js, so of course it provides the best hosting for Next.js, but that's just one side of the coin.
 
-
 ## How I use Vercel in my projects
 
 If you check the projects section on [my portfolio](https://www.swapnoneel.site/work), you will find that most of the web projects I currently have are deployed through Vercel. And not all of them are Next.js applications; you will find projects with React, TanStack tooling, Node.js, and Bun as well. These are not just weekend experiments or hobby projects, either. Some of them have real users as well! Let me give you [Scholarian](https://scholarian.vercel.app) as an example. It is a research platform built on Next.js, and according to my latest project analytics, it currently has more than 75 active users and over 700 chat sessions.

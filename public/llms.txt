@@ -159,7 +159,7 @@ Swapnoneel is a software engineer based in India, with extensive experience buil
     *   **Second Runner-Up:** *Hack 4 Bengal 3.0* (Eastern India's largest offline hackathon)
     *   **Second Runner-Up:** *Treasure Hacks 3.0* (out of 600+ participants)
     *   **Winner:** Intra-university *MAKATHON* (Smart India Hackathon '23 stage)
-*   **Data Structures & Algorithms:** Solved 1100+ challenges on LeetCode with a contest rating of 1650+.
+*   **Data Structures & Algorithms:** Solved 1200+ challenges on LeetCode with a contest rating of 1650+.
 *   **Open-Source Contributions:** Actively contributed to open-source infrastructure tools like *MindsDB* and *Keploy*. Contributor at GirlScript Summer of Code (GSSOC) 23.
 
 ---

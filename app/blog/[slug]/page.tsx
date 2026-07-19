@@ -28,7 +28,15 @@ export async function generateMetadata({
   const post = await getBlogPost(slug);
   if (!post) return {};
   const url = `https://www.swapnoneel.site/blog/${slug}`;
-  const ogImage = ogImageUrl(post.title, post.brief);
+  // Use the post's own thumbnail for link-embed previews when it has one —
+  // same image readers already see at the top of the post — falling back
+  // to the generated title-card only for older posts without a cover. Only
+  // the generated card is guaranteed to actually be 1200x630; real covers
+  // vary, so let crawlers measure those themselves rather than claim a
+  // fixed size that doesn't match the file.
+  const ogImage = post.cover
+    ? { url: post.cover, alt: post.title }
+    : { url: ogImageUrl(post.title, post.brief), width: 1200, height: 630, alt: post.title };
   return {
     title: post.title,
     description: post.brief,
@@ -41,13 +49,13 @@ export async function generateMetadata({
       url,
       type: "article",
       publishedTime: post.publishedAt,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: post.title }],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.brief,
-      images: [ogImage],
+      images: [ogImage.url],
     },
   };
 }
