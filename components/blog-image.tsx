@@ -57,7 +57,8 @@ export function BlogImage({
   // aspect ratio (precomputed at build time), so the image always covers
   // the whole frame — no caps, no letterboxing, no layout shift.
   return (
-    <span className="my-6 block">
+    // data-no-narrate: the blog narrator skips this subtree (image + caption)
+    <span className="my-6 block" data-no-narrate="">
       <span
         className="border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border"
         style={{ aspectRatio: getAspectRatio(src) }}

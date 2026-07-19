@@ -1,4 +1,5 @@
 import { BlogImage } from "@/components/blog-image";
+import { BlogNarrator } from "@/components/blog-narrator";
 import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
@@ -34,8 +35,11 @@ export async function generateMetadata({
   // the generated card is guaranteed to actually be 1200x630; real covers
   // vary, so let crawlers measure those themselves rather than claim a
   // fixed size that doesn't match the file.
+  // Covers are routed through the Next image optimizer: raw uploads can be
+  // ~1MB, and WhatsApp (and some other messengers) silently drop preview
+  // thumbnails larger than ~600KB. w must be one of next.config deviceSizes.
   const ogImage = post.cover
-    ? { url: post.cover, alt: post.title }
+    ? { url: `/_next/image?url=${encodeURIComponent(post.cover)}&w=1280&q=75`, alt: post.title }
     : { url: ogImageUrl(post.title, post.brief), width: 1200, height: 630, alt: post.title };
   return {
     title: post.title,
@@ -271,8 +275,14 @@ export default async function BlogPostPage({
       {/* Table of Contents Box */}
       <TableOfContents headings={headings} />
 
+      {/* Read-along narration player */}
+      <BlogNarrator articleId="blog-prose" />
+
       {/* Main Content */}
-      <div className="prose prose-sm justify-text max-w-none [&>*:first-child]:mt-0">
+      <div
+        id="blog-prose"
+        className="prose prose-sm justify-text max-w-none [&>*:first-child]:mt-0"
+      >
         <MDXRemote
           source={cleanMarkdown}
           options={{
