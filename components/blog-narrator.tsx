@@ -4,7 +4,6 @@ import { Check, ChevronDown, Pause, Play, RotateCcw } from "lucide-react";
 import {
   useCallback,
   useEffect,
-  useId,
   useMemo,
   useRef,
   useState,
@@ -75,7 +74,130 @@ function formatTime(sec: number) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
-export function BlogNarrator({ articleId }: { articleId: string }) {
+// ---- pre-generated narration (Edge TTS) timings ----
+// scripts/generate-narrations.mjs produces /narration/<year>/<slug>.json: the audio
+// URL plus a start time for every spoken word. Those words come from the
+// markdown source while ours come from the rendered DOM, so the two lists can
+// disagree in small ways (tokenization, expanded numbers, skipped islands).
+// alignTimings maps them tolerantly instead of assuming 1:1.
+
+interface NarrationData {
+  v: number;
+  audio: string;
+  durationMs: number;
+  words: string[];
+  starts: number[];
+}
+
+const normWord = (s: string) =>
+  s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+
+// Returns a start time (ms) for every DOM word. Two-pointer walk: a TTS token
+// may cover part of a DOM word (hyphenated words split by the service), several
+// DOM words (merged tokens), or neither (spoken expansions like "2026" ->
+// "twenty twenty-six" are dropped; unmatched DOM words are interpolated).
+function alignTimings(
+  domNorm: string[],
+  ttsWords: string[],
+  ttsStarts: number[],
+  durationMs: number
+): number[] {
+  const n = domNorm.length;
+  const starts: number[] = new Array(n).fill(-1);
+  let k = 0; // dom cursor
+  let acc = ""; // matched prefix of domNorm[k] built from partial TTS tokens
+
+  for (let j = 0; j < ttsWords.length && k < n; j++) {
+    const tn = normWord(ttsWords[j]);
+    const t = ttsStarts[j];
+    if (!tn) continue;
+    // Punctuation-only DOM tokens ("—", "→") inherit the upcoming time.
+    while (k < n && !domNorm[k]) {
+      if (starts[k] < 0) starts[k] = t;
+      k++;
+    }
+    if (k >= n) break;
+
+    if (acc) {
+      const next = acc + tn;
+      if (domNorm[k].startsWith(next)) {
+        acc = next.length >= domNorm[k].length ? "" : next;
+        if (!acc) k++;
+        continue;
+      }
+      // Continuation broke down; give up on this word and fall through.
+      acc = "";
+      k++;
+      while (k < n && !domNorm[k]) {
+        starts[k] = t;
+        k++;
+      }
+      if (k >= n) break;
+    }
+
+    if (domNorm[k].startsWith(tn)) {
+      starts[k] = t;
+      acc = tn.length >= domNorm[k].length ? "" : tn;
+      if (!acc) k++;
+    } else if (tn.startsWith(domNorm[k])) {
+      // One TTS token spans multiple DOM words.
+      let rem = tn;
+      while (k < n && rem && domNorm[k] && rem.startsWith(domNorm[k])) {
+        starts[k] = t;
+        rem = rem.slice(domNorm[k].length);
+        k++;
+      }
+    } else {
+      // Look a few DOM words ahead (DOM-side extras like emoji or un-narrated
+      // inline islands); otherwise treat as a TTS-side extra and drop it.
+      let found = -1;
+      for (let d = 1; d <= 4 && k + d < n; d++) {
+        if (domNorm[k + d] && domNorm[k + d].startsWith(tn)) {
+          found = k + d;
+          break;
+        }
+      }
+      if (found >= 0) {
+        while (k < found) {
+          if (starts[k] < 0) starts[k] = t;
+          k++;
+        }
+        starts[k] = t;
+        acc = tn.length >= domNorm[k].length ? "" : tn;
+        if (!acc) k++;
+      }
+    }
+  }
+
+  // Interpolate any unmatched words between their nearest anchors and force
+  // the sequence monotonic, so highlighting can never run backwards.
+  let prevIdx = -1;
+  let prevVal = 0;
+  for (let i = 0; i <= n; i++) {
+    const val = i === n ? durationMs : starts[i];
+    if (i < n && val < 0) continue;
+    for (let j = prevIdx + 1; j < i; j++) {
+      starts[j] =
+        prevVal + ((val - prevVal) * (j - prevIdx)) / (i - prevIdx);
+    }
+    if (i < n) {
+      starts[i] = Math.max(val, prevVal);
+      prevVal = starts[i];
+      prevIdx = i;
+    }
+  }
+  return starts;
+}
+
+export function BlogNarrator({
+  articleId,
+  slug,
+  year,
+}: {
+  articleId: string;
+  slug: string;
+  year: number | string;
+}) {
   const [supported, setSupported] = useState(true);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
@@ -85,7 +207,6 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
   const [dragging, setDragging] = useState(false);
   const [speedOpen, setSpeedOpen] = useState(false);
   const speedMenuRef = useRef<HTMLDivElement>(null);
-  const waveformClipId = `narration-progress-${useId().replaceAll(":", "")}`;
 
   // A restrained, deterministic waveform. The blended frequencies produce a
   // natural speech rhythm without the noisy equalizer look of random bars.
@@ -122,10 +243,67 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
   const rateRef = useRef(1);
   const lastUserScrollRef = useRef(0);
   const trackRef = useRef<HTMLDivElement>(null);
+  // Progress dot and waveform bars: written to directly through setProgressUI
+  // (below) rather than through React state/JSX style bindings. An earlier
+  // version bound the dot's `left` via JSX *and* wrote it imperatively from
+  // the playback rAF loop — every React re-render (which happens on every
+  // word boundary, not just the throttled time-label updates) reset the dot
+  // back to the stale JSX-computed position, fighting the smooth per-frame
+  // writes and producing a repeating snap-back-then-glide "amoeba" crawl.
+  // Routing every update (playback, drag, seek, mount) through one function
+  // that only ever does a direct, un-eased DOM write removes that conflict.
+  const dotRef = useRef<HTMLSpanElement>(null);
+  const barsRef = useRef<(SVGLineElement | null)[]>([]);
+  const lastPlayedCountRef = useRef(-1);
   // Incremented on every (re)start; stale utterance callbacks and pending
   // start-polls compare against it and bail, so rapid seeks can't race.
   const genRef = useRef(0);
   const keepAliveRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // ---- audio-mode state (pre-generated Edge TTS narration) ----
+  // "speech" drives Web Speech; "audio" plays the generated MP3 and derives
+  // the highlighted word from playback time. Speech remains the fallback.
+  const [mode, setMode] = useState<"speech" | "audio">("speech");
+  const [audioDurationMs, setAudioDurationMs] = useState(0);
+  const [curMs, setCurMs] = useState(0);
+  const modeRef = useRef<"speech" | "audio">("speech");
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioSrcRef = useRef("");
+  const durationMsRef = useRef(0);
+  // Start time (ms) for every DOM word, produced by alignTimings.
+  const domStartsRef = useRef<number[] | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const lastLabelUpdateRef = useRef(0);
+
+  // ---- the single writer of visual playback progress ----
+  // Every path that changes position (the playback rAF loop, dragging,
+  // seeking, mode switches, mount) funnels through this one function. It
+  // only ever assigns instantly — no CSS transition, no React re-render in
+  // between — so there is exactly one thing deciding where the dot and bars
+  // sit at any moment, and it can't be fought or overwritten mid-motion.
+  const setProgressUI = useCallback((fraction: number) => {
+    const clamped = Math.min(1, Math.max(0, fraction));
+    if (dotRef.current) dotRef.current.style.left = `${clamped * 100}%`;
+
+    // A bar is "played" once real progress reaches its position; only the
+    // bars whose state actually flips are touched, not all of them.
+    const count =
+      clamped <= 0 ? 0 : Math.min(BAR_COUNT, Math.floor(clamped * (BAR_COUNT - 1)) + 1);
+    const prev = lastPlayedCountRef.current;
+    if (count !== prev) {
+      const bars = barsRef.current;
+      if (count > prev) {
+        for (let i = Math.max(0, prev); i < count; i++) {
+          bars[i]?.classList.add("nb-played");
+        }
+      } else {
+        for (let i = count; i < prev; i++) {
+          bars[i]?.classList.remove("nb-played");
+        }
+      }
+      lastPlayedCountRef.current = count;
+    }
+  }, [BAR_COUNT]);
 
   // ---- one-time setup: wrap every narratable word in an indexed span ----
   useEffect(() => {
@@ -214,6 +392,55 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
       if (keepAliveRef.current) clearInterval(keepAliveRef.current);
     };
   }, [articleId]);
+
+  // Load pre-generated narration timings, if this post has them. Any failure
+  // simply leaves the component in Web Speech mode.
+  useEffect(() => {
+    if (!ready || !slug) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(`/narration/${year}/${slug}.json`);
+        if (!res.ok) return;
+        const data = (await res.json()) as NarrationData;
+        if (
+          cancelled ||
+          !data?.audio ||
+          !Array.isArray(data.words) ||
+          data.words.length === 0 ||
+          data.words.length !== data.starts?.length
+        )
+          return;
+        const domNorm = wordsRef.current.map((w) => normWord(w.text));
+        domStartsRef.current = alignTimings(
+          domNorm,
+          data.words,
+          data.starts,
+          data.durationMs
+        );
+        audioSrcRef.current = data.audio;
+        durationMsRef.current = data.durationMs;
+        setAudioDurationMs(data.durationMs);
+        modeRef.current = "audio";
+        setMode("audio");
+      } catch {
+        // network error / malformed JSON — keep the speech engine
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [ready, slug, year]);
+
+  // Unmount: stop the audio pipeline (speech teardown lives in the setup effect).
+  useEffect(
+    () => () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      audioRef.current?.pause();
+      audioRef.current = null;
+    },
+    []
+  );
 
   // ---- highlight helpers (direct DOM, no per-word re-render) ----
   const applyReadState = useCallback((idx: number) => {
@@ -462,7 +689,154 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
     [stop, finish, applyReadState, setCurrentWord]
   );
 
+  // ---- audio engine ----
+  // The MP3 is the clock: a rAF loop reads currentTime, binary-searches the
+  // per-word start times, and drives the same highlighter the speech engine
+  // uses. Seeking and live rate changes are native <audio> features here.
+
+  const wordIdxForMs = useCallback((ms: number) => {
+    const starts = domStartsRef.current;
+    if (!starts || starts.length === 0) return 0;
+    let lo = 0;
+    let hi = starts.length - 1;
+    let idx = 0;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      if (starts[mid] <= ms) {
+        idx = mid;
+        lo = mid + 1;
+      } else {
+        hi = mid - 1;
+      }
+    }
+    return idx;
+  }, []);
+
+  // If the MP3 can't be fetched or decoded, degrade to Web Speech mid-flight,
+  // continuing from the word that was being read.
+  const fallbackToSpeech = useCallback(() => {
+    const wasPlaying = playingRef.current;
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    audioRef.current?.pause();
+    audioRef.current = null;
+    audioSrcRef.current = "";
+    modeRef.current = "speech";
+    setMode("speech");
+    setCurMs(0);
+    if (wasPlaying) {
+      startFrom(wordIdxRef.current);
+    } else {
+      playingRef.current = false;
+      pausedRef.current = false;
+      setPlaying(false);
+    }
+  }, [startFrom]);
+
+  const audioFinish = useCallback(() => {
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    playingRef.current = false;
+    pausedRef.current = false;
+    setPlaying(false);
+    clearHighlights();
+    wordIdxRef.current = 0;
+    setWordIdx(0);
+    setCurMs(0);
+    if (audioRef.current) audioRef.current.currentTime = 0;
+  }, [clearHighlights]);
+
+  // Created lazily so the MP3 only downloads once the reader interacts.
+  const getAudio = useCallback(() => {
+    if (!audioRef.current && audioSrcRef.current) {
+      const a = new Audio(audioSrcRef.current);
+      a.preload = "auto";
+      a.onended = () => audioFinish();
+      a.onerror = () => fallbackToSpeech();
+      audioRef.current = a;
+    }
+    return audioRef.current;
+  }, [audioFinish, fallbackToSpeech]);
+
+  const audioTick = useCallback(() => {
+    const a = audioRef.current;
+    if (!a || !playingRef.current) return;
+    const ms = a.currentTime * 1000;
+    const idx = wordIdxForMs(ms);
+    if (idx !== wordIdxRef.current) setCurrentWord(idx);
+    // Position is written directly every frame via the single setProgressUI
+    // writer — see its definition for why this must never go through a
+    // React-rendered `style` prop.
+    if (durationMsRef.current > 0) {
+      setProgressUI(ms / durationMsRef.current);
+    }
+    // Highlighting and position update every frame via refs; the React state
+    // behind the time labels only needs a few updates per second.
+    const now = performance.now();
+    if (now - lastLabelUpdateRef.current > 250) {
+      lastLabelUpdateRef.current = now;
+      setCurMs(ms);
+    }
+    rafRef.current = requestAnimationFrame(audioTick);
+  }, [wordIdxForMs, setCurrentWord, setProgressUI]);
+
+  const audioPlay = useCallback(
+    (seekMs?: number) => {
+      const a = getAudio();
+      if (!a) {
+        fallbackToSpeech();
+        return;
+      }
+      if (seekMs !== undefined) a.currentTime = seekMs / 1000;
+      a.playbackRate = rateRef.current;
+      playingRef.current = true;
+      pausedRef.current = false;
+      setPlaying(true);
+      proseRef.current?.classList.add("narrating");
+      const idx = wordIdxForMs(a.currentTime * 1000);
+      wordIdxRef.current = idx;
+      setWordIdx(idx);
+      applyReadState(idx);
+      setCurrentWord(idx);
+      setCurMs(a.currentTime * 1000);
+      a.play().catch(() => fallbackToSpeech());
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(audioTick);
+    },
+    [
+      getAudio,
+      fallbackToSpeech,
+      wordIdxForMs,
+      applyReadState,
+      setCurrentWord,
+      audioTick,
+    ]
+  );
+
+  const audioPause = useCallback(() => {
+    audioRef.current?.pause();
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+    playingRef.current = false;
+    pausedRef.current = true;
+    setPlaying(false);
+    if (audioRef.current) setCurMs(audioRef.current.currentTime * 1000);
+    // Same pause semantics as the speech engine: text returns to normal,
+    // position is kept.
+    clearHighlights();
+  }, [clearHighlights]);
+
   const play = useCallback(() => {
+    if (modeRef.current === "audio") {
+      audioPlay();
+      return;
+    }
     if (pausedRef.current) {
       pausedRef.current = false;
       playingRef.current = true;
@@ -474,20 +848,28 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
       return;
     }
     startFrom(wordIdxRef.current);
-  }, [startFrom, applyReadState, setCurrentWord]);
+  }, [startFrom, applyReadState, setCurrentWord, audioPlay]);
 
   const pause = useCallback(() => {
+    if (modeRef.current === "audio") {
+      audioPause();
+      return;
+    }
     playingRef.current = false;
     pausedRef.current = true;
     window.speechSynthesis.pause();
     setPlaying(false);
     // Paused: the native queue and exact audio position are preserved.
     clearHighlights();
-  }, [clearHighlights]);
+  }, [clearHighlights, audioPause]);
 
   const restart = useCallback(() => {
+    if (modeRef.current === "audio") {
+      audioPlay(0);
+      return;
+    }
     startFrom(0);
-  }, [startFrom]);
+  }, [startFrom, audioPlay]);
 
   // While narrating, clicking any word jumps playback there. Capture phase +
   // preventDefault so words inside links jump instead of navigating.
@@ -504,17 +886,27 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
       e.preventDefault();
       const idx = parseInt(el.dataset.nwi, 10);
       setWordIdx(idx);
-      startFrom(idx);
+      if (modeRef.current === "audio") {
+        const starts = domStartsRef.current;
+        if (starts) audioPlay(starts[idx]);
+      } else {
+        startFrom(idx);
+      }
     };
     prose.addEventListener("click", onClick, true);
     return () => prose.removeEventListener("click", onClick, true);
-  }, [ready, startFrom]);
+  }, [ready, startFrom, audioPlay]);
 
   const selectRate = useCallback(
     (idx: number) => {
       setRateIdx(idx);
       rateRef.current = RATES[idx];
       setSpeedOpen(false);
+      // Audio mode: playbackRate applies live, mid-word, no restart needed.
+      if (modeRef.current === "audio") {
+        if (audioRef.current) audioRef.current.playbackRate = RATES[idx];
+        return;
+      }
       // Utterance properties are not reliably mutable after speak(), so a
       // live rate change needs a rebuilt queue. If currently paused, discard
       // the old-rate queue and build the new one on the next Play instead.
@@ -532,6 +924,21 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
   // ---- seek via progress track ----
   const seekToFraction = useCallback(
     (frac: number, resume: boolean, alreadyStopped = false) => {
+      if (modeRef.current === "audio") {
+        const ms = frac * durationMsRef.current;
+        const idx = wordIdxForMs(ms);
+        setCurMs(ms);
+        if (resume) {
+          audioPlay(ms);
+        } else {
+          const a = getAudio();
+          if (a) a.currentTime = ms / 1000;
+          wordIdxRef.current = idx;
+          setWordIdx(idx);
+          applyReadState(idx);
+        }
+        return;
+      }
       const total = wordsRef.current.length;
       const idx = Math.min(
         total - 1,
@@ -547,7 +954,7 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
         applyReadState(idx);
       }
     },
-    [stop, startFrom, applyReadState]
+    [stop, startFrom, applyReadState, wordIdxForMs, audioPlay, getAudio]
   );
 
   const fractionFromEvent = useCallback((clientX: number) => {
@@ -561,10 +968,32 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
     (e: React.PointerEvent<HTMLDivElement>) => {
       e.preventDefault();
       const wasPlaying = playingRef.current;
-      stop();
+      if (modeRef.current === "audio") {
+        // Quiet while dragging, like the speech engine's stop-on-pointer-down.
+        audioRef.current?.pause();
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+        playingRef.current = false;
+      } else {
+        stop();
+      }
       setDragging(true);
       const move = (ev: PointerEvent) => {
         const frac = fractionFromEvent(ev.clientX);
+        // Written immediately, not just via state: pointermove can fire
+        // faster than React re-renders, and the dot should never lag a
+        // real drag.
+        setProgressUI(frac);
+        if (modeRef.current === "audio") {
+          const ms = frac * durationMsRef.current;
+          const idx = wordIdxForMs(ms);
+          setCurMs(ms);
+          wordIdxRef.current = idx;
+          setWordIdx(idx);
+          return;
+        }
         const total = wordsRef.current.length;
         const idx = Math.min(
           total - 1,
@@ -583,7 +1012,7 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
       window.addEventListener("pointerup", up);
       move(e.nativeEvent);
     },
-    [stop, fractionFromEvent, seekToFraction]
+    [stop, fractionFromEvent, seekToFraction, wordIdxForMs, setProgressUI]
   );
 
   const onTrackKeyDown = useCallback(
@@ -591,7 +1020,11 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
       const total = wordsRef.current.length;
       if (total < 2) return;
 
-      const current = wordIdxRef.current / (total - 1);
+      const current =
+        modeRef.current === "audio" && durationMsRef.current > 0
+          ? ((audioRef.current?.currentTime ?? 0) * 1000) /
+          durationMsRef.current
+          : wordIdxRef.current / (total - 1);
       const step = e.shiftKey ? 0.05 : 0.01;
       let next: number | null = null;
       if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
@@ -611,12 +1044,39 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
     [seekToFraction]
   );
 
-  if (!supported || !ready) return null;
-
   const rate = RATES[rateIdx];
-  const durationSec = (totalWords / (BASE_WPM * rate)) * 60;
-  const elapsedSec = totalWords > 0 ? (wordIdx / totalWords) * durationSec : 0;
-  const progress = totalWords > 1 ? wordIdx / (totalWords - 1) : 0;
+  const isAudio = mode === "audio";
+  // Audio mode shows real media time; speech mode keeps the WPM estimate.
+  const durationSec = isAudio
+    ? audioDurationMs / 1000
+    : (totalWords / (BASE_WPM * rate)) * 60;
+  const elapsedSec = isAudio
+    ? curMs / 1000
+    : totalWords > 0
+      ? (wordIdx / totalWords) * durationSec
+      : 0;
+  const progress = isAudio
+    ? audioDurationMs > 0
+      ? Math.min(1, curMs / audioDurationMs)
+      : 0
+    : totalWords > 1
+      ? wordIdx / (totalWords - 1)
+      : 0;
+
+  // Non-rAF-driven position updates (mount, pause, seek-by-click/keyboard,
+  // mode switches, speech mode's per-word jumps) all funnel through React
+  // state, so this is their path to the same single writer the playback
+  // loop uses. It's a no-op write of the same value while audio is actively
+  // playing (audioTick already set it a moment earlier), never a competing one.
+  useEffect(() => {
+    setProgressUI(progress);
+    // `ready` isn't read in the body, but it gates whether the dot/bars are
+    // even mounted — without it, the effect wouldn't re-fire (progress and
+    // setProgressUI are unchanged) at the exact moment they first exist,
+    // leaving them unstyled until the next unrelated progress change.
+  }, [progress, setProgressUI, ready]);
+
+  if (!supported || !ready) return null;
 
   return (
     <div className="border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3">
@@ -624,7 +1084,7 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
         <button
           onClick={playing ? pause : play}
           aria-label={playing ? "Pause narration" : "Play narration"}
-          className="text-foreground/80 hover:bg-foreground/[0.06] hover:text-foreground flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:!rounded-full active:scale-95 motion-reduce:transition-none"
+          className="text-foreground/80 hover:bg-foreground/6 hover:text-foreground flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:rounded-full! active:scale-95 motion-reduce:transition-none"
         >
           {playing ? (
             <Pause className="h-4.5 w-4.5 fill-current" />
@@ -649,59 +1109,34 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
           aria-valuetext={`${formatTime(elapsedSec)} of ${formatTime(durationSec)}`}
           tabIndex={0}
           onKeyDown={onTrackKeyDown}
-          className={`group relative flex h-11 min-w-0 flex-1 cursor-pointer touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${
-            dragging ? "bg-foreground/[0.045]" : "hover:bg-foreground/[0.025]"
-          }`}
+          className={`group relative flex h-11 min-w-0 flex-1 cursor-pointer touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"
+            }`}
         >
           <div className="relative h-8 w-full" aria-hidden="true">
-            {/* Clipping and edge-fade live on this inner layer only, so the
-                thumb (a sibling) never gets cut off at 0% or 100%. */}
-            <div className="absolute inset-0 overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_2%,black_98%,transparent)]">
+            {/* Each bar is one persistent line, either dim or "played" —
+                toggled by class, not revealed by a moving clip mask. A clip
+                rect sitting exactly at the play boundary is one more layer
+                for a fast-moving edge to visually catch on; a plain class
+                flip on a static element can't. */}
+            <div className="absolute inset-0 overflow-hidden">
               <svg
                 viewBox="0 0 640 32"
                 preserveAspectRatio="none"
                 className="absolute inset-0 h-full w-full"
               >
-              <defs>
-                <clipPath id={waveformClipId}>
-                  <rect width={progress * 640} height="32" />
-                </clipPath>
-              </defs>
-
-                <g className="text-foreground/[0.14]">
+                <g className="text-foreground/[0.14] [&_.nb-played]:text-foreground/85">
                   {barHeights.map((height, i) => {
                     const x = 5 + (i * 630) / (BAR_COUNT - 1);
                     const halfHeight = 3 + height * 11;
                     return (
                       <line
-                        key={`base-${i}`}
+                        key={i}
+                        ref={(el) => {
+                          barsRef.current[i] = el;
+                        }}
                         // On narrow screens the track is much shorter, so
                         // every other bar is dropped to keep the same airy
                         // rhythm instead of a dense picket fence.
-                        className={i % 2 === 1 ? "max-sm:hidden" : undefined}
-                        x1={x}
-                        x2={x}
-                        y1={16 - halfHeight}
-                        y2={16 + halfHeight}
-                        stroke="currentColor"
-                        strokeWidth="1.35"
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    );
-                  })}
-                </g>
-
-                <g
-                  clipPath={`url(#${waveformClipId})`}
-                  className="text-foreground/85"
-                >
-                  {barHeights.map((height, i) => {
-                    const x = 5 + (i * 630) / (BAR_COUNT - 1);
-                    const halfHeight = 3 + height * 11;
-                    return (
-                      <line
-                        key={`played-${i}`}
                         className={i % 2 === 1 ? "max-sm:hidden" : undefined}
                         x1={x}
                         x2={x}
@@ -719,11 +1154,12 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
             </div>
 
             <span
-              className="bg-foreground/80 absolute top-1/2 h-7 w-px -translate-x-1/2 -translate-y-1/2 transition-[left,opacity] duration-150 ease-out motion-reduce:transition-none"
-              style={{ left: `${progress * 100}%` }}
-            >
-              <span className="bg-foreground ring-background absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 transition-transform duration-200 ease-out group-hover:scale-125 motion-reduce:transition-none" />
-            </span>
+              ref={dotRef}
+              // No transition on `left` and no style binding here at all —
+              // position is owned entirely by setProgressUI. See its
+              // definition for why.
+              className="bg-foreground ring-background absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 transition-[transform,opacity] duration-150 ease-out group-hover:scale-125 motion-reduce:transition-none"
+            />
           </div>
         </div>
 
@@ -738,13 +1174,12 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
             aria-label="Narration speed"
             aria-expanded={speedOpen}
             aria-haspopup="listbox"
-            className="text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono text-[11px] font-bold transition-colors duration-200"
+            className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono text-[11px] font-bold transition-colors duration-200"
           >
             {rate}x
             <ChevronDown
-              className={`h-3 w-3 transition-transform duration-200 motion-reduce:transition-none ${
-                speedOpen ? "rotate-180" : ""
-              }`}
+              className={`h-3 w-3 transition-transform duration-200 motion-reduce:transition-none ${speedOpen ? "rotate-180" : ""
+                }`}
             />
           </button>
           {speedOpen && (
@@ -759,11 +1194,10 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
                   role="option"
                   aria-selected={i === rateIdx}
                   onClick={() => selectRate(i)}
-                  className={`hover:bg-secondary flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono text-[11px] transition-colors sm:py-1.5 ${
-                    i === rateIdx
-                      ? "text-foreground font-bold"
-                      : "text-muted-foreground"
-                  }`}
+                  className={`hover:bg-secondary flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono text-[11px] transition-colors sm:py-1.5 ${i === rateIdx
+                    ? "text-foreground font-bold"
+                    : "text-muted-foreground"
+                    }`}
                 >
                   {r}x{i === rateIdx && <Check className="h-3 w-3" />}
                 </button>
@@ -775,7 +1209,7 @@ export function BlogNarrator({ articleId }: { articleId: string }) {
         <button
           onClick={restart}
           aria-label="Restart narration"
-          className="text-muted-foreground hover:bg-foreground/[0.06] hover:text-foreground flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 focus-visible:!rounded-full"
+          className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 focus-visible:rounded-full!"
         >
           <RotateCcw className="h-3.5 w-3.5" />
         </button>

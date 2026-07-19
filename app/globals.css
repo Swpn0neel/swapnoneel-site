@@ -156,7 +156,12 @@ body {
    invisible no-ops. */
 .narrating .nw {
   opacity: 0.4;
-  transition: opacity 0.6s ease;
+  /* Read words must snap back to full opacity quickly: at normal reading
+     pace a word is only "current" for ~300-400ms, so a slow transition here
+     never finishes before the next word takes over, leaving a trailing fog
+     of still-fading text behind the highlight. Only the current word (below)
+     gets the slower, per-word ink-fill sweep. */
+  transition: opacity 0.15s ease;
   /* Words are click-to-jump targets while narrating */
   cursor: pointer;
 }
@@ -165,22 +170,8 @@ body {
 }
 .narrating .nw-current {
   opacity: 1;
-  background-image: linear-gradient(
-    90deg,
-    hsl(var(--foreground)) 50%,
-    hsl(var(--foreground) / 0.35) 50%
-  );
-  background-size: 205% 100%;
-  background-position: 100% 0;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  animation: nw-ink-fill var(--wdur, 320ms) linear forwards;
-}
-@keyframes nw-ink-fill {
-  to {
-    background-position: 0% 0;
-  }
+  color: hsl(var(--foreground));
+  transition: opacity var(--wdur, 0.3s) ease;
 }
 
 /* ─── Selection & Cursor ─── */

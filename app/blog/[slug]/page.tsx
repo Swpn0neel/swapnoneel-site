@@ -243,6 +243,7 @@ export default async function BlogPostPage({
         <p className="text-muted-foreground flex flex-col gap-3 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span>
             {dateStr}
+            {updatedDateStr && ` (Updated: ${updatedDateStr})`}
             {post.wordCount !== undefined && ` · ${post.wordCount} words`}
             {` · ${post.readingTime} min read`}
           </span>
@@ -276,7 +277,11 @@ export default async function BlogPostPage({
       <TableOfContents headings={headings} />
 
       {/* Read-along narration player */}
-      <BlogNarrator articleId="blog-prose" />
+      <BlogNarrator
+        articleId="blog-prose"
+        slug={slug}
+        year={d.getFullYear()}
+      />
 
       {/* Main Content */}
       <div
