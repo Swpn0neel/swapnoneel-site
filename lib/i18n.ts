@@ -34,7 +34,8 @@ export const i18n = {
       tagline:
         "i am an ai engineer and a developer advocate who specializes in accelerating the growth of startups, and in building agentic workflows, open-source ecosystems, high-performance web systems, and creating technical content.",
       paragraphs: [
-        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups. other than that, i am a polymath, i love watching films and enjoy winning hackathons.",
+        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups.",
+        // "other than that, i am a polymath, i love watching films and enjoy winning hackathons.",
         // "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
       ],
       reachMeLabel: "Reach me at",
@@ -108,8 +109,7 @@ export const i18n = {
   contactPage: {
     title: "Contact",
     intro:
-      "Have a question or want to work together? I'm currently available for freelance work and I'm also open to full-time opportunities. You can reach out to me at",
-    outro: "or by using the form below.",
+      "Have a question or want to work together? I'm currently available for freelance work and I'm also open to full-time opportunities. You can reach out to me using the form below.",
     labels: {
       name: "Name",
       email: "Email",

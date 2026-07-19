@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
-import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { Loader2, Send } from "lucide-react";
 import dynamic from "next/dynamic";
@@ -110,11 +109,7 @@ export default function ContactPage() {
           {i18n.contactPage.title}
         </h1>
         <p className="text-muted-foreground text-sm">
-          {i18n.contactPage.intro}{" "}
-          <a href={`mailto:${siteConfig.person.email}`} className="underline">
-            {siteConfig.person.email}
-          </a>{" "}
-          {i18n.contactPage.outro}
+          {i18n.contactPage.intro}
         </p>
       </div>
 
@@ -162,7 +157,11 @@ export default function ContactPage() {
           </p>
         )}
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full sm:w-auto"
+        >
           {isSubmitting ? (
             <>
               <Loader2 className="size-[1em] shrink-0 animate-spin" />
