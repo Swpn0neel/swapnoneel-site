@@ -354,6 +354,83 @@ mark {
   color: hsl(var(--mark-fg)) !important;
 }
 
+/* Tables */
+.prose table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius, 8px);
+}
+
+@media (max-width: 768px) {
+  .prose table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.prose thead {
+  background-color: hsl(var(--secondary) / 0.6);
+}
+
+.prose th,
+.prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.7);
+  border-right: 1px solid hsl(var(--border) / 0.5);
+  text-align: left;
+}
+
+.prose th:last-child,
+.prose td:last-child {
+  border-right: none;
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+/* Respect border-radius on corner cells */
+.prose thead tr:first-child th:first-child {
+  border-top-left-radius: calc(var(--radius, 8px) - 1px);
+}
+
+.prose thead tr:first-child th:last-child {
+  border-top-right-radius: calc(var(--radius, 8px) - 1px);
+}
+
+.prose tbody tr:last-child td:first-child {
+  border-bottom-left-radius: calc(var(--radius, 8px) - 1px);
+}
+
+.prose tbody tr:last-child td:last-child {
+  border-bottom-right-radius: calc(var(--radius, 8px) - 1px);
+}
+
+.prose th {
+  font-weight: 600;
+  color: hsl(var(--foreground));
+}
+
+.prose td {
+  color: hsl(var(--muted-foreground));
+  vertical-align: top;
+}
+
+.prose tr {
+  transition: background-color 0.2s ease;
+}
+
+.prose tr:hover td {
+  background-color: hsl(var(--secondary) / 0.3);
+}
+
 /* ─── Project Overlay ─── */
 .project-overlay-backdrop {
   position: fixed;

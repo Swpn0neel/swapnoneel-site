@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop
+cover: https://cdn.hashnode.com/res/hashnode/image/upload/v1729858312474/91f843ff-d942-40b3-9f46-b62663b2d2c7.png
 title: Top 5 Best IDEs to use for Python in 2024
 date: "Fri, 25 Oct 2024 12:13:35 GMT"
 description: >-
