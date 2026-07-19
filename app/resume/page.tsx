@@ -60,7 +60,7 @@ export const metadata = {
     canonical: "/resume",
   },
   openGraph: {
-    title: `${i18n.resume.pageTitle} — ${siteConfig.person.fullName}`,
+    title: `${i18n.resume.pageTitle} | ${siteConfig.person.fullName}`,
     description: i18n.resume.summaryContent,
     url: "https://www.swapnoneel.site/resume",
     type: "profile",
@@ -75,7 +75,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: `${i18n.resume.pageTitle} — ${siteConfig.person.fullName}`,
+    title: `${i18n.resume.pageTitle} | ${siteConfig.person.fullName}`,
     description: i18n.resume.summaryContent,
     images: [
       ogImageUrl(siteConfig.person.fullName, i18n.resume.summaryContent),

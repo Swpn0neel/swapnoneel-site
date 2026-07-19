@@ -1,13 +1,7 @@
 "use client";
 
 import { Check, ChevronDown, Pause, Play, RotateCcw } from "lucide-react";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 // Rough speaking pace of Web Speech voices at 1x, used only for the time labels.
@@ -89,8 +83,7 @@ interface NarrationData {
   starts: number[];
 }
 
-const normWord = (s: string) =>
-  s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+const normWord = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
 
 // Returns a start time (ms) for every DOM word. Two-pointer walk: a TTS token
 // may cover part of a DOM word (hyphenated words split by the service), several
@@ -177,8 +170,7 @@ function alignTimings(
     const val = i === n ? durationMs : starts[i];
     if (i < n && val < 0) continue;
     for (let j = prevIdx + 1; j < i; j++) {
-      starts[j] =
-        prevVal + ((val - prevVal) * (j - prevIdx)) / (i - prevIdx);
+      starts[j] = prevVal + ((val - prevVal) * (j - prevIdx)) / (i - prevIdx);
     }
     if (i < n) {
       starts[i] = Math.max(val, prevVal);
@@ -281,29 +273,34 @@ export function BlogNarrator({
   // only ever assigns instantly — no CSS transition, no React re-render in
   // between — so there is exactly one thing deciding where the dot and bars
   // sit at any moment, and it can't be fought or overwritten mid-motion.
-  const setProgressUI = useCallback((fraction: number) => {
-    const clamped = Math.min(1, Math.max(0, fraction));
-    if (dotRef.current) dotRef.current.style.left = `${clamped * 100}%`;
+  const setProgressUI = useCallback(
+    (fraction: number) => {
+      const clamped = Math.min(1, Math.max(0, fraction));
+      if (dotRef.current) dotRef.current.style.left = `${clamped * 100}%`;
 
-    // A bar is "played" once real progress reaches its position; only the
-    // bars whose state actually flips are touched, not all of them.
-    const count =
-      clamped <= 0 ? 0 : Math.min(BAR_COUNT, Math.floor(clamped * (BAR_COUNT - 1)) + 1);
-    const prev = lastPlayedCountRef.current;
-    if (count !== prev) {
-      const bars = barsRef.current;
-      if (count > prev) {
-        for (let i = Math.max(0, prev); i < count; i++) {
-          bars[i]?.classList.add("nb-played");
+      // A bar is "played" once real progress reaches its position; only the
+      // bars whose state actually flips are touched, not all of them.
+      const count =
+        clamped <= 0
+          ? 0
+          : Math.min(BAR_COUNT, Math.floor(clamped * (BAR_COUNT - 1)) + 1);
+      const prev = lastPlayedCountRef.current;
+      if (count !== prev) {
+        const bars = barsRef.current;
+        if (count > prev) {
+          for (let i = Math.max(0, prev); i < count; i++) {
+            bars[i]?.classList.add("nb-played");
+          }
+        } else {
+          for (let i = count; i < prev; i++) {
+            bars[i]?.classList.remove("nb-played");
+          }
         }
-      } else {
-        for (let i = count; i < prev; i++) {
-          bars[i]?.classList.remove("nb-played");
-        }
+        lastPlayedCountRef.current = count;
       }
-      lastPlayedCountRef.current = count;
-    }
-  }, [BAR_COUNT]);
+    },
+    [BAR_COUNT]
+  );
 
   // ---- one-time setup: wrap every narratable word in an indexed span ----
   useEffect(() => {
@@ -1023,7 +1020,7 @@ export function BlogNarrator({
       const current =
         modeRef.current === "audio" && durationMsRef.current > 0
           ? ((audioRef.current?.currentTime ?? 0) * 1000) /
-          durationMsRef.current
+            durationMsRef.current
           : wordIdxRef.current / (total - 1);
       const step = e.shiftKey ? 0.05 : 0.01;
       let next: number | null = null;
@@ -1109,8 +1106,9 @@ export function BlogNarrator({
           aria-valuetext={`${formatTime(elapsedSec)} of ${formatTime(durationSec)}`}
           tabIndex={0}
           onKeyDown={onTrackKeyDown}
-          className={`group relative flex h-11 min-w-0 flex-1 cursor-pointer touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"
-            }`}
+          className={`group relative flex h-11 min-w-0 flex-1 cursor-pointer touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${
+            dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"
+          }`}
         >
           <div className="relative h-8 w-full" aria-hidden="true">
             {/* Each bar is one persistent line, either dim or "played" —
@@ -1178,8 +1176,9 @@ export function BlogNarrator({
           >
             {rate}x
             <ChevronDown
-              className={`h-3 w-3 transition-transform duration-200 motion-reduce:transition-none ${speedOpen ? "rotate-180" : ""
-                }`}
+              className={`h-3 w-3 transition-transform duration-200 motion-reduce:transition-none ${
+                speedOpen ? "rotate-180" : ""
+              }`}
             />
           </button>
           {speedOpen && (
@@ -1194,10 +1193,11 @@ export function BlogNarrator({
                   role="option"
                   aria-selected={i === rateIdx}
                   onClick={() => selectRate(i)}
-                  className={`hover:bg-secondary flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono text-[11px] transition-colors sm:py-1.5 ${i === rateIdx
-                    ? "text-foreground font-bold"
-                    : "text-muted-foreground"
-                    }`}
+                  className={`hover:bg-secondary flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono text-[11px] transition-colors sm:py-1.5 ${
+                    i === rateIdx
+                      ? "text-foreground font-bold"
+                      : "text-muted-foreground"
+                  }`}
                 >
                   {r}x{i === rateIdx && <Check className="h-3 w-3" />}
                 </button>

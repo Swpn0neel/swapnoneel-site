@@ -23,7 +23,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: {
     default: siteConfig.person.fullName,
-    template: `%s — ${siteConfig.person.fullName}`,
+    template: `%s | ${siteConfig.person.fullName}`,
   },
   description: siteConfig.metadata.description,
   metadataBase: new URL("https://www.swapnoneel.site"),

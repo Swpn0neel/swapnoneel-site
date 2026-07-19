@@ -38,8 +38,8 @@ import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
+import remarkParse from "remark-parse";
 import { unified } from "unified";
 
 const VOICE = "en-US-AndrewMultilingualNeural";
@@ -74,7 +74,10 @@ const onlySlugs = args.filter((a) => !a.startsWith("--"));
 // Same pre-clean the blog page applies before rendering MDX.
 function cleanMarkdown(markdown) {
   return (markdown || "")
-    .replace(/<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi, "[<mark>$1</mark>]($2)")
+    .replace(
+      /<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi,
+      "[<mark>$1</mark>]($2)"
+    )
     .replace(/(!\[.*?\]\(([^)]*?))\s+align=".*?"\)/g, "$1)")
     .replace(/%%?\[.*?\]/g, "");
 }
@@ -114,7 +117,10 @@ function collectBlocks(node, out) {
 }
 
 function extractBlocks(markdown) {
-  const tree = unified().use(remarkParse).use(remarkGfm).parse(cleanMarkdown(markdown));
+  const tree = unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .parse(cleanMarkdown(markdown));
   const blocks = [];
   collectBlocks(tree, blocks);
   return blocks;
@@ -256,7 +262,10 @@ async function processPost(filePath) {
           try {
             const res = await fetch(existing.audio);
             if (res.ok) {
-              fs.writeFileSync(localMp3Path, Buffer.from(await res.arrayBuffer()));
+              fs.writeFileSync(
+                localMp3Path,
+                Buffer.from(await res.arrayBuffer())
+              );
             }
           } catch {
             // best-effort only — narration still plays fine straight from Blob
@@ -401,8 +410,7 @@ async function main() {
 
   // Pruning is based on the full current post list, so it only makes sense
   // on a full run — a targeted `<slug>` run must not delete unrelated posts.
-  const removed =
-    onlySlugs.length === 0 ? await pruneOrphans(currentSlugs) : 0;
+  const removed = onlySlugs.length === 0 ? await pruneOrphans(currentSlugs) : 0;
 
   console.log(
     `\nDone: ${counts.generated} generated, ${counts.cached} cached, ` +

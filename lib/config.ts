@@ -41,7 +41,7 @@ export const siteConfig = {
   },
   metadata: {
     description:
-      "Software Engineer based in India, with extensive experience in building scalable and maintainable software systems. Open to freelnacing and full-time opportunities.",
+      "Software Engineer based in India, with extensive experience in building scalable and maintainable software systems. Open to freelancing and full-time opportunities.",
   },
   images: {
     avatar: "/img/pfp.jpg",

@@ -39,8 +39,16 @@ export async function generateMetadata({
   // ~1MB, and WhatsApp (and some other messengers) silently drop preview
   // thumbnails larger than ~600KB. w must be one of next.config deviceSizes.
   const ogImage = post.cover
-    ? { url: `/_next/image?url=${encodeURIComponent(post.cover)}&w=1280&q=75`, alt: post.title }
-    : { url: ogImageUrl(post.title, post.brief), width: 1200, height: 630, alt: post.title };
+    ? {
+        url: `/_next/image?url=${encodeURIComponent(post.cover)}&w=1280&q=75`,
+        alt: post.title,
+      }
+    : {
+        url: ogImageUrl(post.title, post.brief),
+        width: 1200,
+        height: 630,
+        alt: post.title,
+      };
   return {
     title: post.title,
     description: post.brief,
@@ -148,14 +156,6 @@ export default async function BlogPostPage({
     month: "long",
     day: "numeric",
   });
-  const updatedDateStr =
-    post.updatedAt && post.updatedAt !== post.publishedAt
-      ? new Date(post.updatedAt).toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
-      : null;
 
   const cleanMarkdown = (post.content?.markdown || "")
     .replace(
@@ -243,7 +243,6 @@ export default async function BlogPostPage({
         <p className="text-muted-foreground flex flex-col gap-3 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           <span>
             {dateStr}
-            {updatedDateStr && ` (Updated: ${updatedDateStr})`}
             {post.wordCount !== undefined && ` · ${post.wordCount} words`}
             {` · ${post.readingTime} min read`}
           </span>
@@ -277,11 +276,7 @@ export default async function BlogPostPage({
       <TableOfContents headings={headings} />
 
       {/* Read-along narration player */}
-      <BlogNarrator
-        articleId="blog-prose"
-        slug={slug}
-        year={d.getFullYear()}
-      />
+      <BlogNarrator articleId="blog-prose" slug={slug} year={d.getFullYear()} />
 
       {/* Main Content */}
       <div
