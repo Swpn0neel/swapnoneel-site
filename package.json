@@ -3,16 +3,21 @@
   "description": "personal site (swapnoneel)",
   "version": "1.0.0",
   "scripts": {
-    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-image-dimensions.mjs && node scripts/generate-llms-full.mjs",
+    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-image-dimensions.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-image-dimensions.mjs && node scripts/generate-llms-full.mjs",
+    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-image-dimensions.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "build": "next build",
     "update-blog-dates": "node scripts/update-blog-dates.mjs",
+    "generate-narrations": "node scripts/generate-narrations.mjs",
     "start": "next start",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "postinstall": "simple-git-hooks"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "node scripts/generate-narrations.mjs && git add -A -- public/narration"
   },
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
@@ -44,15 +49,20 @@
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.58.1",
     "@typescript-eslint/parser": "^8.58.1",
+    "@vercel/blob": "^2.6.1",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.3",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-unused-imports": "^4.4.1",
+    "msedge-tts": "^2.0.7",
     "prettier": "^3.8.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "remark-parse": "^11.0.0",
+    "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^4",
     "turndown": "^7.2.4",
-    "typescript": "^6"
+    "typescript": "^6",
+    "unified": "^11.0.5"
   }
 }
