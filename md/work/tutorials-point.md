@@ -2,7 +2,7 @@
 title: "Technical Writer • Tutorials Point"
 date: "May 2023 - May 2025"
 description: "Authored a successful Advanced Python course, contributed to database and web courses, and edited over 200 technical articles as a content manager."
-cover: "/work/tutorials-point.png"
+cover: "/work/tutorials-point.webp"
 ---
 
 [Tutorials Point](https://www.tutorialspoint.com) is one of the most popular platforms for learning programming and technology, with millions of learners worldwide.

@@ -44,8 +44,8 @@ export const siteConfig = {
       "Software Engineer based in India, with extensive experience in building scalable and maintainable software systems. Open to freelancing and full-time opportunities.",
   },
   images: {
-    avatar: "/img/pfp.jpg",
-    avatarHover: "/img/pfp-hover.webp",
+    avatar: "/img/pfp-dark.webp",
+    avatarHover: "/img/pfp-light.webp",
     icon: "/img/pfp-circle.webp",
   },
   calendar: {

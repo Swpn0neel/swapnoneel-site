@@ -1,8 +1,8 @@
 ---
 title: "DevRel Engineer • Keploy"
-date: "May 2024 - Dec 2024"
+date: "May 2024 - Jan 2025"
 description: "Built sample applications and a RAG-based chatbot, designed homepage sections, and led developer relations and community programs."
-cover: "/work/keploy.jpg"
+cover: "/work/keploy.webp"
 ---
 
 [Keploy](https://keploy.io) is an open-source, developer-friendly API testing platform that auto-generates test cases and data mocks from real traffic.
