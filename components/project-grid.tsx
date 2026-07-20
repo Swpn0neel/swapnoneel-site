@@ -35,7 +35,7 @@ export function ProjectGrid({ items }: { items: ProjectItem[] }) {
               item={item}
               imageWidth={400}
               imageHeight={225}
-              sizes="(max-width: 640px) 100vw, 50vw"
+              sizes="(max-width: 640px) calc(100vw - 2rem), 380px"
             />
           </div>
         ))}
