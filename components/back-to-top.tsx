@@ -1,5 +1,6 @@
 "use client";
 
+import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 import { ArrowUp } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -22,9 +23,17 @@ export function BackToTop() {
     return () => mo.disconnect();
   }, []);
 
+  const scrollToTop = () => {
+    // Narration normally keeps the current word in view. Treat this explicit
+    // navigation action like a manual scroll so that auto-follow does not
+    // immediately pull the reader back down during the smooth scroll.
+    window.dispatchEvent(new Event(NARRATION_VIEWPORT_OVERRIDE_EVENT));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <button
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={scrollToTop}
       className={`border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-100 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 ${
         isVisible && !isBlocked
           ? "translate-y-0 opacity-100"

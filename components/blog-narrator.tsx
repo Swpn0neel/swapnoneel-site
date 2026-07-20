@@ -1,5 +1,6 @@
 "use client";
 
+import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 import { Check, ChevronDown, Pause, Play, RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
@@ -10,6 +11,7 @@ const WAVEFORM_VIEWBOX_WIDTH = 640;
 const WAVEFORM_EDGE_INSET = 5;
 const WAVEFORM_BAR_SPAN = WAVEFORM_VIEWBOX_WIDTH - WAVEFORM_EDGE_INSET * 2;
 const BAR_COUNT = 64;
+const VIEWPORT_RETURN_IDLE_MS = 6000;
 
 // Chrome/Windows can clip the beginning of speech while its native TTS backend
 // is recovering from cancel(). A real, silent utterance is used as a
@@ -237,6 +239,9 @@ export function BlogNarrator({
   const wordIdxRef = useRef(0);
   const rateRef = useRef(1);
   const lastUserScrollRef = useRef(0);
+  const viewportOverrideRef = useRef(false);
+  const viewportOverrideTimerRef = useRef<number | null>(null);
+  const returnToNarrationRef = useRef<() => void>(() => undefined);
   const trackRef = useRef<HTMLDivElement>(null);
   const visualTrackRef = useRef<HTMLDivElement>(null);
   const visualTrackWidthRef = useRef(0);
@@ -264,6 +269,10 @@ export function BlogNarrator({
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioSrcRef = useRef("");
   const durationMsRef = useRef(0);
+  // Playback position exists independently of the HTMLAudioElement. A reader
+  // can scrub the timeline before pressing Play without creating the element
+  // (and therefore without requesting the MP3).
+  const audioPositionMsRef = useRef(0);
   // Start time (ms) for every DOM word, produced by alignTimings.
   const domStartsRef = useRef<number[] | null>(null);
   const rafRef = useRef<number | null>(null);
@@ -407,15 +416,47 @@ export function BlogNarrator({
     setTotalWords(words.length);
     setReady(words.length > 0);
 
-    const onUserScroll = () => {
-      lastUserScrollRef.current = Date.now();
+    const cancelIdleReturn = () => {
+      if (viewportOverrideTimerRef.current !== null) {
+        window.clearTimeout(viewportOverrideTimerRef.current);
+        viewportOverrideTimerRef.current = null;
+      }
     };
-    window.addEventListener("wheel", onUserScroll, { passive: true });
-    window.addEventListener("touchmove", onUserScroll, { passive: true });
+    const onUserActivity = () => {
+      lastUserScrollRef.current = Date.now();
+      if (viewportOverrideRef.current) cancelIdleReturn();
+    };
+    const onViewportOverride = () => {
+      cancelIdleReturn();
+      lastUserScrollRef.current = Date.now();
+      viewportOverrideRef.current = true;
+      viewportOverrideTimerRef.current = window.setTimeout(() => {
+        viewportOverrideTimerRef.current = null;
+        if (!viewportOverrideRef.current) return;
+        viewportOverrideRef.current = false;
+        lastUserScrollRef.current = 0;
+        if (playingRef.current) returnToNarrationRef.current();
+      }, VIEWPORT_RETURN_IDLE_MS);
+    };
+    window.addEventListener("wheel", onUserActivity, { passive: true });
+    window.addEventListener("touchmove", onUserActivity, { passive: true });
+    window.addEventListener("pointerdown", onUserActivity, { passive: true });
+    window.addEventListener("keydown", onUserActivity);
+    window.addEventListener(
+      NARRATION_VIEWPORT_OVERRIDE_EVENT,
+      onViewportOverride
+    );
 
     return () => {
-      window.removeEventListener("wheel", onUserScroll);
-      window.removeEventListener("touchmove", onUserScroll);
+      window.removeEventListener("wheel", onUserActivity);
+      window.removeEventListener("touchmove", onUserActivity);
+      window.removeEventListener("pointerdown", onUserActivity);
+      window.removeEventListener("keydown", onUserActivity);
+      window.removeEventListener(
+        NARRATION_VIEWPORT_OVERRIDE_EVENT,
+        onViewportOverride
+      );
+      cancelIdleReturn();
       window.speechSynthesis.cancel();
       if (keepAliveRef.current) clearInterval(keepAliveRef.current);
     };
@@ -440,14 +481,18 @@ export function BlogNarrator({
         )
           return;
         const domNorm = wordsRef.current.map((w) => normWord(w.text));
-        domStartsRef.current = alignTimings(
+        const alignedStarts = alignTimings(
           domNorm,
           data.words,
           data.starts,
           data.durationMs
         );
+        domStartsRef.current = alignedStarts;
         audioSrcRef.current = data.audio;
         durationMsRef.current = data.durationMs;
+        const initialMs = alignedStarts[wordIdxRef.current] ?? 0;
+        audioPositionMsRef.current = initialMs;
+        setCurMs(initialMs);
         setAudioDurationMs(data.durationMs);
         modeRef.current = "audio";
         setMode("audio");
@@ -500,7 +545,10 @@ export function BlogNarrator({
       cur.el.classList.add("nw-current");
       // Auto-scroll: keep the current word in a comfortable band, unless the
       // reader scrolled themselves in the last few seconds.
-      if (Date.now() - lastUserScrollRef.current > 4000) {
+      if (
+        !viewportOverrideRef.current &&
+        Date.now() - lastUserScrollRef.current > 4000
+      ) {
         const r = cur.el.getBoundingClientRect();
         const vh = window.innerHeight;
         if (r.top < vh * 0.15 || r.bottom > vh * 0.65) {
@@ -520,6 +568,22 @@ export function BlogNarrator({
     for (const w of wordsRef.current) {
       w.el.classList.remove("nw-read", "nw-current");
     }
+  }, []);
+
+  useEffect(() => {
+    returnToNarrationRef.current = () => setCurrentWord(wordIdxRef.current);
+    return () => {
+      returnToNarrationRef.current = () => undefined;
+    };
+  }, [setCurrentWord]);
+
+  const resumeViewportFollow = useCallback(() => {
+    if (viewportOverrideTimerRef.current !== null) {
+      window.clearTimeout(viewportOverrideTimerRef.current);
+      viewportOverrideTimerRef.current = null;
+    }
+    viewportOverrideRef.current = false;
+    lastUserScrollRef.current = 0;
   }, []);
 
   // ---- playback engine ----
@@ -562,6 +626,8 @@ export function BlogNarrator({
       const chunks = chunksRef.current;
       const ci = chunks.findIndex((c) => idx >= c.start && idx < c.end);
       if (ci === -1) return;
+
+      resumeViewportFollow();
 
       // Seeking stops on pointer-down so narration is quiet while dragging.
       // Reuse that cancellation on pointer-up instead of issuing a second one.
@@ -714,7 +780,7 @@ export function BlogNarrator({
 
       primeQueue();
     },
-    [stop, finish, applyReadState, setCurrentWord]
+    [stop, finish, applyReadState, setCurrentWord, resumeViewportFollow]
   );
 
   // ---- audio engine ----
@@ -754,6 +820,7 @@ export function BlogNarrator({
     modeRef.current = "speech";
     setMode("speech");
     setCurMs(0);
+    audioPositionMsRef.current = 0;
     if (wasPlaying) {
       startFrom(wordIdxRef.current);
     } else {
@@ -775,10 +842,11 @@ export function BlogNarrator({
     wordIdxRef.current = 0;
     setWordIdx(0);
     setCurMs(0);
+    audioPositionMsRef.current = 0;
     if (audioRef.current) audioRef.current.currentTime = 0;
   }, [clearHighlights]);
 
-  // Created lazily so the MP3 only downloads once the reader interacts.
+  // Created lazily so the MP3 only downloads once playback is requested.
   const getAudio = useCallback(() => {
     if (!audioRef.current && audioSrcRef.current) {
       const a = new Audio(audioSrcRef.current);
@@ -794,6 +862,7 @@ export function BlogNarrator({
     const a = audioRef.current;
     if (!a || !playingRef.current) return;
     const ms = a.currentTime * 1000;
+    audioPositionMsRef.current = ms;
     const idx = wordIdxForMs(ms);
     if (idx !== wordIdxRef.current) setCurrentWord(idx);
     // Position is written directly every frame via the single setProgressUI
@@ -814,12 +883,15 @@ export function BlogNarrator({
 
   const audioPlay = useCallback(
     (seekMs?: number) => {
+      resumeViewportFollow();
       const a = getAudio();
       if (!a) {
         fallbackToSpeech();
         return;
       }
-      if (seekMs !== undefined) a.currentTime = seekMs / 1000;
+      const targetMs = seekMs ?? audioPositionMsRef.current;
+      a.currentTime = targetMs / 1000;
+      audioPositionMsRef.current = targetMs;
       a.playbackRate = rateRef.current;
       playingRef.current = true;
       pausedRef.current = false;
@@ -842,6 +914,7 @@ export function BlogNarrator({
       applyReadState,
       setCurrentWord,
       audioTick,
+      resumeViewportFollow,
     ]
   );
 
@@ -854,13 +927,18 @@ export function BlogNarrator({
     playingRef.current = false;
     pausedRef.current = true;
     setPlaying(false);
-    if (audioRef.current) setCurMs(audioRef.current.currentTime * 1000);
+    if (audioRef.current) {
+      const ms = audioRef.current.currentTime * 1000;
+      audioPositionMsRef.current = ms;
+      setCurMs(ms);
+    }
     // Same pause semantics as the speech engine: text returns to normal,
     // position is kept.
     clearHighlights();
   }, [clearHighlights]);
 
   const play = useCallback(() => {
+    resumeViewportFollow();
     if (modeRef.current === "audio") {
       audioPlay();
       return;
@@ -876,7 +954,13 @@ export function BlogNarrator({
       return;
     }
     startFrom(wordIdxRef.current);
-  }, [startFrom, applyReadState, setCurrentWord, audioPlay]);
+  }, [
+    startFrom,
+    applyReadState,
+    setCurrentWord,
+    audioPlay,
+    resumeViewportFollow,
+  ]);
 
   const pause = useCallback(() => {
     if (modeRef.current === "audio") {
@@ -959,8 +1043,10 @@ export function BlogNarrator({
         if (resume) {
           audioPlay(ms);
         } else {
-          const a = getAudio();
-          if (a) a.currentTime = ms / 1000;
+          // Seek an existing element, but never create one just because the
+          // timeline was dragged. The pending position is applied on Play.
+          if (audioRef.current) audioRef.current.currentTime = ms / 1000;
+          audioPositionMsRef.current = ms;
           wordIdxRef.current = idx;
           setWordIdx(idx);
           applyReadState(idx);
@@ -982,7 +1068,7 @@ export function BlogNarrator({
         applyReadState(idx);
       }
     },
-    [stop, startFrom, applyReadState, wordIdxForMs, audioPlay, getAudio]
+    [stop, startFrom, applyReadState, wordIdxForMs, audioPlay]
   );
 
   const fractionFromEvent = useCallback((clientX: number) => {
@@ -1018,6 +1104,7 @@ export function BlogNarrator({
           const ms = frac * durationMsRef.current;
           const idx = wordIdxForMs(ms);
           setCurMs(ms);
+          audioPositionMsRef.current = ms;
           wordIdxRef.current = idx;
           setWordIdx(idx);
           return;
@@ -1050,8 +1137,7 @@ export function BlogNarrator({
 
       const current =
         modeRef.current === "audio" && durationMsRef.current > 0
-          ? ((audioRef.current?.currentTime ?? 0) * 1000) /
-            durationMsRef.current
+          ? audioPositionMsRef.current / durationMsRef.current
           : wordIdxRef.current / (total - 1);
       const step = e.shiftKey ? 0.05 : 0.01;
       let next: number | null = null;
