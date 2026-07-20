@@ -235,15 +235,14 @@ export function BlogNarrator({
   const rateRef = useRef(1);
   const lastUserScrollRef = useRef(0);
   const trackRef = useRef<HTMLDivElement>(null);
+  const visualTrackRef = useRef<HTMLDivElement>(null);
+  const visualTrackWidthRef = useRef(0);
+  const visualProgressRef = useRef(0);
   // Progress dot and waveform bars: written to directly through setProgressUI
-  // (below) rather than through React state/JSX style bindings. An earlier
-  // version bound the dot's `left` via JSX *and* wrote it imperatively from
-  // the playback rAF loop — every React re-render (which happens on every
-  // word boundary, not just the throttled time-label updates) reset the dot
-  // back to the stale JSX-computed position, fighting the smooth per-frame
-  // writes and producing a repeating snap-back-then-glide "amoeba" crawl.
-  // Routing every update (playback, drag, seek, mount) through one function
-  // that only ever does a direct, un-eased DOM write removes that conflict.
+  // (below) rather than through React state/JSX style bindings. The dot moves
+  // as one compositor-rasterized layer; changing `left` on every frame makes
+  // the browser repaint each rounded edge at a different subpixel coverage,
+  // which can look like the leading edge stretches before the rear catches up.
   const dotRef = useRef<HTMLSpanElement>(null);
   const barsRef = useRef<(SVGLineElement | null)[]>([]);
   const lastPlayedCountRef = useRef(-1);
@@ -276,7 +275,14 @@ export function BlogNarrator({
   const setProgressUI = useCallback(
     (fraction: number) => {
       const clamped = Math.min(1, Math.max(0, fraction));
-      if (dotRef.current) dotRef.current.style.left = `${clamped * 100}%`;
+      visualProgressRef.current = clamped;
+      if (dotRef.current) {
+        // Keep the circle's raster intact and translate that layer as a unit.
+        // Width is cached by the ResizeObserver below, so playback's rAF loop
+        // does not force layout on every frame.
+        const x = clamped * visualTrackWidthRef.current;
+        dotRef.current.style.transform = `translate3d(${x}px, -50%, 0) translateX(-50%)`;
+      }
 
       // A bar is "played" once real progress reaches its position; only the
       // bars whose state actually flips are touched, not all of them.
@@ -301,6 +307,23 @@ export function BlogNarrator({
     },
     [BAR_COUNT]
   );
+
+  // A percentage transform is relative to the dot itself, not its track, so
+  // cache the responsive track width and re-position after layout changes.
+  useEffect(() => {
+    const track = visualTrackRef.current;
+    if (!track) return;
+
+    const syncTrackWidth = () => {
+      visualTrackWidthRef.current = track.getBoundingClientRect().width;
+      setProgressUI(visualProgressRef.current);
+    };
+
+    syncTrackWidth();
+    const observer = new ResizeObserver(syncTrackWidth);
+    observer.observe(track);
+    return () => observer.disconnect();
+  }, [ready, setProgressUI]);
 
   // ---- one-time setup: wrap every narratable word in an indexed span ----
   useEffect(() => {
@@ -1110,7 +1133,11 @@ export function BlogNarrator({
             dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"
           }`}
         >
-          <div className="relative h-8 w-full" aria-hidden="true">
+          <div
+            ref={visualTrackRef}
+            className="relative h-8 w-full"
+            aria-hidden="true"
+          >
             {/* Each bar is one persistent line, either dim or "played" —
                 toggled by class, not revealed by a moving clip mask. A clip
                 rect sitting exactly at the play boundary is one more layer
@@ -1153,10 +1180,10 @@ export function BlogNarrator({
 
             <span
               ref={dotRef}
-              // No transition on `left` and no style binding here at all —
-              // position is owned entirely by setProgressUI. See its
-              // definition for why.
-              className="bg-foreground ring-background absolute top-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full ring-2 transition-[transform,opacity] duration-150 ease-out group-hover:scale-125 motion-reduce:transition-none"
+              // Position is owned entirely by setProgressUI. Only scale and
+              // opacity may transition; transforming the position itself
+              // would make the marker lag behind real playback progress.
+              className="bg-foreground ring-background absolute top-1/2 left-0 size-2 rounded-full ring-2 transition-[scale,opacity] duration-150 ease-out will-change-transform group-hover:scale-125 motion-reduce:transition-none"
             />
           </div>
         </div>
