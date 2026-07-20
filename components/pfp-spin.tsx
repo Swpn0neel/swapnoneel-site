@@ -96,7 +96,11 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div ref={ref} onClick={handleClick} className="cursor-pointer">
+    <div
+      ref={ref}
+      onClick={handleClick}
+      className="w-fit cursor-pointer self-start"
+    >
       {children}
     </div>
   );
