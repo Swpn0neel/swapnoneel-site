@@ -24,6 +24,7 @@ export const i18n = {
     llms: "summary",
     source: "source",
     resume: "resume",
+    site: "site",
     rightsReserved: "All rights reserved.",
   },
   home: {
@@ -147,9 +148,9 @@ export const i18n = {
   },
   resume: {
     pageTitle: "Resume",
-    jobTitle: "Software Engineer & Full-stack Developer",
+    jobTitle: "AI Engineer & Developer Advocate",
     downloadPdf: "Save as PDF",
-    hireMe: "Hire Me",
+    hireMe: "Let's Work Together",
     summaryHeading: "Summary",
     summaryContent:
       "Software Engineer specializing in Agentic AI, high-performance full-stack systems, and developer-centric tools. Proven track record in building scalable applications and contributing to open-source infrastructure.",

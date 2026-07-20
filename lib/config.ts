@@ -1,6 +1,6 @@
 export type NavItemKey = "home" | "blog" | "work" | "contact" | "resume";
 
-export type FooterLinkKey = "source" | "resume" | "llms";
+export type FooterLinkKey = "source" | "resume" | "site" | "llms";
 
 export type SocialBrand =
   | "github"

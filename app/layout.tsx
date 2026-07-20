@@ -1,8 +1,9 @@
 import { BackToTop } from "@/components/back-to-top";
 import { Navbar } from "@/components/navbar";
 import { PageTransition } from "@/components/page-transition";
+import { SiteFooterLinks } from "@/components/site-footer-links";
 import { ThemeProvider } from "@/components/theme-provider";
-import { footerLinks, siteConfig } from "@/lib/config";
+import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { buildPersonSchema } from "@/lib/structured-data";
 import { safeJsonLd } from "@/lib/utils";
@@ -10,7 +11,6 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
 
 const inter = Inter({
@@ -112,24 +112,7 @@ export default function RootLayout({
               className="text-muted-foreground mt-8 py-12 text-xs print:hidden"
               suppressHydrationWarning
             >
-              <div className="mb-4 flex flex-col gap-2 text-sm lowercase min-[400px]:flex-row min-[400px]:gap-4">
-                {footerLinks.map((link) => {
-                  const isInternal = link.href.startsWith("/");
-                  const LinkComponent = isInternal ? Link : "a";
-
-                  return (
-                    <LinkComponent
-                      key={link.key}
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="hover:text-foreground flex items-center gap-1.5 transition-colors"
-                    >
-                      <span>↗</span> {i18n.footer[link.key]}
-                    </LinkComponent>
-                  );
-                })}
-              </div>
+              <SiteFooterLinks />
               <p>
                 © {new Date().getFullYear()} {siteConfig.person.fullName}.{" "}
                 {i18n.footer.rightsReserved}

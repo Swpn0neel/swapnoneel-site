@@ -6,12 +6,12 @@ import { Download } from "lucide-react";
 
 export function ResumeActions() {
   return (
-    <div className="flex flex-wrap gap-3 print:hidden">
+    <div className="flex w-full flex-wrap gap-3 min-[420px]:w-auto print:hidden">
       <Button
         onClick={() => window.print()}
         variant="secondary"
         size="sm"
-        className="rounded-md"
+        className="h-10 w-full rounded-md min-[420px]:w-auto"
       >
         <Download size={16} />
         {i18n.resume.downloadPdf}

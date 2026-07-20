@@ -107,13 +107,13 @@ export default function ResumePage() {
   const achievements = i18n.work.achievements;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 pt-4 pb-20 sm:px-0">
-      <div className="mb-8 flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center print:mb-6">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight uppercase sm:text-4xl print:text-3xl">
+    <div className="mx-auto max-w-3xl min-w-0 pt-2 pb-16 sm:pt-4 sm:pb-20">
+      <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:mb-8 sm:flex-row sm:items-center sm:gap-6 print:mb-6">
+        <div className="min-w-0">
+          <h1 className="text-[clamp(1.45rem,8.2vw,2.25rem)] leading-[1.05] font-bold tracking-[-0.03em] text-balance uppercase print:text-3xl">
             {siteConfig.person.fullName}
           </h1>
-          <p className="text-muted-foreground mt-2 text-lg font-medium lowercase print:text-base">
+          <p className="text-muted-foreground mt-2 text-sm leading-snug font-medium text-pretty sm:text-lg print:text-base">
             {i18n.resume.jobTitle}
           </p>
         </div>
@@ -123,23 +123,29 @@ export default function ResumePage() {
       <StaggerContainer staggerDelay={0.1}>
         {/* Contact Info */}
         <StaggerItem>
-          <div className="text-muted-foreground mb-8 flex flex-wrap gap-x-6 gap-y-2 text-sm print:mb-6 print:text-xs">
+          <div className="text-muted-foreground mb-5 grid min-w-0 grid-cols-1 gap-0 text-xs leading-4 min-[540px]:mb-8 min-[540px]:flex min-[540px]:flex-wrap min-[540px]:gap-x-6 min-[540px]:gap-y-2 min-[540px]:text-sm min-[540px]:leading-5 print:mb-6 print:flex print:flex-wrap print:gap-x-6 print:gap-y-2 print:text-xs print:leading-normal">
             <a
               href={`mailto:${siteConfig.person.email}`}
-              className="hover:text-foreground flex items-center gap-2 transition-colors"
+              className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
             >
-              <Mail size={14} />
-              {siteConfig.person.email}
+              <Mail size={14} className="shrink-0" aria-hidden="true" />
+              <span className="[overflow-wrap:anywhere]">
+                {siteConfig.person.email}
+              </span>
             </a>
             {linkedin && (
               <a
                 href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground flex items-center gap-2 transition-colors"
+                className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
               >
-                <LinkedinIcon size={14} />
-                linkedin.com/in/swapnoneel
+                <span className="shrink-0" aria-hidden="true">
+                  <LinkedinIcon size={14} />
+                </span>
+                <span className="[overflow-wrap:anywhere]">
+                  linkedin.com/in/swapnoneel
+                </span>
               </a>
             )}
             {github && (
@@ -147,27 +153,31 @@ export default function ResumePage() {
                 href={github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground flex items-center gap-2 transition-colors"
+                className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
               >
-                <GithubIcon size={14} />
-                github.com/Swpn0neel
+                <span className="shrink-0" aria-hidden="true">
+                  <GithubIcon size={14} />
+                </span>
+                <span className="[overflow-wrap:anywhere]">
+                  github.com/Swpn0neel
+                </span>
               </a>
             )}
             <a
               href="https://swapnoneel.site"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground flex items-center gap-2 transition-colors"
+              className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
             >
-              <Globe size={14} />
-              swapnoneel.site
+              <Globe size={14} className="shrink-0" aria-hidden="true" />
+              <span className="[overflow-wrap:anywhere]">swapnoneel.site</span>
             </a>
           </div>
         </StaggerItem>
 
         {/* Summary */}
         <StaggerItem>
-          <section className="mb-10 print:mb-6">
+          <section className="mb-9 sm:mb-10 print:mb-6">
             <h2 className="text-muted-foreground border-border mb-4 border-b pb-2 text-xs font-bold tracking-widest uppercase">
               {i18n.resume.summaryHeading}
             </h2>
@@ -179,14 +189,14 @@ export default function ResumePage() {
 
         {/* Skills - Now Full Width */}
         <StaggerItem>
-          <section className="mb-12 print:mb-8">
-            <h2 className="text-muted-foreground border-border mb-6 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase">
+          <section className="mb-10 sm:mb-12 print:mb-8">
+            <h2 className="text-muted-foreground border-border mb-5 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase sm:mb-6">
               <Code2 size={14} />
               {i18n.resume.skillsHeading}
             </h2>
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 print:gap-4">
+            <div className="grid grid-cols-1 gap-6 min-[560px]:grid-cols-3 min-[560px]:gap-5 print:gap-4">
               <div className="space-y-3">
-                <h3 className="text-muted-foreground border-primary/30 border-l-2 pl-2 text-[10px] font-bold tracking-widest uppercase">
+                <h3 className="text-muted-foreground border-border border-b border-dashed pb-1 text-[10px] font-bold tracking-widest uppercase">
                   {i18n.resume.skillsCategories.languages}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -201,7 +211,7 @@ export default function ResumePage() {
                 </div>
               </div>
               <div className="space-y-3">
-                <h3 className="text-muted-foreground border-primary/30 border-l-2 pl-2 text-[10px] font-bold tracking-widest uppercase">
+                <h3 className="text-muted-foreground border-border border-b border-dashed pb-1 text-[10px] font-bold tracking-widest uppercase">
                   {i18n.resume.skillsCategories.frameworks}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -216,7 +226,7 @@ export default function ResumePage() {
                 </div>
               </div>
               <div className="space-y-3">
-                <h3 className="text-muted-foreground border-primary/30 border-l-2 pl-2 text-[10px] font-bold tracking-widest uppercase">
+                <h3 className="text-muted-foreground border-border border-b border-dashed pb-1 text-[10px] font-bold tracking-widest uppercase">
                   {i18n.resume.skillsCategories.tools}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -234,27 +244,27 @@ export default function ResumePage() {
           </section>
         </StaggerItem>
 
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-3 print:grid-cols-3 print:gap-6">
+        <div className="grid min-w-0 grid-cols-1 gap-10 md:grid-cols-3 print:grid-cols-3 print:gap-6">
           {/* Main Column */}
           <div className="space-y-10 md:col-span-2 print:col-span-2 print:space-y-6">
             {/* Experience */}
             <section>
-              <h2 className="text-muted-foreground border-border mb-6 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase">
+              <h2 className="text-muted-foreground border-border mb-5 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase sm:mb-6">
                 <Briefcase size={14} />
                 {i18n.resume.experienceHeading}
               </h2>
               <div className="space-y-8 print:space-y-4">
                 {workItems.map((item) => (
-                  <div key={item.meta.slug} className="group">
-                    <div className="mb-2 flex items-center justify-between">
-                      <h3 className="text-sm font-semibold uppercase">
+                  <div key={item.meta.slug} className="group min-w-0">
+                    <div className="mb-2 flex min-w-0 flex-col items-start gap-1 min-[480px]:flex-row min-[480px]:items-baseline min-[480px]:justify-between min-[480px]:gap-4">
+                      <h3 className="min-w-0 text-sm leading-snug font-semibold text-balance uppercase">
                         {item.meta.title}
                       </h3>
-                      <span className="text-muted-foreground text-[10px] font-medium">
+                      <span className="text-muted-foreground shrink-0 text-[11px] font-medium whitespace-nowrap min-[480px]:text-[10px]">
                         {item.meta.date}
                       </span>
                     </div>
-                    <div className="text-muted-foreground prose prose-sm prose-invert prose-p:my-1 prose-li:my-0.5 max-w-none space-y-2 text-xs leading-relaxed lowercase">
+                    <div className="text-muted-foreground prose prose-sm prose-invert prose-p:my-1 prose-li:my-0.5 max-w-none space-y-2 text-[0.8125rem] leading-relaxed text-pretty lowercase">
                       {/* We'll render a simplified version of the content here or just the description */}
                       <p>{item.meta.description}</p>
                       {/* For the resume, it's better to provide a few bullet points. 
@@ -267,11 +277,11 @@ export default function ResumePage() {
 
             {/* Projects */}
             <section>
-              <h2 className="text-muted-foreground border-border mb-6 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase">
+              <h2 className="text-muted-foreground border-border mb-5 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase sm:mb-6">
                 <Code2 size={14} />
                 {i18n.resume.projectsHeading}
               </h2>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-4">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 print:gap-4">
                 {projects.map((project) => {
                   const CardComponent = project.meta.link ? "a" : "div";
                   return (
@@ -279,20 +289,24 @@ export default function ResumePage() {
                       key={project.meta.slug}
                       href={project.meta.link || undefined}
                       target={project.meta.link ? "_blank" : undefined}
-                      rel={project.meta.link ? "noopener noreferrer" : undefined}
-                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 rounded-md border p-4 transition-colors block ${
+                      rel={
+                        project.meta.link ? "noopener noreferrer" : undefined
+                      }
+                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 block min-w-0 rounded-md border p-4 transition-colors ${
                         project.meta.link ? "cursor-pointer" : ""
                       }`}
                     >
-                      <h3 className="mb-1 flex items-center justify-between text-sm font-semibold uppercase">
-                        {project.meta.title}
+                      <h3 className="mb-1 flex min-w-0 items-start justify-between gap-3 text-sm leading-snug font-semibold uppercase">
+                        <span className="min-w-0 [overflow-wrap:anywhere]">
+                          {project.meta.title}
+                        </span>
                         {project.meta.link && (
-                          <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+                          <span className="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-colors">
                             <ExternalLink size={12} />
                           </span>
                         )}
                       </h3>
-                      <p className="text-muted-foreground line-clamp-2 text-[11px] leading-relaxed lowercase">
+                      <p className="text-muted-foreground line-clamp-3 text-[0.8125rem] leading-relaxed text-pretty lowercase sm:line-clamp-2 sm:text-[11px]">
                         {project.meta.description}
                       </p>
                     </CardComponent>
@@ -306,7 +320,7 @@ export default function ResumePage() {
           <div className="space-y-10 print:space-y-6">
             {/* Education */}
             <section>
-              <h2 className="text-muted-foreground border-border mb-6 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase">
+              <h2 className="text-muted-foreground border-border mb-5 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase sm:mb-6">
                 <GraduationCap size={14} />
                 {i18n.resume.educationHeading}
               </h2>
@@ -316,10 +330,10 @@ export default function ResumePage() {
                     <h3 className="text-sm leading-tight font-semibold uppercase">
                       {edu.school}
                     </h3>
-                    <p className="text-muted-foreground text-xs lowercase">
+                    <p className="text-muted-foreground text-[0.8125rem] leading-relaxed lowercase sm:text-xs">
                       {edu.degree}
                     </p>
-                    <p className="text-muted-foreground text-[11px] font-medium lowercase italic">
+                    <p className="text-muted-foreground text-xs leading-relaxed font-medium lowercase italic sm:text-[11px]">
                       {edu.date} | {edu.result}
                     </p>
                   </div>
@@ -329,7 +343,7 @@ export default function ResumePage() {
 
             {/* Achievements */}
             <section>
-              <h2 className="text-muted-foreground border-border mb-6 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase">
+              <h2 className="text-muted-foreground border-border mb-5 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase sm:mb-6">
                 <Trophy size={14} />
                 {i18n.resume.achievementsHeading}
               </h2>
@@ -339,7 +353,7 @@ export default function ResumePage() {
                     <span className="text-muted-foreground mt-0.5 text-xs">
                       -
                     </span>
-                    <p className="text-muted-foreground text-[12px] leading-relaxed lowercase">
+                    <p className="text-muted-foreground text-[0.8125rem] leading-relaxed text-pretty lowercase sm:text-[12px]">
                       {achievement}
                     </p>
                   </div>
@@ -350,9 +364,13 @@ export default function ResumePage() {
         </div>
       </StaggerContainer>
 
-      <footer className="border-border mt-20 border-t pt-8 text-center print:hidden">
-        <Link href="/contact">
-          <Button variant="primary" size="lg" className="rounded-md">
+      <footer className="border-border mt-16 border-t pt-8 text-center sm:mt-20 print:hidden">
+        <Link href="/contact" className="block min-[420px]:inline-block">
+          <Button
+            variant="primary"
+            size="lg"
+            className="h-11 w-full rounded-md min-[420px]:w-auto"
+          >
             {i18n.resume.hireMe}
           </Button>
         </Link>
