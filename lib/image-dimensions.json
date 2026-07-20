@@ -3,10 +3,6 @@
     "width": 910,
     "height": 604
   },
-  "https://cdn.hashnode.com/res/hashnode/image/upload/v1674633040452/4d7032cc-d320-44c8-9bb1-3db7076b1e9a.png?w=1200&auto=compress,format&format=webp&fm=png": {
-    "width": 1200,
-    "height": 400
-  },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921373638/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png": {
     "width": 2400,
     "height": 1260
@@ -16,6 +12,10 @@
     "height": 1260
   },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921802429/dcfb12a5-0142-490a-a6c0-dd45f38dc8c5.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png": {
+    "width": 2400,
+    "height": 1260
+  },
+  "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921876373/d3ced512-3d06-4b0a-8b25-c81b0e8e626b.png": {
     "width": 2400,
     "height": 1260
   },
@@ -183,6 +183,10 @@
     "width": 1920,
     "height": 1080
   },
+  "https://cdn.hashnode.com/res/hashnode/image/upload/v1729858312474/91f843ff-d942-40b3-9f46-b62663b2d2c7.png": {
+    "width": 1840,
+    "height": 1034
+  },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1731092158245/7fe5e731-cb6b-460d-ba3c-02720382b475.png": {
     "width": 1397,
     "height": 740
@@ -328,10 +332,6 @@
     "height": 800
   },
   "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop": {
-    "width": 1200,
-    "height": 800
-  },
-  "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1200&auto=format&fit=crop": {
     "width": 1200,
     "height": 800
   },
