@@ -91,8 +91,8 @@ export default function ResumePage() {
   const workItems = getAllWorkItems();
   const allProjects = getAllProjects();
 
-  // Specific projects as requested (replacing in-poster with toile)
-  const selectedSlugs = ["get-response", "toile", "term-ai", "scholarian"];
+  // Specific projects as requested (scholarian, mesh-hop, term-chat, folio)
+  const selectedSlugs = ["scholarian", "mesh-hop", "term-chat", "folio"];
   const projects = allProjects
     .filter((p) => selectedSlugs.includes(p.meta.slug))
     .sort(
@@ -272,29 +272,32 @@ export default function ResumePage() {
                 {i18n.resume.projectsHeading}
               </h2>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 print:gap-4">
-                {projects.map((project) => (
-                  <div
-                    key={project.meta.slug}
-                    className="border-border bg-secondary/10 hover:bg-secondary/20 rounded-md border p-4 transition-colors"
-                  >
-                    <h3 className="mb-1 flex items-center justify-between text-sm font-semibold uppercase">
-                      {project.meta.title}
-                      {project.meta.link && (
-                        <a
-                          href={project.meta.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-muted-foreground hover:text-foreground transition-colors"
-                        >
-                          <ExternalLink size={12} />
-                        </a>
-                      )}
-                    </h3>
-                    <p className="text-muted-foreground line-clamp-2 text-[11px] leading-relaxed lowercase">
-                      {project.meta.description}
-                    </p>
-                  </div>
-                ))}
+                {projects.map((project) => {
+                  const CardComponent = project.meta.link ? "a" : "div";
+                  return (
+                    <CardComponent
+                      key={project.meta.slug}
+                      href={project.meta.link || undefined}
+                      target={project.meta.link ? "_blank" : undefined}
+                      rel={project.meta.link ? "noopener noreferrer" : undefined}
+                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 rounded-md border p-4 transition-colors block ${
+                        project.meta.link ? "cursor-pointer" : ""
+                      }`}
+                    >
+                      <h3 className="mb-1 flex items-center justify-between text-sm font-semibold uppercase">
+                        {project.meta.title}
+                        {project.meta.link && (
+                          <span className="text-muted-foreground group-hover:text-foreground transition-colors">
+                            <ExternalLink size={12} />
+                          </span>
+                        )}
+                      </h3>
+                      <p className="text-muted-foreground line-clamp-2 text-[11px] leading-relaxed lowercase">
+                        {project.meta.description}
+                      </p>
+                    </CardComponent>
+                  );
+                })}
               </div>
             </section>
           </div>
