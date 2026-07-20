@@ -6,6 +6,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 // Rough speaking pace of Web Speech voices at 1x, used only for the time labels.
 const BASE_WPM = 170;
+const WAVEFORM_VIEWBOX_WIDTH = 640;
+const WAVEFORM_EDGE_INSET = 5;
+const WAVEFORM_BAR_SPAN = WAVEFORM_VIEWBOX_WIDTH - WAVEFORM_EDGE_INSET * 2;
+const BAR_COUNT = 64;
 
 // Chrome/Windows can clip the beginning of speech while its native TTS backend
 // is recovering from cancel(). A real, silent utterance is used as a
@@ -202,7 +206,6 @@ export function BlogNarrator({
 
   // A restrained, deterministic waveform. The blended frequencies produce a
   // natural speech rhythm without the noisy equalizer look of random bars.
-  const BAR_COUNT = 64;
   const barHeights = useMemo(() => {
     const heights: number[] = [];
     for (let i = 0; i < BAR_COUNT; i++) {
@@ -243,7 +246,7 @@ export function BlogNarrator({
   // as one compositor-rasterized layer; changing `left` on every frame makes
   // the browser repaint each rounded edge at a different subpixel coverage,
   // which can look like the leading edge stretches before the rear catches up.
-  const dotRef = useRef<HTMLSpanElement>(null);
+  const dotPositionRef = useRef<HTMLSpanElement>(null);
   const barsRef = useRef<(SVGLineElement | null)[]>([]);
   const lastPlayedCountRef = useRef(-1);
   // Incremented on every (re)start; stale utterance callbacks and pending
@@ -272,41 +275,46 @@ export function BlogNarrator({
   // only ever assigns instantly — no CSS transition, no React re-render in
   // between — so there is exactly one thing deciding where the dot and bars
   // sit at any moment, and it can't be fought or overwritten mid-motion.
-  const setProgressUI = useCallback(
-    (fraction: number) => {
-      const clamped = Math.min(1, Math.max(0, fraction));
-      visualProgressRef.current = clamped;
-      if (dotRef.current) {
-        // Keep the circle's raster intact and translate that layer as a unit.
-        // Width is cached by the ResizeObserver below, so playback's rAF loop
-        // does not force layout on every frame.
-        const x = clamped * visualTrackWidthRef.current;
-        dotRef.current.style.transform = `translate3d(${x}px, -50%, 0) translateX(-50%)`;
-      }
+  const setProgressUI = useCallback((fraction: number) => {
+    const clamped = Math.min(1, Math.max(0, fraction));
+    visualProgressRef.current = clamped;
+    if (dotPositionRef.current) {
+      // Keep the circle's raster intact and translate that layer as a unit.
+      // Width is cached by the ResizeObserver below, so playback's rAF loop
+      // does not force layout on every frame.
+      const x = clamped * visualTrackWidthRef.current;
+      dotPositionRef.current.style.transform = `translate3d(${x}px, -50%, 0) translateX(-50%)`;
+    }
 
-      // A bar is "played" once real progress reaches its position; only the
-      // bars whose state actually flips are touched, not all of them.
-      const count =
-        clamped <= 0
-          ? 0
-          : Math.min(BAR_COUNT, Math.floor(clamped * (BAR_COUNT - 1)) + 1);
-      const prev = lastPlayedCountRef.current;
-      if (count !== prev) {
-        const bars = barsRef.current;
-        if (count > prev) {
-          for (let i = Math.max(0, prev); i < count; i++) {
-            bars[i]?.classList.add("nb-played");
-          }
-        } else {
-          for (let i = count; i < prev; i++) {
-            bars[i]?.classList.remove("nb-played");
-          }
+    // Compare the dot and bars in the SVG's own coordinate system. Bars are
+    // inset from the 0–640 track edges, so an index-based percentage makes
+    // them flip before or after the dot's center actually crosses them.
+    const dotX = clamped * WAVEFORM_VIEWBOX_WIDTH;
+    const count =
+      dotX < WAVEFORM_EDGE_INSET
+        ? 0
+        : Math.min(
+            BAR_COUNT,
+            Math.floor(
+              ((dotX - WAVEFORM_EDGE_INSET) * (BAR_COUNT - 1)) /
+                WAVEFORM_BAR_SPAN
+            ) + 1
+          );
+    const prev = lastPlayedCountRef.current;
+    if (count !== prev) {
+      const bars = barsRef.current;
+      if (count > prev) {
+        for (let i = Math.max(0, prev); i < count; i++) {
+          bars[i]?.classList.add("nb-played");
         }
-        lastPlayedCountRef.current = count;
+      } else {
+        for (let i = count; i < prev; i++) {
+          bars[i]?.classList.remove("nb-played");
+        }
       }
-    },
-    [BAR_COUNT]
-  );
+      lastPlayedCountRef.current = count;
+    }
+  }, []);
 
   // A percentage transform is relative to the dot itself, not its track, so
   // cache the responsive track width and re-position after layout changes.
@@ -1145,13 +1153,15 @@ export function BlogNarrator({
                 flip on a static element can't. */}
             <div className="absolute inset-0 overflow-hidden">
               <svg
-                viewBox="0 0 640 32"
+                viewBox={`0 0 ${WAVEFORM_VIEWBOX_WIDTH} 32`}
                 preserveAspectRatio="none"
                 className="absolute inset-0 h-full w-full"
               >
-                <g className="text-foreground/[0.14] [&_.nb-played]:text-foreground/85">
+                <g className="text-foreground/[0.14] [&_.nb-played]:text-foreground">
                   {barHeights.map((height, i) => {
-                    const x = 5 + (i * 630) / (BAR_COUNT - 1);
+                    const x =
+                      WAVEFORM_EDGE_INSET +
+                      (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
                     const halfHeight = 3 + height * 11;
                     return (
                       <line
@@ -1179,12 +1189,14 @@ export function BlogNarrator({
             </div>
 
             <span
-              ref={dotRef}
-              // Position is owned entirely by setProgressUI. Only scale and
-              // opacity may transition; transforming the position itself
-              // would make the marker lag behind real playback progress.
-              className="bg-foreground ring-background absolute top-1/2 left-0 size-2 rounded-full ring-2 transition-[scale,opacity] duration-150 ease-out will-change-transform group-hover:scale-125 motion-reduce:transition-none"
-            />
+              ref={dotPositionRef}
+              // Playback owns this outer layer's transform. Keeping hover
+              // scale on the child prevents the browser from recomposing the
+              // live position transform when hover begins or ends.
+              className="pointer-events-none absolute top-1/2 left-0 size-2 will-change-transform"
+            >
+              <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-125 motion-reduce:transition-none" />
+            </span>
           </div>
         </div>
 
