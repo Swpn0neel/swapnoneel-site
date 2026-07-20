@@ -38,11 +38,15 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "dev-to-uploads.s3.us-east-2.amazonaws.com",
       },
+      {
+        protocol: "https",
+        hostname: "images.pexels.com",
+      },
     ],
     formats: ["image/avif", "image/webp"],
-    // 40 is the low-res first stage of progressive blog images
-    // (components/smooth-image.tsx), 75 the full-quality upgrade
-    qualities: [40, 75],
+    // 60 is the readable preview stage for progressive blog images;
+    // 75 is the full-quality upgrade (components/smooth-image.tsx).
+    qualities: [60, 75],
     deviceSizes: [640, 768, 1024, 1280, 1536],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000,
