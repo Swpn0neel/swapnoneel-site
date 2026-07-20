@@ -1,7 +1,7 @@
 ---
 title: "DevRel Engineer • Keploy"
 date: "May 2024 - Dec 2024"
-description: "Developer Relations Engineering at Keploy, an open-source API testing platform."
+description: "Built sample applications and a RAG-based chatbot, designed homepage sections, and led developer relations and community programs."
 cover: "/work/keploy.jpg"
 ---
 

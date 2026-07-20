@@ -1,7 +1,7 @@
 ---
 title: "Software Developer • Wizdom"
 date: "Jan 2024 - May 2024"
-description: "Revamped UI, optimized code, and improved podcast experience at Wizdom."
+description: "Revamped the app UI and website, optimized codebase performance to reduce load times, and enhanced the podcast audio playback experience."
 cover: "/work/wizdom.webp"
 ---
 

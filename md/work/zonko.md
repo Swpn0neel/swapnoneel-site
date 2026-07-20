@@ -1,7 +1,7 @@
 ---
 title: "GTM Engineer • Zonko Labs"
 date: "April 2026 - July, 2026"
-description: "Go-to-Market Engineer at Zonko Labs, a frontier AI lab."
+description: "Tested and launched Luffy (an AI Slack co-worker), built internal latency logging tools, grew the user base, and rebuilt the company website."
 cover: "/work/zonko.svg"
 ---
 

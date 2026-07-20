@@ -11,7 +11,7 @@
 ## DevRel Engineer • Keploy
 URL: https://www.swapnoneel.site/work/keploy
 Date: May 2024 - Dec 2024
-Summary: Developer Relations Engineering at Keploy, an open-source API testing platform.
+Summary: Built sample applications and a RAG-based chatbot, designed homepage sections, and led developer relations and community programs.
 
 [Keploy](https://keploy.io) is an open-source, developer-friendly API testing platform that auto-generates test cases and data mocks from real traffic.
 
@@ -27,7 +27,7 @@ Summary: Developer Relations Engineering at Keploy, an open-source API testing p
 ## Technical Writer • Tutorials Point
 URL: https://www.swapnoneel.site/work/tutorials-point
 Date: May 2023 - May 2025
-Summary: Technical content creation for one of the world's largest developer learning platforms.
+Summary: Authored a successful Advanced Python course, contributed to database and web courses, and edited over 200 technical articles as a content manager.
 
 [Tutorials Point](https://www.tutorialspoint.com) is one of the most popular platforms for learning programming and technology, with millions of learners worldwide.
 
@@ -41,7 +41,7 @@ Summary: Technical content creation for one of the world's largest developer lea
 ## Software Developer • Wizdom
 URL: https://www.swapnoneel.site/work/wizdom
 Date: Jan 2024 - May 2024
-Summary: Revamped UI, optimized code, and improved podcast experience at Wizdom.
+Summary: Revamped the app UI and website, optimized codebase performance to reduce load times, and enhanced the podcast audio playback experience.
 
 [Wizdom](https://wizdomapp.com) is a platform that provides book summaries and insights via podcasts and readables, helping users learn from the world's best books in minutes.
 
@@ -56,7 +56,7 @@ Summary: Revamped UI, optimized code, and improved podcast experience at Wizdom.
 ## GTM Engineer • Zonko Labs
 URL: https://www.swapnoneel.site/work/zonko
 Date: April 2026 - July, 2026
-Summary: Go-to-Market Engineer at Zonko Labs, a frontier AI lab.
+Summary: Tested and launched Luffy (an AI Slack co-worker), built internal latency logging tools, grew the user base, and rebuilt the company website.
 
 [Zonko Labs](https://zonko.ai) is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
 
@@ -198,7 +198,7 @@ A high-performance content generation tool that transforms simple keywords into 
 - Toggleable **hashtag generation** to boost reach
 - **One-click copy** for a seamless flow from generation to posting
 
-## MeshHop
+## Mesh Hop
 URL: https://mesh-hop.vercel.app
 Date: 2026-07-19
 Summary: A desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies.

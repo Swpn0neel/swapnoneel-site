@@ -1,7 +1,7 @@
 ---
 title: "Technical Writer • Tutorials Point"
 date: "May 2023 - May 2025"
-description: "Technical content creation for one of the world's largest developer learning platforms."
+description: "Authored a successful Advanced Python course, contributed to database and web courses, and edited over 200 technical articles as a content manager."
 cover: "/work/tutorials-point.png"
 ---
 
