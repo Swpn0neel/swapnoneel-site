@@ -1,7 +1,9 @@
+import { ExperienceLogo } from "@/components/experience-logo";
 import { PfpSpin } from "@/components/pfp-spin";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SocialLinks } from "@/components/social-links";
 import { ViewMore } from "@/components/view-more";
+import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
@@ -42,8 +44,14 @@ export default function Home() {
                   alt={i18n.home.hero.avatarAlt}
                   width={140}
                   height={140}
+                  sizes="140px"
+                  loading="eager"
+                  fetchPriority="low"
+                  decoding="async"
+                  unoptimized
+                  placeholder="blur"
+                  blurDataURL={blurMap[siteConfig.images.avatar]}
                   className="pfp-image-flip"
-                  priority
                 />
               </div>
               <div className="pfp-flip-card-back">
@@ -52,8 +60,13 @@ export default function Home() {
                   alt={i18n.home.hero.avatarHoverAlt}
                   width={140}
                   height={140}
+                  sizes="140px"
+                  preload
+                  decoding="async"
+                  unoptimized
+                  placeholder="blur"
+                  blurDataURL={blurMap[siteConfig.images.avatarHover]}
                   className="pfp-image-flip"
-                  priority
                 />
               </div>
             </div>
@@ -196,13 +209,7 @@ function WorkCard({
   return (
     <>
       {item.meta.cover && (
-        <Image
-          src={item.meta.cover}
-          alt={item.meta.title}
-          width={60}
-          height={60}
-          className="shrink-0 rounded-md object-cover"
-        />
+        <ExperienceLogo src={item.meta.cover} alt={item.meta.title} />
       )}
       <div className="flex-1">
         <p className="text-sm font-medium group-hover:underline">

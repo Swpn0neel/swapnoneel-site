@@ -1,10 +1,10 @@
+import { ExperienceLogo } from "@/components/experience-logo";
 import { ProjectGrid } from "@/components/project-grid";
 import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 
 const workDescription =
@@ -187,13 +187,7 @@ function ExperienceRow({
   return (
     <>
       {item.meta.cover ? (
-        <Image
-          src={item.meta.cover}
-          alt={item.meta.title}
-          width={60}
-          height={60}
-          className="shrink-0 rounded-md object-cover"
-        />
+        <ExperienceLogo src={item.meta.cover} alt={item.meta.title} />
       ) : (
         <div className="bg-secondary h-[60px] w-[60px] shrink-0 rounded-md" />
       )}

@@ -89,7 +89,6 @@ export function ProjectCarousel({ items }: { items: ProjectItem[] }) {
                 imageWidth={480}
                 imageHeight={270}
                 sizes="320px"
-                priority={i === 0}
               />
             );
 
