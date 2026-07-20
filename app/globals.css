@@ -149,29 +149,22 @@ body {
 }
 
 /* ─── Blog narration (read-along highlighting) ─── */
-/* While narrating, unread words sit dimmed; read words are at full strength.
-   The current word does an Apple-Music-style ink fill: a gradient clipped to
-   the glyphs sweeps from dim to full color over the word's estimated speaking
-   time (--wdur, set per-word from JS). Outside narration the spans are
-   invisible no-ops. */
+/* While narrating, unread words sit dimmed. The current word and completed
+   words share one treatment so the read portion stays visually continuous.
+   Outside narration the spans are invisible no-ops. */
 .narrating .nw {
   opacity: 0.4;
-  /* Read words must snap back to full opacity quickly: at normal reading
-     pace a word is only "current" for ~300-400ms, so a slow transition here
-     never finishes before the next word takes over, leaving a trailing fog
-     of still-fading text behind the highlight. Only the current word (below)
-     gets the slower, per-word ink-fill sweep. */
+  /* At normal reading pace a word is only current for ~300–400ms, so keep
+     the transition quick enough to settle before the next boundary. */
   transition: opacity 0.15s ease;
   /* Words are click-to-jump targets while narrating */
   cursor: pointer;
 }
-.narrating .nw-read {
-  opacity: 1;
-}
+.narrating .nw-read,
 .narrating .nw-current {
   opacity: 1;
-  color: hsl(var(--foreground));
-  transition: opacity var(--wdur, 0.3s) ease;
+  color: inherit;
+  transition: none;
 }
 
 /* ─── Selection & Cursor ─── */
