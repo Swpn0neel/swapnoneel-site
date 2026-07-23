@@ -128,13 +128,22 @@ export const i18n = {
       subject: "what's this about?",
       message: "how can i help you?",
     },
+    // The button reports its own status, so every label here has to stay no
+    // wider than `sendMessage` — that's what keeps the button from resizing
+    // between states. Errors are deliberately generic for the same reason;
+    // the specific wording lives in `announcements` (tooltip, screen readers,
+    // console), not in the button.
     sendMessage: "Send Message",
     sendingMessage: "Sending...",
+    messageSent: "Message sent",
+    errorLabel: "Error",
     successMessage: "Message sent successfully! I'll get back to you soon.",
     errors: {
       credentialsMissing:
         "EmailJS credentials are not configured in environment variables.",
       sendFailedPrefix: "Failed to send:",
+    },
+    announcements: {
       invalidEmail: "Please enter a valid email address.",
       nameTooLong: "Name must be less than 100 characters.",
       subjectTooLong: "Subject must be less than 150 characters.",

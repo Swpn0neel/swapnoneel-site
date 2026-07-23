@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Input, Textarea } from "@/components/ui/input";
 import { i18n } from "@/lib/i18n";
-import { Loader2, Send } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { AlertCircle, CheckCircle2, Loader2, Send } from "lucide-react";
 import dynamic from "next/dynamic";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const CalBooking = dynamic(() =>
   import("@/components/cal-booking").then((m) => m.CalBooking)
@@ -27,16 +28,72 @@ function getErrorMessage(error: unknown): string {
   return String(error);
 }
 
+/** How long a terminal state sits in the button before it resets to idle. */
+const RESET_DELAY: Record<"success" | "error", number> = {
+  success: 4000,
+  error: 5000,
+};
+
+type Status =
+  | { type: "idle" | "sending" }
+  // `announcement` is the fuller wording read out to screen readers and shown
+  // on hover via `title`; the visible label comes from STATUS_LAYERS.
+  | { type: "success" | "error"; announcement: string };
+
+/**
+ * Every state the button can show. All four are rendered into one grid cell
+ * and crossfaded, so the outgoing and incoming labels animate past each other
+ * instead of snapping.
+ */
+const STATUS_LAYERS = [
+  {
+    key: "idle",
+    icon: <Send className="size-[1em] shrink-0" />,
+    label: i18n.contactPage.sendMessage,
+  },
+  {
+    key: "sending",
+    icon: <Loader2 className="size-[1em] shrink-0 animate-spin" />,
+    label: i18n.contactPage.sendingMessage,
+  },
+  {
+    key: "success",
+    icon: (
+      <CheckCircle2 className="size-[1em] shrink-0 text-emerald-400 dark:text-emerald-600" />
+    ),
+    label: i18n.contactPage.messageSent,
+  },
+  {
+    key: "error",
+    icon: (
+      <AlertCircle className="size-[1em] shrink-0 text-red-400 dark:text-red-600" />
+    ),
+    label: i18n.contactPage.errorLabel,
+  },
+] as const;
+
 export default function ContactPage() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [success, setSuccess] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<Status>({ type: "idle" });
+  const isSubmitting = status.type === "sending";
+
+  // Roll back to the default label so the button never sits on a stale result.
+  useEffect(() => {
+    if (status.type !== "success" && status.type !== "error") return;
+    const timer = window.setTimeout(
+      () => setStatus({ type: "idle" }),
+      RESET_DELAY[status.type]
+    );
+    return () => window.clearTimeout(timer);
+  }, [status]);
+
+  // The button always shows the generic "Error"; the specific reason is
+  // carried in `announcement` for the tooltip and the live region.
+  const fail = (announcement: string) =>
+    setStatus({ type: "error", announcement });
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsSubmitting(true);
-    setError(null);
-    setSuccess(false);
+    setStatus({ type: "sending" });
 
     const formData = new FormData(e.currentTarget);
     const name = String(formData.get("name") || "").trim();
@@ -44,35 +101,27 @@ export default function ContactPage() {
     const subject = String(formData.get("subject") || "").trim();
     const message = String(formData.get("message") || "").trim();
 
+    const { announcements } = i18n.contactPage;
+
     if (!name || !email || !subject || !message) {
-      setError(i18n.contactPage.errors.allFieldsRequired);
-      setIsSubmitting(false);
-      return;
+      return fail(announcements.allFieldsRequired);
     }
 
     if (name.length > 100) {
-      setError(i18n.contactPage.errors.nameTooLong);
-      setIsSubmitting(false);
-      return;
+      return fail(announcements.nameTooLong);
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.length > 255 || !emailRegex.test(email)) {
-      setError(i18n.contactPage.errors.invalidEmail);
-      setIsSubmitting(false);
-      return;
+      return fail(announcements.invalidEmail);
     }
 
     if (subject.length > 150) {
-      setError(i18n.contactPage.errors.subjectTooLong);
-      setIsSubmitting(false);
-      return;
+      return fail(announcements.subjectTooLong);
     }
 
     if (message.length > 5000) {
-      setError(i18n.contactPage.errors.messageTooLong);
-      setIsSubmitting(false);
-      return;
+      return fail(announcements.messageTooLong);
     }
 
     try {
@@ -132,15 +181,23 @@ export default function ContactPage() {
         templateParams,
         publicKey
       );
-      setSuccess(true);
+      setStatus({
+        type: "success",
+        announcement: i18n.contactPage.successMessage,
+      });
       (e.target as HTMLFormElement).reset();
     } catch (err: unknown) {
-      console.error("EmailJS Error:", err);
-      setError(
-        `${i18n.contactPage.errors.sendFailedPrefix} ${getErrorMessage(err)}`
-      );
-    } finally {
-      setIsSubmitting(false);
+      // EmailJS rejects with EmailJSResponseStatus ({ status, text }), a plain
+      // class rather than an Error subclass — the Next.js dev overlay can't
+      // serialise it and prints a bare `{}`. Log the resolved text and status
+      // instead so the failure is actually readable in the console.
+      const httpStatus =
+        typeof err === "object" && err !== null && "status" in err
+          ? ` (status ${String(err.status)})`
+          : "";
+      const detail = getErrorMessage(err);
+      console.error(`EmailJS Error${httpStatus}:`, detail);
+      fail(`${i18n.contactPage.errors.sendFailedPrefix} ${detail}`);
     }
   };
 
@@ -200,34 +257,80 @@ export default function ContactPage() {
           />
         </div>
 
-        {error && (
-          <p className="rounded-sm bg-red-500/10 p-3 text-sm font-medium text-red-500">
-            {error}
-          </p>
-        )}
-        {success && (
-          <p className="rounded-sm bg-emerald-500/10 p-3 text-sm font-medium text-emerald-500">
-            {i18n.contactPage.successMessage}
-          </p>
-        )}
-
+        {/* Natural width, as before. Every status label is kept no wider than
+            "Send Message" (see i18n), so the button holds its size across
+            states without needing a hardcoded width. The status colours are
+            inverted against the usual dark: variants because the primary
+            button's fill is itself inverted — near-black in light mode,
+            near-white in dark. */}
         <Button
           type="submit"
           disabled={isSubmitting}
+          // The visible label changes with status, but a control's accessible
+          // name should stay its action. Status reaches assistive tech through
+          // the live region instead.
+          aria-label={i18n.contactPage.sendMessage}
+          title={
+            status.type === "success" || status.type === "error"
+              ? status.announcement
+              : undefined
+          }
           className="w-full sm:w-auto"
         >
-          {isSubmitting ? (
-            <>
-              <Loader2 className="size-[1em] shrink-0 animate-spin" />
-              {i18n.contactPage.sendingMessage}
-            </>
-          ) : (
-            <>
+          <span className="grid">
+            {/* Hidden but still laid out: reserves the width of the widest
+                state so the button holds one size as its label changes, without
+                hardcoding a pixel value that would drift if the copy changes.
+                Both spans share one grid cell, so the cell takes the wider. */}
+            <span
+              aria-hidden="true"
+              className="invisible col-start-1 row-start-1 flex items-center justify-center gap-2"
+            >
               <Send className="size-[1em] shrink-0" />
               {i18n.contactPage.sendMessage}
-            </>
-          )}
+            </span>
+
+            {/* The outgoing label falls away while the incoming one rises into
+                place. The overshoot curve is the same one the profile card
+                flip uses, which gives the tick and the alert a slight pop as
+                they land. Reduced-motion users get this collapsed to ~0s by
+                the global rule in globals.css. */}
+            {STATUS_LAYERS.map((layer) => {
+              const isActive = status.type === layer.key;
+              return (
+                <span
+                  key={layer.key}
+                  // Purely visual: the button carries a fixed aria-label and
+                  // status is announced through the live region below, so the
+                  // stacked layers must stay out of the accessibility tree
+                  // entirely (otherwise they concatenate into the name).
+                  aria-hidden="true"
+                  className={cn(
+                    // Tailwind v4 emits `translate`/`scale` as standalone CSS
+                    // properties rather than folding them into `transform`, so
+                    // they have to be named here or the movement snaps and only
+                    // the fade animates.
+                    "col-start-1 row-start-1 flex items-center justify-center gap-2 transition-[opacity,translate,scale] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+                    isActive
+                      ? "translate-y-0 scale-100 opacity-100"
+                      : "pointer-events-none translate-y-1 scale-90 opacity-0"
+                  )}
+                >
+                  {layer.icon}
+                  {layer.label}
+                </span>
+              );
+            })}
+          </span>
         </Button>
+
+        {/* The button's own label is too terse to be the only signal, so the
+            full wording is announced here instead. */}
+        <span role="status" aria-live="polite" className="sr-only">
+          {status.type === "success" || status.type === "error"
+            ? status.announcement
+            : ""}
+        </span>
       </form>
 
       <div className="border-border mt-12 border-t pt-8">
