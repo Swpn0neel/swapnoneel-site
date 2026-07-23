@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig, skills, socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
-import { ogImageUrl } from "@/lib/utils";
+import { firstLink, ogImageUrl } from "@/lib/utils";
 import {
   Briefcase,
   Code2,
@@ -126,10 +126,10 @@ export default function ResumePage() {
           <div className="text-muted-foreground mb-5 grid min-w-0 grid-cols-1 gap-0 text-xs leading-4 min-[540px]:mb-8 min-[540px]:flex min-[540px]:flex-wrap min-[540px]:gap-x-6 min-[540px]:gap-y-2 min-[540px]:text-sm min-[540px]:leading-5 print:mb-6 print:flex print:flex-wrap print:gap-x-6 print:gap-y-2 print:text-xs print:leading-normal">
             <a
               href={`mailto:${siteConfig.person.email}`}
-              className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
+              className="hover:text-foreground -mx-2 flex min-h-9 min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
             >
               <Mail size={14} className="shrink-0" aria-hidden="true" />
-              <span className="[overflow-wrap:anywhere]">
+              <span className="wrap-anywhere">
                 {siteConfig.person.email}
               </span>
             </a>
@@ -138,12 +138,12 @@ export default function ResumePage() {
                 href={linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
+                className="hover:text-foreground -mx-2 flex min-h-9 min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
               >
                 <span className="shrink-0" aria-hidden="true">
                   <LinkedinIcon size={14} />
                 </span>
-                <span className="[overflow-wrap:anywhere]">
+                <span className="wrap-anywhere">
                   linkedin.com/in/swapnoneel
                 </span>
               </a>
@@ -153,12 +153,12 @@ export default function ResumePage() {
                 href={github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
+                className="hover:text-foreground -mx-2 flex min-h-9 min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
               >
                 <span className="shrink-0" aria-hidden="true">
                   <GithubIcon size={14} />
                 </span>
-                <span className="[overflow-wrap:anywhere]">
+                <span className="wrap-anywhere">
                   github.com/Swpn0neel
                 </span>
               </a>
@@ -167,10 +167,10 @@ export default function ResumePage() {
               href="https://swapnoneel.site"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-foreground -mx-2 flex min-h-[36px] min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
+              className="hover:text-foreground -mx-2 flex min-h-9 min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
             >
               <Globe size={14} className="shrink-0" aria-hidden="true" />
-              <span className="[overflow-wrap:anywhere]">swapnoneel.site</span>
+              <span className="wrap-anywhere">swapnoneel.site</span>
             </a>
           </div>
         </StaggerItem>
@@ -287,17 +287,16 @@ export default function ResumePage() {
                   return (
                     <CardComponent
                       key={project.meta.slug}
-                      href={project.meta.link || undefined}
+                      href={firstLink(project.meta.link) || undefined}
                       target={project.meta.link ? "_blank" : undefined}
                       rel={
                         project.meta.link ? "noopener noreferrer" : undefined
                       }
-                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 block min-w-0 rounded-md border p-4 transition-colors ${
-                        project.meta.link ? "cursor-pointer" : ""
-                      }`}
+                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 block min-w-0 rounded-md border p-4 transition-colors ${project.meta.link ? "cursor-pointer" : ""
+                        }`}
                     >
                       <h3 className="mb-1 flex min-w-0 items-start justify-between gap-3 text-sm leading-snug font-semibold uppercase">
-                        <span className="min-w-0 [overflow-wrap:anywhere]">
+                        <span className="min-w-0 wrap-anywhere">
                           {project.meta.title}
                         </span>
                         {project.meta.link && (

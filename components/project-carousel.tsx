@@ -16,7 +16,7 @@ interface ProjectMeta {
   cover?: string;
   title: string;
   description?: string;
-  link?: string;
+  link?: string | string[];
 }
 
 interface ProjectItem {

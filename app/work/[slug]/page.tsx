@@ -1,7 +1,7 @@
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
-import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { breadcrumbJsonLd, firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -83,7 +83,7 @@ export default async function WorkItemPage({
             name: item.meta.title,
             description: item.meta.description,
             url,
-            ...(item.meta.link ? { sameAs: item.meta.link } : {}),
+            ...(item.meta.link ? { sameAs: firstLink(item.meta.link) } : {}),
             author: {
               "@type": "Person",
               name: siteConfig.person.fullName,

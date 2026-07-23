@@ -8,7 +8,7 @@ import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { buildPersonSchema } from "@/lib/structured-data";
-import { safeJsonLd } from "@/lib/utils";
+import { firstLink, safeJsonLd } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -133,7 +133,7 @@ export default function Home() {
             <div key={item.meta.slug}>
               {item.meta.link ? (
                 <a
-                  href={item.meta.link}
+                  href={firstLink(item.meta.link)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3"

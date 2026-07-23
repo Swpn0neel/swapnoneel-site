@@ -3,7 +3,7 @@ import { ProjectGrid } from "@/components/project-grid";
 import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
-import { ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
 import Link from "next/link";
 
@@ -86,7 +86,7 @@ export default function WorkPage() {
               "@type": "ListItem",
               position: index + 1,
               url:
-                item.meta.link ||
+                firstLink(item.meta.link) ||
                 `https://www.swapnoneel.site/work/${item.meta.slug}`,
               name: item.meta.title,
             })),
@@ -119,7 +119,7 @@ export default function WorkPage() {
             <div key={item.meta.slug}>
               {item.meta.link ? (
                 <a
-                  href={item.meta.link}
+                  href={firstLink(item.meta.link)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex items-center gap-3 py-4"
@@ -189,7 +189,7 @@ function ExperienceRow({
       {item.meta.cover ? (
         <ExperienceLogo src={item.meta.cover} alt={item.meta.title} />
       ) : (
-        <div className="bg-secondary h-[60px] w-[60px] shrink-0 rounded-md" />
+        <div className="bg-secondary h-15 w-15 shrink-0 rounded-md" />
       )}
       <div className="flex-1">
         <p className="text-sm font-medium group-hover:underline">

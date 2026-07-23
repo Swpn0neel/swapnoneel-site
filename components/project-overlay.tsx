@@ -4,13 +4,14 @@ import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { firstLink } from "@/lib/utils";
 
 interface ProjectMeta {
   slug: string;
   cover?: string;
   title: string;
   description?: string;
-  link?: string;
+  link?: string | string[];
 }
 
 export interface ProjectOverlayData {
@@ -103,7 +104,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
 
   const techStack = project ? parseSection(project.content, "Tech Stack") : [];
   const features = project ? parseSection(project.content, "Features") : [];
-  const projectLink = project?.meta.link;
+  const projectLink = project ? firstLink(project.meta.link) : undefined;
 
   return (
     <div
