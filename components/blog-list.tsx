@@ -9,7 +9,7 @@ interface Post {
   slug: string;
   title: string;
   publishedAt: string;
-  url?: string;
+  urls?: string[];
 }
 
 interface BlogListProps {
@@ -88,7 +88,7 @@ export function BlogList({ posts }: BlogListProps) {
                           <span
                             className={cn(
                               "text-muted-foreground min-w-0 truncate text-sm transition-colors",
-                              post.url?.includes("keploy")
+                              post.urls?.some((u) => u.includes("keploy"))
                                 ? "group-hover:text-[#FF914D]"
                                 : "group-hover:text-foreground"
                             )}

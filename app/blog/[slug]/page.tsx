@@ -159,13 +159,17 @@ export default async function BlogPostPage({
     day: "numeric",
   });
 
-  const crossPost = post.url?.includes("keploy")
-    ? { label: "Keploy Blogs", color: "#F97316" }
-    : post.url?.includes("dev.to")
-      ? { label: "DEV.to", color: "#3B49DF" }
-      : post.url
-        ? { label: "Hashnode", color: "#2962FF" }
-        : null;
+  function getCrossPost(url: string) {
+    if (url.includes("keploy")) return { label: "Keploy Blogs", color: "#F97316" };
+    if (url.includes("dev.to")) return { label: "DEV.to", color: "#3B49DF" };
+    if (url.includes("medium.com")) return { label: "Medium", color: "#02B875" };
+    return { label: "Hashnode", color: "#2962FF" };
+  }
+
+  const crossPosts = (post.urls ?? []).map((url) => ({
+    url,
+    ...getCrossPost(url),
+  }));
 
   const cleanMarkdown = (post.content?.markdown || "")
     .replace(
@@ -331,7 +335,7 @@ export default async function BlogPostPage({
         />
       </div>
 
-      {(post.tags?.length || post.url) && (
+      {(post.tags?.length || crossPosts.length > 0) && (
         <footer className="mt-12 space-y-4">
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap items-center gap-2">
@@ -345,19 +349,29 @@ export default async function BlogPostPage({
               ))}
             </div>
           )}
-          {post.url && crossPost && (
+          {crossPosts.length > 0 && (
             <p className="text-muted-foreground text-xs">
               {i18n.blog.alsoPublishedOn}{" "}
-              <a
-                href={post.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
-                style={{ color: crossPost.color }}
-              >
-                {crossPost.label}
-                <ArrowUpRight className="h-3 w-3" />
-              </a>
+              {crossPosts.map((cp, i) => (
+                <span key={cp.url}>
+                  <a
+                    href={cp.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
+                    style={{ color: cp.color }}
+                  >
+                    {cp.label}
+                    <ArrowUpRight className="h-3 w-3" />
+                  </a>
+                  {i < crossPosts.length - 2 && (
+                    <span className="text-muted-foreground">{", "}</span>
+                  )}
+                  {i === crossPosts.length - 2 && (
+                    <span className="text-muted-foreground">{" and "}</span>
+                  )}
+                </span>
+              ))}
             </p>
           )}
         </footer>
