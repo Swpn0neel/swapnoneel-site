@@ -15,9 +15,16 @@ type Direction = "up" | "down";
 
 export function BackToTop() {
   const [direction, setDirection] = useState<Direction>("down");
+  // Rotation of the icon in degrees. Always incremented by +180 (never
+  // reset or decremented) on a direction flip: 0→180 sweeps up→right→down,
+  // and the *next* flip, 180→360, sweeps down→left→up — since 90deg is the
+  // "right" side of a full turn and 270deg is the "left" side, alternating
+  // 180deg steps naturally alternates which side each flip sweeps through.
+  const [angle, setAngle] = useState(180);
   const [isVisible, setIsVisible] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
   const lastScrollY = useRef(0);
+  const directionRef = useRef<Direction>("down");
 
   useEffect(() => {
     lastScrollY.current = window.scrollY;
@@ -32,7 +39,13 @@ export function BackToTop() {
       let nextDirection: Direction | null = null;
       if (delta > 2) nextDirection = "down";
       else if (delta < -2) nextDirection = "up";
-      if (nextDirection) setDirection(nextDirection);
+      if (nextDirection) {
+        setDirection(nextDirection);
+        if (nextDirection !== directionRef.current) {
+          directionRef.current = nextDirection;
+          setAngle((prev) => prev + 180);
+        }
+      }
 
       const atBottom =
         window.innerHeight + y >=
@@ -82,11 +95,12 @@ export function BackToTop() {
     >
       {/* An up-arrow rotated 180° reads as a down-arrow, so a single icon
           can rotate smoothly between the two states instead of swapping
-          components (which has no way to animate). */}
+          components. `angle` only ever grows (see the comment above its
+          state), which is what makes each flip sweep the requested side
+          instead of just reversing back along the same arc. */}
       <span
-        className={`inline-flex transition-transform duration-300 ease-in-out ${
-          direction === "down" ? "rotate-180" : "rotate-0"
-        }`}
+        className="inline-flex transition-transform duration-300 ease-in-out"
+        style={{ transform: `rotate(${angle}deg)` }}
       >
         <ArrowUp size={18} strokeWidth={1.5} />
       </span>

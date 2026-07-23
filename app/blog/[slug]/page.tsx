@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
 import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -158,6 +159,14 @@ export default async function BlogPostPage({
     day: "numeric",
   });
 
+  const crossPost = post.url?.includes("keploy")
+    ? { label: "Keploy Blogs", color: "#F97316" }
+    : post.url?.includes("dev.to")
+      ? { label: "DEV.to", color: "#3B49DF" }
+      : post.url
+        ? { label: "Hashnode", color: "#2962FF" }
+        : null;
+
   const cleanMarkdown = (post.content?.markdown || "")
     .replace(
       /<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi,
@@ -231,7 +240,7 @@ export default async function BlogPostPage({
         <p className="text-muted-foreground self-center text-xs [grid-area:meta]">
           {dateStr}
           {post.wordCount !== undefined && ` · ${post.wordCount} words`}
-          {` · ${post.readingTime} min read`}
+          {post.readingTime !== undefined && ` · ${post.readingTime} min read`}
         </p>
       </div>
 
@@ -323,7 +332,7 @@ export default async function BlogPostPage({
       </div>
 
       {(post.tags?.length || post.url) && (
-        <footer className="border-border bg-secondary/15 mt-12 rounded-md border p-4 md:p-5">
+        <footer className="mt-12 space-y-4">
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap items-center gap-2">
               {post.tags.map((tag) => (
@@ -336,28 +345,19 @@ export default async function BlogPostPage({
               ))}
             </div>
           )}
-          {post.url && (
-            <p
-              className={`text-muted-foreground text-xs ${
-                post.tags && post.tags.length > 0
-                  ? "border-border/60 mt-4 border-t pt-4"
-                  : ""
-              }`}
-            >
+          {post.url && crossPost && (
+            <p className="text-muted-foreground text-xs">
               {i18n.blog.alsoPublishedOn}{" "}
               <a
                 href={post.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-foreground hover:text-muted-foreground font-medium underline underline-offset-2"
+                className="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
+                style={{ color: crossPost.color }}
               >
-                {post.url.includes("keploy")
-                  ? "Keploy Blogs"
-                  : post.url.includes("dev.to")
-                    ? "DEV.to"
-                    : "Hashnode"}
+                {crossPost.label}
+                <ArrowUpRight className="h-3 w-3" />
               </a>
-              .
             </p>
           )}
         </footer>

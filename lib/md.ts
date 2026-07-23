@@ -113,8 +113,32 @@ function countWords(markdown: string): number {
   return text.split(/\s+/).filter(Boolean).length;
 }
 
-function estimateReadingTime(wordCount: number): number {
-  return Math.max(1, Math.round(wordCount / 200));
+// Reading time now tracks the actual pre-generated narration (Edge TTS)
+// audio length instead of a words-per-minute guess, since that's the real
+// time a reader spends with the post either way.
+function getNarrationDurationMs(
+  slug: string,
+  publishedAt: string
+): number | null {
+  const year = new Date(publishedAt).getFullYear();
+  const narrationPath = path.join(
+    process.cwd(),
+    "public",
+    "narration",
+    String(year),
+    `${slug}.json`
+  );
+  if (!fs.existsSync(narrationPath)) return null;
+  try {
+    const data = JSON.parse(fs.readFileSync(narrationPath, "utf8"));
+    return typeof data.durationMs === "number" ? data.durationMs : null;
+  } catch {
+    return null;
+  }
+}
+
+function readingTimeFromDurationMs(durationMs: number): number {
+  return Math.max(1, Math.round(durationMs / 60000));
 }
 
 export type BlogPost = {
@@ -137,6 +161,10 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
   const post = readBySlug("blog", slug);
   if (!post) return null;
   const wordCount = countWords(post.content);
+  const narrationDurationMs = getNarrationDurationMs(
+    post.meta.slug,
+    post.meta.date
+  );
   return {
     title: post.meta.title,
     slug: post.meta.slug,
@@ -148,7 +176,10 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
       markdown: post.content,
     },
     url: post.meta.link,
-    readingTime: estimateReadingTime(wordCount),
+    readingTime:
+      narrationDurationMs !== null
+        ? readingTimeFromDurationMs(narrationDurationMs)
+        : undefined,
     wordCount,
     tags: post.meta.tags,
   };
