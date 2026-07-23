@@ -34,3 +34,11 @@ export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
     })),
   };
 }
+
+/** Returns the first link URL from a link field that may be a string or array. */
+export function firstLink(
+  link: string | string[] | undefined
+): string | undefined {
+  if (!link) return undefined;
+  return Array.isArray(link) ? link[0] : link;
+}

@@ -17,7 +17,7 @@ export type PostMeta = {
   updated?: string;
   description?: string;
   cover?: string;
-  link?: string;
+  link?: string | string[];
   tags?: string[];
 };
 
@@ -151,7 +151,7 @@ export type BlogPost = {
   content?: {
     markdown: string;
   };
-  url?: string;
+  urls?: string[];
   readingTime?: number;
   wordCount?: number;
   tags?: string[];
@@ -175,7 +175,11 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
     content: {
       markdown: post.content,
     },
-    url: post.meta.link,
+    urls: post.meta.link
+      ? Array.isArray(post.meta.link)
+        ? post.meta.link
+        : [post.meta.link]
+      : undefined,
     readingTime:
       narrationDurationMs !== null
         ? readingTimeFromDurationMs(narrationDurationMs)
