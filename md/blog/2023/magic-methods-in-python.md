@@ -51,4 +51,4 @@ These are just a few of the many magic methods available in Python. They are inc
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1677075508~exp=1677076108~hmac=168e84f6c0a2f5c63b505e2ac25f9d6200ecf461d2fea92d9e8526809c011186 align="center")
+![Painted thank you label graphic](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1677075508~exp=1677076108~hmac=168e84f6c0a2f5c63b505e2ac25f9d6200ecf461d2fea92d9e8526809c011186)

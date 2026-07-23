@@ -29,7 +29,7 @@ This article delves into the differences, purposes, methodologies, tools, and be
 
 Simply put, [Unit testing](https://keploy.io/blog/community/what-is-unit-testing) focuses on validating individual components of an application in isolation. A "unit" typically refers to the smallest testable part of the software, such as a single function, method, or class. These tests ensure that each piece of code works as expected independently of other components.
 
-![Unit Testing](https://wp.keploy.io/wp-content/uploads/2024/12/What-Is-Unit-Testing.webp)
+![Unit testing process overview](https://wp.keploy.io/wp-content/uploads/2024/12/What-Is-Unit-Testing.webp)
 
 ### What are the Key Characteristics of Unit Testing?
 
@@ -63,7 +63,7 @@ def test_add_numbers():
 
 [Integration testing](https://keploy.io/blog/community/integration-testing-a-comprehensive-guide) evaluates the interactions between different units or modules of an application. It ensures that combined components work together correctly as intended. Unlike unit testing, integration tests assess the behavior of the system as a whole or in specific interconnected parts.
 
-![Integration Testing](https://wp.keploy.io/wp-content/uploads/2024/12/What-Is-Integration-Testing.webp)
+![Integration testing process overview](https://wp.keploy.io/wp-content/uploads/2024/12/What-Is-Integration-Testing.webp)
 
 ### What are the Key Characteristics of Integration Testing?
 
@@ -194,4 +194,4 @@ Integration tests are most effective when they include real systems, as this mim
 
 To ensure reliability, use isolated test environments, automate the setup and teardown process, and simulate realistic scenarios. Tools like Keploy can help generate and maintain high-quality integration test cases.
 
-![](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for testing guide](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)

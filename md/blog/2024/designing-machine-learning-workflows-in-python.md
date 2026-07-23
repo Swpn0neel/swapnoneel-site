@@ -184,7 +184,7 @@ Saving the trained model: We save the trained model to a file using [model.save]
 
 When the code is run through the terminal, the model is trained, evaluated and the test loss and accuracy is printed, as shown below:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1706888496190/80a5fff8-8809-43d7-b8cc-8459949edd5c.png align="center")
+![Terminal output of Fashion MNIST model training and evaluation](https://cdn.hashnode.com/res/hashnode/image/upload/v1706888496190/80a5fff8-8809-43d7-b8cc-8459949edd5c.png)
 
 ### Machine Learning workflow for Sentiment Analysis using the IMDb movie review dataset
 
@@ -244,7 +244,7 @@ Now, let’s see how the workflow works:
 
 When the code is run through the terminal, the model is trained, evaluated and the accuracy is printed, as shown below:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889095784/94b6cb10-93a0-4b56-8e9d-0cd704d94764.png align="center")
+![Terminal output of sentiment analysis model training and accuracy](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889095784/94b6cb10-93a0-4b56-8e9d-0cd704d94764.png)
 
 ## Conclusion
 
@@ -252,4 +252,5 @@ Thank you for reading the blog! I hope you found it informative and valuable. Fo
 
 I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889699251/e0331511-ab42-4e0c-997c-5cbe529b3888.png align="center")
+![Machine learning model evaluation matrix and performance metrics](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889699251/e0331511-ab42-4e0c-997c-5cbe529b3888.png)
+

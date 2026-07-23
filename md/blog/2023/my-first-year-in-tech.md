@@ -152,4 +152,4 @@ And lastly, I would continue mentoring my fellow juniors and would start focusin
 
 And that's a wrap!! But if you have any queries regarding my journey or any suggestions for my future, I would love to hear that from you in the comments. Also, as a closing note, I would like to share my resume which I have created recently based on my progress so far, you can check it out [here](https://docs.google.com/document/d/1c931FkeAugaefH0LcY2Irap0UOp4D9cLpyAgwjOt1ao/edit?usp=sharing). And if you want to stay connected with me, you can follow me here or on my other social handles. Thank You for reading about my journey, have a nice day ahead!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1698152151751/048427f8-d108-47e0-9f9d-79b1596fa335.png align="center")
+![First year in tech reflection banner](https://cdn.hashnode.com/res/hashnode/image/upload/v1698152151751/048427f8-d108-47e0-9f9d-79b1596fa335.png)

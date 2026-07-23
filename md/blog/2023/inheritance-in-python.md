@@ -52,7 +52,7 @@ Single inheritance is a type of inheritance where a class inherits properties an
 
 Single inheritance is a powerful tool in Python that allows you to create new classes based on existing classes. It allows you to reuse code, extend it to fit your needs and make it easier to manage complex systems. Understanding single inheritance is an important step in becoming proficient in object-oriented programming in Python.
 
-![](https://media.geeksforgeeks.org/wp-content/uploads/20200108135809/inheritance11.png align="center")
+![Single inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108135809/inheritance11.png)
 
 ### Syntax
 
@@ -95,7 +95,7 @@ The Dog class inherits all the attributes and behaviors of the Animal class, inc
 
 Multiple inheritance is a powerful feature in object-oriented programming that allows a class to inherit attributes and methods from multiple parent classes. This can be useful in situations where a class needs to inherit functionality from multiple sources.
 
-![](https://media.geeksforgeeks.org/wp-content/uploads/20200108144424/multiple-inheritance1.png align="center")
+![Multiple inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144424/multiple-inheritance1.png)
 
 ### Syntax
 
@@ -144,7 +144,7 @@ Multilevel inheritance is a type of inheritance in object-oriented programming w
 
 In Python, multilevel inheritance is achieved by using the class hierarchy. The syntax for multilevel inheritance is quite simple and follows the same syntax as single inheritance.
 
-![](https://media.geeksforgeeks.org/wp-content/uploads/20200108144705/Multilevel-inheritance1.png align="center")
+![Multilevel inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144705/Multilevel-inheritance1.png)
 
 ### Syntax
 
@@ -224,7 +224,7 @@ Hybrid inheritance is a combination of multiple inheritance and single inheritan
 
 In Python, hybrid inheritance can be implemented by creating a class hierarchy, in which a base class is inherited by multiple derived classes, and one of the derived classes is further inherited by a sub-derived class.
 
-![](https://media.geeksforgeeks.org/wp-content/uploads/Hybrid-Inheritance.png align="center")
+![Hybrid inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/Hybrid-Inheritance.png)
 
 ### Syntax
 
@@ -313,7 +313,7 @@ In this way, hybrid inheritance allows for a flexible and powerful way to inheri
 
 Hierarchical Inheritance is a type of inheritance in Object-Oriented Programming where multiple subclasses inherit from a single base class. In other words, a single base class acts as a parent class for multiple subclasses. This is a way of establishing relationships between classes in a hierarchical manner.
 
-![](https://media.geeksforgeeks.org/wp-content/uploads/20200108144949/Hierarchical-inheritance1.png align="center")
+![Hierarchical inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144949/Hierarchical-inheritance1.png)
 
 Here's an example to illustrate the concept of hierarchical inheritance in Python:
 
@@ -378,4 +378,4 @@ Inheritance is a fundamental concept in object-oriented programming that allows 
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://static.vecteezy.com/system/resources/previews/017/125/080/large_2x/thank-you-design-lettering-free-vector.jpg align="center")
+![Thank you lettering graphic](https://static.vecteezy.com/system/resources/previews/017/125/080/large_2x/thank-you-design-lettering-free-vector.jpg)

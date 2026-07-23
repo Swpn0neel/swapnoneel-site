@@ -88,4 +88,4 @@ While the concept of getters and setters may seem complicated at first, they are
 
 So, if you want to take your Python programming skills to the next level, take the time to learn about getters and setters and how they can help you manage your data more effectively. With the right knowledge and tools, you'll be able to create robust and reliable applications that meet your users' needs and exceed their expectations.
 
-![](https://etiquettejulie.com/wp-content/uploads/2017/01/thank-you-from-christian-vision-alliance.jpg align="center")
+![Thank you banner graphic](https://etiquettejulie.com/wp-content/uploads/2017/01/thank-you-from-christian-vision-alliance.jpg)

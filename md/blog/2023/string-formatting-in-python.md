@@ -77,4 +77,6 @@ print(f"{2 * 30})"
 
 Thanks for reading this blog, hope you have understood something new today.
 
-![](https://images.pexels.com/photos/4439457/pexels-photo-4439457.jpeg align="center")
+![Thank you graphic for Python string formatting blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1674633040452/4d7032cc-d320-44c8-9bb1-3db7076b1e9a.png)
+
+

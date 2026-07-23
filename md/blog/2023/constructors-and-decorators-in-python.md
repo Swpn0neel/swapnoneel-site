@@ -148,4 +148,4 @@ So, as you continue your Python development journey, remember to experiment with
 
 Thank you for reading, and happy coding!
 
-![](https://cdn.pizap.com/pizapfiles/images/thank_you_card_maker_app01.jpg align="center")
+![Thank you card maker graphic](https://cdn.pizap.com/pizapfiles/images/thank_you_card_maker_app01.jpg)

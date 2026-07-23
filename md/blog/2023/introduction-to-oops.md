@@ -89,4 +89,4 @@ In summary, OOP in Python allows developers to model real-world concepts and ent
 
 We will get into the details of every topic mentioned here in my upcoming blogs. So, follow me to get notified about them!!
 
-![](https://iag.me/assets/thank-you.jpg.webp align="center")
+![Thank you image](https://iag.me/assets/thank-you.jpg.webp)

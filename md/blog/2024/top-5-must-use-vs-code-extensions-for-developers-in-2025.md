@@ -27,7 +27,7 @@ In this blog, we’ll explore the **top 19 VS Code extensions** that every devel
 
 Testing is a crucial aspect of software development, and [Keploy](https://keploy.io/) makes it simpler than ever. It helps with [Unit](https://keploy.io/blog/community/what-is-unit-testing), Integration, and API testing across Python, JavaScript, TypeScript, Java, PHP, Go, and more.
 
-![Keploy Logo](https://wp.keploy.io/wp-content/uploads/2025/07/Keploys-Automated-Integration-Testing.webp)
+![Keploy automated testing VS Code extension](https://wp.keploy.io/wp-content/uploads/2025/07/Keploys-Automated-Integration-Testing.webp)
 
 **Key Features:**
 
@@ -42,7 +42,7 @@ Testing is a crucial aspect of software development, and [Keploy](https://keploy
 
 Containerization is essential in modern development. [Docker](https://keploy.io/blog/community/podman-vs-docker) integrates container workflows directly into VS Code.
 
-![Docker](https://wp.keploy.io/wp-content/uploads/2024/10/Docker-scaled-e1759610158689.png)
+![Docker extension for VS Code](https://wp.keploy.io/wp-content/uploads/2024/10/Docker-scaled-e1759610158689.png)
 
 **Key Features:**
 
@@ -57,7 +57,7 @@ Containerization is essential in modern development. [Docker](https://keploy.io/
 
 Version control becomes easier with GitLens. Track code history, authorship, and changes efficiently.
 
-![gitlens](https://wp.keploy.io/wp-content/uploads/2024/12/gitlens.png)
+![GitLens extension for Git blame and repository history](https://wp.keploy.io/wp-content/uploads/2024/12/gitlens.png)
 
 **Key Features:**
 
@@ -72,7 +72,7 @@ Version control becomes easier with GitLens. Track code history, authorship, and
 
 Writing clean code is easier with Prettier. Automatically formats code across languages.
 
-![prettier](https://wp.keploy.io/wp-content/uploads/2024/12/prettier.png)
+![Prettier code formatter extension](https://wp.keploy.io/wp-content/uploads/2024/12/prettier.png)
 
 **Key Features:**
 
@@ -87,7 +87,7 @@ Writing clean code is easier with Prettier. Automatically formats code across la
 
 Refresh your web pages automatically during development.
 
-![live server](https://wp.keploy.io/wp-content/uploads/2024/12/live-server.png)
+![Live Server local development preview extension](https://wp.keploy.io/wp-content/uploads/2024/12/live-server.png)
 
 **Key Features:**
 
@@ -101,7 +101,7 @@ Refresh your web pages automatically during development.
 
 Catch errors and enforce coding standards early.
 
-![eslint](https://wp.keploy.io/wp-content/uploads/2024/12/eslint.png)
+![ESLint static code analysis extension](https://wp.keploy.io/wp-content/uploads/2024/12/eslint.png)
 
 **Key Features:**
 
@@ -115,7 +115,7 @@ Catch errors and enforce coding standards early.
 
 Skip Postman; test APIs directly in VS Code.
 
-![restclient](https://wp.keploy.io/wp-content/uploads/2024/12/restclient.jpg)
+![REST Client extension for HTTP requests](https://wp.keploy.io/wp-content/uploads/2024/12/restclient.jpg)
 
 **Key Features:**
 
@@ -129,7 +129,7 @@ Skip Postman; test APIs directly in VS Code.
 
 Navigate projects faster with file path suggestions.
 
-![path interllisense](https://wp.keploy.io/wp-content/uploads/2024/12/path-interllisense.png)
+![Path Intellisense extension for file path autocompletion](https://wp.keploy.io/wp-content/uploads/2024/12/path-interllisense.png)
 
 **Key Features:**
 
@@ -142,7 +142,7 @@ Navigate projects faster with file path suggestions.
 
 Edit and preview Markdown files in real-time.
 
-![markdown](https://wp.keploy.io/wp-content/uploads/2024/12/markdown-e1759613192640.jpg)
+![Markdown All in One extension](https://wp.keploy.io/wp-content/uploads/2024/12/markdown-e1759613192640.jpg)
 
 **Key Features:**
 
@@ -156,7 +156,7 @@ Edit and preview Markdown files in real-time.
 
 Boost productivity with AI-powered code suggestions from [GitHub Copilot](https://keploy.io/blog/community/cursor-vs-github-copilot) directly in VS Code.
 
-![github copilot](https://wp.keploy.io/wp-content/uploads/2024/12/github-copilot.jpg)
+![GitHub Copilot AI code completion extension](https://wp.keploy.io/wp-content/uploads/2024/12/github-copilot.jpg)
 
 **Key Features:**
 
@@ -171,7 +171,7 @@ Boost productivity with AI-powered code suggestions from [GitHub Copilot](https:
 
 Easily identify matching brackets in nested code.
 
-![bracket](https://wp.keploy.io/wp-content/uploads/2024/12/bracket.jpg)
+![Bracket Pair Colorization extension](https://wp.keploy.io/wp-content/uploads/2024/12/bracket.jpg)
 
 **Key Features:**
 
@@ -184,7 +184,7 @@ Easily identify matching brackets in nested code.
 
 AI-driven IntelliSense improves code suggestions.
 
-![intellicode- ai powered](https://wp.keploy.io/wp-content/uploads/2024/12/intellicode-ai-powered.png)
+![IntelliCode AI-assisted code completion extension](https://wp.keploy.io/wp-content/uploads/2024/12/intellicode-ai-powered.png)
 
 **Key Features:**
 
@@ -198,7 +198,7 @@ AI-driven IntelliSense improves code suggestions.
 
 Organize VS Code windows with different colors.
 
-![peacock](https://wp.keploy.io/wp-content/uploads/2024/12/peacock.png)
+![Peacock workspace color customizer extension](https://wp.keploy.io/wp-content/uploads/2024/12/peacock.png)
 
 **Key Features:**
 
@@ -211,7 +211,7 @@ Organize VS Code windows with different colors.
 
 Switch between projects seamlessly.
 
-![project manager](https://wp.keploy.io/wp-content/uploads/2024/12/project-manager.png)
+![Project Manager extension for switching projects](https://wp.keploy.io/wp-content/uploads/2024/12/project-manager.png)
 
 **Key Features:**
 
@@ -224,7 +224,7 @@ Switch between projects seamlessly.
 
 Never forget your TODOs and FIXMEs.
 
-![todo highlight](https://wp.keploy.io/wp-content/uploads/2024/12/todo-highlight.jpg)
+![TODO Highlight extension for code annotations](https://wp.keploy.io/wp-content/uploads/2024/12/todo-highlight.jpg)
 
 **Key Features:**
 
@@ -237,7 +237,7 @@ Never forget your TODOs and FIXMEs.
 
 See how much each import increases your bundle size.
 
-![cost extension](https://wp.keploy.io/wp-content/uploads/2024/12/cost-extension.jpg)
+![Import Cost extension for package bundle size](https://wp.keploy.io/wp-content/uploads/2024/12/cost-extension.jpg)
 
 **Key Features:**
 
@@ -250,7 +250,7 @@ See how much each import increases your bundle size.
 
 Keep your VS Code setup consistent across devices.
 
-![settings sync](https://wp.keploy.io/wp-content/uploads/2024/12/settings-sync-scaled-e1759613437823.png)
+![Settings Sync extension for VS Code configurations](https://wp.keploy.io/wp-content/uploads/2024/12/settings-sync-scaled-e1759613437823.png)
 
 **Key Features:**
 
@@ -263,7 +263,7 @@ Keep your VS Code setup consistent across devices.
 
 Avoid spelling mistakes in variable names and comments.
 
-![Code Spell Checker](https://wp.keploy.io/wp-content/uploads/2024/12/Code-Spell-Checker.webp)
+![Code Spell Checker extension](https://wp.keploy.io/wp-content/uploads/2024/12/Code-Spell-Checker.webp)
 
 **Key Features:**
 
@@ -276,7 +276,7 @@ Avoid spelling mistakes in variable names and comments.
 
 Track coding habits and productivity.
 
-![code time](https://wp.keploy.io/wp-content/uploads/2024/12/code-time.png)
+![Code Time extension for developer productivity metrics](https://wp.keploy.io/wp-content/uploads/2024/12/code-time.png)
 
 **Key Features:**
 

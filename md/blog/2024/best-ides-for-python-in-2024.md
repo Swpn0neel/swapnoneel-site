@@ -32,7 +32,7 @@ Developed by JetBrains, PyCharm is one of the most popular Python IDE, offering 
 - It has scientific library support, ideal for data science and machine learning.
 - Contains integrated tools for version control (Git, SVN).
 
-![PyCharm Professional](https://textdata.cn/images/blog/pycharm-professional.png)
+![PyCharm Professional IDE interface](https://textdata.cn/images/blog/pycharm-professional.png)
 
 ### Pros:
 
@@ -57,7 +57,7 @@ Microsoft’s VS Code is one of the most popular go-to option for every develope
 - It has extensive library of extensions for different programming languages, including support for Git, Docker, and Jupyter Notebooks.
 - Also, it has built-in terminal and Git integration.
 
-![VS Code](https://external-preview.redd.it/Uz0PH-r8nGx8gU9UCHURirqrtXgLhtqJiNDVgT03jtw.jpg?auto=webp&s=580d0dc62b6581d2a8ff8e628d3bea5d53bdf5d2)
+![VS Code Python development environment](https://external-preview.redd.it/Uz0PH-r8nGx8gU9UCHURirqrtXgLhtqJiNDVgT03jtw.jpg?auto=webp&s=580d0dc62b6581d2a8ff8e628d3bea5d53bdf5d2)
 
 ### Pros:
 
@@ -76,7 +76,7 @@ Microsoft’s VS Code is one of the most popular go-to option for every develope
 
 Spyder is specifically designed for data science and comes pre-packaged with tools that make it easy to work with data analysis and machine learning libraries. Often enough, it is bundled with Anaconda, a popular Python distribution for data science.
 
-![Spyder](https://www.spyder-ide.org/assets/media/website_screenshot.png)
+![Spyder scientific Python IDE](https://www.spyder-ide.org/assets/media/website_screenshot.png)
 
 ### Pros:
 
@@ -101,7 +101,7 @@ Jupyter Notebook has become a staple in the data science community due to its in
 - Markdown cells enable easy documentation alongside code.
 - It has excellent support for data science libraries and data visualization.
 
-![Jupyter Notebook](https://jupyter.org/assets/homepage/labpreview.webp)
+![JupyterLab interface preview](https://jupyter.org/assets/homepage/labpreview.webp)
 
 ### Pros:
 
@@ -125,7 +125,7 @@ Thonny is the best Python IDE tailored for those just starting with Python. It i
 - It is a simple editor that eliminates distractions for beginners.
 - It includes Python installation, so users don’t need to worry about setting up Python separately.
 
-![Thonny](https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6k9ie5hy36v36d09lqo.png)
+![Thonny IDE for beginner Python developers](https://thonny.org/img/screenshot.png)
 
 ### Pros:
 

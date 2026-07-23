@@ -21,7 +21,7 @@ Now, the Software Testing Pyramid is a conceptual framework that is used in soft
 
 ## Understanding the Layers of Software Testing Pyramid
 
-![Software Testing Pyramid](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334533795/f1fd8287-3ef7-40d5-9c49-1f9b585f2235.png)
+![Software testing pyramid architecture diagram](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334533795/f1fd8287-3ef7-40d5-9c49-1f9b585f2235.png)
 
 ### Unit Testing
 
@@ -83,4 +83,5 @@ In conclusion, the Software Testing Pyramid provides a structured approach to so
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![Testing Pyramid Summary](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334190050/d203af69-a3d1-4e93-827b-1ecb696255b9.png)
+![Thank you graphic for software testing pyramid blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334190050/d203af69-a3d1-4e93-827b-1ecb696255b9.png)
+

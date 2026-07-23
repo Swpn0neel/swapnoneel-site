@@ -31,7 +31,7 @@ OpenAI continues to release newer and more efficient models – the [**impact of
 
 **GitHub Copilot**, developed by GitHub in collaboration with OpenAI, focuses primarily on code generation. It is integrated directly into popular code editors like Visual Studio Code, and provides real-time code suggestions, can autocomplete lines of code, and helps with boilerplate code generation. It is purpose-built to enhance developer productivity and streamline the coding workflow.
 
-![ChatGPT Plus vs Copilot Pro — which premium chatbot is better? | Tom's Guide](https://cdn.mos.cms.futurecdn.net/9HNs2rcSFyJepccD2sx2uk.jpg)
+![ChatGPT Plus vs GitHub Copilot comparison](https://cdn.mos.cms.futurecdn.net/9HNs2rcSFyJepccD2sx2uk.jpg)
 
 ## **What are the Capabilities and Features?**
 

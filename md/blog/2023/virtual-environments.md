@@ -74,4 +74,4 @@ Using a virtual environment and a requirements.txt file can help you manage the 
 
 Thanks for reading this blog!! I hope you have learnt something new today and I wish you an amazing day ahead ❤
 
-![](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg align="center")
+![Thank you banner image](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)

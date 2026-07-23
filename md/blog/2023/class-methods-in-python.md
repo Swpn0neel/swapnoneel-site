@@ -115,4 +115,4 @@ Python class methods are a powerful tool for defining functions that operate on 
 
 Thanks for reading the blog, and I hope you have learned something new today. And until the next one, keep learning and keep exploring.
 
-![](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2 align="center")
+![Thank you label illustration](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2)

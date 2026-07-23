@@ -25,7 +25,7 @@ In this blog, we’ll explore the concept of code with AI, its applications, ben
 
 AI code refers to software or algorithms written, generated, or enhanced by artificial intelligence systems. These systems use techniques like natural language processing (NLP), machine learning (ML), and neural networks to understand, generate, and optimize code. They are multiple tools and models for code generation but tools like GitHub Copilot, ChatGPT, and TabNine are prime examples, providing developers with AI-driven assistance during coding.
 
-![AI For Solving Coding Problems](https://wp.keploy.io/wp-content/uploads/2024/11/AI-For-Solving-Coding-Problems.webp)
+![AI tools for solving coding problems](https://wp.keploy.io/wp-content/uploads/2024/11/AI-For-Solving-Coding-Problems.webp)
 
 ## **What are the applications of AI Code?**
 
@@ -120,4 +120,4 @@ No. While AI can automate repetitive testing tasks and generate test cases, huma
 
 Keploy and similar tools integrate effortlessly into CI/CD pipelines, capturing test cases during normal development and deployment processes. This ensures minimal disruption to your workflow while enhancing the quality of your software.
 
-![](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for AI coding blog](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)

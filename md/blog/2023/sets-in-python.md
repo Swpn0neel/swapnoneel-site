@@ -204,4 +204,5 @@ print(cities.difference(cities2))
 
 Thanks for reading this blog!! I hope you have learnt something new today and I wish you an amazing day ahead ❤
 
-![](https://images.pexels.com/photos/2072165/pexels-photo-2072165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1 align="center")
+![Thank you banner graphic for Python sets blog](https://images.pexels.com/photos/2072165/pexels-photo-2072165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+

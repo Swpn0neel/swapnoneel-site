@@ -53,7 +53,7 @@ console.log(squaredNums);
 
 Here's the result when we run this code in the browser console:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1710071277175/f965ca2a-4cbb-4009-900e-22673b31f60f.png align="center")
+![Browser console output of JavaScript map() function](https://cdn.hashnode.com/res/hashnode/image/upload/v1710071277175/f965ca2a-4cbb-4009-900e-22673b31f60f.png)
 
 ## The `filter()` function
 
@@ -79,7 +79,7 @@ console.log(positiveNums);
 
 Here's the result when we run this code in the browser console:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1710071131323/f9ec94cf-bdde-4df3-a116-85267d8b26aa.png align="center")
+![Browser console output of JavaScript filter() function](https://cdn.hashnode.com/res/hashnode/image/upload/v1710071131323/f9ec94cf-bdde-4df3-a116-85267d8b26aa.png)
 
 ## The `reduce()` function
 
@@ -110,10 +110,10 @@ console.log(product);
 
 Here's the result when we run this code in the browser console:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1710072423789/a7c51e1d-1d4a-4fa9-b9ea-07f90564ecaf.png align="center")
+![Browser console output of JavaScript reduce() function](https://cdn.hashnode.com/res/hashnode/image/upload/v1710072423789/a7c51e1d-1d4a-4fa9-b9ea-07f90564ecaf.png)
 
 ## Conclusion
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1710072584207/88548bcf-0b8a-42e6-a3e1-b81c1042b7b6.png align="center")
+![Thank you graphic for JavaScript higher order functions blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1710072584207/88548bcf-0b8a-42e6-a3e1-b81c1042b7b6.png)

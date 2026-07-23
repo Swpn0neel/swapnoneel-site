@@ -23,7 +23,7 @@ In other words, it checks whether user actions produce the expected results and 
 
 ## What is functional testing?
 
-![functional testing](https://wp.keploy.io/wp-content/uploads/2024/11/ChatGPT-Image-Feb-17-2026-06_40_00-PM-1024x683.webp)
+![Functional testing overview diagram](https://wp.keploy.io/wp-content/uploads/2024/11/ChatGPT-Image-Feb-17-2026-06_40_00-PM-1024x683.webp)
 
 Functional testing is a software testing method that verifies whether each feature of an application works according to specified requirements by validating inputs outputs and user workflows. It is primarily a [**black box testing**](https://keploy.io/blog/community/black-box-testing-and-white-box-testing-a-complete-guide) approach – it validates behavior without examining internal code.
 
@@ -81,11 +81,11 @@ Automating functional tests can save time and resources, but it requires initial
 Several tools can help streamline and enhance the functional testing process, each suited for different types of applications and testing needs. Here’s a small breakdown of some popular tools:
 
 - **Selenium**: One of the most popular tools for web application testing, Selenium allows for automated browser interactions and is widely used for end-to-end functional testing of web applications.  
-  ![Selenium](https://wp.keploy.io/wp-content/uploads/2024/11/selenium-2-1024x304.webp)
+  ![Selenium web automation platform logo](https://wp.keploy.io/wp-content/uploads/2024/11/selenium-2-1024x304.webp)
 - **Keploy**: Keploy is an open-source tool designed to simplify functional and regression testing by automatically generating test cases from real application interactions. It can capture actual requests and responses in production and convert them into test cases, reducing the manual work needed to create and maintain test suites.  
-  ![keploy_coverimg](https://wp.keploy.io/wp-content/uploads/2024/11/keploy_coverimg-1024x615.webp)
+  ![Keploy test automation platform overview](https://wp.keploy.io/wp-content/uploads/2024/11/keploy_coverimg-1024x615.webp)
 - **Appium**: This is a widely used tool for testing mobile applications on both Android and iOS. Appium enables testers to write tests using a variety of programming languages and is compatible with native, hybrid, and [mobile web applications](https://keploy.io/blog/community/essential-functional-testing-tools-for-mobile-development "mobile web applications").  
-  ![appium_coverimg](https://wp.keploy.io/wp-content/uploads/2024/11/appium_coverimg-1024x394.webp)
+  ![Appium mobile testing framework logo](https://wp.keploy.io/wp-content/uploads/2024/11/appium_coverimg-1024x394.webp)
 
 ## Challenges in Functional Testing
 

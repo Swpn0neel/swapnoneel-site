@@ -84,7 +84,7 @@ Now, you will prompted to give some answers, I'm mentioning the utility of each 
 
 Once you provide all these information, a file will be created called `package.json` that will kinda look like this:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716639984976/535670bf-65cd-4641-9b48-1be0daef046b.png align="center")
+![package.json file generated after running npm init](https://cdn.hashnode.com/res/hashnode/image/upload/v1716639984976/535670bf-65cd-4641-9b48-1be0daef046b.png)
 
 <div data-node-type="callout">
 <div data-node-type="callout-emoji">💡</div>
@@ -107,7 +107,7 @@ _Please add the following line at the start of the code because it tells the ope
 
 Now inside the `index.js` file, write the code for your package. Here, I will be creating a simple package called `test`. This package will print the string `"Reminder to follow Swapnoneel on Twitter at https://x.com/swapnoneel123"` in the terminal.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716648802856/1df1543f-5bb4-43e6-affa-3f4461378f83.png align="center")
+![index.js code implementation printing reminder text](https://cdn.hashnode.com/res/hashnode/image/upload/v1716648802856/1df1543f-5bb4-43e6-affa-3f4461378f83.png)
 
 ### Create an executable script
 
@@ -181,11 +181,11 @@ npm link <your_package_name>
 
 And, you'll see something like this:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650345968/b8038b49-3ee6-4ce2-8e78-f61b04b60a84.png align="center")
+![Terminal output of npm link command testing package locally](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650345968/b8038b49-3ee6-4ce2-8e78-f61b04b60a84.png)
 
 Now you can run your package, and it should work perfectly!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650425160/b8d12272-5801-4c13-87fa-243a88244d8f.png align="center")
+![Terminal output of running local package command](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650425160/b8d12272-5801-4c13-87fa-243a88244d8f.png)
 
 ## _Publish Your NPM Package_
 
@@ -221,4 +221,4 @@ And finally, thank you for reading the blog! I hope you found it informative and
 
 I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716652301849/8327a90c-373e-4837-9102-e67bb38def0c.png align="center")
+![Thank you graphic for npm publishing guide](https://cdn.hashnode.com/res/hashnode/image/upload/v1716652301849/8327a90c-373e-4837-9102-e67bb38def0c.png)

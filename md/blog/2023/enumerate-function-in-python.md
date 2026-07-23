@@ -101,4 +101,4 @@ for index, c in enumerate(s):
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://img.freepik.com/free-vector/handwritten-style-thank-you-typography_53876-43732.jpg?w=1380&t=st=1676362202~exp=1676362802~hmac=b258d692e9dd15ac0383a1e618b301eb654bb0aa68d3529c487992087a2162cc align="center")
+![Handwritten thank you typography](https://img.freepik.com/free-vector/handwritten-style-thank-you-typography_53876-43732.jpg?w=1380&t=st=1676362202~exp=1676362802~hmac=b258d692e9dd15ac0383a1e618b301eb654bb0aa68d3529c487992087a2162cc)

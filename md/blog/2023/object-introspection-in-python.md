@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop
+cover: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png'
 title: Object Introspection in Python
 date: '2023-02-07T15:48:04.393Z'
 description: >-
@@ -110,4 +109,4 @@ In conclusion, `dir()`, `__dict__`, `id()` and `help()` are useful built-in func
 
 And, that's a wrap!! Hope you have learned something new today and until the next blog, keep learning and keep exploring!!
 
-![](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8 align="center")
+![Thank you placard concept illustration](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8)

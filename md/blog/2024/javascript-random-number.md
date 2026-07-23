@@ -33,7 +33,7 @@ console.log(randomNum); // Outputs a random number between 0 and 1
 
 This would give an output like this, if we ran the program on our systems:
 
-![output random](https://wp.keploy.io/wp-content/uploads/2024/11/a8b9e0ce-0d09-4adb-ad38-f0e667c9-1.webp)
+![Console output of Math.random() generating floating-point number](https://wp.keploy.io/wp-content/uploads/2024/11/a8b9e0ce-0d09-4adb-ad38-f0e667c9-1.webp)
 
 Although, this is a great starting point, but if we need a random integer or a number in a specific range, `Math.random()` alone won’t be enough to do the job.
 
@@ -52,7 +52,7 @@ console.log(getRandomInRange(10, 20)); // Outputs a number between 10 and 20
 
 This would give an output like:
 
-![output random](https://wp.keploy.io/wp-content/uploads/2024/11/31462bb9-e5ae-48b7-bb57-3eb5495e-1.webp)
+![Console output of getRandomInRange function](https://wp.keploy.io/wp-content/uploads/2024/11/31462bb9-e5ae-48b7-bb57-3eb5495e-1.webp)
 
 The `Math.random()` generates a number between 0 and 1. And, by multiplying it with `(max - min)` and then adding `min`, you ensure the number falls within the range `[min, max)`.
 
@@ -71,7 +71,7 @@ console.log(getRandomIntInRange(1, 100)); // Outputs a random integer between 1 
 
 When we run this code, we will get a similar output like this:
 
-![run code output](https://wp.keploy.io/wp-content/uploads/2024/11/run-code-output.webp)
+![Console output of getRandomIntInRange generating random integer](https://wp.keploy.io/wp-content/uploads/2024/11/run-code-output.webp)
 
 Here, `Math.floor()` rounds down to the nearest integer, ensuring the result is an integer within the range `[min, max]`.
 
@@ -90,7 +90,7 @@ console.log(getRandomBoolean()); // Outputs true or false randomly
 
 We’ll get a similar output like this, when we will run the code:
 
-![run code output](https://wp.keploy.io/wp-content/uploads/2024/11/ed23a257-5fc0-4ed9-b5dd-a80ce6cd-1.webp)
+![Console output of getRandomBoolean function](https://wp.keploy.io/wp-content/uploads/2024/11/ed23a257-5fc0-4ed9-b5dd-a80ce6cd-1.webp)
 
 ## Generating Random Values from an Array
 
@@ -105,7 +105,7 @@ console.log(randomColor); // Outputs a random color from the array
 
 Now, this will give us any random element from the array like this, when we run the program:
 
-![random element](https://wp.keploy.io/wp-content/uploads/2024/11/random-element.webp)
+![Console output selecting random element from array](https://wp.keploy.io/wp-content/uploads/2024/11/random-element.webp)
 
 ## Shuffling an Array in Javascript
 
@@ -127,7 +127,7 @@ console.log(shuffleArray(numbers)); // Outputs a shuffled array
 
 Now, when we’ll run the program, it will give us a shuffled array like this:
 
-![shuffled array output](https://wp.keploy.io/wp-content/uploads/2024/11/shuffled-array-output.webp)
+![Console output of Fisher-Yates array shuffle algorithm](https://wp.keploy.io/wp-content/uploads/2024/11/shuffled-array-output.webp)
 
 ## Generating Random UUID Generation
 
@@ -148,7 +148,7 @@ console.log(generateUUID()); // Outputs a random UUID
 
 So, when we run this program, it will generate a random UUID like this:
 
-![run code output2](https://wp.keploy.io/wp-content/uploads/2024/11/run-code-output2.webp)
+![Console output of generateUUID function](https://wp.keploy.io/wp-content/uploads/2024/11/run-code-output2.webp)
 
 ## Generating Cryptographically Secure Random Numbers
 

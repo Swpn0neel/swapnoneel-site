@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop
+cover: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1676971804561/522eb53e-7247-4c31-a43d-a85a1bd1ea1c.png'
 title: Overriding & Overloading in Python
 date: 'Tue, 21 Feb 2023 11:34:18 GMT'
 description: >-
@@ -124,4 +123,4 @@ In conclusion, Operator overloading is a powerful feature in Python that allows 
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg align="center")
+![Thank you banner graphic](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)

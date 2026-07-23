@@ -76,7 +76,7 @@ The role of AI in code documentation is evolving rapidly and the future advancem
 
 Just as **AI tools for developers** can enhance documentation, they can also streamline testing. **Keploy**, for instance, offers **automated testing** solutions that generate test cases and mocks for unit, integration as well as e2e testing. It’s straightforward to use and integrates seamlessly with IDEs like VS Code, allowing you to improve testing efficiency while maintaining code quality.
 
-![What is Keploy?](https://keploy.io/docs/img/keploy-logo-dark.svg)
+![Keploy documentation logo](https://keploy.io/docs/img/keploy-logo-dark.svg)
 
 So, wouldn’t it be great if there was a AI tool that can automate this task too? Yes, that’s where [Keploy](https://keploy.io) comes in. Keploy is an AI based test case and stubs/mocks generator for integration and unit testing. And also, it’s extremely easy-to-use and is also available directly through your IDEs, like VS Code! So go ahead and give it a try now!
 
@@ -88,7 +88,7 @@ For more information, follow me on [**Twitter (swapnoneel123**](http://twitter.c
 
 I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for AI code commenting blog](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
 
 ---
 

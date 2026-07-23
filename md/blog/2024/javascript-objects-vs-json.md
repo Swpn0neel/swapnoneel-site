@@ -27,7 +27,7 @@ So in this blog, I'm here to clear your confusion regarding JS Objects and JSON.
 
 ## What is JavaScript Object?
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377619396/b9dfbc39-cee3-4edc-9d95-ccb84b49a6fd.png align="center")
+![JavaScript object concept illustration](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377619396/b9dfbc39-cee3-4edc-9d95-ccb84b49a6fd.png)
 
 JavaScript Objects are the fundamental constructs which are used to store collections of data, entities or some specific values. They are essentially containers for named values, known as properties, and functions, which are termed methods when they are part of an object.
 
@@ -44,7 +44,7 @@ const cup = {
 
 ## What is JSON?
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377497454/4a07db50-35ce-476a-a183-5c8d82bdb8f1.png align="center")
+![JSON data format illustration](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377497454/4a07db50-35ce-476a-a183-5c8d82bdb8f1.png)
 
 JSON, which stands for JavaScript Object Notation is a light-weight data interchange format that is both easy for humans to read, write and understand, and also convenient for the machines to parse and generate.
 
@@ -84,4 +84,4 @@ It might have been already clear to you how JS Objects and JSON have a lot of di
 
 Understanding these differences is crucial for effectively using JavaScript objects within your code and JSON for data interchange between clients and servers or storing the configuration and state. And, I hope you folks have enriched yourself with some known or unknown concepts today, and cleared any misunderstanding regarding these topics. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377456629/8e775196-cf5e-4e28-bdc1-8bf7d419813f.png align="center")
+![Thank you graphic for JavaScript Objects vs JSON blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377456629/8e775196-cf5e-4e28-bdc1-8bf7d419813f.png)

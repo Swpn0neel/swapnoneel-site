@@ -112,4 +112,4 @@ In summary, the os module in Python is a built-in library that provides a wide v
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8 align="center")
+![Thank you placard concept illustration](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8)

@@ -108,4 +108,4 @@ It is important to note that the reduce function requires the functools module t
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg align="center")
+![Thank you banner image](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)

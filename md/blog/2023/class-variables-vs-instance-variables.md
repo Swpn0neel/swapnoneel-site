@@ -80,4 +80,5 @@ It's also worth noting that, in python, class variables are defined outside of a
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://images.unsplash.com/photo-1487712010531-65e9aa8b4b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80 align="center")
+![Thank you graphic for class vs instance variables blog](https://images.unsplash.com/photo-1487712010531-65e9aa8b4b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80)
+

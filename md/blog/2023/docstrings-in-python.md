@@ -119,4 +119,4 @@ Takes in a number n, returns the square of n
 
 Thanks for reading this blog!! Hope you have learnt something new today and I wish you a great day ahead ❤
 
-![](https://img.freepik.com/free-vector/thank-you-card-blue-tones_23-2148665027.jpg?w=1380&t=st=1674657663~exp=1674658263~hmac=4b0703b3e652f76dd18a3a9e99932842361293d22d9096d3abafe7d2f2280837 align="center")
+![Thank you card in blue tones](https://img.freepik.com/free-vector/thank-you-card-blue-tones_23-2148665027.jpg?w=1380&t=st=1674657663~exp=1674658263~hmac=4b0703b3e652f76dd18a3a9e99932842361293d22d9096d3abafe7d2f2280837)

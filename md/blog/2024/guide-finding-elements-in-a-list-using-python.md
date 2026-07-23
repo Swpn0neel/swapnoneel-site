@@ -123,7 +123,7 @@ So as you can see, finding elements in a list is a fundamental part of working w
 
 And finally, thank you for reading the blog! I hope you found it informative and valuable. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for Python list blog](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
 
 ## **Further Readings**
 

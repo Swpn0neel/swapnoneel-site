@@ -54,4 +54,5 @@ In today's era of rapid technological advancements, apps like DevBytes are the o
 
 If you have enjoyed reading this blog, I recommend checking out the app available on PlayStore. You can find the link to download it here: [DevBytes](https://play.google.com/store/apps/details?id=com.candelalabs.devbytes&utm_source=app)
 
-![](https://c0.wallpaperflare.com/preview/726/785/255/blackboard-close-up-frame-gratitude.jpg align="center")
+![Thank you blackboard illustration for DevBytes news blog](https://c0.wallpaperflare.com/preview/726/785/255/blackboard-close-up-frame-gratitude.jpg)
+

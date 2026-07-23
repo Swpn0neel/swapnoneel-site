@@ -27,7 +27,7 @@ We all know that, **Node.js** is the runtime environment for JavaScript that exe
 
 Based on the operating systems, the installation process is different and varied. That's why, I'm classifying them here so that you folks don't get confused between them.
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554172337/62142e92-545a-4b6b-9b5e-b018bcf9d0e8.png align="center")
+![Node.js architecture and runtime overview](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554172337/62142e92-545a-4b6b-9b5e-b018bcf9d0e8.png)
 
 ### Windows
 
@@ -73,13 +73,13 @@ npm -v
 
 > _If you are on Windows, Powershell may cause some issues, so try to use Command Prompt in that case. It will work!!_
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716553688790/eaf89f25-9858-410e-9ebc-082022a6697e.png align="center")
+![Terminal verification of node and npm versions](https://cdn.hashnode.com/res/hashnode/image/upload/v1716553688790/eaf89f25-9858-410e-9ebc-082022a6697e.png)
 
 ## Managing node versions using NVM
 
 NVM stands for Node Version Manager and it's a command-line tool that helps us to manage and switch different versions of Node.js with ease and convenience!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554276508/db2ae459-9cd3-41fe-837f-29c2ea3d8671.png align="center")
+![NVM Node Version Manager overview banner](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554276508/db2ae459-9cd3-41fe-837f-29c2ea3d8671.png)
 
 1. ### Check available node versions
 
@@ -91,7 +91,7 @@ nvm ls available
 
 After running this, you get something like this:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716555882030/1d1e966c-c139-4c92-a68e-a64cbde6b661.png align="center")
+![Terminal output of nvm ls available command](https://cdn.hashnode.com/res/hashnode/image/upload/v1716555882030/1d1e966c-c139-4c92-a68e-a64cbde6b661.png)
 
 2. ### Installing the latest node version
 
@@ -147,7 +147,7 @@ nvm list
 
 And, you will see a response like this:
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716560504142/21e3f56e-e0d9-415f-96e9-816e2ccb40da.png align="center")
+![Terminal output of nvm list showing installed Node versions](https://cdn.hashnode.com/res/hashnode/image/upload/v1716560504142/21e3f56e-e0d9-415f-96e9-816e2ccb40da.png)
 
 6. ### Switching Node versions
 
@@ -175,4 +175,4 @@ Replace the `<node_version_number>` with your desired and installed Node version
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://cdn.hashnode.com/res/hashnode/image/upload/v1716561409967/1916dd93-56c0-4df1-8be1-19b75342aad1.png align="center")
+![Thank you graphic for Node.js npm NVM guide](https://cdn.hashnode.com/res/hashnode/image/upload/v1716561409967/1916dd93-56c0-4df1-8be1-19b75342aad1.png)

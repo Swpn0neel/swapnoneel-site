@@ -43,7 +43,7 @@ In the following sections, we will delve into several popular front-end framewor
 
 Developed by Facebook, React has gained immense popularity and has become one of the ultimate choices for many front-end developers. It is a JavaScript library(not a framework) that follows a component-based architecture, allowing developers to build reusable UI components. React's virtual DOM efficiently updates and renders only the necessary components, resulting in enhanced performance.
 
-![](https://ms314006.github.io/static/b7a8f321b0bbc07ca9b9d22a7a505ed5/97b31/React.jpg align="center")
+![React framework logo](https://ms314006.github.io/static/b7a8f321b0bbc07ca9b9d22a7a505ed5/97b31/React.jpg)
 
 #### Advantages of React
 
@@ -67,7 +67,7 @@ React's popularity, performance optimizations, and vast ecosystem make it a powe
 
 Vue.js has rapidly gained popularity among front-end developers for its simplicity, versatility, and ease of integration. It is a progressive JavaScript framework that can be adopted incrementally, making it ideal for both small projects and large-scale applications.
 
-![](https://segwitz.com/wp-content/uploads/2021/06/vuejs-development-malaysia.jpeg align="center")
+![Vue.js framework logo](https://segwitz.com/wp-content/uploads/2021/06/vuejs-development-malaysia.jpeg)
 
 #### Advantages of Vue.js
 
@@ -91,7 +91,7 @@ Vue.js's approachability, versatility, and incremental adoption make it an appea
 
 Angular, developed and maintained by Google, is a comprehensive front-end framework for building complex and scalable web applications. It provides a complete solution that covers various aspects of development, including templating, data binding, dependency injection, routing, and more.
 
-![](https://www.searchenginejournal.com/wp-content/uploads/2019/04/the-seo-guide-to-angular.png align="center")
+![Angular framework logo](https://www.searchenginejournal.com/wp-content/uploads/2019/04/the-seo-guide-to-angular.png)
 
 #### Advantages of Angular
 
@@ -116,7 +116,7 @@ Angular's feature-rich nature and strong community support make it an attractive
 
 While not strictly a front-end framework, Express.js is a popular back-end framework for Node.js that can be effectively used alongside front-end frameworks to handle server-side rendering, API development, and routing.
 
-![](https://miro.medium.com/v2/resize:fit:805/0*m1VOQP0FtcQufLgw.png align="center")
+![Express.js framework logo](https://miro.medium.com/v2/resize:fit:805/0*m1VOQP0FtcQufLgw.png)
 
 #### Advantages of Express.js
 
@@ -141,7 +141,7 @@ Express.js offers developers the freedom to craft server-side logic and seamless
 
 SolidJS is a lightweight and reactive JavaScript library for building user interfaces. It differentiates itself from other frameworks by focusing on performance, reactivity, and simplicity. SolidJS leverages fine-grained reactivity to efficiently update components, resulting in fast rendering and optimal performance.
 
-![](https://www.solidjs.com/og.jpg align="center")
+![SolidJS framework logo](https://www.solidjs.com/og.jpg)
 
 #### Advantages of SolidJS
 
@@ -166,7 +166,7 @@ SolidJS's emphasis on performance, simplicity, and reactivity makes it an intrig
 
 Next.js is a React framework that focuses on server-side rendering (SSR) and static site generation (SSG). It provides a robust development environment and an optimized production build, making it a powerful choice for building fast and scalable web applications.
 
-![](https://images.ctfassets.net/c63hsprlvlya/IacLLeOBR5WCvdCPqKuff/6860b5cc464c4f54703a2befa3f706b4/nextjs3.webp align="center")
+![Next.js framework logo](https://images.ctfassets.net/c63hsprlvlya/IacLLeOBR5WCvdCPqKuff/6860b5cc464c4f54703a2befa3f706b4/nextjs3.webp)
 
 #### Advantages of Next.js
 
@@ -191,7 +191,7 @@ Next.js's focus on server-side rendering, static site generation, and optimized 
 
 Svelte is a radical approach to front-end frameworks that shifts the work traditionally done by the framework from runtime to build time. It compiles components into highly efficient JavaScript code, resulting in fast rendering and smaller bundle size.
 
-![](https://codemonk.in/blog/content/images/2022/03/Svelte-Feature-Image.png align="center")
+![Svelte framework logo](https://codemonk.in/blog/content/images/2022/03/Svelte-Feature-Image.png)
 
 #### Advantages of Svelte
 
@@ -234,4 +234,4 @@ For more information, follow me on [Twitter @swapnoneel123](http://twitter.com/s
 
 I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![](https://contenthub-static.grammarly.com/blog/wp-content/uploads/2019/02/bmd-4584.png align="center")
+![Grammarly writing assistant banner](https://contenthub-static.grammarly.com/blog/wp-content/uploads/2019/02/bmd-4584.png)
