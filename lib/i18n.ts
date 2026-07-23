@@ -119,11 +119,13 @@ export const i18n = {
     labels: {
       name: "Name",
       email: "Email",
+      subject: "Subject",
       message: "Message",
     },
     placeholders: {
       name: "your name",
       email: "your@email.com",
+      subject: "what's this about?",
       message: "how can i help you?",
     },
     sendMessage: "Send Message",
@@ -135,6 +137,7 @@ export const i18n = {
       sendFailedPrefix: "Failed to send:",
       invalidEmail: "Please enter a valid email address.",
       nameTooLong: "Name must be less than 100 characters.",
+      subjectTooLong: "Subject must be less than 150 characters.",
       messageTooLong: "Message must be less than 5000 characters.",
       allFieldsRequired: "All fields are required.",
     },

@@ -41,9 +41,10 @@ export default function ContactPage() {
     const formData = new FormData(e.currentTarget);
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
+    const subject = String(formData.get("subject") || "").trim();
     const message = String(formData.get("message") || "").trim();
 
-    if (!name || !email || !message) {
+    if (!name || !email || !subject || !message) {
       setError(i18n.contactPage.errors.allFieldsRequired);
       setIsSubmitting(false);
       return;
@@ -58,6 +59,12 @@ export default function ContactPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (email.length > 255 || !emailRegex.test(email)) {
       setError(i18n.contactPage.errors.invalidEmail);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (subject.length > 150) {
+      setError(i18n.contactPage.errors.subjectTooLong);
       setIsSubmitting(false);
       return;
     }
@@ -77,10 +84,45 @@ export default function ContactPage() {
         throw new Error(i18n.contactPage.errors.credentialsMissing);
       }
 
+      // Theme the email to match the site theme the visitor had when they
+      // submitted: a dark-mode submission delivers a dark email, light stays
+      // light. EmailJS substitutes these tokens into the template's inline
+      // styles, so one template covers both themes (no conditionals needed).
+      const isDark =
+        typeof document !== "undefined" &&
+        document.documentElement.classList.contains("dark");
+
+      const theme = isDark
+        ? {
+            pageBg: "#000000",
+            cardBg: "#121212",
+            border: "#262626",
+            heading: "#fafafa",
+            body: "#a3a3a3",
+            subtle: "#6b6b6b",
+            quoteBg: "#1a1a1a",
+            accent: "#fafafa",
+            btnBorder: "#333333",
+          }
+        : {
+            pageBg: "#f4f4f5",
+            cardBg: "#ffffff",
+            border: "#e5e5e5",
+            heading: "#0a0a0a",
+            body: "#525252",
+            subtle: "#9a9a9a",
+            quoteBg: "#fafafa",
+            accent: "#0a0a0a",
+            btnBorder: "#d4d4d4",
+          };
+
       const templateParams = {
         name,
         email,
+        subject,
         message,
+        theme_name: isDark ? "dark" : "light",
+        ...theme,
       };
 
       const emailjs = await import("@emailjs/browser");
@@ -115,24 +157,36 @@ export default function ContactPage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="space-y-4">
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            required
-            maxLength={100}
-            label={i18n.contactPage.labels.name}
-            placeholder={i18n.contactPage.placeholders.name}
-          />
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <Input
+              id="name"
+              name="name"
+              type="text"
+              required
+              maxLength={100}
+              label={i18n.contactPage.labels.name}
+              placeholder={i18n.contactPage.placeholders.name}
+            />
+
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              required
+              maxLength={255}
+              label={i18n.contactPage.labels.email}
+              placeholder={i18n.contactPage.placeholders.email}
+            />
+          </div>
 
           <Input
-            id="email"
-            name="email"
-            type="email"
+            id="subject"
+            name="subject"
+            type="text"
             required
-            maxLength={255}
-            label={i18n.contactPage.labels.email}
-            placeholder={i18n.contactPage.placeholders.email}
+            maxLength={150}
+            label={i18n.contactPage.labels.subject}
+            placeholder={i18n.contactPage.placeholders.subject}
           />
 
           <Textarea
