@@ -25,7 +25,7 @@ Yeah, that's been happening to my blog too, and I finally sat down to fix it.
 
 So here's the real answer: GEO for developers doesn't need an agency or a 40-page audit. It just needs three simple things: a properly structured content so a model can lift one paragraph and have it make sense on its own, real evidence instead of vague claims, and let the right bots get into your `robots.txt`. That's genuinely most of it, and in this blog I'll walk you through exactly how!
 
-![Dot the Debugger re-inking a return-address stamp as developer writing slides into an AI answers sack with missing source labels.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a877ztvlh1in45i8vcxu.png)
+![AI search engines extracting content without source attribution](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a877ztvlh1in45i8vcxu.png)
 
 ## What is GEO, actually?
 
@@ -61,7 +61,7 @@ The idea is simple: drop a markdown file at `/llms.txt` summarizing your site so
 
 So add one if you want, it costs you ten minutes and can't hurt. Just don't mistake it for the thing that's going to get you cited. That's the structure and the sourcing, not the file.
 
-![Professor Kernel comparing a light llms.txt scroll against heavier evidence tablets labeled stats, sources, and structure.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gvsazrctmc8kc6t6lrub.png)
+![Comparing lightweight llms.txt against structured site evidence](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gvsazrctmc8kc6t6lrub.png)
 
 ## What if you don't even own your blog?
 
@@ -69,7 +69,7 @@ If you cross-post to Hashnode or Dev.to like I do, you don't control the `robots
 
 What you can still control everywhere: the content structure itself, and your canonical URL. Always point the canonical tag back to your personal site, always write the answer-first paragraphs regardless of platform, and let the schema/`robots.txt` tactics apply fully only where you actually own the domain.
 
-![Milo the Micro-Archivist carrying a portable structure case between an owned site shelf and a locked platform rules shelf.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/xobsofohyefwrq57pkq2.png)
+![Structured data distribution across owned web properties](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/xobsofohyefwrq57pkq2.png)
 
 ## Is GEO worth your time?
 
@@ -89,6 +89,6 @@ I don't have a clean number for this yet, since I only rebuilt my own process ar
 **Do I need schema markup if I only publish on Hashnode or Dev.to?**
 Not directly, since the platform controls that layer. Focus your energy on content structure and canonical URLs instead, those travel with you no matter where you publish.
 
-![Thanks for reading about GEO for Developers](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9xplxu74ikwfrltmxfi.png)
+![Thank you graphic for GEO for Developers guide](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9xplxu74ikwfrltmxfi.png)
 
 If you're building or rebuilding your own writing process around this, I'd genuinely love to hear what worked for you, drop it in the comments. You can also find me on [X (swapnoneel123)](https://x.com/swapnoneel123) or check out more of my work at [swapnoneel.site](https://www.swapnoneel.site).

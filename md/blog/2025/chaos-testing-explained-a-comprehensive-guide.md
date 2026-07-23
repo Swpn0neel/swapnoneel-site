@@ -32,7 +32,7 @@ Nowadays, modern systems are increasingly distributed, running on cloud infrastr
 2.  **Test in Production (With Safeguards):** Simulate real-world conditions to get accurate insights.
 3.  **Minimize Blast Radius:** Limit the scope of experiments to avoid widespread disruptions.
 
-![](https://wp.keploy.io/wp-content/uploads/2025/01/What-are-the-Core-Principles.webp)
+![Core principles of chaos engineering diagram](https://wp.keploy.io/wp-content/uploads/2025/01/What-are-the-Core-Principles.webp)
 
 ### **How it differs from other types of testing?**
 
@@ -46,7 +46,7 @@ Unlike [load or functional testing](https://keploy.io/blog/community/all-about-l
 
 ## **The Chaos Testing Process**
 
-![](https://wp.keploy.io/wp-content/uploads/2025/01/The-Chaos-Testing-Process.webp)
+![Step-by-step chaos testing process diagram](https://wp.keploy.io/wp-content/uploads/2025/01/The-Chaos-Testing-Process.webp)
 
 ### Step-by-Step Guide
 
@@ -138,4 +138,4 @@ Ethical chaos testing requires safeguards to minimize risks to users. Experiment
 ### **How do you integrate chaos testing into CI/CD pipelines?**
 
 Chaos experiments can be automated and added to CI/CD workflows using tools like Gremlin or LitmusChaos. By running these tests during staging or pre-deployment, teams can ensure that new updates or configurations won’t compromise system resilience.  
-![](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for chaos testing guide](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
