@@ -104,8 +104,13 @@ export const i18n = {
     description:
       "Technical deep-dives, tutorials, and reflections on software engineering, Python, JavaScript, and web development.",
     backLink: "blog",
-    readOnHashnode: "Read on Hashnode ↗",
-    readOnDevto: "Read on DEV ↗",
+    alsoPublishedOn: "Also published on",
+    textSizeLabel: "Adjust article text size",
+    textSizeTitles: {
+      sm: "Smaller text",
+      md: "Default text size",
+      lg: "Larger text",
+    },
   },
   contactPage: {
     title: "Contact",

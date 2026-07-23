@@ -51,20 +51,24 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
         <nav className="border-border/30 space-y-2 border-t pt-4">
           {headings.map((item, idx) => {
             const depth = uniqueLevels.indexOf(item.level);
+            // Sizes track the reader's A-/A/A+ choice via --prose-scale (the
+            // same variable .prose reads in globals.css), so the TOC stays
+            // proportional to the article body it's navigating.
             let indentClass = "";
             if (depth === 0) {
-              indentClass = "font-bold text-[0.86rem] text-foreground/95";
+              indentClass =
+                "font-bold text-[calc(0.86rem*var(--prose-scale,1))] text-foreground/95";
             } else if (depth === 1) {
               indentClass =
-                "pl-4 font-semibold text-[0.82rem] text-muted-foreground/90 before:content-['└'] before:mr-1.5 before:text-muted-foreground/20";
+                "pl-4 font-semibold text-[calc(0.82rem*var(--prose-scale,1))] text-muted-foreground/90 before:content-['└'] before:mr-1.5 before:text-muted-foreground/20";
             } else if (depth === 2) {
               indentClass =
-                "pl-8 text-[0.78rem] text-muted-foreground/75 before:content-['•'] before:mr-2 before:text-muted-foreground/30";
+                "pl-8 text-[calc(0.78rem*var(--prose-scale,1))] text-muted-foreground/75 before:content-['•'] before:mr-2 before:text-muted-foreground/30";
             } else {
               // Accommodate depth 3 (pl-12), depth 4 (pl-16), etc.
               const paddingClass =
                 depth === 3 ? "pl-12" : depth === 4 ? "pl-16" : "pl-20";
-              indentClass = `${paddingClass} text-[0.74rem] text-muted-foreground/60 before:content-['-'] before:mr-2 before:text-muted-foreground/20`;
+              indentClass = `${paddingClass} text-[calc(0.74rem*var(--prose-scale,1))] text-muted-foreground/60 before:content-['-'] before:mr-2 before:text-muted-foreground/20`;
             }
             return (
               <a

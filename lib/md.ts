@@ -18,6 +18,7 @@ export type PostMeta = {
   description?: string;
   cover?: string;
   link?: string;
+  tags?: string[];
 };
 
 function getFilesRecursively(dir: string): string[] {
@@ -129,6 +130,7 @@ export type BlogPost = {
   url?: string;
   readingTime?: number;
   wordCount?: number;
+  tags?: string[];
 };
 
 export const getBlogPost = cache((slug: string): BlogPost | null => {
@@ -148,6 +150,7 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
     url: post.meta.link,
     readingTime: estimateReadingTime(wordCount),
     wordCount,
+    tags: post.meta.tags,
   };
 });
 

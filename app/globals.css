@@ -237,8 +237,11 @@ textarea {
      class in markup is inert — the Tailwind typography plugin isn't
      installed — so without this the prose body falls back to 1rem and
      renders ~14% larger than the rest of the site. Headings below are
-     rem-sized, so they're unaffected by this base. */
-  font-size: 0.875rem;
+     rem-sized, so they're unaffected by this base — which is why every
+     rem font-size in this block is multiplied by --prose-scale, the
+     reader's A-/A/A+ preference set on <html> by the font size toggle.
+     Unset it means 1, i.e. exactly the sizes that were here before. */
+  font-size: calc(0.875rem * var(--prose-scale, 1));
 }
 
 .prose h1,
@@ -250,7 +253,7 @@ textarea {
 }
 
 .prose h1 {
-  font-size: 1.6rem;
+  font-size: calc(1.6rem * var(--prose-scale, 1));
   font-weight: 700;
   letter-spacing: -0.02em;
   margin-top: 2.2em;
@@ -258,7 +261,7 @@ textarea {
 }
 
 .prose h2 {
-  font-size: 1.3rem;
+  font-size: calc(1.3rem * var(--prose-scale, 1));
   font-weight: 600;
   letter-spacing: -0.015em;
   margin-top: 2em;
@@ -266,7 +269,7 @@ textarea {
 }
 
 .prose h3 {
-  font-size: 1.1rem;
+  font-size: calc(1.1rem * var(--prose-scale, 1));
   font-weight: 600;
   letter-spacing: -0.01em;
   margin-top: 1.8em;
@@ -274,7 +277,7 @@ textarea {
 }
 
 .prose h4 {
-  font-size: 0.95rem;
+  font-size: calc(0.95rem * var(--prose-scale, 1));
   font-weight: 600;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
@@ -354,7 +357,7 @@ mark {
   border-spacing: 0;
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
-  font-size: 0.875rem;
+  font-size: calc(0.875rem * var(--prose-scale, 1));
   line-height: 1.5;
   border: 1px solid hsl(var(--border));
   border-radius: var(--radius, 8px);

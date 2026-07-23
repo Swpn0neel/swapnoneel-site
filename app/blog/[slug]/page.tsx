@@ -1,5 +1,6 @@
 import { BlogImage } from "@/components/blog-image";
 import { BlogNarrator } from "@/components/blog-narrator";
+import { FontSizeToggle } from "@/components/font-size-toggle";
 import { TableOfContents } from "@/components/table-of-contents";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
@@ -209,61 +210,28 @@ export default async function BlogPostPage({
           ),
         }}
       />
-      <div className="mb-6">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/blog"
-            className="text-muted-foreground hover:text-foreground text-xs transition-colors"
-          >
-            ← {i18n.blog.backLink}
-          </Link>
-          {post.url && (
-            <a
-              href={post.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`text-xs transition-colors sm:hidden ${
-                post.url.includes("keploy")
-                  ? "text-[#FF914D] hover:text-[#FF914D]/80"
-                  : "text-foreground hover:text-foreground/80"
-              }`}
-            >
-              {post.url.includes("keploy")
-                ? "Read on Keploy Blogs ↗"
-                : post.url.includes("dev.to")
-                  ? i18n.blog.readOnDevto
-                  : i18n.blog.readOnHashnode}
-            </a>
-          )}
+      {/* Font-size toggle sits where the old cross-post link used to:
+          next to the back link on mobile, next to the meta line on
+          desktop. That link now lives in the footer of every syndicated
+          post ("Also published on ..."). A responsive grid moves the one
+          toggle between rows instead of mounting two synced copies. */}
+      <div className="mb-6 grid grid-cols-[1fr_auto] gap-x-4 [grid-template-areas:'back_toggle'_'title_title'_'meta_meta'] sm:[grid-template-areas:'back_back'_'title_title'_'meta_toggle']">
+        <Link
+          href="/blog"
+          className="text-muted-foreground hover:text-foreground self-center text-xs transition-colors [grid-area:back]"
+        >
+          ← {i18n.blog.backLink}
+        </Link>
+        <div className="self-center justify-self-end [grid-area:toggle]">
+          <FontSizeToggle />
         </div>
-
-        <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight md:text-3xl">
+        <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight [grid-area:title] md:text-3xl">
           {post.title}
         </h1>
-        <p className="text-muted-foreground flex flex-col gap-3 text-xs sm:flex-row sm:items-center sm:justify-between sm:gap-4">
-          <span>
-            {dateStr}
-            {post.wordCount !== undefined && ` · ${post.wordCount} words`}
-            {` · ${post.readingTime} min read`}
-          </span>
-          {post.url && (
-            <a
-              href={post.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`border-border hover:bg-secondary hidden w-fit rounded-sm border px-2 py-1 transition-colors sm:inline-flex ${
-                post.url.includes("keploy")
-                  ? "text-[#FF914D] hover:text-[#FF914D]/80"
-                  : "text-foreground hover:text-foreground/80"
-              }`}
-            >
-              {post.url.includes("keploy")
-                ? "Read on Keploy Blogs ↗"
-                : post.url.includes("dev.to")
-                  ? i18n.blog.readOnDevto
-                  : i18n.blog.readOnHashnode}
-            </a>
-          )}
+        <p className="text-muted-foreground self-center text-xs [grid-area:meta]">
+          {dateStr}
+          {post.wordCount !== undefined && ` · ${post.wordCount} words`}
+          {` · ${post.readingTime} min read`}
         </p>
       </div>
 
@@ -353,6 +321,47 @@ export default async function BlogPostPage({
           }}
         />
       </div>
+
+      {(post.tags?.length || post.url) && (
+        <footer className="border-border bg-secondary/15 mt-12 rounded-md border p-4 md:p-5">
+          {post.tags && post.tags.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2">
+              {post.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground bg-background rounded-sm border px-2.5 py-1 text-xs font-medium transition-colors"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+          {post.url && (
+            <p
+              className={`text-muted-foreground text-xs ${
+                post.tags && post.tags.length > 0
+                  ? "border-border/60 mt-4 border-t pt-4"
+                  : ""
+              }`}
+            >
+              {i18n.blog.alsoPublishedOn}{" "}
+              <a
+                href={post.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-foreground hover:text-muted-foreground font-medium underline underline-offset-2"
+              >
+                {post.url.includes("keploy")
+                  ? "Keploy Blogs"
+                  : post.url.includes("dev.to")
+                    ? "DEV.to"
+                    : "Hashnode"}
+              </a>
+              .
+            </p>
+          )}
+        </footer>
+      )}
     </article>
   );
 }

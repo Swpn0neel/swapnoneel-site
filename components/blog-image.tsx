@@ -114,7 +114,9 @@ export function BlogImage({
         />
       </span>
       {alt && !hideCaption && (
-        <span className="text-muted-foreground mt-2 block text-center font-mono text-xs">
+        // Scales with the reader's A-/A/A+ choice (--prose-scale, set in
+        // globals.css) so captions stay proportional to the article body.
+        <span className="text-muted-foreground mt-2 block text-center font-mono text-[calc(0.75rem*var(--prose-scale,1))]">
           {alt}
         </span>
       )}

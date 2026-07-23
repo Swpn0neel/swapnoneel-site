@@ -81,6 +81,15 @@ export default function RootLayout({
             __html: `(function(){try{var t=sessionStorage.getItem("theme")==="dark"?"dark":"light";localStorage.setItem("theme",t);document.documentElement.classList.toggle("dark",t==="dark")}catch(e){}})();`,
           }}
         />
+        {/* Blog prose size (A-/A/A+). Unlike the theme this is a lasting
+            accessibility preference, so it lives in localStorage — and it has
+            to be applied before first paint or the article visibly resizes
+            under the reader. Keep the scales in sync with font-size-toggle. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStorage.getItem("prose-scale")];if(s)document.documentElement.style.setProperty("--prose-scale",s)}catch(e){}})();`,
+          }}
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
