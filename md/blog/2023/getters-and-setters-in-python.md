@@ -1,9 +1,22 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676665768059/5c47a278-9f02-4928-a098-0aee8b08d448.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "Getters and Setters in Python"
-date: "Sat, 18 Feb 2023 13:32:09 GMT"
-description: "Introduction\nPython is a versatile programming language that allows developers to create powerful applications with minimal code. When it comes to data management in Python, using getters and setters is a popular approach. Getters and setters are fun..."
-link: "https://swapnoneel.hashnode.dev/getters-and-setters-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1676665768059/5c47a278-9f02-4928-a098-0aee8b08d448.png?w=1200&auto=compress,format&format=webp&fm=png
+title: Getters and Setters in Python
+date: 'Sat, 18 Feb 2023 13:32:09 GMT'
+description: >-
+  Introduction
+
+  Python is a versatile programming language that allows developers to create
+  powerful applications with minimal code. When it comes to data management in
+  Python, using getters and setters is a popular approach. Getters and setters
+  are fun...
+link: 'https://swapnoneel.hashnode.dev/getters-and-setters-in-python'
+tags:
+  - python
+  - oop
+  - encapsulation
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

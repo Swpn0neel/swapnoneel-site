@@ -1,9 +1,22 @@
 ---
-title: "How to Generate Random Numbers in JavaScript"
-date: "2024-11-01T01:20:01.000Z"
-description: "Table of Contents Random numbers are essential in programming, whether you’re building games, simulations, quizzes, or generating unique identifiers. JavaScript provides built-in methods to create random numbers, integers, booleans, and even shuffle arrays. In this guide, we’ll cover everything from basic javascript random number to advanced randomization techniques, complete with code examples. Basics of Generating [...]"
-cover: "https://wp.keploy.io/wp-content/uploads/2024/11/ae22594e-c87c-49a5-8748-e3a26131.webp"
-link: "https://keploy.io/blog/community/javascript-random-number"
+title: How to Generate Random Numbers in JavaScript
+date: '2024-11-01T01:20:01.000Z'
+description: >-
+  Table of Contents Random numbers are essential in programming, whether you’re
+  building games, simulations, quizzes, or generating unique identifiers.
+  JavaScript provides built-in methods to create random numbers, integers,
+  booleans, and even shuffle arrays. In this guide, we’ll cover everything from
+  basic javascript random number to advanced randomization techniques, complete
+  with code examples. Basics of Generating [...]
+cover: >-
+  https://wp.keploy.io/wp-content/uploads/2024/11/ae22594e-c87c-49a5-8748-e3a26131.webp
+link: 'https://keploy.io/blog/community/javascript-random-number'
+tags:
+  - javascript
+  - math
+  - webdev
+  - frontend
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 Random numbers are essential in programming, whether you’re building games, simulations, quizzes, or generating unique identifiers. [JavaScript](https://keploy.io/blog/community/javascript-array-filter-method-guide) provides built-in methods to create random numbers, integers, booleans, and even shuffle arrays. In this guide, we’ll cover everything from basic **javascript random number** to advanced randomization techniques, complete with code examples.

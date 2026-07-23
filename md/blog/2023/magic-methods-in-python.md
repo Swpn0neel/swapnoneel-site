@@ -1,9 +1,24 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1677076939156/3f57eaef-0577-4c41-ba36-a47eff63c664.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "Magic Methods in Python"
-date: "Wed, 22 Feb 2023 14:42:38 GMT"
-description: "Introduction\nMagic Methods are special methods that you can define in your classes, and when invoked, they give you a powerful way to manipulate objects and their behavior.\nMagic methods, also known as “dunders” from the double underscores surroundin..."
-link: "https://swapnoneel.hashnode.dev/magic-methods-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1677076939156/3f57eaef-0577-4c41-ba36-a47eff63c664.png?w=1200&auto=compress,format&format=webp&fm=png
+title: Magic Methods in Python
+date: 'Wed, 22 Feb 2023 14:42:38 GMT'
+description: >-
+  Introduction
+
+  Magic Methods are special methods that you can define in your classes, and
+  when invoked, they give you a powerful way to manipulate objects and their
+  behavior.
+
+  Magic methods, also known as “dunders” from the double underscores
+  surroundin...
+link: 'https://swapnoneel.hashnode.dev/magic-methods-in-python'
+tags:
+  - python
+  - dunder-methods
+  - oop
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

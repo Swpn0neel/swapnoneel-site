@@ -2,12 +2,17 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1717270513489/5ca60b7c-07f3-4720-a9cd-06e6d14f93ef.png
 title: Understanding Semantic Versioning
-date: "Sat, 01 Jun 2024 19:35:38 GMT"
+date: 'Sat, 01 Jun 2024 19:35:38 GMT'
 description: >-
   Learn the basics of Semantic Versioning and how it helps developers manage
   software changes effectively...
-link: "https://swapnoneel.hashnode.dev/understanding-semantic-versioning"
-updated: "2026-07-18T19:12:34.467Z"
+link: 'https://swapnoneel.hashnode.dev/understanding-semantic-versioning'
+updated: '2026-07-23T13:07:48.942Z'
+tags:
+  - semver
+  - git
+  - versioning
+  - devops
 ---
 
 Often enough, we see version numbers like 1.0.2, 2.5.6 or something similar, associated with a software product. But, you may think what do these numbers actually represent, and why do we use them? We could've simply used numbers like 1, 2, 3, etc. for naming each versions!

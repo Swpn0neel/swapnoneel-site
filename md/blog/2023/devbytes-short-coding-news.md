@@ -1,9 +1,22 @@
 ---
-title: "DevBytes: Short Coding News"
-date: "2023-03-28T15:12:34.057Z"
-description: "What is DevBytes?\nDevBytes is a comprehensive and user-friendly programming and technology news mobile application that is designed to cater to your specific interests. With its advanced algorithms, it sifts through vast amounts of information to bri..."
-cover: "https://web.archive.org/web/20241202122624/https://cdn.hashnode.com/res/hashnode/image/upload/v1679999476023/496d151a-c10f-4b24-946f-3791d78f6f54.png"
-link: "https://swapnoneel.hashnode.dev/devbytes-short-coding-news"
+title: 'DevBytes: Short Coding News'
+date: '2023-03-28T15:12:34.057Z'
+description: >-
+  What is DevBytes?
+
+  DevBytes is a comprehensive and user-friendly programming and technology news
+  mobile application that is designed to cater to your specific interests. With
+  its advanced algorithms, it sifts through vast amounts of information to
+  bri...
+cover: >-
+  https://web.archive.org/web/20241202122624/https://cdn.hashnode.com/res/hashnode/image/upload/v1679999476023/496d151a-c10f-4b24-946f-3791d78f6f54.png
+link: 'https://swapnoneel.hashnode.dev/devbytes-short-coding-news'
+tags:
+  - tech-news
+  - coding
+  - webdev
+  - productivity
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## What is DevBytes?

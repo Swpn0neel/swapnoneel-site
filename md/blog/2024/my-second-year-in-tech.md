@@ -1,9 +1,20 @@
 ---
-title: "My Second year in Tech"
-date: "2024-11-08T21:33:04.263Z"
-description: "Exactly one year back from now, I published a blog where I shared my First year of Tech journey. In that blog, I’ve mentioned about how I got started, and balanced both development and DSA, while maintaining a consistent 9+ CGPA throughout the semest..."
-cover: "https://web.archive.org/web/20241202120007/https://cdn.hashnode.com/res/hashnode/image/upload/v1729861086308/c152433f-383b-4b26-9f86-87418d53ab86.png"
-link: "https://swapnoneel.hashnode.dev/my-second-year-in-tech"
+title: My Second year in Tech
+date: '2024-11-08T21:33:04.263Z'
+description: >-
+  Exactly one year back from now, I published a blog where I shared my First
+  year of Tech journey. In that blog, I’ve mentioned about how I got started,
+  and balanced both development and DSA, while maintaining a consistent 9+ CGPA
+  throughout the semest...
+cover: >-
+  https://web.archive.org/web/20241202120007/https://cdn.hashnode.com/res/hashnode/image/upload/v1729861086308/c152433f-383b-4b26-9f86-87418d53ab86.png
+link: 'https://swapnoneel.hashnode.dev/my-second-year-in-tech'
+tags:
+  - career
+  - reflections
+  - tech-journey
+  - lessons-learned
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 Exactly one year back from now, I published a blog where I shared my First year of Tech journey. In that blog, I’ve mentioned about how I got started, and balanced both development and DSA, while maintaining a consistent 9+ CGPA throughout the semesters. Also, I shared how I got my breakthrough in freelancing and how I attended multiple hackathons and won all of them! If you haven’t read that blog, I would request you to [read it from here](https://swapnoneel.hashnode.dev/my-first-year-in-tech).

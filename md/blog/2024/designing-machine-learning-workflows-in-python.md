@@ -1,9 +1,22 @@
 ---
-title: "Designing Machine Learning Workflows in Python"
-date: "2024-02-02T16:07:14.579Z"
-description: "Introduction\nIn our recent AI-revolutionized world, to design proper machine learning workflows is important for getting insights, making predictions, and also solving complex problems. Python, with its vast collection of libraries and frameworks, is..."
-cover: "https://web.archive.org/web/20240417063106/https://cdn.hashnode.com/res/hashnode/image/upload/v1706889691867/9b2f329b-3ac3-47e5-a748-c9a1eadee06a.png"
-link: "https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python"
+title: Designing Machine Learning Workflows in Python
+date: '2024-02-02T16:07:14.579Z'
+description: >-
+  Introduction
+
+  In our recent AI-revolutionized world, to design proper machine learning
+  workflows is important for getting insights, making predictions, and also
+  solving complex problems. Python, with its vast collection of libraries and
+  frameworks, is...
+cover: >-
+  https://web.archive.org/web/20240417063106/https://cdn.hashnode.com/res/hashnode/image/upload/v1706889691867/9b2f329b-3ac3-47e5-a748-c9a1eadee06a.png
+link: 'https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python'
+tags:
+  - python
+  - machine-learning
+  - data-science
+  - workflows
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

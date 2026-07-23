@@ -1,9 +1,29 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921876373/d3ced512-3d06-4b0a-8b25-c81b0e8e626b.png"
-title: "String formatting in python"
-date: "2023-01-25T07:50:52.768Z"
-description: "Introduction\nString formatting can be done in python using the format method.\ntxt = \"For only {price:.2f} dollars!\"\nprint(txt.format(price = 49))\n\nf-strings in python\nIt is a new string formatting mechanism introduced by the PEP 498. It is also known..."
-link: "https://swapnoneel.hashnode.dev/string-formatting-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921876373/d3ced512-3d06-4b0a-8b25-c81b0e8e626b.png
+title: String formatting in python
+date: '2023-01-25T07:50:52.768Z'
+description: >-
+  Introduction
+
+  String formatting can be done in python using the format method.
+
+  txt = "For only {price:.2f} dollars!"
+
+  print(txt.format(price = 49))
+
+
+  f-strings in python
+
+  It is a new string formatting mechanism introduced by the PEP 498. It is also
+  known...
+link: 'https://swapnoneel.hashnode.dev/string-formatting-in-python'
+tags:
+  - python
+  - strings
+  - f-strings
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ### Introduction

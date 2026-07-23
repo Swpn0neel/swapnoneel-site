@@ -1,9 +1,22 @@
 ---
-cover: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop"
-title: "Overriding & Overloading in Python"
-date: "Tue, 21 Feb 2023 11:34:18 GMT"
-description: "Method Overriding\nMethod overriding is a powerful feature in object-oriented programming that allows you to redefine a method in a derived class. The method in the derived class is said to override the method in the base class. When you create an ins..."
-link: "https://swapnoneel.hashnode.dev/overriding-overloading-in-python"
+cover: >-
+  https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop
+title: Overriding & Overloading in Python
+date: 'Tue, 21 Feb 2023 11:34:18 GMT'
+description: >-
+  Method Overriding
+
+  Method overriding is a powerful feature in object-oriented programming that
+  allows you to redefine a method in a derived class. The method in the derived
+  class is said to override the method in the base class. When you create an
+  ins...
+link: 'https://swapnoneel.hashnode.dev/overriding-overloading-in-python'
+tags:
+  - python
+  - oop
+  - polymorphism
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Method Overriding

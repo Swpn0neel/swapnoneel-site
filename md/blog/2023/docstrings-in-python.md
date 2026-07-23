@@ -1,9 +1,32 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921636996/6039154e-d731-486b-8d15-888cb8bba647.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png"
-title: "Docstrings in python"
-date: "2023-01-25T14:42:32.056Z"
-description: "Introduction\nPython docstrings are the string literals that appear right after the definition of a function, method, class, or module.\nExample\ndef square(n):\n    '''Takes in a number n, returns the square of n'''\n    print(n**2)\nsquare(5)\n\nHere,\n'''T..."
-link: "https://swapnoneel.hashnode.dev/docstrings-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921636996/6039154e-d731-486b-8d15-888cb8bba647.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
+title: Docstrings in python
+date: '2023-01-25T14:42:32.056Z'
+description: >-
+  Introduction
+
+  Python docstrings are the string literals that appear right after the
+  definition of a function, method, class, or module.
+
+  Example
+
+  def square(n):
+      '''Takes in a number n, returns the square of n'''
+      print(n**2)
+  square(5)
+
+
+  Here,
+
+  '''T...
+link: 'https://swapnoneel.hashnode.dev/docstrings-in-python'
+tags:
+  - python
+  - documentation
+  - clean-code
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

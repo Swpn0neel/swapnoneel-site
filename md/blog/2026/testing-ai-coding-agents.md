@@ -1,10 +1,17 @@
 ---
 title: Nobody's Testing AI Coding Agents Enough
-date: "2026-07-08T17:00:00.000Z"
-description: "40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped being optional, here's what I learned being paid to do it."
+date: '2026-07-08T17:00:00.000Z'
+description: >-
+  40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped
+  being optional, here's what I learned being paid to do it.
 slug: testing-ai-coding-agents
-tags: [ai, agents, testing, security, devrel]
-link: ""
+link: ''
+tags:
+  - ai
+  - agents
+  - testing
+  - security
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 Code review used to be the part everyone complained about. Slow, nitpicky, the thing standing between you and shipping.

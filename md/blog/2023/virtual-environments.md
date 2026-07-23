@@ -1,9 +1,21 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921802429/dcfb12a5-0142-490a-a6c0-dd45f38dc8c5.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png"
-title: "Virtual Environments"
-date: "2023-01-27T16:11:48.129Z"
-description: "What is a Virtual Environment?\nA virtual environment is a tool used to isolate specific Python environments on a single machine, allowing you to work on multiple projects with different dependencies and packages without conflicts. This can be especia..."
-link: "https://swapnoneel.hashnode.dev/virtual-environments"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921802429/dcfb12a5-0142-490a-a6c0-dd45f38dc8c5.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
+title: Virtual Environments
+date: '2023-01-27T16:11:48.129Z'
+description: >-
+  What is a Virtual Environment?
+
+  A virtual environment is a tool used to isolate specific Python environments
+  on a single machine, allowing you to work on multiple projects with different
+  dependencies and packages without conflicts. This can be especia...
+link: 'https://swapnoneel.hashnode.dev/virtual-environments'
+tags:
+  - python
+  - virtualenv
+  - dev-environment
+  - tooling
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## What is a Virtual Environment?

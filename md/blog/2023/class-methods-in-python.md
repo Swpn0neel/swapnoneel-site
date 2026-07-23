@@ -1,9 +1,22 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676894340817/c0f1b8e2-f5dc-4950-82e9-dc74866f3c74.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "Class Methods in Python"
-date: "Mon, 20 Feb 2023 11:59:17 GMT"
-description: "Introduction\nIn Python, classes are a way to define custom data types that can store data and define functions that can manipulate that data. One type of function that can be defined within a class is called a \"method.\" In this blog post, we will exp..."
-link: "https://swapnoneel.hashnode.dev/class-methods-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1676894340817/c0f1b8e2-f5dc-4950-82e9-dc74866f3c74.png?w=1200&auto=compress,format&format=webp&fm=png
+title: Class Methods in Python
+date: 'Mon, 20 Feb 2023 11:59:17 GMT'
+description: >-
+  Introduction
+
+  In Python, classes are a way to define custom data types that can store data
+  and define functions that can manipulate that data. One type of function that
+  can be defined within a class is called a "method." In this blog post, we will
+  exp...
+link: 'https://swapnoneel.hashnode.dev/class-methods-in-python'
+tags:
+  - python
+  - oop
+  - backend
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

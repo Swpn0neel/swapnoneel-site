@@ -1,9 +1,22 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676646935359/8a36f405-f26f-4a80-8636-2eb562b13eeb.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "Constructors and Decorators in Python"
-date: "Fri, 17 Feb 2023 15:16:04 GMT"
-description: "Introduction\nPython is a versatile programming language that provides a wide range of features and tools to developers for building robust and efficient software applications. Among the most important aspects of Python are constructors and decorators..."
-link: "https://swapnoneel.hashnode.dev/constructors-and-decorators-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1676646935359/8a36f405-f26f-4a80-8636-2eb562b13eeb.png?w=1200&auto=compress,format&format=webp&fm=png
+title: Constructors and Decorators in Python
+date: 'Fri, 17 Feb 2023 15:16:04 GMT'
+description: >-
+  Introduction
+
+  Python is a versatile programming language that provides a wide range of
+  features and tools to developers for building robust and efficient software
+  applications. Among the most important aspects of Python are constructors and
+  decorators...
+link: 'https://swapnoneel.hashnode.dev/constructors-and-decorators-in-python'
+tags:
+  - python
+  - decorators
+  - oop
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

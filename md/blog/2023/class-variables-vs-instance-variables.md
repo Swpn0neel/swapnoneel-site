@@ -1,9 +1,24 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676806711688/0c46e75c-e465-45b9-880c-be4cff7fdb14.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "Class Variables vs Instance Variables"
-date: "Sun, 19 Feb 2023 11:38:55 GMT"
-description: "Introduction\nIn Python, variables can be defined at the class level or at the instance level. Understanding the difference between these types of variables is crucial for writing efficient and maintainable code. So, let's just dive into it !!\nClass V..."
-link: "https://swapnoneel.hashnode.dev/class-variables-vs-instance-variables"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1676806711688/0c46e75c-e465-45b9-880c-be4cff7fdb14.png?w=1200&auto=compress,format&format=webp&fm=png
+title: Class Variables vs Instance Variables
+date: 'Sun, 19 Feb 2023 11:38:55 GMT'
+description: >-
+  Introduction
+
+  In Python, variables can be defined at the class level or at the instance
+  level. Understanding the difference between these types of variables is
+  crucial for writing efficient and maintainable code. So, let's just dive into
+  it !!
+
+  Class V...
+link: 'https://swapnoneel.hashnode.dev/class-variables-vs-instance-variables'
+tags:
+  - python
+  - oop
+  - variables
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

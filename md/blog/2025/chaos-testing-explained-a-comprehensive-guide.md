@@ -1,9 +1,20 @@
 ---
-title: "Chaos Testing Explained: A Comprehensive Guide"
-date: "2025-01-09T01:26:15.000Z"
-description: "Table of Contents Chaos testing, also known as chaos engineering, is one of the most-used methodology to test the resilience and reliability of systems, and is a key part of modern resilience testing practices. Originating from Netflix’s famous Chaos Monkey tool, chaos testing has become a key practice in building robust distributed systems. In this [...]"
-cover: "https://wp.keploy.io/wp-content/uploads/2025/01/Chaos-Testing.webp"
-link: "https://keploy.io/blog/community/chaos-testing-explained-a-comprehensive-guide"
+title: 'Chaos Testing Explained: A Comprehensive Guide'
+date: '2025-01-09T01:26:15.000Z'
+description: >-
+  Table of Contents Chaos testing, also known as chaos engineering, is one of
+  the most-used methodology to test the resilience and reliability of systems,
+  and is a key part of modern resilience testing practices. Originating from
+  Netflix’s famous Chaos Monkey tool, chaos testing has become a key practice in
+  building robust distributed systems. In this [...]
+cover: 'https://wp.keploy.io/wp-content/uploads/2025/01/Chaos-Testing.webp'
+link: 'https://keploy.io/blog/community/chaos-testing-explained-a-comprehensive-guide'
+tags:
+  - chaos-engineering
+  - testing
+  - devops
+  - resilience
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 Chaos testing, also known as chaos engineering, is one of the most-used methodology to test the resilience and reliability of systems, and is a key part of modern [resilience testing](https://keploy.io/blog/community/why-apps-crash-and-how-resilience-testing-can-help "resilience testing") practices.  

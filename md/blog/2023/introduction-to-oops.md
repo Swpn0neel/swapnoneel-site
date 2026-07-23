@@ -1,9 +1,31 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676570291151/466fa74a-d06c-4241-83c6-7ac394ae1242.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "Introduction to OOPs"
-date: "Thu, 16 Feb 2023 17:58:21 GMT"
-description: "Introduction\nIn programming languages, mainly there are two approaches that are used to write programs or code.\n\nProcedural Programming\n\nObject-Oriented Programming\n\n\nIn the previous blogs, I have covered almost all of the advanced nitty-gritty of Py..."
-link: "https://swapnoneel.hashnode.dev/introduction-to-oops"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1676570291151/466fa74a-d06c-4241-83c6-7ac394ae1242.png?w=1200&auto=compress,format&format=webp&fm=png
+title: Introduction to OOPs
+date: 'Thu, 16 Feb 2023 17:58:21 GMT'
+description: >-
+  Introduction
+
+  In programming languages, mainly there are two approaches that are used to
+  write programs or code.
+
+
+  Procedural Programming
+
+
+  Object-Oriented Programming
+
+
+
+  In the previous blogs, I have covered almost all of the advanced nitty-gritty
+  of Py...
+link: 'https://swapnoneel.hashnode.dev/introduction-to-oops'
+tags:
+  - python
+  - oop
+  - software-design
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

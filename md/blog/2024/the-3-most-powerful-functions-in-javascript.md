@@ -1,9 +1,22 @@
 ---
-title: "The 3 Most Powerful Functions in JavaScript"
-date: "2024-03-10T12:14:24.268Z"
-description: "Introduction\nThe map(), filter() and the reduce() are the most powerful and important higher order functions in JavaScript that generally operates on arrays. Being the part of the functional programming paradigm of JavaScript, these functions allow u..."
-cover: "https://web.archive.org/web/20240522113721/https://cdn.hashnode.com/res/hashnode/image/upload/v1710072792777/b19a2577-a9ac-47e3-b8f0-a7f7821ab6f8.png"
-link: "https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-javascript"
+title: The 3 Most Powerful Functions in JavaScript
+date: '2024-03-10T12:14:24.268Z'
+description: >-
+  Introduction
+
+  The map(), filter() and the reduce() are the most powerful and important
+  higher order functions in JavaScript that generally operates on arrays. Being
+  the part of the functional programming paradigm of JavaScript, these functions
+  allow u...
+cover: >-
+  https://web.archive.org/web/20240522113721/https://cdn.hashnode.com/res/hashnode/image/upload/v1710072792777/b19a2577-a9ac-47e3-b8f0-a7f7821ab6f8.png
+link: 'https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-javascript'
+tags:
+  - javascript
+  - functional-programming
+  - es6
+  - webdev
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

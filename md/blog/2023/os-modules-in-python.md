@@ -1,9 +1,22 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676210306432/63b57168-8c4b-4acc-9266-b8345e942e2e.png?w=1200&auto=compress,format&format=webp&fm=png"
-title: "OS Modules in Python"
-date: "2023-02-12T13:58:39.078Z"
-description: "Introduction\nThe os module in Python is a built-in library that provides functions for interacting with the operating system. It allows you to perform a wide variety of tasks, such as reading and writing files, interacting with the file system, and r..."
-link: "https://swapnoneel.hashnode.dev/os-modules-in-python"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1676210306432/63b57168-8c4b-4acc-9266-b8345e942e2e.png?w=1200&auto=compress,format&format=webp&fm=png
+title: OS Modules in Python
+date: '2023-02-12T13:58:39.078Z'
+description: >-
+  Introduction
+
+  The os module in Python is a built-in library that provides functions for
+  interacting with the operating system. It allows you to perform a wide variety
+  of tasks, such as reading and writing files, interacting with the file system,
+  and r...
+link: 'https://swapnoneel.hashnode.dev/os-modules-in-python'
+tags:
+  - python
+  - os-module
+  - automation
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

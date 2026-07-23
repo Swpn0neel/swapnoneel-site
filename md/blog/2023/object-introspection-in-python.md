@@ -1,9 +1,22 @@
 ---
-cover: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop"
-title: "Object Introspection in Python"
-date: "2023-02-07T15:48:04.393Z"
-description: "Introduction\nWe must look into dir(), __dict__(), id() and help() attribute/methods in python. They make it easy for us to understand how classes resolve various functions and execute code. In Python, there are three built-in functions that are commo..."
-link: "https://swapnoneel.hashnode.dev/object-introspection-in-python"
+cover: >-
+  https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop
+title: Object Introspection in Python
+date: '2023-02-07T15:48:04.393Z'
+description: >-
+  Introduction
+
+  We must look into dir(), __dict__(), id() and help() attribute/methods in
+  python. They make it easy for us to understand how classes resolve various
+  functions and execute code. In Python, there are three built-in functions that
+  are commo...
+link: 'https://swapnoneel.hashnode.dev/object-introspection-in-python'
+tags:
+  - python
+  - introspection
+  - debugging
+  - programming
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction

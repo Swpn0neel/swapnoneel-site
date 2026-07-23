@@ -1,9 +1,23 @@
 ---
-title: "Publishing your own NPM Package is too simple!!"
-date: "2024-05-25T15:55:48.764Z"
-description: "Introduction\nIsn't it cool if you can run command like npx <you_name> in someone's terminal, and they can read about you, your works, and find details like your social media handles, right at their terminal?\nOr maybe you have created some cool React ..."
-cover: "https://web.archive.org/web/20240527171209/https://cdn.hashnode.com/res/hashnode/image/upload/v1716652494165/d4d1de8a-1201-411d-af7d-9b40fa4b6a21.png"
-link: "https://swapnoneel.hashnode.dev/publish-your-own-npm-package"
+title: Publishing your own NPM Package is too simple!!
+date: '2024-05-25T15:55:48.764Z'
+description: >-
+  Introduction
+
+  Isn't it cool if you can run command like npx <you_name> in someone's
+  terminal, and they can read about you, your works, and find details like your
+  social media handles, right at their terminal?
+
+  Or maybe you have created some cool React ...
+cover: >-
+  https://web.archive.org/web/20240527171209/https://cdn.hashnode.com/res/hashnode/image/upload/v1716652494165/d4d1de8a-1201-411d-af7d-9b40fa4b6a21.png
+link: 'https://swapnoneel.hashnode.dev/publish-your-own-npm-package'
+tags:
+  - npm
+  - javascript
+  - nodejs
+  - open-source
+updated: '2026-07-23T13:07:48.942Z'
 ---
 
 ## Introduction
