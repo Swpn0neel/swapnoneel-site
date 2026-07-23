@@ -143,27 +143,27 @@ export default function ContactPage() {
 
       const theme = isDark
         ? {
-            pageBg: "#000000",
-            cardBg: "#121212",
-            border: "#262626",
-            heading: "#fafafa",
-            body: "#a3a3a3",
-            subtle: "#6b6b6b",
-            quoteBg: "#1a1a1a",
-            accent: "#fafafa",
-            btnBorder: "#333333",
-          }
+          pageBg: "#000000",
+          cardBg: "#121212",
+          border: "#262626",
+          heading: "#fafafa",
+          body: "#a3a3a3",
+          subtle: "#6b6b6b",
+          quoteBg: "#1a1a1a",
+          accent: "#fafafa",
+          btnBorder: "#333333",
+        }
         : {
-            pageBg: "#f4f4f5",
-            cardBg: "#ffffff",
-            border: "#e5e5e5",
-            heading: "#0a0a0a",
-            body: "#525252",
-            subtle: "#9a9a9a",
-            quoteBg: "#fafafa",
-            accent: "#0a0a0a",
-            btnBorder: "#d4d4d4",
-          };
+          pageBg: "#f4f4f5",
+          cardBg: "#ffffff",
+          border: "#e5e5e5",
+          heading: "#0a0a0a",
+          body: "#525252",
+          subtle: "#9a9a9a",
+          quoteBg: "#fafafa",
+          accent: "#0a0a0a",
+          btnBorder: "#d4d4d4",
+        };
 
       const templateParams = {
         name,
@@ -333,7 +333,7 @@ export default function ContactPage() {
         </span>
       </form>
 
-      <div className="border-border mt-12 border-t pt-8">
+      <div className="border-border -mt-2 border-t pt-8">
         <h2 className="mb-2 text-xl font-semibold tracking-tight">
           {i18n.contactPage.bookCall.title}
         </h2>
