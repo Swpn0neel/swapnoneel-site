@@ -3,6 +3,10 @@
     "width": 910,
     "height": 604
   },
+  "https://cdn.hashnode.com/res/hashnode/image/upload/v1674633040452/4d7032cc-d320-44c8-9bb1-3db7076b1e9a.png": {
+    "width": 1200,
+    "height": 400
+  },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921373638/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png": {
     "width": 2400,
     "height": 1260
@@ -18,6 +22,10 @@
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921876373/d3ced512-3d06-4b0a-8b25-c81b0e8e626b.png": {
     "width": 2400,
     "height": 1260
+  },
+  "https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png": {
+    "width": 2400,
+    "height": 1350
   },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1676033181637/add6554b-9120-4a70-8dc3-e56bb2446aa7.png?w=1200&auto=compress,format&format=webp&fm=png": {
     "width": 1280,
@@ -48,6 +56,10 @@
     "height": 840
   },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1676894340817/c0f1b8e2-f5dc-4950-82e9-dc74866f3c74.png?w=1200&auto=compress,format&format=webp&fm=png": {
+    "width": 1600,
+    "height": 840
+  },
+  "https://cdn.hashnode.com/res/hashnode/image/upload/v1676971804561/522eb53e-7247-4c31-a43d-a85a1bd1ea1c.png": {
     "width": 1600,
     "height": 840
   },
@@ -343,21 +355,9 @@
     "width": 1125,
     "height": 750
   },
-  "https://images.pexels.com/photos/4439457/pexels-photo-4439457.jpeg": {
-    "width": 5728,
-    "height": 3819
-  },
   "https://images.unsplash.com/photo-1487712010531-65e9aa8b4b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80": {
     "width": 1074,
     "height": 806
-  },
-  "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop": {
-    "width": 1200,
-    "height": 800
-  },
-  "https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=1200&auto=format&fit=crop": {
-    "width": 1200,
-    "height": 800
   },
   "https://img.freepik.com/free-vector/handwritten-style-thank-you-typography_53876-43732.jpg?w=1380&t=st=1676362202~exp=1676362802~hmac=b258d692e9dd15ac0383a1e618b301eb654bb0aa68d3529c487992087a2162cc": {
     "width": 1380,
@@ -386,10 +386,6 @@
   "https://keploy.io/docs/img/keploy-logo-dark.svg": {
     "width": 654,
     "height": 211
-  },
-  "https://media.dev.to/cdn-cgi/image/width=800%2Cheight=%2Cfit=scale-down%2Cgravity=auto%2Cformat=auto/https%3A%2F%2Fdev-to-uploads.s3.amazonaws.com%2Fuploads%2Farticles%2Fc6k9ie5hy36v36d09lqo.png": {
-    "width": 800,
-    "height": 400
   },
   "https://media.geeksforgeeks.org/wp-content/uploads/20200108135809/inheritance11.png": {
     "width": 335,
@@ -438,6 +434,10 @@
   "https://textdata.cn/images/blog/pycharm-professional.png": {
     "width": 2000,
     "height": 606
+  },
+  "https://thonny.org/img/screenshot.png": {
+    "width": 637,
+    "height": 525
   },
   "https://web.archive.org/web/20240417044949/https://cdn.hashnode.com/res/hashnode/image/upload/v1688046842016/4af6c288-a81e-45f8-80aa-493eca0da77e.png": {
     "width": 1920,
