@@ -191,7 +191,7 @@ function ExperienceRow({
       {item.meta.cover ? (
         <ExperienceLogo src={item.meta.cover} alt={item.meta.title} />
       ) : (
-        <div className="bg-secondary h-15 w-15 shrink-0 rounded-md" />
+        <div className="bg-secondary size-[60px] shrink-0 rounded-md" />
       )}
       <div className="flex-1">
         <p className="text-sm font-medium group-hover:underline">
