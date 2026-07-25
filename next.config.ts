@@ -11,6 +11,9 @@ const withBA = withBundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  experimental: {
+    inlineCss: true,
+  },
   async rewrites() {
     return [
       {
@@ -48,7 +51,7 @@ const nextConfig: NextConfig = {
     // 75 is the full-quality upgrade (components/smooth-image.tsx).
     qualities: [60, 75],
     deviceSizes: [640, 768, 1024, 1280, 1536],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    imageSizes: [16, 32, 48, 60, 64, 96, 120, 128, 140, 256, 280, 384],
     minimumCacheTTL: 31536000,
   },
   turbopack: {

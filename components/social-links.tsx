@@ -1,14 +1,6 @@
-"use client";
-
 import { socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
-import {
-  SYNCED_SCROLL_DURATION,
-  useSmartAutoplay,
-} from "@/lib/use-smart-autoplay";
-import Autoplay from "embla-carousel-autoplay";
-import useEmblaCarousel from "embla-carousel-react";
-import { useRef } from "react";
+import { SmartCarousel } from "./smart-carousel";
 
 function SocialIcon({
   brand,
@@ -66,6 +58,8 @@ function SocialIcon({
       viewBox="0 0 24 24"
       fill="currentColor"
       className={className}
+      aria-hidden="true"
+      focusable="false"
     >
       {iconPaths[brand] || (
         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
@@ -75,58 +69,36 @@ function SocialIcon({
 }
 
 export function SocialLinks() {
-  const autoplayRef = useRef(
-    Autoplay({ delay: 2500, stopOnInteraction: true, playOnInit: true })
-  );
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      duration: SYNCED_SCROLL_DURATION,
-      dragFree: true,
-    },
-    [autoplayRef.current]
-  );
-
-  const { pause, resume } = useSmartAutoplay(emblaApi, autoplayRef.current);
-
-  // ponytail: embla loop:true handles infinite scrolling internally
   return (
-    <div>
-      <div
-        className="embla w-full"
-        ref={emblaRef}
-        onMouseEnter={pause}
-        onMouseLeave={resume}
-        role="region"
-        aria-label={i18n.common.socialLinksRegion}
-        aria-roledescription="carousel"
+    <nav aria-label={i18n.common.socialLinksRegion}>
+      <SmartCarousel
+        ariaLabel={i18n.common.socialLinksRegion}
+        className="w-full"
       >
-        <div className="embla__container flex">
-          {socialLinks.map((link, i) => (
-            <div
-              key={`${link.name}-${i}`}
-              className="embla__slide mr-2 w-24 shrink-0 sm:mr-3 sm:w-26.5"
-              role="group"
-              aria-roledescription="slide"
+        <ul className="smart-carousel__container flex">
+          {socialLinks.map((link) => (
+            <li
+              key={link.name}
+              className="smart-carousel__slide mr-2 w-24 shrink-0 sm:mr-3 sm:w-26.5"
               aria-label={`Link to ${link.name}`}
-              tabIndex={-1}
             >
               <a
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Visit Swapnoneel on ${link.name}`}
                 className="bg-secondary border-border/60 group flex h-14 w-24 items-center justify-center rounded-md border transition-colors hover:bg-black/5 sm:h-16 sm:w-26.5 dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
               >
                 <SocialIcon
                   brand={link.brand}
                   className="text-foreground h-6 w-6 opacity-80 transition-opacity group-hover:opacity-100 sm:h-7 sm:w-7"
                 />
+                <span className="sr-only">{link.name}</span>
               </a>
-            </div>
+            </li>
           ))}
-        </div>
-      </div>
-    </div>
+        </ul>
+      </SmartCarousel>
+    </nav>
   );
 }

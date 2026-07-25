@@ -98,10 +98,32 @@ function SmoothImageInner({
   const [fallbackAttempt, setFallbackAttempt] = useState<number | null>(null);
   const [fallbackLoaded, setFallbackLoaded] = useState(false);
   const [fallbackExhausted, setFallbackExhausted] = useState(false);
+  const [shimmerActive, setShimmerActive] = useState(false);
+  const shimmerRef = useRef<HTMLSpanElement>(null);
   const retryTimeoutRef = useRef<number | null>(null);
 
   const hasVisibleImage = previewLoaded || finalLoaded || fallbackLoaded;
   const showError = fallbackExhausted && !hasVisibleImage;
+
+  useEffect(() => {
+    const shimmer = shimmerRef.current;
+    if (!showSkeleton || !shimmer || hasVisibleImage || showError) {
+      setShimmerActive(false);
+      return;
+    }
+
+    if (!("IntersectionObserver" in window)) {
+      setShimmerActive(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setShimmerActive(entry.isIntersecting),
+      { rootMargin: "160px 0px" }
+    );
+    observer.observe(shimmer);
+    return () => observer.disconnect();
+  }, [hasVisibleImage, showError, showSkeleton]);
 
   // Give the clean preview one paint of its own, then start the final request
   // immediately. This keeps the progressive reveal perceptible without the
@@ -196,19 +218,15 @@ function SmoothImageInner({
       aria-busy={!hasVisibleImage && !showError}
     >
       {showSkeleton && (
-        <Wrapper
+        <span
+          ref={shimmerRef}
           aria-hidden="true"
-          className={`absolute inset-0 transition-opacity duration-300 ease-out ${
+          data-shimmer-active={shimmerActive ? "true" : "false"}
+          className={`image-shimmer absolute inset-0 transition-opacity duration-300 ease-out ${
             hasVisibleImage || showError
               ? "pointer-events-none opacity-0"
               : "opacity-100"
           }`}
-          style={{
-            background:
-              "linear-gradient(90deg, hsl(var(--foreground) / 0.055) 30%, hsl(var(--foreground) / 0.14) 50%, hsl(var(--foreground) / 0.055) 70%)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 1.5s ease-in-out infinite",
-          }}
         />
       )}
 

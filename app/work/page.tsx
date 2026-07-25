@@ -3,6 +3,7 @@ import { ProjectGrid } from "@/components/project-grid";
 import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { buildProjectOverlayData } from "@/lib/project-overlay-data";
 import { firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
 import Link from "next/link";
@@ -72,6 +73,7 @@ const achievements = [
 export default function WorkPage() {
   const workItems = getAllWorkItems();
   const projects = getAllProjects();
+  const projectCards = projects.map(buildProjectOverlayData);
 
   return (
     <div className="space-y-10 pb-16">
@@ -150,7 +152,7 @@ export default function WorkPage() {
         <h2 className="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
           {i18n.work.sections.projects}
         </h2>
-        <ProjectGrid items={projects} />
+        <ProjectGrid items={projectCards} />
       </section>
 
       <hr className="border-border" />

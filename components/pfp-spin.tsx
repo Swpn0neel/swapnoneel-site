@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 export function PfpSpin({ children }: { children: React.ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLButtonElement>(null);
   const animRef = useRef<Animation | null>(null);
 
   function getInner() {
@@ -17,6 +17,8 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
   }
 
   function handleClick() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const inner = getInner();
     if (!inner) return;
 
@@ -96,12 +98,14 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div
+    <button
+      type="button"
       ref={ref}
       onClick={handleClick}
-      className="w-fit cursor-pointer self-start"
+      className="block w-fit cursor-pointer appearance-none self-start border-0 bg-transparent p-0 text-left"
+      aria-label="Animate profile photo"
     >
       {children}
-    </div>
+    </button>
   );
 }

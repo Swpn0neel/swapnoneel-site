@@ -4,13 +4,13 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
+@keyframes shimmer-transform {
+  from {
+    transform: translate3d(-140%, 0, 0);
   }
 
-  100% {
-    background-position: 200% 0;
+  to {
+    transform: translate3d(240%, 0, 0);
   }
 }
 
@@ -216,19 +216,72 @@ textarea {
   cursor: text;
 }
 
-/* Carousel */
-.embla {
+/* Carousel: native scroll-snap is the no-JS fallback. Embla is imported only
+   when a carousel approaches the viewport, then takes over the same track. */
+.smart-carousel {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+
+.smart-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+.smart-carousel[data-carousel-enhanced="true"] {
   overflow-x: clip;
+  scroll-snap-type: none;
 }
 
-.embla__container {
+.smart-carousel__container {
   display: flex;
+  touch-action: pan-y pinch-zoom;
 }
 
-.embla__slide {
+.smart-carousel__slide {
   flex: 0 0 auto;
   min-width: 0;
-  margin-right: 12px;
+  scroll-snap-align: start;
+}
+
+/* The highlight moves using only a compositor transform. It stays paused until
+   its image is near the viewport and stops as soon as an image is visible. */
+.image-shimmer {
+  overflow: hidden;
+  background: hsl(var(--foreground) / 0.055);
+  contain: strict;
+}
+
+.image-shimmer::before {
+  position: absolute;
+  inset: 0;
+  width: 55%;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--foreground) / 0.14),
+    transparent
+  );
+  transform: translate3d(-140%, 0, 0);
+  will-change: transform;
+}
+
+.image-shimmer[data-shimmer-active="true"]::before {
+  animation: shimmer-transform 1.5s ease-in-out infinite;
+}
+
+.deferred-render {
+  content-visibility: auto;
+  contain-intrinsic-block-size: auto 26rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image-shimmer::before {
+    animation: none !important;
+    transform: translate3d(40%, 0, 0);
+  }
 }
 
 /* Prose / MDX content */

@@ -3,54 +3,24 @@
 import { SmoothImage } from "@/components/smooth-image";
 import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
-import { useCallback, useEffect, useRef, useState } from "react";
+import type { ProjectOverlayData } from "@/lib/project-overlay-data";
 import { firstLink } from "@/lib/utils";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 
-interface ProjectMeta {
-  slug: string;
-  cover?: string;
-  title: string;
-  description?: string;
-  link?: string | string[];
-}
-
-export interface ProjectOverlayData {
-  meta: ProjectMeta;
-  content: string;
-}
+export type { ProjectOverlayData } from "@/lib/project-overlay-data";
 
 interface ProjectOverlayProps {
   project: ProjectOverlayData | null;
   onClose: () => void;
 }
 
-function parseSection(content: string, heading: string): string[] {
-  const regex = new RegExp(
-    `###\\s+${heading}[\\s\\S]*?\\n([\\s\\S]*?)(?=###|$)`,
-    "i"
-  );
-  const match = content.match(regex);
-  if (!match) return [];
-
-  const lines = match[1].split("\n");
-  const result: string[] = [];
-
-  for (const line of lines) {
-    if (line.trim().startsWith("-")) {
-      const cleaned = line.replace(/^-\s*/, "").trim();
-      if (cleaned) {
-        result.push(cleaned);
-      }
-    }
-  }
-
-  return result;
-}
-
 export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (project) {
@@ -63,6 +33,22 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       setIsVisible(false);
       setIsClosing(false);
     }
+  }, [project]);
+
+  useEffect(() => {
+    if (!project) {
+      returnFocusRef.current?.focus();
+      returnFocusRef.current = null;
+      return;
+    }
+
+    const activeElement = document.activeElement;
+    if (activeElement instanceof HTMLElement) {
+      returnFocusRef.current = activeElement;
+    }
+
+    const frame = requestAnimationFrame(() => closeButtonRef.current?.focus());
+    return () => cancelAnimationFrame(frame);
   }, [project]);
 
   // Lock body scroll when overlay is open
@@ -91,23 +77,50 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
     }, 400);
   }, [onClose]);
 
-  // Close on Escape key
+  // Keep keyboard focus inside the modal and close it on Escape.
   useEffect(() => {
+    if (!project) return;
+
     const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") handleClose();
+      if (e.key === "Escape") {
+        e.preventDefault();
+        handleClose();
+        return;
+      }
+
+      if (e.key !== "Tab" || !overlayRef.current) return;
+
+      const focusable = Array.from(
+        overlayRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
+
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [handleClose]);
+  }, [handleClose, project]);
 
   if (!project && !isClosing) return null;
 
-  const techStack = project ? parseSection(project.content, "Tech Stack") : [];
-  const features = project ? parseSection(project.content, "Features") : [];
+  const techStack = project?.techStack ?? [];
+  const features = project?.features ?? [];
   const projectLink = project ? firstLink(project.meta.link) : undefined;
 
-  return (
+  return createPortal(
     <div
+      id="project-overlay-dialog"
       ref={overlayRef}
       className={`project-overlay-backdrop ${isVisible ? "project-overlay-backdrop--visible" : ""}`}
       onClick={(e) => {
@@ -115,7 +128,10 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       }}
       role="dialog"
       aria-modal="true"
-      aria-label={project?.meta.title ?? i18n.common.projectDetails}
+      aria-labelledby="project-overlay-title"
+      aria-describedby={
+        project?.meta.description ? "project-overlay-description" : undefined
+      }
     >
       <div
         className={`project-overlay-panel ${isVisible ? "project-overlay-panel--visible" : ""}`}
@@ -146,6 +162,8 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
 
           {/* Floating close button on top of image */}
           <button
+            ref={closeButtonRef}
+            type="button"
             onClick={handleClose}
             className="project-overlay-close"
             aria-label={i18n.common.closeOverlay}
@@ -168,7 +186,10 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
 
           {/* Title floated on top of hero gradient */}
           <div className="project-overlay-hero-title-bar">
-            <h2 className="project-overlay-hero-title">
+            <h2
+              id="project-overlay-title"
+              className="project-overlay-hero-title"
+            >
               {project?.meta.title}
             </h2>
             {projectLink && (
@@ -201,7 +222,10 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
         {/* Scrollable info below the hero */}
         <div className="project-overlay-info">
           {project?.meta.description && (
-            <p className="project-overlay-description">
+            <p
+              id="project-overlay-description"
+              className="project-overlay-description"
+            >
               {project.meta.description}
             </p>
           )}
@@ -251,6 +275,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

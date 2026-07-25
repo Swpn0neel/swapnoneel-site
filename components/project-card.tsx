@@ -32,7 +32,7 @@ export function ProjectCard({
         <div className="relative aspect-video w-full overflow-hidden">
           <SmoothImage
             src={item.meta.cover}
-            alt={item.meta.title}
+            alt=""
             width={imageWidth}
             height={imageHeight}
             className="h-full w-full object-cover transition duration-500 group-hover:scale-110"

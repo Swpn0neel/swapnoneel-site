@@ -7,6 +7,7 @@ import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { buildProjectOverlayData } from "@/lib/project-overlay-data";
 import { buildPersonSchema } from "@/lib/structured-data";
 import { firstLink, safeJsonLd } from "@/lib/utils";
 import dynamic from "next/dynamic";
@@ -19,7 +20,7 @@ const CalBooking = dynamic(() =>
 
 export default function Home() {
   const workItems = getAllWorkItems();
-  const projects = getAllProjects();
+  const projects = getAllProjects().map(buildProjectOverlayData);
 
   return (
     <div className="space-y-10 pb-12">
@@ -48,7 +49,6 @@ export default function Home() {
                   loading="eager"
                   fetchPriority="low"
                   decoding="async"
-                  unoptimized
                   placeholder="blur"
                   blurDataURL={blurMap[siteConfig.images.avatar]}
                   className="pfp-image-flip"
@@ -61,9 +61,9 @@ export default function Home() {
                   width={140}
                   height={140}
                   sizes="140px"
-                  preload
+                  loading="lazy"
+                  fetchPriority="low"
                   decoding="async"
-                  unoptimized
                   placeholder="blur"
                   blurDataURL={blurMap[siteConfig.images.avatarHover]}
                   className="pfp-image-flip"
@@ -116,7 +116,7 @@ export default function Home() {
       <hr className="border-border" />
 
       {/* Experience */}
-      <section>
+      <section className="deferred-render">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
             {i18n.home.sections.experience}
@@ -162,7 +162,7 @@ export default function Home() {
       </section>
 
       {/* Projects */}
-      <section>
+      <section className="deferred-render">
         <div className="mb-5 flex items-center justify-between">
           <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
             {i18n.home.sections.projects}
