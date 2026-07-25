@@ -143,27 +143,27 @@ export default function ContactPage() {
 
       const theme = isDark
         ? {
-          pageBg: "#000000",
-          cardBg: "#121212",
-          border: "#262626",
-          heading: "#fafafa",
-          body: "#a3a3a3",
-          subtle: "#6b6b6b",
-          quoteBg: "#1a1a1a",
-          accent: "#fafafa",
-          btnBorder: "#333333",
-        }
+            pageBg: "#000000",
+            cardBg: "#121212",
+            border: "#262626",
+            heading: "#fafafa",
+            body: "#a3a3a3",
+            subtle: "#6b6b6b",
+            quoteBg: "#1a1a1a",
+            accent: "#fafafa",
+            btnBorder: "#333333",
+          }
         : {
-          pageBg: "#f4f4f5",
-          cardBg: "#ffffff",
-          border: "#e5e5e5",
-          heading: "#0a0a0a",
-          body: "#525252",
-          subtle: "#9a9a9a",
-          quoteBg: "#fafafa",
-          accent: "#0a0a0a",
-          btnBorder: "#d4d4d4",
-        };
+            pageBg: "#f4f4f5",
+            cardBg: "#ffffff",
+            border: "#e5e5e5",
+            heading: "#0a0a0a",
+            body: "#525252",
+            subtle: "#9a9a9a",
+            quoteBg: "#fafafa",
+            accent: "#0a0a0a",
+            btnBorder: "#d4d4d4",
+          };
 
       const templateParams = {
         name,
@@ -284,7 +284,7 @@ export default function ContactPage() {
                 Both spans share one grid cell, so the cell takes the wider. */}
             <span
               aria-hidden="true"
-              className="invisible col-start-1 row-start-1 flex items-center justify-center gap-2"
+              className="invisible col-start-1 row-start-1 flex items-center justify-center gap-2 leading-none"
             >
               <Send className="size-[1em] shrink-0" />
               {i18n.contactPage.sendMessage}
@@ -310,7 +310,13 @@ export default function ContactPage() {
                     // properties rather than folding them into `transform`, so
                     // they have to be named here or the movement snaps and only
                     // the fade animates.
-                    "col-start-1 row-start-1 flex items-center justify-center gap-2 transition-[opacity,translate,scale] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
+                    //
+                    // `leading-none` matters for icon alignment: the Button
+                    // sets it too, but `text-sm` wins in the cascade and leaves
+                    // a 24px line box around 16.8px text. Centring the icon on
+                    // that taller box makes it sit visibly low, so the line box
+                    // is tightened back to the font size here.
+                    "col-start-1 row-start-1 flex items-center justify-center gap-2 leading-none transition-[opacity,translate,scale] duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                     isActive
                       ? "translate-y-0 scale-100 opacity-100"
                       : "pointer-events-none translate-y-1 scale-90 opacity-0"
