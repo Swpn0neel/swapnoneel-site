@@ -90,9 +90,8 @@ export default function Home() {
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <p
               key={paragraph}
-              className={`text-muted-foreground text-sm leading-relaxed lowercase ${
-                index > 0 ? "mt-4" : ""
-              }`}
+              className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
+                }`}
             >
               {paragraph}
             </p>
@@ -128,7 +127,7 @@ export default function Home() {
             {i18n.common.seeAll}
           </Link>
         </div>
-        <div className="space-y-3">
+        <div className="space-y-4 sm:space-y-3">
           {workItems.map((item, i) => (
             <div key={item.meta.slug}>
               {item.meta.link ? (
@@ -136,25 +135,25 @@ export default function Home() {
                   href={firstLink(item.meta.link)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-3"
+                  className="group flex items-center gap-4 sm:gap-3"
                 >
                   <WorkCard item={item} />
                 </a>
               ) : (
                 <Link
                   href={`/work/${item.meta.slug}?from=home`}
-                  className="group flex items-center gap-3"
+                  className="group flex items-center gap-4 sm:gap-3"
                 >
                   <WorkCard item={item} />
                 </Link>
               )}
               {i < workItems.length - 1 && (
-                <hr className="border-border mt-3" />
+                <hr className="border-border mt-4 sm:mt-3" />
               )}
             </div>
           ))}
         </div>
-        <div className="mt-3">
+        <div className="mt-4 sm:mt-3">
           <hr className="border-border" />
           <ViewMore href="/work/others?from=home" />
           <hr className="border-border" />

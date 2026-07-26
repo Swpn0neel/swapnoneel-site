@@ -129,6 +129,21 @@ export default async function WorkItemPage({
               rehypePlugins: [rehypeHighlight],
             },
           }}
+          components={{
+            a: ({ href, children, ...props }) => {
+              const isExternal =
+                href && (href.startsWith("http://") || href.startsWith("https://"));
+              return (
+                <a
+                  href={href}
+                  {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  {...props}
+                >
+                  {children}
+                </a>
+              );
+            },
+          }}
         />
       </div>
     </article>
