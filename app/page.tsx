@@ -1,15 +1,14 @@
-import { ExperienceLogo } from "@/components/experience-logo";
+import { ExperienceSection } from "@/components/experience-section";
 import { PfpSpin } from "@/components/pfp-spin";
 import { ProjectCarousel } from "@/components/project-carousel";
 import { SocialLinks } from "@/components/social-links";
-import { ViewMore } from "@/components/view-more";
 import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { buildProjectOverlayData } from "@/lib/project-overlay-data";
 import { buildPersonSchema } from "@/lib/structured-data";
-import { firstLink, safeJsonLd } from "@/lib/utils";
+import { safeJsonLd } from "@/lib/utils";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
@@ -120,51 +119,12 @@ export default function Home() {
       <hr className="border-border" />
 
       {/* Experience */}
-      <section className="deferred-render">
-        <div className="mb-5 flex items-center justify-between">
-          <h2 className="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
-            {i18n.home.sections.experience}
-          </h2>
-          <Link
-            href="/work"
-            className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
-          >
-            {i18n.common.seeAll}
-          </Link>
-        </div>
-        <div className="space-y-4 sm:space-y-3">
-          {workItems.map((item, i) => (
-            <div key={item.meta.slug}>
-              {item.meta.link ? (
-                <a
-                  href={firstLink(item.meta.link)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-4 sm:gap-3"
-                >
-                  <WorkCard item={item} />
-                </a>
-              ) : (
-                <Link
-                  href={`/work/${item.meta.slug}?from=home`}
-                  prefetch={false}
-                  className="group flex items-center gap-4 sm:gap-3"
-                >
-                  <WorkCard item={item} />
-                </Link>
-              )}
-              {i < workItems.length - 1 && (
-                <hr className="border-border mt-4 sm:mt-3" />
-              )}
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 sm:mt-3">
-          <hr className="border-border" />
-          <ViewMore href="/work/others?from=home" />
-          <hr className="border-border" />
-        </div>
-      </section>
+      <ExperienceSection
+        items={workItems}
+        seeAllHref="/work"
+        from="home"
+        className="deferred-render"
+      />
 
       {/* Projects */}
       <section className="deferred-render">
@@ -206,24 +166,3 @@ export default function Home() {
   );
 }
 
-function WorkCard({
-  item,
-}: {
-  item: { meta: { cover?: string; title: string; date: string } };
-}) {
-  return (
-    <>
-      {item.meta.cover && (
-        <ExperienceLogo src={item.meta.cover} alt={item.meta.title} size={40} />
-      )}
-      <div className="flex-1 flex flex-col md:flex-row md:items-center md:justify-between">
-        <p className="text-sm font-medium group-hover:underline">
-          {item.meta.title}
-        </p>
-        <p className="text-muted-foreground text-xs mt-0.5 md:mt-0 whitespace-nowrap">
-          {item.meta.date}
-        </p>
-      </div>
-    </>
-  );
-}

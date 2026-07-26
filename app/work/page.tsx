@@ -1,12 +1,10 @@
-import { ExperienceLogo } from "@/components/experience-logo";
+import { ExperienceSection } from "@/components/experience-section";
 import { ProjectGrid } from "@/components/project-grid";
-import { ViewMore } from "@/components/view-more";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { buildProjectOverlayData } from "@/lib/project-overlay-data";
 import { firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
-import Link from "next/link";
 
 const workDescription =
   "Professional experience, projects, and achievements of Swapnoneel Saha — Software Engineer specializing in Agentic AI and full-stack development.";
@@ -112,40 +110,7 @@ export default function WorkPage() {
         }}
       />
       {/* Experience */}
-      <section>
-        <h2 className="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
-          {i18n.work.sections.experience}
-        </h2>
-        <div className="space-y-0">
-          {workItems.map((item, i) => (
-            <div key={item.meta.slug}>
-              {item.meta.link ? (
-                <a
-                  href={firstLink(item.meta.link)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center gap-3 py-4"
-                >
-                  <ExperienceRow item={item} />
-                </a>
-              ) : (
-                <Link
-                  href={`/work/${item.meta.slug}`}
-                  className="group flex items-center gap-3 py-4"
-                >
-                  <ExperienceRow item={item} />
-                </Link>
-              )}
-              {i < workItems.length - 1 && <hr className="border-border" />}
-            </div>
-          ))}
-          <div className="mt-2">
-            <hr className="border-border" />
-            <ViewMore href="/work/others" />
-            <hr className="border-border" />
-          </div>
-        </div>
-      </section>
+      <ExperienceSection items={workItems} variant="prominent" />
 
       {/* Projects */}
       <section>
@@ -181,28 +146,3 @@ export default function WorkPage() {
   );
 }
 
-function ExperienceRow({
-  item,
-}: {
-  item: { meta: { cover?: string; title: string; date: string } };
-}) {
-  return (
-    <>
-      {item.meta.cover ? (
-        <ExperienceLogo src={item.meta.cover} alt={item.meta.title} />
-      ) : (
-        <div className="bg-secondary size-[60px] shrink-0 rounded-md" />
-      )}
-      <div className="flex-1">
-        <p className="text-sm font-medium group-hover:underline">
-          {item.meta.title}
-        </p>
-        <p className="text-muted-foreground mt-0.5 text-xs">{item.meta.date}</p>
-      </div>
-      <span className="text-muted-foreground group-hover:text-foreground hidden items-center gap-1 text-xs transition-all sm:flex">
-        <span className="group-hover:underline">{i18n.common.readMore}</span>
-        <span className="text-[10px] no-underline">→</span>
-      </span>
-    </>
-  );
-}
