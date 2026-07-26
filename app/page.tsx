@@ -128,7 +128,7 @@ export default function Home() {
             {i18n.common.seeAll}
           </Link>
         </div>
-        <div className="space-y-5">
+        <div className="space-y-3">
           {workItems.map((item, i) => (
             <div key={item.meta.slug}>
               {item.meta.link ? (
@@ -149,14 +149,14 @@ export default function Home() {
                 </Link>
               )}
               {i < workItems.length - 1 && (
-                <hr className="border-border mt-5" />
+                <hr className="border-border mt-3" />
               )}
             </div>
           ))}
         </div>
         <div className="mt-6">
           <hr className="border-border" />
-          <ViewMore href="/work/others" />
+          <ViewMore href="/work/others?from=home" />
           <hr className="border-border" />
         </div>
       </section>
@@ -209,13 +209,15 @@ function WorkCard({
   return (
     <>
       {item.meta.cover && (
-        <ExperienceLogo src={item.meta.cover} alt={item.meta.title} />
+        <ExperienceLogo src={item.meta.cover} alt={item.meta.title} size={40} />
       )}
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col md:flex-row md:items-center md:justify-between">
         <p className="text-sm font-medium group-hover:underline">
           {item.meta.title}
         </p>
-        <p className="text-muted-foreground mt-0.5 text-xs">{item.meta.date}</p>
+        <p className="text-muted-foreground text-xs mt-0.5 md:mt-0 whitespace-nowrap">
+          {item.meta.date}
+        </p>
       </div>
     </>
   );

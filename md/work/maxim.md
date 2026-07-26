@@ -1,6 +1,6 @@
 ---
 title: "GTM Engineer • Maxim AI"
-date: "July 2026 - Present"
+date: "Jul 2026 - Present"
 description: ""
 cover: "/work/maxim.webp"
 ---

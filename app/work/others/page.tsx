@@ -5,15 +5,22 @@ export const metadata = {
   title: i18n.work.otherExperience.title,
 };
 
-export default function OthersPage() {
+export default async function OthersPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from?: string }>;
+}) {
+  const { from } = await searchParams;
+  const isHome = from === "home";
+
   return (
     <article className="pb-16">
       <div className="mb-8">
         <Link
-          href="/work"
+          href={isHome ? "/" : "/work"}
           className="text-muted-foreground hover:text-foreground text-xs transition-colors"
         >
-          ← {i18n.work.otherExperience.backLink}
+          ← {isHome ? "home" : i18n.work.otherExperience.backLink}
         </Link>
         <h1 className="mt-4 mb-1 text-xl font-semibold">
           {i18n.work.otherExperience.role}

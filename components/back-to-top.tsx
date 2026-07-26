@@ -37,8 +37,8 @@ export function BackToTop() {
       // Ignore sub-pixel jitter (some trackpads/browsers fire noisy deltas)
       // so the arrow doesn't flip on scroll wobble.
       let nextDirection: Direction | null = null;
-      if (delta > 2) nextDirection = "down";
-      else if (delta < -2) nextDirection = "up";
+      if (delta > 2) nextDirection = "up";
+      else if (delta < -2) nextDirection = "down";
       if (nextDirection) {
         setDirection(nextDirection);
         if (nextDirection !== directionRef.current) {
