@@ -8,7 +8,7 @@ interface ViewMoreProps {
 
 export function ViewMore({ href, label }: ViewMoreProps) {
   return (
-    <div className="flex justify-end py-6">
+    <div className="flex justify-end py-5">
       <Link
         href={href}
         className="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"

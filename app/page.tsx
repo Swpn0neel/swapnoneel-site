@@ -23,7 +23,7 @@ export default function Home() {
   const projects = getAllProjects().map(buildProjectOverlayData);
 
   return (
-    <div className="space-y-10 pb-12">
+    <div className="space-y-7 pb-12">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -154,7 +154,7 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="mt-6">
+        <div className="mt-3">
           <hr className="border-border" />
           <ViewMore href="/work/others?from=home" />
           <hr className="border-border" />

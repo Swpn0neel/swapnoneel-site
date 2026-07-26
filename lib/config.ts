@@ -8,6 +8,7 @@ export type SocialBrand =
   | "x"
   | "reddit"
   | "dailydev"
+  | "peerlist"
   | "leetcode"
   | "instagram"
   | "hashnode"
@@ -94,6 +95,11 @@ export const socialLinks: readonly SocialLink[] = [
     name: "daily.dev",
     brand: "dailydev",
     url: "https://daily.dev/swapnoneel",
+  },
+  {
+    name: "peerlist",
+    brand: "peerlist",
+    url: "https://peerlist.io/swapnoneel",
   },
   { name: "dev.to", brand: "devdotto", url: "https://dev.to/swapnoneel123" },
   {
