@@ -1,7 +1,7 @@
 ---
 title: "GTM Engineer • Maxim AI"
 date: "Jul 2026 - Present"
-description: ""
+description: "Managing the open-source community and working on Bifrost, running the social handles, and creating video content and technical blogs."
 cover: "/work/maxim.webp"
 ---
 
