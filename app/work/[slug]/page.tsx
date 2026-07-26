@@ -63,12 +63,18 @@ export async function generateMetadata({
 
 export default async function WorkItemPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ from?: string }>;
 }) {
   const { slug } = await params;
+  const { from } = await searchParams;
   const item = getWorkItem(slug);
   if (!item) notFound();
+
+  const backHref = from === "home" ? "/" : "/work";
+  const backLabel = from === "home" ? "home" : i18n.work.otherExperience.backLink;
 
   const url = `https://www.swapnoneel.site/work/${slug}`;
 
@@ -106,10 +112,10 @@ export default async function WorkItemPage({
       />
       <div className="mb-8">
         <Link
-          href="/work"
+          href={backHref}
           className="text-muted-foreground hover:text-foreground text-xs transition-colors"
         >
-          ← {i18n.work.otherExperience.backLink}
+          ← {backLabel}
         </Link>
         <h1 className="mt-4 mb-1 text-xl font-semibold">{item.meta.title}</h1>
         <p className="text-muted-foreground text-xs">{item.meta.date}</p>

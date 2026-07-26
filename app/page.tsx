@@ -142,7 +142,7 @@ export default function Home() {
                 </a>
               ) : (
                 <Link
-                  href={`/work/${item.meta.slug}`}
+                  href={`/work/${item.meta.slug}?from=home`}
                   className="group flex items-center gap-3"
                 >
                   <WorkCard item={item} />
