@@ -9,7 +9,7 @@ async function getFilesRecursively(dir) {
   let list;
   try {
     list = await fs.readdir(dir);
-  } catch (error) {
+  } catch {
     return [];
   }
   for (const file of list) {

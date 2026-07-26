@@ -3,11 +3,9 @@ import fs from "fs";
 import matter from "gray-matter";
 
 // Determine if we are inside a git repository
-let isGit = false;
 try {
   execSync("git rev-parse --is-inside-work-tree", { stdio: "ignore" });
-  isGit = true;
-} catch (e) {
+} catch {
   console.log(
     "Not a git repository or git is not installed. Skipping automatic blog update checks."
   );
@@ -82,7 +80,7 @@ try {
         encoding: "utf8",
         stdio: ["pipe", "pipe", "ignore"],
       });
-    } catch (e) {
+    } catch {
       // File doesn't exist in HEAD (untracked/newly added)
     }
 
@@ -95,7 +93,7 @@ try {
       let parsedHead;
       try {
         parsedHead = matter(headContent);
-      } catch (e) {
+      } catch {
         // If HEAD can't be parsed, treat as changed
         hasChanged = true;
       }

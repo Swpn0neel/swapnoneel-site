@@ -2,12 +2,12 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1714393417843/65bd36e3-38a3-4300-9603-23c6950d351c.png
 title: Software Testing Pyramid
-date: 'Mon, 29 Apr 2024 12:25:01 GMT'
+date: "Mon, 29 Apr 2024 12:25:01 GMT"
 description: >-
   Structured software testing includes unit, integration, and end-to-end layers
   for efficient defect identification and quality maintenance...
-link: 'https://swapnoneel.hashnode.dev/software-testing-pyramid'
-updated: '2026-07-23T13:07:48.942Z'
+link: "https://swapnoneel.hashnode.dev/software-testing-pyramid"
+updated: "2026-07-23T13:07:48.942Z"
 tags:
   - testing
   - unit-testing
@@ -84,4 +84,3 @@ In conclusion, the Software Testing Pyramid provides a structured approach to so
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
 ![Thank you graphic for software testing pyramid blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334190050/d203af69-a3d1-4e93-827b-1ecb696255b9.png)
-

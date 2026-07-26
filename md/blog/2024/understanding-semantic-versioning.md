@@ -2,12 +2,12 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1717270513489/5ca60b7c-07f3-4720-a9cd-06e6d14f93ef.png
 title: Understanding Semantic Versioning
-date: 'Sat, 01 Jun 2024 19:35:38 GMT'
+date: "Sat, 01 Jun 2024 19:35:38 GMT"
 description: >-
   Learn the basics of Semantic Versioning and how it helps developers manage
   software changes effectively...
-link: 'https://swapnoneel.hashnode.dev/understanding-semantic-versioning'
-updated: '2026-07-23T13:07:48.942Z'
+link: "https://swapnoneel.hashnode.dev/understanding-semantic-versioning"
+updated: "2026-07-23T13:07:48.942Z"
 tags:
   - semver
   - git
@@ -92,4 +92,3 @@ Also, if you want to see an example of how semantic versioning is implemented in
 Hence, that's a wrap for now, and if you want to learn new things like this, you can follow me at [Swapnoneel Saha](https://hashnode.com/@Swapn0neel) and also follow me on [Twitter (swapnoneel123)](http://twitter.com/swapnoneel123) where I share more such content through my tweets and threads. I wish you a great day ahead and till then keep learning and keep exploring!!
 
 ![Thank you graphic for semantic versioning blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1716652301849/8327a90c-373e-4837-9102-e67bb38def0c.png)
-

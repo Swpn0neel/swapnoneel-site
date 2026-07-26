@@ -1,6 +1,6 @@
 ---
 title: The 3 Most Powerful Functions in JavaScript
-date: '2024-03-10T12:14:24.268Z'
+date: "2024-03-10T12:14:24.268Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   allow u...
 cover: >-
   https://web.archive.org/web/20240522113721/https://cdn.hashnode.com/res/hashnode/image/upload/v1710072792777/b19a2577-a9ac-47e3-b8f0-a7f7821ab6f8.png
-link: 'https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-javascript'
+link: "https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-javascript"
 tags:
   - javascript
   - functional-programming
   - es6
   - webdev
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

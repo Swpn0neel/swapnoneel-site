@@ -1,6 +1,6 @@
 ---
 title: Designing Machine Learning Workflows in Python
-date: '2024-02-02T16:07:14.579Z'
+date: "2024-02-02T16:07:14.579Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   frameworks, is...
 cover: >-
   https://web.archive.org/web/20240417063106/https://cdn.hashnode.com/res/hashnode/image/upload/v1706889691867/9b2f329b-3ac3-47e5-a748-c9a1eadee06a.png
-link: 'https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python'
+link: "https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python"
 tags:
   - python
   - machine-learning
   - data-science
   - workflows
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction
@@ -253,4 +253,3 @@ Thank you for reading the blog! I hope you found it informative and valuable. Fo
 I wish you a great day ahead and till then keep learning and keep exploring!!
 
 ![Machine learning model evaluation matrix and performance metrics](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889699251/e0331511-ab42-4e0c-997c-5cbe529b3888.png)
-

@@ -160,9 +160,11 @@ export default async function BlogPostPage({
   });
 
   function getCrossPost(url: string) {
-    if (url.includes("keploy")) return { label: "Keploy Blogs", color: "#F97316" };
+    if (url.includes("keploy"))
+      return { label: "Keploy Blogs", color: "#F97316" };
     if (url.includes("dev.to")) return { label: "DEV.to", color: "#3B49DF" };
-    if (url.includes("medium.com")) return { label: "Medium", color: "#02B875" };
+    if (url.includes("medium.com"))
+      return { label: "Medium", color: "#02B875" };
     return { label: "Hashnode", color: "#2962FF" };
   }
 

@@ -1,6 +1,6 @@
 ---
-title: 'DevBytes: Short Coding News'
-date: '2023-03-28T15:12:34.057Z'
+title: "DevBytes: Short Coding News"
+date: "2023-03-28T15:12:34.057Z"
 description: >-
   What is DevBytes?
 
@@ -10,13 +10,13 @@ description: >-
   bri...
 cover: >-
   https://web.archive.org/web/20241202122624/https://cdn.hashnode.com/res/hashnode/image/upload/v1679999476023/496d151a-c10f-4b24-946f-3791d78f6f54.png
-link: 'https://swapnoneel.hashnode.dev/devbytes-short-coding-news'
+link: "https://swapnoneel.hashnode.dev/devbytes-short-coding-news"
 tags:
   - tech-news
   - coding
   - webdev
   - productivity
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## What is DevBytes?
@@ -55,4 +55,3 @@ In today's era of rapid technological advancements, apps like DevBytes are the o
 If you have enjoyed reading this blog, I recommend checking out the app available on PlayStore. You can find the link to download it here: [DevBytes](https://play.google.com/store/apps/details?id=com.candelalabs.devbytes&utm_source=app)
 
 ![Thank you blackboard illustration for DevBytes news blog](https://c0.wallpaperflare.com/preview/726/785/255/blackboard-close-up-frame-gratitude.jpg)
-

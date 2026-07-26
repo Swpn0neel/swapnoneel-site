@@ -129,9 +129,7 @@ export default function ResumePage() {
               className="hover:text-foreground -mx-2 flex min-h-9 min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0"
             >
               <Mail size={14} className="shrink-0" aria-hidden="true" />
-              <span className="wrap-anywhere">
-                {siteConfig.person.email}
-              </span>
+              <span className="wrap-anywhere">{siteConfig.person.email}</span>
             </a>
             {linkedin && (
               <a
@@ -158,9 +156,7 @@ export default function ResumePage() {
                 <span className="shrink-0" aria-hidden="true">
                   <GithubIcon size={14} />
                 </span>
-                <span className="wrap-anywhere">
-                  github.com/Swpn0neel
-                </span>
+                <span className="wrap-anywhere">github.com/Swpn0neel</span>
               </a>
             )}
             <a
@@ -292,8 +288,9 @@ export default function ResumePage() {
                       rel={
                         project.meta.link ? "noopener noreferrer" : undefined
                       }
-                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 block min-w-0 rounded-md border p-4 transition-colors ${project.meta.link ? "cursor-pointer" : ""
-                        }`}
+                      className={`group border-border bg-secondary/10 hover:bg-secondary/20 block min-w-0 rounded-md border p-4 transition-colors ${
+                        project.meta.link ? "cursor-pointer" : ""
+                      }`}
                     >
                       <h3 className="mb-1 flex min-w-0 items-start justify-between gap-3 text-sm leading-snug font-semibold uppercase">
                         <span className="min-w-0 wrap-anywhere">

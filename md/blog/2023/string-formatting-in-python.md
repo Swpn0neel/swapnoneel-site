@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1674921876373/d3ced512-3d06-4b0a-8b25-c81b0e8e626b.png
 title: String formatting in python
-date: '2023-01-25T07:50:52.768Z'
+date: "2023-01-25T07:50:52.768Z"
 description: >-
   Introduction
 
@@ -17,13 +17,13 @@ description: >-
 
   It is a new string formatting mechanism introduced by the PEP 498. It is also
   known...
-link: 'https://swapnoneel.hashnode.dev/string-formatting-in-python'
+link: "https://swapnoneel.hashnode.dev/string-formatting-in-python"
 tags:
   - python
   - strings
   - f-strings
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ### Introduction
@@ -78,5 +78,3 @@ print(f"{2 * 30})"
 Thanks for reading this blog, hope you have understood something new today.
 
 ![Thank you graphic for Python string formatting blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1674633040452/4d7032cc-d320-44c8-9bb1-3db7076b1e9a.png)
-
-

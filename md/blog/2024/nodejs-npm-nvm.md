@@ -1,6 +1,6 @@
 ---
 title: Installing Node.js and managing it's versions were this easy?
-date: '2024-05-24T14:42:50.142Z'
+date: "2024-05-24T14:42:50.142Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   platform for...
 cover: >-
   https://web.archive.org/web/20240526000304/https://cdn.hashnode.com/res/hashnode/image/upload/v1716561929669/7be53812-2eb8-4dd7-84a4-3a0f8546086f.png
-link: 'https://swapnoneel.hashnode.dev/nodejs-npm-nvm'
+link: "https://swapnoneel.hashnode.dev/nodejs-npm-nvm"
 tags:
   - nodejs
   - npm
   - nvm
   - javascript
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

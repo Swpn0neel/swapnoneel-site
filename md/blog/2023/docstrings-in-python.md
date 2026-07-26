@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1674921636996/6039154e-d731-486b-8d15-888cb8bba647.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
 title: Docstrings in python
-date: '2023-01-25T14:42:32.056Z'
+date: "2023-01-25T14:42:32.056Z"
 description: >-
   Introduction
 
@@ -20,13 +20,13 @@ description: >-
   Here,
 
   '''T...
-link: 'https://swapnoneel.hashnode.dev/docstrings-in-python'
+link: "https://swapnoneel.hashnode.dev/docstrings-in-python"
 tags:
   - python
   - documentation
   - clean-code
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

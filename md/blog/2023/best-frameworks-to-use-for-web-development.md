@@ -1,6 +1,6 @@
 ---
 title: Best Frameworks to use for Web Development
-date: '2023-07-28T15:04:47.555Z'
+date: "2023-07-28T15:04:47.555Z"
 description: >-
   In the rapidly evolving and progressive world of web development, front-end
   frameworks have become essential tools for creating sleek, interactive, and
@@ -8,13 +8,13 @@ description: >-
   developers with a solid foun...
 cover: >-
   https://web.archive.org/web/20240417044949/https://cdn.hashnode.com/res/hashnode/image/upload/v1688046842016/4af6c288-a81e-45f8-80aa-493eca0da77e.png
-link: 'https://swapnoneel.hashnode.dev/best-frameworks-to-use-for-web-development'
+link: "https://swapnoneel.hashnode.dev/best-frameworks-to-use-for-web-development"
 tags:
   - webdev
   - frontend
   - javascript
   - frameworks
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 In the rapidly evolving and progressive world of web development, front-end frameworks have become essential tools for creating sleek, interactive, and user-friendly websites and web applications. These frameworks provide developers with a solid foundation and a set of pre-defined components, libraries, and tools that streamline the development process, boost productivity, and enhance the overall user experience.

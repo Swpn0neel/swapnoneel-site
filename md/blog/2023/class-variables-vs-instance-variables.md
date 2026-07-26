@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676806711688/0c46e75c-e465-45b9-880c-be4cff7fdb14.png?w=1200&auto=compress,format&format=webp&fm=png
 title: Class Variables vs Instance Variables
-date: 'Sun, 19 Feb 2023 11:38:55 GMT'
+date: "Sun, 19 Feb 2023 11:38:55 GMT"
 description: >-
   Introduction
 
@@ -12,13 +12,13 @@ description: >-
   it !!
 
   Class V...
-link: 'https://swapnoneel.hashnode.dev/class-variables-vs-instance-variables'
+link: "https://swapnoneel.hashnode.dev/class-variables-vs-instance-variables"
 tags:
   - python
   - oop
   - variables
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction
@@ -81,4 +81,3 @@ It's also worth noting that, in python, class variables are defined outside of a
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
 ![Thank you graphic for class vs instance variables blog](https://images.unsplash.com/photo-1487712010531-65e9aa8b4b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80)
-

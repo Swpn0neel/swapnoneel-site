@@ -36,6 +36,13 @@ Swapnoneel is a software engineer based in India, with extensive experience buil
 
 ## Professional Experience
 
+### GTM Engineer • Maxim AI
+*July 2026 – Present* | [Maxim AI](https://www.getmaxim.ai)
+*   **Description:** Maxim AI is building the GenAI evaluation and observability platform, empowering AI teams to ship reliable agents with enterprise-grade quality and performance monitoring.
+*   **Impact & Core Achievements:**
+    *   **Developer Advocacy & Enablement:** Driving technical GTM initiatives, developer advocacy, and enablement for Maxim's AI evaluation and observability suite.
+    *   **Agent Observability & Evals Integration:** Engaging with engineering teams to integrate gateway governance, evals, and observability tools into real-world AI agent workflows.
+
 ### GTM Engineer • Zonko Labs
 *April 2026 – July 2026* | [Zonko Labs](https://zonko.ai)
 *   **Description:** Zonko Labs is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.

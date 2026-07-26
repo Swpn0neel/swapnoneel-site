@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676033181637/add6554b-9120-4a70-8dc3-e56bb2446aa7.png?w=1200&auto=compress,format&format=webp&fm=png
 title: The 3 Most Powerful Functions in Python
-date: '2023-02-10T12:46:31.060Z'
+date: "2023-02-10T12:46:31.060Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   allow you to apply a function to a sequence of elements and return a new
   sequence. These functions are known as higher-order functions, as they take
   other funct...
-link: 'https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-python'
+link: "https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-python"
 tags:
   - python
   - functional-programming
   - map-filter-reduce
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

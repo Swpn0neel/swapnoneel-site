@@ -1,7 +1,7 @@
 ---
-cover: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png'
+cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png"
 title: Object Introspection in Python
-date: '2023-02-07T15:48:04.393Z'
+date: "2023-02-07T15:48:04.393Z"
 description: >-
   Introduction
 
@@ -9,13 +9,13 @@ description: >-
   python. They make it easy for us to understand how classes resolve various
   functions and execute code. In Python, there are three built-in functions that
   are commo...
-link: 'https://swapnoneel.hashnode.dev/object-introspection-in-python'
+link: "https://swapnoneel.hashnode.dev/object-introspection-in-python"
 tags:
   - python
   - introspection
   - debugging
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

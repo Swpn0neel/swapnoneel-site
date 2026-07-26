@@ -1,6 +1,6 @@
 ---
 title: Why Vercel is still my default for shipping frontend projects
-date: '2026-07-13T00:00:00.000Z'
+date: "2026-07-13T00:00:00.000Z"
 description: >-
   Why I keep reaching for Vercel for frontend projects — and where Cloudflare,
   Netlify, and Railway are the better choice.
@@ -9,7 +9,7 @@ link: >-
   https://dev.to/swapnoneel123/why-vercel-is-still-my-default-for-shipping-frontend-projects-2dd6
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/aovia04alqss3g389xah.png
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 tags:
   - vercel
   - frontend

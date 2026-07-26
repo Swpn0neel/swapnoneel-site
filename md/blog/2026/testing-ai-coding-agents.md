@@ -1,21 +1,21 @@
 ---
 title: Nobody's Testing AI Coding Agents Enough
-date: '2026-07-24T00:00:00.000Z'
+date: "2026-07-24T00:00:00.000Z"
 description: >-
   40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped
   being optional, here's what I learned being paid to do it.
 slug: testing-ai-coding-agents
 link:
-  - 'https://dev.to/swapnoneel123/nobodys-testing-ai-coding-agents-enough-4bo'
-  - 'https://swapnoneel.medium.com/nobodys-testing-ai-coding-agents-enough-17f2f20eb44f'
-canonical: 'https://www.swapnoneel.site/blog/testing-ai-coding-agents'
-cover: 'https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gjnz7e2p554wi14eules.png'
+  - "https://dev.to/swapnoneel123/nobodys-testing-ai-coding-agents-enough-4bo"
+  - "https://swapnoneel.medium.com/nobodys-testing-ai-coding-agents-enough-17f2f20eb44f"
+canonical: "https://www.swapnoneel.site/blog/testing-ai-coding-agents"
+cover: "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gjnz7e2p554wi14eules.png"
 tags:
   - ai
   - agents
   - testing
   - security
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 Code review used to be the part everyone complained about. Slow, nitpicky, the thing standing between you and shipping.

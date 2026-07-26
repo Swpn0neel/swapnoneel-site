@@ -1,6 +1,6 @@
 ---
-title: 'JavaScript Objects vs JSON: Are they same?'
-date: '2024-03-02T11:23:51.872Z'
+title: "JavaScript Objects vs JSON: Are they same?"
+date: "2024-03-02T11:23:51.872Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   JavaSc...
 cover: >-
   https://web.archive.org/web/20240522191415/https://cdn.hashnode.com/res/hashnode/image/upload/v1709378357760/447b3ef8-33ad-4fb4-be49-6d3204fb2356.png
-link: 'https://swapnoneel.hashnode.dev/javascript-objects-vs-json'
+link: "https://swapnoneel.hashnode.dev/javascript-objects-vs-json"
 tags:
   - javascript
   - json
   - webdev
   - frontend
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

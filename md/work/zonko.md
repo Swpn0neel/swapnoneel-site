@@ -1,13 +1,13 @@
 ---
 title: "GTM Engineer • Zonko Labs"
-date: "April 2026 - July, 2026"
+date: "March 2026 - July, 2026"
 description: "Tested and launched Luffy (an AI Slack co-worker), built internal latency logging tools, grew the user base, and rebuilt the company website."
 cover: "/work/zonko.webp"
 ---
 
 [Zonko Labs](https://zonko.ai) is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
 
-### What I am doing
+### What I did
 
 - Formed the first layer of internal testing for **Luffy**, an AI co-worker in Slack, helping the dev team catch bugs early.
 - Built an internal tool to capture **Luffy's data logs**, generating reports on latency and probable slowdowns.

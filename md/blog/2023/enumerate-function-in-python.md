@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676362325400/bfe1526a-0cc1-40a8-9aa5-a931dcf8c69d.png?w=1200&auto=compress,format&format=webp&fm=png
 title: Enumerate Function in Python
-date: '2023-02-14T08:12:35.719Z'
+date: "2023-02-14T08:12:35.719Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   enumerate object. Enumerate returns an object that contains a counter as a key
   for each value within an object, making items within the collection easier to
   acces...
-link: 'https://swapnoneel.hashnode.dev/enumerate-function-in-python'
+link: "https://swapnoneel.hashnode.dev/enumerate-function-in-python"
 tags:
   - python
   - loops
   - functions
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

@@ -1,6 +1,6 @@
 ---
 title: My First year in Tech
-date: '2023-10-24T13:00:31.327Z'
+date: "2023-10-24T13:00:31.327Z"
 description: >-
   Exactly one year back from now, I got into University for my Bachelor's degree
   in Computer Science and Engineering. And it was then, I actually got
@@ -8,13 +8,13 @@ description: >-
   Java & Python and had a...
 cover: >-
   https://web.archive.org/web/20240615140945/https://cdn.hashnode.com/res/hashnode/image/upload/v1698152080204/742cb9f7-5d96-4ddf-a22d-e80961f7edad.png
-link: 'https://swapnoneel.hashnode.dev/my-first-year-in-tech'
+link: "https://swapnoneel.hashnode.dev/my-first-year-in-tech"
 tags:
   - career
   - reflections
   - webdev
   - tech-journey
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 Exactly one year back from now, I got into University for my Bachelor's degree in Computer Science and Engineering. And it was then, I actually got introduced to the Tech world. Previously, I had some coding experience in both Java & Python and had a proper knowledge of MySQL.

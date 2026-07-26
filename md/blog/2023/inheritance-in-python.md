@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1678204146942/71c0a906-e83b-429b-bc73-5f4edef049ee.png?w=1200&auto=compress,format&format=webp&fm=png
 title: Inheritance in Python
-date: 'Tue, 07 Mar 2023 15:49:19 GMT'
+date: "Tue, 07 Mar 2023 15:49:19 GMT"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   classes to inherit attributes and methods from other classes. In Python,
   inheritance is a powerful tool that can help you write more efficient and
   maintainable code ...
-link: 'https://swapnoneel.hashnode.dev/inheritance-in-python'
+link: "https://swapnoneel.hashnode.dev/inheritance-in-python"
 tags:
   - python
   - oop
   - inheritance
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction

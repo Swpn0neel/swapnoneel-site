@@ -24,6 +24,16 @@ Summary: Built sample applications and a RAG-based chatbot, designed homepage se
 - Wrote **25+ technical blogs** covering topics in Software Testing, API mocking, and AI-assisted development.
 - Managed **social media** handles of Keploy and increased engagement rates by **120%** and follower count by **30%**.
 
+## GTM Engineer • Maxim AI
+URL: https://www.swapnoneel.site/work/maxim
+Date: July 2026 - Present
+
+[Maxim AI](https://www.getmaxim.ai) is building the evaluation and observability platform for GenAI, empowering AI teams to ship agents with enterprise-grade reliability and performance.
+
+### What I am doing
+
+_*haven't started cooking yet..._
+
 ## Technical Writer • Tutorials Point
 URL: https://www.swapnoneel.site/work/tutorials-point
 Date: May 2023 - May 2025
@@ -55,12 +65,12 @@ Summary: Revamped the app UI and website, optimized codebase performance to redu
 
 ## GTM Engineer • Zonko Labs
 URL: https://www.swapnoneel.site/work/zonko
-Date: April 2026 - July, 2026
+Date: March 2026 - July, 2026
 Summary: Tested and launched Luffy (an AI Slack co-worker), built internal latency logging tools, grew the user base, and rebuilt the company website.
 
 [Zonko Labs](https://zonko.ai) is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
 
-### What I am doing
+### What I did
 
 - Formed the first layer of internal testing for **Luffy**, an AI co-worker in Slack, helping the dev team catch bugs early.
 - Built an internal tool to capture **Luffy's data logs**, generating reports on latency and probable slowdowns.

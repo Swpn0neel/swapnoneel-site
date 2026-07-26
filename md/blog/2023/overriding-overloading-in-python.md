@@ -1,7 +1,7 @@
 ---
-cover: 'https://cdn.hashnode.com/res/hashnode/image/upload/v1676971804561/522eb53e-7247-4c31-a43d-a85a1bd1ea1c.png'
+cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676971804561/522eb53e-7247-4c31-a43d-a85a1bd1ea1c.png"
 title: Overriding & Overloading in Python
-date: 'Tue, 21 Feb 2023 11:34:18 GMT'
+date: "Tue, 21 Feb 2023 11:34:18 GMT"
 description: >-
   Method Overriding
 
@@ -9,13 +9,13 @@ description: >-
   allows you to redefine a method in a derived class. The method in the derived
   class is said to override the method in the base class. When you create an
   ins...
-link: 'https://swapnoneel.hashnode.dev/overriding-overloading-in-python'
+link: "https://swapnoneel.hashnode.dev/overriding-overloading-in-python"
 tags:
   - python
   - oop
   - polymorphism
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Method Overriding

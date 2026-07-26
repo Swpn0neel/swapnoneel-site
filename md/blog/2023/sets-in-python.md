@@ -2,7 +2,7 @@
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1674921373638/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
 title: Sets in Python
-date: '2023-01-25T18:09:15.443Z'
+date: "2023-01-25T18:09:15.443Z"
 description: >-
   Introduction
 
@@ -10,13 +10,13 @@ description: >-
   single variable. Set items are separated by commas and enclosed within curly
   brackets {}. Sets are unchangeable, meaning you cannot change items of the set
   once ...
-link: 'https://swapnoneel.hashnode.dev/sets-in-python'
+link: "https://swapnoneel.hashnode.dev/sets-in-python"
 tags:
   - python
   - data-structures
   - sets
   - programming
-updated: '2026-07-23T13:07:48.942Z'
+updated: "2026-07-23T13:07:48.942Z"
 ---
 
 ## Introduction
@@ -205,4 +205,3 @@ print(cities.difference(cities2))
 Thanks for reading this blog!! I hope you have learnt something new today and I wish you an amazing day ahead ❤
 
 ![Thank you banner graphic for Python sets blog](https://images.pexels.com/photos/2072165/pexels-photo-2072165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
-
