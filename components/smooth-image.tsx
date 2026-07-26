@@ -12,21 +12,8 @@ interface SmoothImageProps extends Omit<
   // "span" when rendered in phrasing-content contexts (e.g. inside a
   // markdown paragraph) where a div would break HTML nesting rules.
   as?: "div" | "span";
-  // Two-stage loading for fill images: fetch a lightweight, readable preview
-  // first, then start the final image as soon as the preview has painted.
-  progressive?: boolean;
-  // Optional responsive policy for the preview stage. Blog images use this to
-  // cap only ultra-high-resolution mobile sources without changing the normal
-  // progressive-image path.
-  previewSizes?: string;
 }
 
-// The preview is intentionally close to the rendered blog-column width. At
-// ~640px / q60 it remains clean on a 1x display while still being far cheaper
-// than the 1024px final image; high-density screens select a sharper candidate
-// automatically from the generated srcset.
-const PREVIEW_SIZES = "(max-width: 640px) 100vw, 640px";
-const PREVIEW_QUALITY = 60;
 const MAX_AUTOMATIC_RETRIES = 2;
 const RETRY_DELAYS = [500, 1200];
 
@@ -82,19 +69,13 @@ function SmoothImageInner({
   alt = "",
   showSkeleton = false,
   as: Wrapper = "div",
-  progressive = false,
-  previewSizes = PREVIEW_SIZES,
   onLoad,
   onError,
   ...imageProps
 }: SmoothImageProps) {
   const isFill = imageProps.fill === true;
-  const twoStage = progressive && !imageProps.unoptimized && isFill;
-  const [previewLoaded, setPreviewLoaded] = useState(false);
-  const [previewFailed, setPreviewFailed] = useState(false);
-  const [mountFinal, setMountFinal] = useState(false);
-  const [finalLoaded, setFinalLoaded] = useState(false);
-  const [finalFailed, setFinalFailed] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [failed, setFailed] = useState(false);
   const [fallbackAttempt, setFallbackAttempt] = useState<number | null>(null);
   const [fallbackLoaded, setFallbackLoaded] = useState(false);
   const [fallbackExhausted, setFallbackExhausted] = useState(false);
@@ -102,7 +83,7 @@ function SmoothImageInner({
   const shimmerRef = useRef<HTMLSpanElement>(null);
   const retryTimeoutRef = useRef<number | null>(null);
 
-  const hasVisibleImage = previewLoaded || finalLoaded || fallbackLoaded;
+  const hasVisibleImage = loaded || fallbackLoaded;
   const showError = fallbackExhausted && !hasVisibleImage;
 
   useEffect(() => {
@@ -125,23 +106,6 @@ function SmoothImageInner({
     return () => observer.disconnect();
   }, [hasVisibleImage, showError, showSkeleton]);
 
-  // Give the clean preview one paint of its own, then start the final request
-  // immediately. This keeps the progressive reveal perceptible without the
-  // old multi-second idle delay.
-  useEffect(() => {
-    if (!twoStage || !previewLoaded || mountFinal) return;
-
-    let secondFrame = 0;
-    const firstFrame = window.requestAnimationFrame(() => {
-      secondFrame = window.requestAnimationFrame(() => setMountFinal(true));
-    });
-
-    return () => {
-      window.cancelAnimationFrame(firstFrame);
-      if (secondFrame) window.cancelAnimationFrame(secondFrame);
-    };
-  }, [mountFinal, previewLoaded, twoStage]);
-
   useEffect(() => {
     return () => {
       if (retryTimeoutRef.current !== null) {
@@ -160,24 +124,8 @@ function SmoothImageInner({
     setFallbackAttempt(0);
   };
 
-  const handlePreviewError: NonNullable<SmoothImageProps["onError"]> = (
-    event
-  ) => {
-    setPreviewFailed(true);
-    if (twoStage) {
-      // The final optimized request may still succeed even when one generated
-      // preview variant has failed.
-      setMountFinal(true);
-    } else {
-      beginDirectFallback();
-    }
-    onError?.(event);
-  };
-
-  const handleFinalError: NonNullable<SmoothImageProps["onError"]> = (
-    event
-  ) => {
-    setFinalFailed(true);
+  const handleError: NonNullable<SmoothImageProps["onError"]> = (event) => {
+    setFailed(true);
     // Bypass the optimizer next. This recovers from optimizer/CDN failures and
     // also gives the original host a chance to serve a cached copy directly.
     beginDirectFallback();
@@ -230,39 +178,20 @@ function SmoothImageInner({
         />
       )}
 
-      {!previewFailed && (
+      {!failed && (
         <Image
           {...imageProps}
-          {...(twoStage
-            ? { sizes: previewSizes, quality: PREVIEW_QUALITY }
-            : {})}
           alt={alt}
           className={`transition-[opacity,transform,scale] duration-300 ease-out ${
-            previewLoaded ? "opacity-100" : "opacity-0"
+            loaded ? "opacity-100" : "opacity-0"
           } ${className}`}
           placeholder={blurDataURL ? "blur" : undefined}
           blurDataURL={blurDataURL}
           onLoad={(event) => {
-            setPreviewLoaded(true);
-            if (!twoStage) onLoad?.(event);
-          }}
-          onError={handlePreviewError}
-        />
-      )}
-
-      {twoStage && mountFinal && !finalFailed && (
-        <Image
-          {...imageProps}
-          alt={alt}
-          fetchPriority={imageProps.priority ? "high" : "auto"}
-          className={`transition-[opacity,transform,scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-            finalLoaded ? "opacity-100" : "opacity-0"
-          } ${className}`}
-          onLoad={(event) => {
-            setFinalLoaded(true);
+            setLoaded(true);
             onLoad?.(event);
           }}
-          onError={handleFinalError}
+          onError={handleError}
         />
       )}
 

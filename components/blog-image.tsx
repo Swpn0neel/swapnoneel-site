@@ -1,19 +1,23 @@
 import { SmoothImage } from "@/components/smooth-image";
-import imageDimensions from "@/lib/image-dimensions.json";
+import { mirroredAspectRatio, mirroredSrc } from "@/lib/blog-image-map";
 
 interface BlogImageProps {
   src?: string;
   alt?: string;
-  // above-the-fold usage (e.g. post cover) — disables lazy loading
+  // above-the-fold usage (e.g. post cover) — preloads at high priority
   priority?: boolean;
+  // just below the fold: skip lazy loading so the request starts with the
+  // page instead of waiting for the reader to scroll into range
+  eager?: boolean;
   // post cover/thumbnail: title already sits right above it, so the alt
   // caption underneath would just repeat the heading
   hideCaption?: boolean;
 }
 
-// Hosts configured under images.remotePatterns in next.config.ts. Blog
-// markdown embeds images from many arbitrary third-party hosts; those go
-// through unoptimized so new hosts never crash a post at render time.
+// Hosts configured under images.remotePatterns in next.config.ts. Only
+// relevant for images that failed to mirror at build time; blog markdown
+// embeds from many arbitrary third-party hosts, and those go through
+// unoptimized so a new host never crashes a post at render time.
 const OPTIMIZED_HOSTS = new Set([
   "cdn.hashnode.com",
   "wp.keploy.io",
@@ -29,88 +33,46 @@ function isOptimizedHost(src: string): boolean {
   }
 }
 
-const DIMENSIONS = imageDimensions as Record<
-  string,
-  { width: number; height: number }
->;
-const FALLBACK_RATIO = 16 / 9;
-const ULTRA_HIGH_RESOLUTION_PIXELS = 8_000_000;
-const DEFAULT_IMAGE_SIZES = "(max-width: 810px) 100vw, 770px";
-const MOBILE_DENSITY_CAP =
+// The rendered column is ~770px: max-w-2xl is 42rem and the root font-size is
+// 120%, so the container is ~806px and the content ~770px wide.
+//
+// The two density conditions keep 3x/4x phones near a balanced 2x rendition.
+// Without them a 390px-wide phone requests ~1170px of image for a 390px slot,
+// which costs several times the bytes for detail the panel cannot resolve.
+const IMAGE_SIZES =
   "(max-width: 640px) and (min-resolution: 3.5dppx) 49vw, " +
-  "(max-width: 640px) and (min-resolution: 2.5dppx) 65vw, ";
-
-// A 3x/4x phone does not benefit from receiving a 4x rendition of an already
-// enormous source. These media conditions keep those outliers near a balanced
-// 2x display density while preserving 1x and 2x sharpness. Normal blog images
-// retain the default sizing policy unchanged.
-const ULTRA_HIGH_RESOLUTION_SIZES = MOBILE_DENSITY_CAP + DEFAULT_IMAGE_SIZES;
-const ULTRA_HIGH_RESOLUTION_PREVIEW_SIZES =
-  MOBILE_DENSITY_CAP + "(max-width: 640px) 100vw, 640px";
-
-// Dimensions come from scripts/generate-image-dimensions.mjs, precomputed
-// at build time (like blur-map.json) so the frame can reserve the image's
-// real aspect ratio up front — no layout shift once it loads.
-function getAspectRatio(src: string): number {
-  const dims = DIMENSIONS[src];
-  if (!dims || !dims.width || !dims.height) return FALLBACK_RATIO;
-  return dims.width / dims.height;
-}
-
-function isUltraHighResolution(src: string): boolean {
-  const dims = DIMENSIONS[src];
-  return Boolean(
-    dims?.width &&
-    dims.height &&
-    dims.width * dims.height >= ULTRA_HIGH_RESOLUTION_PIXELS
-  );
-}
-
-function getImageSizes(src: string): string {
-  return isUltraHighResolution(src)
-    ? ULTRA_HIGH_RESOLUTION_SIZES
-    : DEFAULT_IMAGE_SIZES;
-}
+  "(max-width: 640px) and (min-resolution: 2.5dppx) 65vw, " +
+  "(max-width: 810px) 100vw, 770px";
 
 export function BlogImage({
   src,
   alt = "",
   priority = false,
+  eager = false,
   hideCaption = false,
 }: BlogImageProps) {
   if (!src) return null;
 
-  // span-based markup: markdown images arrive wrapped in a <p>, where
-  // <figure>/<div> would be invalid nesting and break hydration.
-  // The frame spans full width and its height follows the image's real
-  // aspect ratio (precomputed at build time), so the image always covers
-  // the whole frame — no caps, no letterboxing, no layout shift.
+  const resolvedSrc = mirroredSrc(src);
+
   return (
     // data-no-narrate: the blog narrator skips this subtree (image + caption)
     <span className="my-6 block" data-no-narrate="">
       <span
         className="border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border"
-        style={{ aspectRatio: getAspectRatio(src) }}
+        style={{ aspectRatio: mirroredAspectRatio(src) }}
       >
         <SmoothImage
-          src={src}
+          src={resolvedSrc}
           alt={alt}
           fill
           as="span"
           priority={priority}
+          loading={!priority && eager ? "eager" : undefined}
           className="object-cover"
-          // Real column width: max-w-2xl is 42rem, but the root font-size is
-          // 120%, so the container is ~806px and the content ~770px wide.
-          // Only ultra-high-resolution sources receive the mobile DPR cap.
-          sizes={getImageSizes(src)}
-          previewSizes={
-            isUltraHighResolution(src)
-              ? ULTRA_HIGH_RESOLUTION_PREVIEW_SIZES
-              : undefined
-          }
+          sizes={IMAGE_SIZES}
           showSkeleton
-          progressive
-          unoptimized={!isOptimizedHost(src)}
+          unoptimized={!isOptimizedHost(resolvedSrc)}
         />
       </span>
       {alt && !hideCaption && (

@@ -2,6 +2,7 @@ import { BlogImage } from "@/components/blog-image";
 import { BlogNarrator } from "@/components/blog-narrator";
 import { FontSizeToggle } from "@/components/font-size-toggle";
 import { TableOfContents } from "@/components/table-of-contents";
+import { mirroredSrc } from "@/lib/blog-image-map";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
@@ -40,9 +41,10 @@ export async function generateMetadata({
   // Covers are routed through the Next image optimizer: raw uploads can be
   // ~1MB, and WhatsApp (and some other messengers) silently drop preview
   // thumbnails larger than ~600KB. w must be one of next.config deviceSizes.
+  // Prefer the build-time mirror so crawlers hit our own origin too.
   const ogImage = post.cover
     ? {
-        url: `/_next/image?url=${encodeURIComponent(post.cover)}&w=1280&q=75`,
+        url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
         alt: post.title,
       }
     : {
@@ -100,6 +102,23 @@ const getRawText = (node: ReactNode): string => {
   }
   return "";
 };
+
+// The first images of a post sit just under the cover and table of contents,
+// so a reader reaches them almost immediately. Native lazy loading only fires
+// once they are nearly in view, which leaves a visible gap on the first scroll;
+// starting these with the page hides that without eagerly pulling every image
+// in a 20-image post.
+const EAGER_IMAGE_COUNT = 2;
+
+function extractLeadImageSources(markdown: string): Set<string> {
+  const regex = /!\[[^\]]*\]\((\S+?)\)/g;
+  const sources = new Set<string>();
+  let match;
+  while ((match = regex.exec(markdown)) && sources.size < EAGER_IMAGE_COUNT) {
+    sources.add(match[1]);
+  }
+  return sources;
+}
 
 function extractHeadings(markdown: string) {
   const headings: { text: string; slug: string; level: number }[] = [];
@@ -182,6 +201,7 @@ export default async function BlogPostPage({
     .replace(/%%?\[.*?\]/g, "");
 
   const headings = extractHeadings(cleanMarkdown);
+  const leadImages = extractLeadImageSources(cleanMarkdown);
 
   return (
     <article className="pb-16">
@@ -276,12 +296,16 @@ export default async function BlogPostPage({
             },
           }}
           components={{
-            img: (props) => (
-              <BlogImage
-                src={typeof props.src === "string" ? props.src : undefined}
-                alt={props.alt}
-              />
-            ),
+            img: (props) => {
+              const src = typeof props.src === "string" ? props.src : undefined;
+              return (
+                <BlogImage
+                  src={src}
+                  alt={props.alt}
+                  eager={Boolean(src && leadImages.has(src))}
+                />
+              );
+            },
             mark: ({ children }) => (
               <mark className="mx-0.5 inline-block rounded-sm px-1.5 py-0.5 text-[0.9em] font-semibold no-underline shadow-sm">
                 {children}

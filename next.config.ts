@@ -47,10 +47,14 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
-    // 60 is the readable preview stage for progressive blog images;
-    // 75 is the full-quality upgrade (components/smooth-image.tsx).
-    qualities: [60, 75],
-    deviceSizes: [640, 768, 1024, 1280, 1536],
+    qualities: [75],
+    // Every (url, width, quality) triple is its own optimizer cache entry, and
+    // a miss costs a transcode before the first byte ships. Three widths cover
+    // the real layout — 640 for 1x phones, 960 for 2x phones and 1x desktop,
+    // 1280 for retina desktop — while keeping misses rare. It also stops a
+    // small high-DPR phone from pulling a 1536px rendition it cannot resolve
+    // (see IMAGE_SIZES in components/blog-image.tsx).
+    deviceSizes: [640, 960, 1280],
     imageSizes: [16, 32, 48, 60, 64, 96, 120, 128, 140, 256, 280, 384],
     minimumCacheTTL: 31536000,
   },
