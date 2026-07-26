@@ -30,7 +30,7 @@ export function ProjectCarousel({ items }: { items: ProjectOverlayData[] }) {
                 <li
                   key={`${item.meta.slug}-${i}`}
                   className="smart-carousel__slide mr-4 shrink-0"
-                  style={{ width: 320 }}
+                  style={{ width: 350 }}
                   aria-label={`Slide ${i + 1} of ${items.length}: ${item.meta.title}`}
                 >
                   <button
@@ -44,9 +44,9 @@ export function ProjectCarousel({ items }: { items: ProjectOverlayData[] }) {
                     <span className="sr-only">Open details for </span>
                     <ProjectCard
                       item={item}
-                      imageWidth={480}
-                      imageHeight={270}
-                      sizes="320px"
+                      imageWidth={520}
+                      imageHeight={293}
+                      sizes="350px"
                     />
                   </button>
                 </li>

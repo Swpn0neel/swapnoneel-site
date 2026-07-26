@@ -18,6 +18,13 @@ interface ExperienceLogoProps {
   className?: string;
 }
 
+// The intrinsic size we always request, regardless of how large the logo is
+// actually drawn. /work renders these at 60 and the home page at 40; fetching
+// one size for both means the home page primes the cache for /work (and vice
+// versa) instead of each page pulling its own rendition. 60 is the larger of
+// the two, so the smaller usage downscales rather than upscaling.
+const FETCH_SIZE = 60;
+
 export function ExperienceLogo({
   alt,
   src,
@@ -52,8 +59,8 @@ export function ExperienceLogo({
       <Image
         src={src}
         alt={alt}
-        width={size}
-        height={size}
+        width={FETCH_SIZE}
+        height={FETCH_SIZE}
         // No `sizes` — these are fixed-size, so Next emits a 1x/2x srcset
         // instead of a 17-entry responsive one spanning up to 1536w.
         // Eager so the logos are present on first paint rather than popping in
@@ -61,11 +68,10 @@ export function ExperienceLogo({
         // so they queue behind the font and app chunks and don't push LCP out;
         // callers whose logo IS the top-of-page content (no hero ahead of it to
         // buy loading time) opt out via `lowPriority={false}` so it doesn't
-        // visibly pop in after paint. q=60 is indistinguishable at these sizes
-        // and keeps the added bytes near-negligible.
+        // visibly pop in after paint. Quality is left at the default so every
+        // (url, width, quality) triple stays shared across pages.
         loading="eager"
         fetchPriority={lowPriority ? "low" : "auto"}
-        quality={60}
         decoding="async"
         onLoad={() => setIsLoaded(true)}
         className={`relative rounded-md object-cover ${

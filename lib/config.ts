@@ -96,11 +96,11 @@ export const socialLinks: readonly SocialLink[] = [
     brand: "dailydev",
     url: "https://daily.dev/swapnoneel",
   },
-  {
-    name: "peerlist",
-    brand: "peerlist",
-    url: "https://peerlist.io/swapnoneel",
-  },
+  // {
+  //   name: "peerlist",
+  //   brand: "peerlist",
+  //   url: "https://peerlist.io/swapnoneel",
+  // },
   { name: "dev.to", brand: "devdotto", url: "https://dev.to/swapnoneel123" },
   {
     name: "hashnode",

@@ -288,6 +288,17 @@ textarea {
   }
 }
 
+/* Blog meta line, tags, and "also published on" footer text sit outside
+   .prose, but should still track the reader's A-/A/A+ preference set on
+   <html> (see --prose-scale below). Base size matches Tailwind's text-xs,
+   line-height included — these elements deliberately carry no `text-xs`
+   class, since that utility would set font-size right back to a fixed
+   0.75rem and the A-/A/A+ control would appear to do nothing. */
+.blog-scaled-text {
+  font-size: calc(0.75rem * var(--prose-scale, 1));
+  line-height: 1.3333;
+}
+
 /* Prose / MDX content */
 .prose {
   /* Match the home page's text-sm body size (0.875rem). The `prose-sm`

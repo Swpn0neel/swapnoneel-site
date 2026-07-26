@@ -263,7 +263,7 @@ export default async function BlogPostPage({
         <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight [grid-area:title] md:text-3xl">
           {post.title}
         </h1>
-        <p className="text-muted-foreground self-center text-xs [grid-area:meta]">
+        <p className="text-muted-foreground blog-scaled-text self-center [grid-area:meta]">
           {dateStr}
           {post.wordCount !== undefined && ` · ${post.wordCount} words`}
           {post.readingTime !== undefined && ` · ${post.readingTime} min read`}
@@ -368,7 +368,7 @@ export default async function BlogPostPage({
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground bg-background rounded-sm border px-2.5 py-1 text-xs font-medium transition-colors"
+                  className="border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground bg-background blog-scaled-text rounded-sm border px-2.5 py-1 font-medium transition-colors"
                 >
                   {tag}
                 </span>
@@ -376,7 +376,7 @@ export default async function BlogPostPage({
             </div>
           )}
           {crossPosts.length > 0 && (
-            <p className="text-muted-foreground text-xs">
+            <p className="text-muted-foreground blog-scaled-text">
               {i18n.blog.alsoPublishedOn}{" "}
               {crossPosts.map((cp, i) => (
                 <span key={cp.url}>
