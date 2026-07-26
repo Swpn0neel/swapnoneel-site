@@ -1,4 +1,8 @@
 @import "tailwindcss";
+/* Inlined Inter face — see scripts/generate-font-subset.mjs. Inlining keeps the
+   LCP paragraph from repainting when a linked font lands, which is what made
+   LCP swing between 1.9s and 2.8s on Slow 4G. */
+@import "./inter-subset.generated.css";
 
 @plugin "tailwindcss-animate";
 
@@ -136,7 +140,7 @@ html {
 body {
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
-  font-family: var(--font-inter), system-ui, sans-serif;
+  font-family: "Inter", "Inter Fallback", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 

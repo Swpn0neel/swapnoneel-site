@@ -8,6 +8,7 @@
     "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-image-dimensions.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "build": "next build",
     "update-blog-dates": "node scripts/update-blog-dates.mjs",
+    "generate-font-subset": "node scripts/generate-font-subset.mjs",
     "generate-narrations": "node scripts/generate-narrations.mjs",
     "start": "next start",
     "format": "prettier --write .",

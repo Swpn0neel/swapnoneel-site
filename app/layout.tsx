@@ -10,15 +10,12 @@ import { safeJsonLd } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-  weight: ["400", "500", "600", "700"],
-});
+// Inter is no longer loaded via next/font — it is inlined as a data URI by
+// scripts/generate-font-subset.mjs and declared in inter-subset.generated.css.
+// A linked font arrives after first paint, repaints the LCP paragraph and
+// stamps a second, much later LCP candidate; inlining removes that entirely.
 
 export const metadata: Metadata = {
   title: {
@@ -67,7 +64,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <body
-        className={`${inter.variable} bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
+        className={`bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
         suppressHydrationWarning
       >
         {/* Session-scoped theme: trust sessionStorage, not localStorage.
