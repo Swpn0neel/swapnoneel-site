@@ -99,7 +99,7 @@ export function SocialLinks() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Visit Swapnoneel on ${link.name}`}
-                className="bg-secondary border-border/60 group flex h-13 w-24 items-center justify-center rounded-sm border transition-colors hover:bg-black/5 sm:h-15 sm:w-26.5 dark:bg-[#1a1a1a] dark:hover:bg-[#252525]"
+                className="bg-surface border-border/60 hover:bg-surface-hover group flex h-13 w-24 items-center justify-center rounded-sm border transition-colors sm:h-15 sm:w-26.5"
               >
                 <SocialIcon
                   brand={link.brand}

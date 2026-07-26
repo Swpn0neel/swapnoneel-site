@@ -63,21 +63,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+      {/* duration-150 matches Tailwind's default `transition-colors`, which is
+          what the rest of the site uses. At the previous 500ms the background
+          visibly lagged behind every link, border and card on a theme switch. */}
       <body
-        className={`bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-500 ease-in-out`}
+        className={`bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-150 ease-in-out`}
         suppressHydrationWarning
       >
-        {/* Session-scoped theme: trust sessionStorage, not localStorage.
-            A theme toggled during this session survives reloads and is
-            inherited by tabs opened from the site (browsers clone
-            sessionStorage into them), but a brand-new visit always starts
-            light. localStorage is overwritten to match so next-themes
-            (which reads it) agrees with the pre-hydration class. */}
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=sessionStorage.getItem("theme")==="dark"?"dark":"light";localStorage.setItem("theme",t);document.documentElement.classList.toggle("dark",t==="dark")}catch(e){}})();`,
-          }}
-        />
         {/* Blog prose size (A-/A/A+). Unlike the theme this is a lasting
             accessibility preference, so it lives in localStorage — and it has
             to be applied before first paint or the article visibly resizes
@@ -87,11 +79,13 @@ export default function RootLayout({
             __html: `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStorage.getItem("prose-scale")];if(s)document.documentElement.style.setProperty("--prose-scale",s)}catch(e){}})();`,
           }}
         />
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-        >
+        {/* next-themes owns persistence and the pre-hydration class entirely.
+            An earlier version layered a sessionStorage-backed script on top to
+            scope the choice to one browsing session; because that script also
+            wrote localStorage on every load, and next-themes syncs across tabs
+            from that same key, opening a second tab fired a storage event that
+            yanked already-open tabs back to light. */}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{

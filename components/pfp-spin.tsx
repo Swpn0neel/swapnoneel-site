@@ -12,8 +12,12 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
     );
   }
 
-  function isLight() {
-    return document.documentElement.classList.contains("light");
+  // .dark, not .light — see the note above .pfp-flip-card-inner in globals.css.
+  // With storage blocked neither class is written, and testing for .light would
+  // report "dark" on a page that is visibly light, landing the spin on the
+  // wrong face.
+  function isDark() {
+    return document.documentElement.classList.contains("dark");
   }
 
   function handleClick() {
@@ -28,10 +32,10 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
       animRef.current = null;
     }
 
-    const startedFromLight = isLight();
+    const startedFromDark = isDark();
     // Dark resting = 0°  (front face = b/w)
     // Light resting = 180° (back face = color)
-    const startDeg = startedFromLight ? 180 : 0;
+    const startDeg = startedFromDark ? 0 : 180;
 
     // Quadratic ease-out: deg(t) = 1080 * (2t − t²)
     // Gives a fast start that smoothly settles to nearly-stopped at the end.
@@ -54,7 +58,7 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
 
     anim.addEventListener("finish", () => {
       animRef.current = null;
-      const lightNow = isLight();
+      const darkNow = isDark();
 
       // Check if the cursor is still over the flip card
       const hovering =
@@ -62,12 +66,12 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
         false;
 
       // Where the animation visually ended (mod 360°)
-      const startFace = startedFromLight ? 180 : 0;
+      const startFace = startedFromDark ? 0 : 180;
 
       // Desired final face (mod 360°):
       //   No hover → theme resting:  dark=0°,   light=180°
       //   Hover    → theme hover:    dark=180°,  light=0°
-      const desiredFace = lightNow ? (hovering ? 0 : 180) : hovering ? 180 : 0;
+      const desiredFace = darkNow ? (hovering ? 180 : 0) : hovering ? 0 : 180;
 
       if (startFace !== desiredFace) {
         // Play a quick 180° corrective flip to land on the right face

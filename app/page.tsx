@@ -39,15 +39,19 @@ export default function Home() {
           <div className="pfp-flip-card mb-2">
             <div className="pfp-flip-card-inner">
               <div className="pfp-flip-card-front">
-                {/* Front face rests hidden: `.light .pfp-flip-card-inner` is
-                    rotated 180deg and a brand-new visit always starts light,
-                    so this one is only seen after a theme switch or a flip. */}
+                {/* Front face is the resting face in dark theme. Which of the
+                    two faces a visitor sees first now depends on their OS
+                    setting, so both load eagerly — this one used to be lazy on
+                    the assumption that a first visit was always light, which
+                    left dark-theme visitors watching the hero pop in.
+                    fetchPriority stays low: the LCP element is the bio
+                    paragraph, and neither face may compete with the font. */}
                 <Image
                   src={siteConfig.images.avatar}
                   alt={i18n.home.hero.avatarAlt}
                   width={140}
                   height={140}
-                  loading="lazy"
+                  loading="eager"
                   fetchPriority="low"
                   decoding="async"
                   placeholder="blur"
@@ -56,10 +60,8 @@ export default function Home() {
                 />
               </div>
               <div className="pfp-flip-card-back">
-                {/* Back face is what a first-time visitor actually sees (light
-                    theme rests at 180deg), so this is the one worth loading
-                    eagerly. fetchPriority stays low — the LCP element is the
-                    bio paragraph, and this must not compete with the font. */}
+                {/* Back face is the resting face in light theme. See the note
+                    on the front face for why both load eagerly. */}
                 <Image
                   src={siteConfig.images.avatarHover}
                   alt={i18n.home.hero.avatarHoverAlt}
@@ -94,8 +96,9 @@ export default function Home() {
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <p
               key={paragraph}
-              className={`text-muted-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""
-                }`}
+              className={`text-muted-foreground text-sm leading-relaxed lowercase ${
+                index > 0 ? "mt-4" : ""
+              }`}
             >
               {paragraph}
             </p>
@@ -165,4 +168,3 @@ export default function Home() {
     </div>
   );
 }
-

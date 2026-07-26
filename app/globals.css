@@ -31,7 +31,10 @@
   border-radius: 4px;
   z-index: 9999;
   text-decoration: none;
-  transition: top 0.2s ease;
+  transition:
+    top 0.2s ease,
+    background-color var(--theme-transition) ease,
+    color var(--theme-transition) ease;
 }
 
 .skip-to-content:focus {
@@ -44,13 +47,13 @@
 /* Excludes form fields — they use their own subtler ring (see ui/input.tsx)
    instead of this heavier outline, to avoid stacking both at once. */
 :focus-visible:not(input):not(textarea):not(select) {
-  outline: 2px solid hsl(var(--ring, 266 100% 50%));
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
 }
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid hsl(var(--ring, 266 100% 50%));
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -81,6 +84,13 @@ button:focus-visible {
   --radius: 0.5rem;
   --mark-bg: 55 92% 80%;
   --mark-fg: 0 0% 10%;
+  /* Raised tile surface (social link cards). Deliberately not --secondary:
+     in dark mode these sit *below* --secondary rather than above it. */
+  --surface: 0 0% 96.1%;
+  --surface-hover: 0 0% 94.9%;
+  /* One duration for every theme-driven colour change. Matches Tailwind's
+     default `transition-colors`, which is what the components already use. */
+  --theme-transition: 150ms;
 }
 
 .dark {
@@ -103,6 +113,8 @@ button:focus-visible {
   --ring: 0 0% 98%;
   --mark-bg: 55 50% 30%;
   --mark-fg: 0 0% 90%;
+  --surface: 0 0% 10.2%;
+  --surface-hover: 0 0% 14.5%;
 }
 
 @theme inline {
@@ -123,6 +135,8 @@ button:focus-visible {
   --color-destructive-foreground: hsl(var(--destructive-foreground));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+  --color-surface: hsl(var(--surface));
+  --color-surface-hover: hsl(var(--surface-hover));
 }
 
 * {
@@ -142,6 +156,39 @@ body {
   color: hsl(var(--foreground));
   font-family: "Inter", "Inter Fallback", system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Theme transition ─── */
+/* Components mostly carry a Tailwind `transition-colors` already (for hover),
+   so they fade on a theme switch for free. The rules below set theme colours in
+   plain CSS with no transition of their own, which made the entire article body
+   snap while the page background faded — the switch read as a glitch.
+   Listed explicitly rather than applied via `*` on purpose: a universal
+   `transition` declaration is unlayered, and unlayered CSS beats Tailwind's
+   utility layer regardless of specificity, so it would silently override every
+   `transition-*` utility in the app — including the toggle's own icon spin. */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose p,
+.prose li,
+.prose strong,
+.prose blockquote,
+.prose pre,
+.prose hr,
+.prose table,
+.prose thead,
+.prose th,
+.prose td,
+.prose mark,
+mark,
+.image-shimmer,
+.skeleton {
+  transition:
+    background-color var(--theme-transition) ease,
+    border-color var(--theme-transition) ease,
+    color var(--theme-transition) ease;
 }
 
 @media (min-width: 640px) {
@@ -775,6 +822,14 @@ mark {
   perspective: 1000px;
 }
 
+/* Keyed on .dark, never .light. next-themes writes both classes, but only after
+   its script has read localStorage — and that read is inside a try/catch, so in
+   a browser with storage blocked (Safari "block all cookies", some in-app
+   webviews) <html> ends up with neither class. Colours still resolve, since
+   :root *is* the light palette; anything keyed on .light would not. So light is
+   the unprefixed default here too, and .dark is the override. */
+
+/* Light (default): colour face resting, B/W on hover */
 .pfp-flip-card-inner {
   position: relative;
   width: 100%;
@@ -782,22 +837,20 @@ mark {
   text-align: center;
   transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   transform-style: preserve-3d;
-  transform: rotateY(0deg);
-  /* Default / Dark theme behavior */
+  transform: rotateY(180deg);
 }
 
-/* Default hover (Dark theme: B/W default -> Color on hover) */
 .pfp-flip-card:hover .pfp-flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-/* Light theme overrides (Color default -> B/W on hover) */
-.light .pfp-flip-card-inner {
-  transform: rotateY(180deg);
-}
-
-.light .pfp-flip-card:hover .pfp-flip-card-inner {
   transform: rotateY(360deg);
+}
+
+/* Dark: B/W face resting, colour on hover */
+.dark .pfp-flip-card-inner {
+  transform: rotateY(0deg);
+}
+
+.dark .pfp-flip-card:hover .pfp-flip-card-inner {
+  transform: rotateY(180deg);
 }
 
 .pfp-flip-card-front,
@@ -903,8 +956,8 @@ mark {
 /* Smooth link hover */
 a {
   transition:
-    color 0.15s ease,
-    opacity 0.15s ease;
+    color var(--theme-transition) ease,
+    opacity var(--theme-transition) ease;
 }
 
 /* Improved scroll behavior */
