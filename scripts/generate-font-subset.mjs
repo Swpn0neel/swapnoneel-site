@@ -113,11 +113,17 @@ ${FALLBACK}
   font-family: "Inter";
   font-style: normal;
   font-weight: 400 700;
-  /* swap, not block. There is no network fetch here, so the face resolves
-     immediately either way — but the failure modes differ. If a browser ever
-     resolves the data URI after first paint, block hides the text and delays
-     FCP, while swap costs a repaint a few ms later. swap fails softer. */
-  font-display: swap;
+  /* optional is the only value with no bad failure mode here, and it works
+     precisely because the face is inlined rather than fetched:
+       swap     -> if the face resolves after first paint the text reflows.
+                   "Inter Fallback" renders the hero block 27.3px taller than
+                   Inter, so that reflow cost a real 0.027 CLS in the field.
+       block    -> hides text until the face resolves, risking FCP.
+       optional -> never swaps. Resolved in time (the normal case, since there
+                   is no network) it paints Inter from the first paint; not
+                   resolved, it keeps the fallback for that pageview. Either
+                   way the layout is decided once and never shifts. */
+  font-display: optional;
   src: url(data:font/woff2;base64,${bytes.toString("base64")}) format("woff2");
 }
 `;
