@@ -11,6 +11,7 @@ export function ViewMore({ href, label }: ViewMoreProps) {
     <div className="flex justify-end py-5">
       <Link
         href={href}
+        prefetch={false}
         className="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"
       >
         <span className="group-hover/more:underline">

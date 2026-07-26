@@ -40,10 +40,9 @@ export function ExperienceLogo({ alt, src, size = 60 }: ExperienceLogoProps) {
         width={size}
         height={size}
         sizes={`${size}px`}
-        loading="eager"
+        loading="lazy"
         fetchPriority="low"
         decoding="async"
-        unoptimized
         onLoad={() => setIsLoaded(true)}
         className={`relative rounded-md object-cover ${
           adaptsToTheme ? "dark:brightness-200 dark:invert" : ""

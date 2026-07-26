@@ -143,6 +143,12 @@ export function MobileNav() {
             <Link
               key={item.href}
               href={item.href}
+              // The panel is hidden with opacity, not display:none, so it keeps
+              // a layout box inside the viewport and Next's prefetch observer
+              // treats every link here as visible — ~150 KiB of RSC payloads
+              // fetched on first paint, which starves LCP on slow mobile.
+              // Prefetch only once the menu is actually opened.
+              prefetch={isOpen ? undefined : false}
               onClick={closeMenu}
               className={`hover:text-foreground focus-visible:ring-ring w-full rounded-md py-2 text-center text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/80" : "text-muted-foreground"}`}
               aria-current={isActive ? "page" : undefined}
