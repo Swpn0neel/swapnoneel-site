@@ -40,13 +40,15 @@ export default function Home() {
           <div className="pfp-flip-card mb-2">
             <div className="pfp-flip-card-inner">
               <div className="pfp-flip-card-front">
+                {/* Front face rests hidden: `.light .pfp-flip-card-inner` is
+                    rotated 180deg and a brand-new visit always starts light,
+                    so this one is only seen after a theme switch or a flip. */}
                 <Image
                   src={siteConfig.images.avatar}
                   alt={i18n.home.hero.avatarAlt}
                   width={140}
                   height={140}
-                  sizes="140px"
-                  loading="eager"
+                  loading="lazy"
                   fetchPriority="low"
                   decoding="async"
                   placeholder="blur"
@@ -55,13 +57,16 @@ export default function Home() {
                 />
               </div>
               <div className="pfp-flip-card-back">
+                {/* Back face is what a first-time visitor actually sees (light
+                    theme rests at 180deg), so this is the one worth loading
+                    eagerly. fetchPriority stays low — the LCP element is the
+                    bio paragraph, and this must not compete with the font. */}
                 <Image
                   src={siteConfig.images.avatarHover}
                   alt={i18n.home.hero.avatarHoverAlt}
                   width={140}
                   height={140}
-                  sizes="140px"
-                  loading="lazy"
+                  loading="eager"
                   fetchPriority="low"
                   decoding="async"
                   placeholder="blur"

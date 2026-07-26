@@ -17,6 +17,10 @@ export function Navbar() {
     >
       <Link
         href="/"
+        // On the home page this link points at the route we're already on, and
+        // Next still spends ~28 KiB prefetching it. Elsewhere it's a real
+        // navigation, so keep the prefetch there.
+        prefetch={pathname === "/" ? false : undefined}
         className="text-foreground hover:border-border border-b border-transparent text-sm font-medium transition-opacity duration-300 hover:opacity-60"
       >
         {siteConfig.person.shortName}
