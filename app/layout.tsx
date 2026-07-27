@@ -17,6 +17,21 @@ import "./globals.css";
 // A linked font arrives after first paint, repaints the LCP paragraph and
 // stamps a second, much later LCP candidate; inlining removes that entirely.
 
+// Applies the theme class in <head>, before <body> exists. next-themes ships an
+// equivalent script, but renders it inside the provider — i.e. ~700 bytes into
+// <body>, behind 98KB of inlined head CSS (the data-URI Inter face). At that
+// point the browser has a parsed stylesheet and a <body> carrying
+// `bg-background`, which resolves to white until `.dark` lands on <html>; a
+// chunk boundary anywhere in that gap paints one white frame before the script
+// runs. Nothing can paint before <body> is parsed, so running here closes the
+// gap outright. next-themes' own script re-applies the same values afterwards.
+//
+// Deliberately read-only on localStorage: writing here is what used to fire a
+// storage event on every load and yank other tabs back to light.
+// colorScheme is set alongside the class so form controls, scrollbars and the
+// document canvas agree from the first frame rather than after hydration.
+const THEME_INIT = `(function(){var e=document.documentElement,t=null;try{t=localStorage.getItem("theme")}catch(_){}var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);e.classList.add(d?"dark":"light");e.style.colorScheme=d?"dark":"light"})();`;
+
 export const metadata: Metadata = {
   title: {
     default: siteConfig.person.fullName,
@@ -63,6 +78,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+      <head>
+        {/* Covers the frame before THEME_INIT runs: on a cold start the browser
+            paints its own canvas before parsing anything, and defaults to white
+            without this. Only helps visitors whose OS is dark — an explicit
+            dark choice on a light OS is handled by THEME_INIT below. */}
+        <meta name="color-scheme" content="light dark" />
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+      </head>
       {/* duration-150 matches Tailwind's default `transition-colors`, which is
           what the rest of the site uses. At the previous 500ms the background
           visibly lagged behind every link, border and card on a theme switch. */}
