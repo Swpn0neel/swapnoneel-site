@@ -1,0 +1,42 @@
+{
+  "/project/anrl.jpg": {
+    "h1": 44,
+    "h2": 215
+  },
+  "/project/blame.jpg": {
+    "h1": 215,
+    "h2": 195
+  },
+  "/project/folio.jpg": {
+    "h1": 129,
+    "h2": 188
+  },
+  "/project/get-response.jpg": {
+    "h1": 213,
+    "h2": 193
+  },
+  "/project/mesh-hop.jpg": {
+    "h1": 231,
+    "h2": 196
+  },
+  "/project/omni-learner.jpg": {
+    "h1": 13,
+    "h2": 248
+  },
+  "/project/scholarian.jpg": {
+    "h1": 216,
+    "h2": 196
+  },
+  "/project/term-chat.jpg": {
+    "h1": 274,
+    "h2": 130
+  },
+  "/project/toile.jpg": {
+    "h1": 219,
+    "h2": 247
+  },
+  "/project/ydub.jpg": {
+    "h1": 11,
+    "h2": 345
+  }
+}
