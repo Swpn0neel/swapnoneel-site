@@ -19,6 +19,9 @@ export type PostMeta = {
   cover?: string;
   link?: string | string[];
   tags?: string[];
+  // Keeps the markdown record but drops the item from every listing
+  // (home carousel, work grid, resume, sitemap, static params).
+  hidden?: boolean;
 };
 
 function getFilesRecursively(dir: string): string[] {
@@ -211,6 +214,7 @@ export const getWorkItem = cache(
 
 export const getAllProjects = () =>
   getAll("projects")
+    .filter((item) => !item.meta.hidden)
     .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
     .sort((a, b) => b.dateValue - a.dateValue)
     .map(({ item }) => item);

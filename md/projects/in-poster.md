@@ -4,6 +4,7 @@ date: "2026-05-03"
 description: "AI-Powered LinkedIn Content Generator."
 cover: "/project/inposter.jpg"
 link: "https://in-poster-one.vercel.app/"
+hidden: true
 ---
 
 ## InPoster

@@ -2,6 +2,7 @@ export interface ProjectMeta {
   slug: string;
   cover?: string;
   title: string;
+  date?: string;
   description?: string;
   link?: string | string[];
 }
