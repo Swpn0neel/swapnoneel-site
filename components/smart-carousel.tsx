@@ -22,6 +22,9 @@ interface SmartCarouselProps {
   ariaLabel: string;
   className?: string;
   autoplayDelay?: number;
+  align?: "start" | "center";
+  dragFree?: boolean;
+  onSlideChange?: (index: number) => void;
 }
 
 export function SmartCarousel({
@@ -29,6 +32,9 @@ export function SmartCarousel({
   ariaLabel,
   className = "",
   autoplayDelay = DEFAULT_AUTOPLAY_DELAY_MS,
+  align = "start",
+  dragFree = true,
+  onSlideChange,
 }: SmartCarouselProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<EmblaCarouselType | null>(null);
@@ -40,8 +46,13 @@ export function SmartCarousel({
   const interactingRef = useRef(false);
   const reducedMotionRef = useRef(false);
   const mountedRef = useRef(true);
+  const onSlideChangeRef = useRef(onSlideChange);
   const [enhanced, setEnhanced] = useState(false);
   const [autoplayActive, setAutoplayActive] = useState(false);
+
+  useEffect(() => {
+    onSlideChangeRef.current = onSlideChange;
+  }, [onSlideChange]);
 
   const clearAutoplayTimer = useCallback(() => {
     if (autoplayTimerRef.current !== null) {
@@ -73,11 +84,12 @@ export function SmartCarousel({
     }
 
     const now = performance.now();
-    if (
-      autoplayDelay !== DEFAULT_AUTOPLAY_DELAY_MS ||
-      synchronizedTickAt <= now + 80
-    ) {
-      synchronizedTickAt = now + autoplayDelay;
+    let nextTickAt = now + autoplayDelay;
+    if (autoplayDelay === DEFAULT_AUTOPLAY_DELAY_MS) {
+      if (synchronizedTickAt <= now + 80) {
+        synchronizedTickAt = nextTickAt;
+      }
+      nextTickAt = synchronizedTickAt;
     }
 
     if (mountedRef.current) setAutoplayActive(true);
@@ -90,10 +102,12 @@ export function SmartCarousel({
         }
 
         apiRef.current?.scrollNext();
-        synchronizedTickAt = performance.now() + autoplayDelay;
+        if (autoplayDelay === DEFAULT_AUTOPLAY_DELAY_MS) {
+          synchronizedTickAt = performance.now() + autoplayDelay;
+        }
         scheduleAutoplay();
       },
-      Math.max(0, synchronizedTickAt - now)
+      Math.max(0, nextTickAt - now)
     );
   }, [autoplayDelay, canAutoplay, clearAutoplayTimer]);
 
@@ -133,12 +147,18 @@ export function SmartCarousel({
       if (cancelled || !rootRef.current) return;
 
       apiRef.current = EmblaCarousel(rootRef.current, {
-        align: "start",
+        align,
         containScroll: false,
-        dragFree: true,
+        dragFree,
         duration: SYNCED_SCROLL_DURATION,
         loop: true,
       });
+      const notifySlideChange = () => {
+        if (!apiRef.current) return;
+        onSlideChangeRef.current?.(apiRef.current.selectedScrollSnap());
+      };
+      apiRef.current.on("select", notifySlideChange);
+      notifySlideChange();
       setEnhanced(true);
       scheduleAutoplay();
     };
@@ -165,7 +185,7 @@ export function SmartCarousel({
       apiRef.current?.destroy();
       apiRef.current = null;
     };
-  }, [clearAutoplayTimer, scheduleAutoplay]);
+  }, [align, clearAutoplayTimer, dragFree, scheduleAutoplay]);
 
   useEffect(() => {
     const root = rootRef.current;
