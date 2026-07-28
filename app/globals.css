@@ -149,6 +149,16 @@ html {
      (e.g. text-sm renders larger than Tailwind's default text-sm). Don't
      "fix" this to 100% without re-checking every layout. */
   font-size: 120%;
+  /* Always reserve the scrollbar's width, even on pages short enough not to
+     need one (contact, 404). Without it, navigating from a long page to a
+     short one drops the scrollbar and the centred `mx-auto` column jumps
+     sideways by half its width. On overlay-scrollbar platforms (macOS,
+     touch) the gutter is zero-width, so this costs nothing there.
+
+     The gutter also survives a `body { overflow: hidden }` scroll lock, so
+     opening the mobile nav or a project overlay doesn't shift the page —
+     which is why neither needs to pad the scrollbar width back in. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -183,8 +193,7 @@ body {
 .prose td,
 .prose mark,
 mark,
-.image-shimmer,
-.skeleton {
+.image-shimmer {
   transition:
     background-color var(--theme-transition) ease,
     border-color var(--theme-transition) ease,
@@ -344,6 +353,22 @@ textarea {
 .blog-scaled-text {
   font-size: calc(0.75rem * var(--prose-scale, 1));
   line-height: 1.3333;
+}
+
+/* The tag row in the article footer is set off by a matching breathing gap on
+   both sides — article body → tags, and tags → the syndication/updated lines
+   below it — while those two lines stay close together as one block. Both
+   gaps track A-/A/A+ like the text they separate; Tailwind's mt-12 is a fixed
+   3rem, so it can't be used for either side without the pair drifting apart
+   at the non-default sizes. */
+.blog-footer-gap {
+  margin-top: calc(3rem * var(--prose-scale, 1));
+}
+
+/* The tight gap inside that block. Scaled for the same reason as the one
+   above — a fixed space-y-2 would look progressively tighter at A+. */
+.blog-footer-gap-tight {
+  margin-top: calc(0.5rem * var(--prose-scale, 1));
 }
 
 /* Prose / MDX content */
@@ -542,6 +567,235 @@ mark {
   background-color: hsl(var(--secondary) / 0.3);
 }
 
+/* ─── Project Card Cover ───
+   Gradient painted from the cover image's two dominant hues (--pc-h1/--pc-h2,
+   set inline from lib/palette-map.json — see scripts/generate-palette.mjs).
+   Hues come from the data; saturation/lightness are theme recipes here. */
+.project-cover {
+  --pc-g1: hsl(var(--pc-h1) 55% 93%);
+  --pc-g2: hsl(var(--pc-h2) 40% 91%);
+  --pc-glow1: hsl(var(--pc-h1) 70% 86%);
+  --pc-glow2: hsl(var(--pc-h2) 50% 85%);
+  --pc-hglow: hsl(var(--pc-h1) 85% 81%);
+  --pc-hglow-opacity: 0.85;
+  --pc-grain-opacity: 0.35;
+  --project-window-chrome: color-mix(
+    in oklab,
+    rgb(16 17 20 / 0.96) 94%,
+    hsl(var(--pc-h1) 36% 30% / 0.96)
+  );
+  --project-window-shot-bg: color-mix(
+    in oklab,
+    hsl(var(--background)) 58%,
+    var(--pc-g2)
+  );
+  --project-window-highlight: rgb(255 255 255 / 0.055);
+  --project-window-image-inset: 0px;
+  --project-window-rail: var(--project-window-shot-bg);
+  --project-window-edge-shadow: inset 0 1px 0 var(--project-window-highlight);
+  background:
+    radial-gradient(90% 85% at 12% -10%, var(--pc-glow1), transparent 58%),
+    radial-gradient(85% 95% at 96% 112%, var(--pc-glow2), transparent 58%),
+    linear-gradient(135deg, var(--pc-g1), var(--pc-g2));
+  container-type: inline-size;
+}
+
+.dark .project-cover {
+  --pc-g1: hsl(var(--pc-h1) 42% 14%);
+  --pc-g2: hsl(var(--pc-h2) 38% 9%);
+  --pc-glow1: hsl(var(--pc-h1) 62% 28%);
+  --pc-glow2: hsl(var(--pc-h2) 48% 17%);
+  --pc-hglow: hsl(var(--pc-h1) 65% 33%);
+  --pc-hglow-opacity: 0.6;
+  --pc-grain-opacity: 0.5;
+  --project-window-shot-bg: color-mix(
+    in oklab,
+    hsl(var(--background)) 70%,
+    var(--pc-g2)
+  );
+  --project-window-rail: var(--project-window-chrome);
+  --project-window-image-inset: 1px;
+  --project-window-edge-shadow:
+    inset 0 1px 0 var(--project-window-highlight),
+    inset 1px 0 0 var(--project-window-highlight),
+    inset -1px 0 0 var(--project-window-highlight);
+}
+
+/* grain overlay — kills gradient banding */
+.project-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+  opacity: var(--pc-grain-opacity);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* hover glow — the gradient breathes instead of a border highlight */
+.project-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    75% 75% at 50% 15%,
+    var(--pc-hglow),
+    transparent 72%
+  );
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.group:hover .project-cover::before {
+  opacity: var(--pc-hglow-opacity);
+}
+
+/* One clipped compositor surface owns the chrome and screenshot. Container
+   units keep the proportions identical at thumbnail and overlay sizes. */
+.project-window {
+  --project-window-radius: clamp(6px, 1.45cqi, 11px);
+  --project-window-chrome-height: clamp(15px, 3.35cqi, 25px);
+  /* Fluid like every other dimension here. The offsets pin the ramp to the
+     two container widths that actually render: ~582px (card) keeps 5/4px,
+     ~760px (overlay hero) reaches 7/6px. */
+  --project-window-dot-size: clamp(5px, calc(1.12cqi - 1.5px), 7px);
+  --project-window-dot-gap: clamp(4px, calc(1.12cqi - 2.5px), 6px);
+  --project-window-chrome-inset: clamp(7px, 1.45cqi, 11px);
+  --project-window-lift: clamp(4px, 0.9cqi, 7px);
+  --project-window-bleed: clamp(9px, 2.05cqi, 16px);
+
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 12%;
+  bottom: calc(-1 * var(--project-window-bleed));
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--project-window-radius) var(--project-window-radius) 0 0;
+  isolation: isolate;
+  contain: paint;
+  background: transparent;
+  backface-visibility: hidden;
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.12),
+    0 clamp(12px, 3cqi, 23px) clamp(24px, 5.5cqi, 42px)
+      clamp(-18px, -2.6cqi, -9px) rgb(0 0 0 / 0.36);
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color var(--theme-transition) ease;
+}
+
+.project-window::after {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  box-shadow: var(--project-window-edge-shadow);
+  pointer-events: none;
+  content: "";
+}
+
+.group:hover .project-window {
+  transform: translate3d(0, calc(-1 * var(--project-window-lift)), 0);
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.12),
+    0 clamp(18px, 4cqi, 30px) clamp(30px, 6.5cqi, 50px)
+      clamp(-20px, -2.8cqi, -11px) rgb(0 0 0 / 0.42);
+}
+
+.project-window-chrome {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  height: var(--project-window-chrome-height);
+  flex: none;
+  align-items: center;
+  padding-inline: var(--project-window-chrome-inset);
+  background:
+    linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.045),
+      rgb(255 255 255 / 0.018) 48%,
+      transparent
+    ),
+    var(--project-window-chrome);
+  /* No backdrop-filter here: .project-window sets `contain: paint` and
+     `isolation: isolate`, both of which start a backdrop root, so the bar
+     would only ever sample an empty backdrop — and its own fill is 96%
+     opaque anyway. It would just cost a composited layer per card. */
+  transition: background-color var(--theme-transition) ease;
+}
+
+.project-window-lights {
+  display: flex;
+  align-items: center;
+  gap: var(--project-window-dot-gap);
+}
+
+.project-window-light {
+  inline-size: var(--project-window-dot-size);
+  block-size: var(--project-window-dot-size);
+  flex: none;
+  border-radius: 999px;
+}
+
+.project-window-light--close {
+  background: #ff5f57;
+}
+
+.project-window-light--minimize {
+  background: #febc2e;
+}
+
+.project-window-light--zoom {
+  background: #28c840;
+}
+
+.project-window-shot {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--project-window-rail);
+  transition: background-color var(--theme-transition) ease;
+}
+
+.project-window-shot-crop {
+  position: absolute;
+  inset: -1px var(--project-window-image-inset);
+  background: var(--project-window-shot-bg);
+}
+
+/* ── overlay hero: the window rests in its fully raised (hover) state,
+   with the glow permanently on and stronger corner glows ── */
+.project-overlay-hero.project-cover {
+  --pc-glow1: hsl(var(--pc-h1) 78% 83%);
+  --pc-glow2: hsl(var(--pc-h2) 60% 82%);
+}
+
+.dark .project-overlay-hero.project-cover {
+  --pc-glow1: hsl(var(--pc-h1) 70% 34%);
+  --pc-glow2: hsl(var(--pc-h2) 58% 23%);
+}
+
+.project-overlay-hero.project-cover::before {
+  opacity: var(--pc-hglow-opacity);
+}
+
+.project-overlay-hero .project-window {
+  transform: translate3d(0, calc(-1 * var(--project-window-lift)), 0);
+  box-shadow:
+    0 1px 1px rgb(0 0 0 / 0.12),
+    0 clamp(18px, 4cqi, 30px) clamp(30px, 6.5cqi, 50px)
+      clamp(-20px, -2.8cqi, -11px) rgb(0 0 0 / 0.42);
+}
+
 /* ─── Project Overlay ─── */
 .project-overlay-backdrop {
   position: fixed;
@@ -555,7 +809,7 @@ mark {
   transition:
     background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 1.25rem;
+  padding: clamp(0.5rem, 2.5vw, 1.25rem);
 }
 
 .project-overlay-backdrop--visible {
@@ -567,41 +821,51 @@ mark {
   position: relative;
   width: 100%;
   max-width: 760px;
-  max-height: 88vh;
+  max-height: min(88dvh, 900px);
+  container-type: inline-size;
   background: hsl(var(--background));
-  border: 1px solid hsl(var(--border));
+  border: 0;
   border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   box-shadow:
-    0 0 0 1px hsl(var(--border) / 0.5),
     0 32px 72px -12px rgba(0, 0, 0, 0.45),
     0 8px 28px -8px rgba(0, 0, 0, 0.25);
   /* Enter animation */
   opacity: 0;
-  transform: scale(0.93) translateY(20px);
+  transform: translateY(20px);
   transition:
     opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Same hairline as before, drawn inward. A real border would only exist in
+   dark, making the panel's content box 2px narrower than in light — and the
+   hero's aspect-ratio box, and therefore the window geometry, along with it. */
+.dark .project-overlay-panel {
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--foreground) / 0.12),
+    0 32px 72px -12px rgba(0, 0, 0, 0.45),
+    0 8px 28px -8px rgba(0, 0, 0, 0.25);
+}
+
 .project-overlay-panel--visible {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: translateY(0);
 }
 
 /* Close button floats over the top-right corner of the hero image */
 .project-overlay-close {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: var(--project-overlay-action-inset);
+  right: var(--project-overlay-action-inset);
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: var(--project-overlay-close-size);
+  height: var(--project-overlay-close-size);
   border-radius: 50%;
   border: 1px solid hsl(var(--border));
   background: hsl(var(--background) / 0.8);
@@ -618,29 +882,46 @@ mark {
   color: hsl(var(--foreground));
 }
 
+/* Both of these float over an arbitrary screenshot, so a single-tone ring can
+   land on a region of its own tone and vanish. The inner background-coloured
+   ring guarantees the outer one always has something to contrast against. */
+.project-overlay-close:focus-visible,
+.project-overlay-glass-link:focus-visible {
+  /* Restates the base radius: the global `button:focus-visible` rule sets
+     border-radius: 4px and outranks the base selector, so without this the
+     circle squares off the moment it takes keyboard focus. */
+  border-radius: 50%;
+  outline: none;
+  box-shadow:
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px hsl(var(--foreground));
+}
+
 /* ─── Overlay: stacked vertical hero layout ─── */
 
-/* Hero image block — full bleed, no padding, no border */
+/* Hero block — full bleed, no padding, no border. When a cover exists it
+   also carries .project-cover, so the card's gradient + framed window render
+   identically here. */
 .project-overlay-hero {
+  --project-overlay-close-size: 28px;
+  --project-overlay-link-size: 44px;
+  --project-overlay-action-inset: 0.75rem;
+
   position: relative;
   width: 100%;
   /* Match exact 16:9 thumbnail ratio — no cropping */
   aspect-ratio: 16 / 9;
+  max-height: 52dvh;
   overflow: hidden;
   flex-shrink: 0;
-  background: hsl(var(--secondary) / 0.6);
 }
 
-.project-overlay-hero-img {
-  object-fit: contain;
-  object-position: center center;
-  transition: transform 0.6s ease;
-}
-
-/* Bottom gradient fade so title is readable over the image */
+/* Bottom gradient fade so title is readable over the image.
+   z-index keeps it above the framed window (.project-window is z-index: 1). */
 .project-overlay-hero-fade {
   position: absolute;
   inset: 0;
+  z-index: 2;
   background: linear-gradient(
     to bottom,
     transparent 40%,
@@ -655,7 +936,9 @@ mark {
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 1rem 1.25rem 0.85rem;
+  z-index: 3;
+  padding: clamp(0.75rem, 2.5cqi, 1rem) var(--project-overlay-action-inset)
+    clamp(0.7rem, 2.2cqi, 0.85rem) clamp(1rem, 3.25cqi, 1.25rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -663,7 +946,10 @@ mark {
 }
 
 .project-overlay-hero-title {
-  font-size: 1.05rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(0.9rem, 3cqi, 1.05rem);
+  line-height: 1.25;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: #ffffff;
@@ -674,6 +960,7 @@ mark {
 .project-overlay-hero-placeholder {
   width: 100%;
   height: 100%;
+  background: hsl(var(--secondary) / 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -688,21 +975,23 @@ mark {
   flex: 1 1 0%;
   min-height: 0;
   overflow-y: auto;
-  padding: 1.25rem 1.4rem 1.25rem;
+  border: 0;
+  padding: clamp(1rem, 3.5cqi, 1.4rem);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: clamp(0.9rem, 2.5cqi, 1.15rem);
 }
 
 /* Layout for features and tech stack */
 .project-overlay-info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1rem, 3cqi, 1.4rem);
 }
 
 .project-overlay-description {
-  font-size: 0.78rem;
+  max-width: 70ch;
+  font-size: clamp(0.74rem, 2cqi, 0.8rem);
   line-height: 1.7;
   color: hsl(var(--muted-foreground));
 }
@@ -714,7 +1003,7 @@ mark {
 }
 
 .project-overlay-section-title {
-  font-size: 0.65rem;
+  font-size: clamp(0.61rem, 1.65cqi, 0.67rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -731,7 +1020,7 @@ mark {
   display: inline-flex;
   align-items: center;
   padding: 0.22rem 0.6rem;
-  font-size: 0.65rem;
+  font-size: clamp(0.61rem, 1.65cqi, 0.67rem);
   font-weight: 500;
   border-radius: 3px;
   background: hsl(var(--secondary) / 0.6);
@@ -760,7 +1049,7 @@ mark {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  font-size: 0.7rem;
+  font-size: clamp(0.66rem, 1.85cqi, 0.72rem);
   color: hsl(var(--muted-foreground));
   line-height: 1.6;
 }
@@ -769,15 +1058,21 @@ mark {
   color: hsl(var(--foreground) / 0.5);
   font-weight: 600;
   flex-shrink: 0;
-  font-size: 0.8rem;
+  font-size: clamp(0.76rem, 2cqi, 0.84rem);
+}
+
+@container (min-width: 600px) {
+  .project-overlay-info-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  }
 }
 
 .project-overlay-glass-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--project-overlay-link-size);
+  height: var(--project-overlay-link-size);
   border-radius: 50%;
   background: hsl(var(--background) / 0.8);
   backdrop-filter: blur(12px);
@@ -801,16 +1096,35 @@ mark {
 /* Responsive */
 @media (max-width: 640px) {
   .project-overlay-backdrop {
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
 
   .project-overlay-panel {
-    max-height: 85vh;
+    max-height: calc(100dvh - 1rem);
     max-width: 100%;
   }
 
   .project-overlay-hero {
-    aspect-ratio: 16 / 9;
+    --project-overlay-close-size: 26px;
+    --project-overlay-link-size: 36px;
+    --project-overlay-action-inset: 0.625rem;
+  }
+
+  .project-overlay-glass-link svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .project-overlay-hero-title-bar {
+    padding-left: 1rem;
+  }
+
+  .project-overlay-info {
+    gap: 0.85rem;
+  }
+
+  .project-overlay-info-grid {
+    gap: 1rem;
   }
 }
 
@@ -877,81 +1191,7 @@ mark {
   object-fit: cover;
 }
 
-/* ─── Creative PFP ─── */
-@keyframes pfp-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes pfp-glow {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-    filter: blur(12px);
-  }
-
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-    filter: blur(18px);
-  }
-}
-
-.pfp-creative-container {
-  position: relative;
-  display: inline-block;
-  animation: pfp-float 5s ease-in-out infinite;
-}
-
-.pfp-glow-effect {
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-  border-radius: 10px;
-  z-index: -1;
-  animation: pfp-glow 4s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.pfp-image {
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
-}
-
-.pfp-creative-container:hover .pfp-image {
-  transform: scale(1.08) rotate(3deg);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
-}
-
-.pfp-creative-container:hover .pfp-glow-effect {
-  animation-duration: 2s;
-  opacity: 0.9;
-}
-
 /* ─── Micro-interactions ─── */
-
-/* Card hover lift effect */
-.card-hover {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-}
-
-/* Button press effect */
-.btn-press:active {
-  transform: scale(0.97);
-}
 
 /* Smooth link hover */
 a {
@@ -963,24 +1203,6 @@ a {
 /* Improved scroll behavior */
 html {
   scroll-behavior: smooth;
-}
-
-/* Skeleton pulse animation */
-@keyframes skeleton-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-
-  50% {
-    opacity: 0.8;
-  }
-}
-
-.skeleton {
-  animation: skeleton-pulse 1.5s ease-in-out infinite;
-  background: hsl(var(--secondary) / 0.6);
-  border-radius: 4px;
 }
 
 /* ─── Subtle Thin Scrollbar ─── */
@@ -1016,15 +1238,6 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .pfp-creative-container {
-    animation: none;
-  }
-
-  .pfp-glow-effect {
-    animation: none;
-    opacity: 0.4;
   }
 }
 
@@ -1169,3 +1382,5 @@ html {
     display: none !important;
   }
 }
+
+

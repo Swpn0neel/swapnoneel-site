@@ -19,6 +19,11 @@ export type PostMeta = {
   cover?: string;
   link?: string | string[];
   tags?: string[];
+  /** Includes the project in the homepage showcase. */
+  featured?: boolean;
+  // Keeps the markdown record but drops the item from every listing
+  // (home carousel, work grid, resume, sitemap, static params).
+  hidden?: boolean;
 };
 
 function getFilesRecursively(dir: string): string[] {
@@ -211,6 +216,21 @@ export const getWorkItem = cache(
 
 export const getAllProjects = () =>
   getAll("projects")
+    .filter((item) => !item.meta.hidden)
     .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
     .sort((a, b) => b.dateValue - a.dateValue)
     .map(({ item }) => item);
+
+const FEATURED_FALLBACK_COUNT = 5;
+
+// Falls back to the newest few rather than returning nothing: an empty result
+// would render the homepage showcase as an empty carousel (Embla initialising
+// with zero slides) above an empty list, and the only way to cause that is to
+// forget the flag on a new project.
+export const getFeaturedProjects = () => {
+  const projects = getAllProjects();
+  const featured = projects.filter((item) => item.meta.featured === true);
+  return featured.length > 0
+    ? featured
+    : projects.slice(0, FEATURED_FALLBACK_COUNT);
+};

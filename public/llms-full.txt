@@ -85,7 +85,7 @@ Summary: Tested and launched Luffy (an AI Slack co-worker), built internal laten
 ## ANRL
 URL: https://anrl-site.vercel.app
 Date: 2026-06-08
-Summary: A graph-native representation language explicitly designed to optimize attention allocation and semantic saliency for Large Language Models.
+Summary: Graph-native representation language explicitly designed to optimize attention allocation and semantic saliency for Large Language Models.
 
 ## ANRL (AI-Native Representation Language)
 
@@ -109,7 +109,7 @@ A paradigm-shifting representation system designed specifically for Large Langua
 ## Blame
 URL: https://gitblame.vercel.app
 Date: 2026-07-01
-Summary: A client-side Next.js web application designed to scan GitHub repositories, resolve contributor identities, and audit commit counts directly in the browser.
+Summary: Client-side Next.js web application designed to scan GitHub repositories, resolve contributor identities, and audit commit counts directly in the browser.
 
 ## Blame
 
@@ -134,7 +134,7 @@ A powerful client-side contributor aggregation and outreach tool designed to ans
 ## Folio
 URL: https://fo1io.vercel.app
 Date: 2026-05-08
-Summary: A premium portfolio engine designed for developers and designers.
+Summary: Premium portfolio engine designed for developers and designers.
 
 ## Folio
 
@@ -161,7 +161,7 @@ Folio is a state-of-the-art portfolio generation platform designed for developer
 ## Get Response
 URL: https://get-response-site.vercel.app
 Date: 2026-05-06
-Summary: A terminal-based AI chatbot and automation tool.
+Summary: Terminal-based AI chatbot and automation tool.
 
 ## Get Response
 
@@ -212,7 +212,7 @@ A high-performance content generation tool that transforms simple keywords into 
 ## Mesh Hop
 URL: https://mesh-hop.vercel.app
 Date: 2026-07-19
-Summary: A desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies.
+Summary: Desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies.
 
 ## MeshHop
 
@@ -237,7 +237,7 @@ A lightweight, self-contained desktop application that automatically discovers w
 ## Omni Learner
 URL: https://www.figma.com/design/ksN1tWLNzpI6Hoi5yiVwc5/Omni-Learner?node-id=1-2&t=haIB25SKp7zo507e-1
 Date: 2026-05-02
-Summary: A universal AI-powered translation platform design for educational accessibility.
+Summary: Universal AI-powered translation platform design for educational accessibility.
 
 ## OmniLearner
 
@@ -257,7 +257,7 @@ An award-winning design concept developed for the Smart India Hackathon 2023, ai
 ## Scholarian
 URL: https://scholarian.vercel.app
 Date: 2026-05-07
-Summary: A high-end research platform designed to transform academic tools into a focused, analytical journey.
+Summary: High-end research platform designed to transform academic tools into a focused, analytical journey.
 
 ## Scholarian
 
@@ -286,7 +286,7 @@ A high-end, editorial research platform that replaces manual literature reviews 
 ## TermAI
 URL: https://term-ai.vercel.app/
 Date: 2026-05-04
-Summary: An AI-powered cloud terminal for seamless coding on any device.
+Summary: AI-powered cloud terminal for seamless coding on any device.
 
 ## TermAI
 
@@ -315,7 +315,7 @@ A powerful, browser-based cloud terminal environment that combines traditional c
 ## Term Chat
 URL: https://term-chat.vercel.app
 Date: 2026-05-09
-Summary: A terminal-based messaging hub for real-time communication, collaboration, and AI-powered interactions.
+Summary: Terminal-based messaging hub for real-time communication, collaboration, and AI-powered interactions.
 
 ## Term Chat
 
@@ -341,7 +341,7 @@ A terminal-based messaging hub designed for real-time communication, group colla
 ## Toile
 URL: https://toile.vercel.app
 Date: 2026-05-05
-Summary: A minimal CRUD application to showcase artistic works in an elegant way.
+Summary: Minimal CRUD application to showcase artistic works in an elegant way.
 
 ## Toile
 
@@ -364,7 +364,7 @@ A clean, easy-to-use CRUD application for showcasing artistic works — built wi
 ## Y Dub
 URL: https://www.figma.com/design/QtUW4ih2Ny2pRE4ZerZ0Me/SIH-23?node-id=0-1&t=haIB25SKp7zo507e-1
 Date: 2026-05-01
-Summary: A premium AI-powered video dubbing platform design.
+Summary: Premium AI-powered video dubbing platform design.
 
 ## YDub
 

@@ -17,7 +17,6 @@ export const i18n = {
     toggleMenu: "Toggle menu",
     socialLinksRegion: "Social links",
     projectsCarousel: "Projects carousel",
-    projectDetails: "Project details",
     closeOverlay: "Close overlay",
   },
   footer: {
@@ -105,6 +104,7 @@ export const i18n = {
       "Technical deep-dives, tutorials, and reflections on software engineering, Python, JavaScript, and web development.",
     backLink: "blog",
     alsoPublishedOn: "Also published on",
+    lastUpdatedOn: "Last updated on",
     textSizeLabel: "Adjust article text size",
     textSizeTitles: {
       sm: "Smaller text",

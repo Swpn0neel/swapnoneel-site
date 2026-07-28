@@ -31,8 +31,6 @@ export function ProjectGrid({ items }: { items: ProjectOverlayData[] }) {
             <span className="sr-only">Open details for </span>
             <ProjectCard
               item={item}
-              imageWidth={400}
-              imageHeight={225}
               sizes="(max-width: 640px) calc(100vw - 2rem), 380px"
             />
           </button>

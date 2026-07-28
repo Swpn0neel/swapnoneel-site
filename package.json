@@ -3,9 +3,9 @@
   "description": "personal site (swapnoneel)",
   "version": "1.0.0",
   "scripts": {
-    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
+    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
+    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "build": "next build",
     "update-blog-dates": "node scripts/update-blog-dates.mjs",
     "generate-font-subset": "node scripts/generate-font-subset.mjs",
@@ -28,7 +28,6 @@
     "clsx": "^2.1.1",
     "embla-carousel": "8.6.0",
     "gray-matter": "^4.0.3",
-    "highlight.js": "^11.11.1",
     "lucide-react": "^1.8.0",
     "next": "16.2.3",
     "next-mdx-remote": "^6.0.0",
@@ -61,7 +60,6 @@
     "remark-parse": "^11.0.0",
     "simple-git-hooks": "^2.13.1",
     "tailwindcss": "^4",
-    "turndown": "^7.2.4",
     "typescript": "^6",
     "unified": "^11.0.5"
   }

@@ -1,11 +1,11 @@
 import { ExperienceSection } from "@/components/experience-section";
 import { PfpSpin } from "@/components/pfp-spin";
-import { ProjectCarousel } from "@/components/project-carousel";
+import { ProjectShowcase } from "@/components/project-showcase";
 import { SocialLinks } from "@/components/social-links";
 import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
-import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { getAllWorkItems, getFeaturedProjects } from "@/lib/md";
 import { buildProjectOverlayData } from "@/lib/project-overlay-data";
 import { buildPersonSchema } from "@/lib/structured-data";
 import { safeJsonLd } from "@/lib/utils";
@@ -19,7 +19,7 @@ const CalBooking = dynamic(() =>
 
 export default function Home() {
   const workItems = getAllWorkItems();
-  const projects = getAllProjects().map(buildProjectOverlayData);
+  const projects = getFeaturedProjects().map(buildProjectOverlayData);
 
   return (
     <div className="space-y-7 pb-12">
@@ -142,7 +142,7 @@ export default function Home() {
             {i18n.common.seeAll}
           </Link>
         </div>
-        <ProjectCarousel items={projects} />
+        <ProjectShowcase items={projects} />
       </section>
 
       <hr className="border-border" />

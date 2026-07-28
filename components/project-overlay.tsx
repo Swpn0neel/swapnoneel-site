@@ -1,14 +1,15 @@
 "use client";
 
-import { SmoothImage } from "@/components/smooth-image";
-import blurMap from "@/lib/blur-map.json";
 import { i18n } from "@/lib/i18n";
+import paletteMap from "@/lib/palette-map.json";
 import type { ProjectOverlayData } from "@/lib/project-overlay-data";
 import { firstLink } from "@/lib/utils";
+import type { CSSProperties } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { ProjectWindow } from "./project-window";
 
-export type { ProjectOverlayData } from "@/lib/project-overlay-data";
+const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
 interface ProjectOverlayProps {
   project: ProjectOverlayData | null;
@@ -51,20 +52,14 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
     return () => cancelAnimationFrame(frame);
   }, [project]);
 
-  // Lock body scroll when overlay is open
+  // Lock body scroll when overlay is open. No paddingRight compensation for
+  // the vanishing scrollbar — `scrollbar-gutter: stable` on html (globals.css)
+  // holds that space open through the lock, so padding here would shift the
+  // page by the scrollbar's width rather than keep it still.
   useEffect(() => {
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-    if (project) {
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-    }
+    document.body.style.overflow = project ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
     };
   }, [project]);
 
@@ -117,6 +112,9 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const techStack = project?.techStack ?? [];
   const features = project?.features ?? [];
   const projectLink = project ? firstLink(project.meta.link) : undefined;
+  const palette = project?.meta.cover
+    ? palettes[project.meta.cover]
+    : undefined;
 
   return createPortal(
     <div
@@ -136,20 +134,26 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       <div
         className={`project-overlay-panel ${isVisible ? "project-overlay-panel--visible" : ""}`}
       >
-        {/* Hero image — full bleed, no border, no padding */}
-        <div className="project-overlay-hero">
+        {/* Hero — same gradient + framed window treatment as the card */}
+        <div
+          className={`project-overlay-hero ${
+            project?.meta.cover ? "project-cover" : ""
+          }`}
+          style={
+            project?.meta.cover
+              ? ({
+                  "--pc-h1": String(palette?.h1 ?? 220),
+                  "--pc-h2": String(palette?.h2 ?? 200),
+                } as CSSProperties)
+              : undefined
+          }
+        >
           {project?.meta.cover ? (
-            <SmoothImage
+            <ProjectWindow
               src={project.meta.cover}
-              alt={project?.meta.title ?? ""}
-              fill
-              className="project-overlay-hero-img"
-              sizes="(max-width: 640px) 100vw, 860px"
+              alt={project.meta.title}
+              sizes="(max-width: 640px) 86vw, 654px"
               priority
-              showSkeleton
-              blurDataURL={
-                (blurMap as Record<string, string>)[project.meta.cover]
-              }
             />
           ) : (
             <div className="project-overlay-hero-placeholder">
@@ -170,8 +174,8 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
