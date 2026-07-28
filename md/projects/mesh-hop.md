@@ -1,9 +1,10 @@
 ---
 title: "Mesh Hop"
 date: "2026-07-19"
-description: "A desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies."
+description: "Desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies."
 cover: "/project/mesh-hop.jpg"
 link: "https://mesh-hop.vercel.app"
+featured: true
 ---
 
 ## MeshHop

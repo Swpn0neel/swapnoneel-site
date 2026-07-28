@@ -19,6 +19,8 @@ export type PostMeta = {
   cover?: string;
   link?: string | string[];
   tags?: string[];
+  /** Includes the project in the homepage showcase. */
+  featured?: boolean;
   // Keeps the markdown record but drops the item from every listing
   // (home carousel, work grid, resume, sitemap, static params).
   hidden?: boolean;
@@ -218,3 +220,6 @@ export const getAllProjects = () =>
     .map((item) => ({ item, dateValue: parseDate(item.meta.date) }))
     .sort((a, b) => b.dateValue - a.dateValue)
     .map(({ item }) => item);
+
+export const getFeaturedProjects = () =>
+  getAllProjects().filter((item) => item.meta.featured === true);

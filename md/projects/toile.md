@@ -1,9 +1,10 @@
 ---
 title: "Toile"
 date: "2026-05-05"
-description: "A minimal CRUD application to showcase artistic works in an elegant way."
+description: "Minimal CRUD application to showcase artistic works in an elegant way."
 cover: "/project/toile.jpg"
 link: "https://toile.vercel.app"
+featured: true
 ---
 
 ## Toile

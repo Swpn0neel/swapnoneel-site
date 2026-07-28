@@ -1,9 +1,10 @@
 ---
 title: "Omni Learner"
 date: "2026-05-02"
-description: "A universal AI-powered translation platform design for educational accessibility."
+description: "Universal AI-powered translation platform design for educational accessibility."
 cover: "/project/omni-learner.jpg"
 link: "https://www.figma.com/design/ksN1tWLNzpI6Hoi5yiVwc5/Omni-Learner?node-id=1-2&t=haIB25SKp7zo507e-1"
+featured: true
 ---
 
 ## OmniLearner

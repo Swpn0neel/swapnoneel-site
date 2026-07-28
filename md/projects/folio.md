@@ -1,9 +1,10 @@
 ---
 title: "Folio"
 date: "2026-05-08"
-description: "A premium portfolio engine designed for developers and designers."
+description: "Premium portfolio engine designed for developers and designers."
 cover: "/project/folio.jpg"
 link: "https://fo1io.vercel.app"
+featured: false
 ---
 
 ## Folio

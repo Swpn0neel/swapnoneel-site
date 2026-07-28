@@ -1,9 +1,10 @@
 ---
 title: "ANRL"
 date: "2026-06-08"
-description: "A graph-native representation language explicitly designed to optimize attention allocation and semantic saliency for Large Language Models."
+description: "Graph-native representation language explicitly designed to optimize attention allocation and semantic saliency for Large Language Models."
 cover: "/project/anrl.jpg"
 link: "https://anrl-site.vercel.app"
+featured: true
 ---
 
 ## ANRL (AI-Native Representation Language)
