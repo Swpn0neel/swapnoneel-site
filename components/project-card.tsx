@@ -20,8 +20,8 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
 // The framed-screenshot visual on its own: gradient derived from the
 // screenshot's dominant hues with a CSS-rendered browser window on top
-// (see .project-cover / .project-window in globals.css). Reused by the
-// hover preview in ProjectIndex.
+// (see .project-cover / .project-window in globals.css). Used bare by the
+// home carousel and wrapped with a caption by ProjectCard on /work.
 export function ProjectCover({
   cover,
   sizes,

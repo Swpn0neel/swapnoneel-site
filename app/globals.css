@@ -631,8 +631,11 @@ mark {
 .project-window {
   --project-window-radius: clamp(6px, 1.45cqi, 11px);
   --project-window-chrome-height: clamp(15px, 3.35cqi, 25px);
-  --project-window-dot-size: 5px;
-  --project-window-dot-gap: 4px;
+  /* Fluid like every other dimension here. The offsets pin the ramp to the
+     two container widths that actually render: ~582px (card) keeps 5/4px,
+     ~760px (overlay hero) reaches 7/6px. */
+  --project-window-dot-size: clamp(5px, calc(1.12cqi - 1.5px), 7px);
+  --project-window-dot-gap: clamp(4px, calc(1.12cqi - 2.5px), 6px);
   --project-window-chrome-inset: clamp(7px, 1.45cqi, 11px);
   --project-window-lift: clamp(4px, 0.9cqi, 7px);
   --project-window-bleed: clamp(9px, 2.05cqi, 16px);
@@ -695,8 +698,10 @@ mark {
       transparent
     ),
     var(--project-window-chrome);
-  backdrop-filter: blur(2px) saturate(108%);
-  -webkit-backdrop-filter: blur(2px) saturate(108%);
+  /* No backdrop-filter here: .project-window sets `contain: paint` and
+     `isolation: isolate`, both of which start a backdrop root, so the bar
+     would only ever sample an empty backdrop — and its own fill is 96%
+     opaque anyway. It would just cost a composited layer per card. */
   transition: background-color var(--theme-transition) ease;
 }
 
@@ -711,20 +716,6 @@ mark {
   block-size: var(--project-window-dot-size);
   flex: none;
   border-radius: 999px;
-}
-
-@container (min-width: 600px) {
-  .project-window {
-    --project-window-dot-size: 6px;
-    --project-window-dot-gap: 5px;
-  }
-}
-
-@container (min-width: 680px) {
-  .project-window {
-    --project-window-dot-size: 7px;
-    --project-window-dot-gap: 6px;
-  }
 }
 
 .project-window-light--close {
@@ -824,8 +815,14 @@ mark {
     transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Same hairline as before, drawn inward. A real border would only exist in
+   dark, making the panel's content box 2px narrower than in light — and the
+   hero's aspect-ratio box, and therefore the window geometry, along with it. */
 .dark .project-overlay-panel {
-  border: 1px solid hsl(var(--foreground) / 0.12);
+  box-shadow:
+    inset 0 0 0 1px hsl(var(--foreground) / 0.12),
+    0 32px 72px -12px rgba(0, 0, 0, 0.45),
+    0 8px 28px -8px rgba(0, 0, 0, 0.25);
 }
 
 .project-overlay-panel--visible {
@@ -854,22 +851,25 @@ mark {
   transition: all 0.3s ease;
 }
 
-.project-overlay-close svg {
-  width: 14px;
-  height: 14px;
-}
-
 .project-overlay-close:hover {
   background: hsl(var(--background) / 0.95);
   border-color: hsl(var(--foreground) / 0.2);
   color: hsl(var(--foreground));
 }
 
+/* Both of these float over an arbitrary screenshot, so a single-tone ring can
+   land on a region of its own tone and vanish. The inner background-coloured
+   ring guarantees the outer one always has something to contrast against. */
 .project-overlay-close:focus-visible,
 .project-overlay-glass-link:focus-visible {
+  /* Restates the base radius: the global `button:focus-visible` rule sets
+     border-radius: 4px and outranks the base selector, so without this the
+     circle squares off the moment it takes keyboard focus. */
   border-radius: 50%;
   outline: none;
-  box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.65);
+  box-shadow:
+    0 0 0 2px hsl(var(--background)),
+    0 0 0 4px hsl(var(--foreground));
 }
 
 /* ─── Overlay: stacked vertical hero layout ─── */
@@ -1056,11 +1056,6 @@ mark {
   color: hsl(var(--muted-foreground));
   transition: all 0.3s ease;
   flex-shrink: 0;
-}
-
-.project-overlay-glass-link svg {
-  width: 18px;
-  height: 18px;
 }
 
 .project-overlay-glass-link:hover {
