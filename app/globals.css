@@ -305,6 +305,27 @@ textarea {
   scroll-snap-align: start;
 }
 
+/* A centre-aligned carousel has to look centred before Embla arrives too, or
+   the takeover drags the first slide from the left edge into the middle in one
+   frame. Snap on the slide centre and lead the track in with the same
+   (viewport - slide) / 2 offset Embla computes, so the handover moves nothing.
+   Percentage margins resolve against the track width, which is the scrollport
+   width, so this stays exact at every breakpoint. Both offsets belong to the
+   fallback only — Embla measures the DOM and would double-count them. */
+.smart-carousel[data-carousel-align="center"] .smart-carousel__slide {
+  scroll-snap-align: center;
+}
+
+.smart-carousel[data-carousel-align="center"]:not([data-carousel-enhanced="true"])
+  .smart-carousel__slide:first-child {
+  margin-inline-start: calc((100% - var(--carousel-slide-width, 100%)) / 2);
+}
+
+.smart-carousel[data-carousel-align="center"]:not([data-carousel-enhanced="true"])
+  .smart-carousel__slide:last-child {
+  margin-inline-end: calc((100% - var(--carousel-slide-width, 100%)) / 2);
+}
+
 /* The highlight moves using only a compositor transform. It stays paused until
    its image is near the viewport and stops as soon as an image is visible. */
 .image-shimmer {

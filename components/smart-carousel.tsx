@@ -174,6 +174,14 @@ export function SmartCarousel({
       const { default: EmblaCarousel } = await import("embla-carousel");
       if (cancelled || !rootRef.current) return;
 
+      // The fallback track carries a lead-in margin that Embla must not see —
+      // it measures the DOM, so the offset would be applied twice. Dropping it
+      // through `enhanced` alone is not enough: that render is scheduled, and
+      // the browser can paint the doubled offset before React flushes. Write
+      // the attribute here so the margin is gone in the same task that
+      // constructs Embla; the state below then re-renders to the same value.
+      rootRef.current.dataset.carouselEnhanced = "true";
+
       apiRef.current = EmblaCarousel(rootRef.current, {
         align,
         containScroll: false,
@@ -298,6 +306,7 @@ export function SmartCarousel({
     <div
       ref={rootRef}
       className={`smart-carousel ${className}`}
+      data-carousel-align={align}
       data-carousel-enhanced={enhanced ? "true" : "false"}
       onKeyDown={handleKeyDown}
       onPointerEnter={(event) => {

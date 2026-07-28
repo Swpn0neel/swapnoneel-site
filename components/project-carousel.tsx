@@ -38,7 +38,9 @@ export function ProjectCarousel({
     <div className="w-full">
       <SmartCarousel
         ariaLabel={i18n.common.projectsCarousel}
-        className="w-full"
+        // Slide width lives in a variable because globals.css derives the
+        // fallback's centring offset from it — see .smart-carousel__slide.
+        className="w-full [--carousel-slide-width:82%] sm:[--carousel-slide-width:76%]"
         align="center"
         dragFree={false}
         autoplayDelay={4500}
@@ -51,7 +53,7 @@ export function ProjectCarousel({
             return (
               <li
                 key={`${item.meta.slug}-${i}`}
-                className="smart-carousel__slide mr-4 w-[82%] shrink-0 sm:w-[76%]"
+                className="smart-carousel__slide mr-4 w-[var(--carousel-slide-width)] shrink-0"
                 aria-label={`Slide ${i + 1} of ${items.length}: ${item.meta.title}`}
                 aria-current={active ? "true" : undefined}
               >
