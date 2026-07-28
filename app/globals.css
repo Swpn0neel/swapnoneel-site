@@ -793,7 +793,7 @@ mark {
   transition:
     background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: 1.25rem;
+  padding: clamp(0.5rem, 2vw, 1.25rem);
 }
 
 .project-overlay-backdrop--visible {
@@ -805,10 +805,9 @@ mark {
   position: relative;
   width: 100%;
   max-width: 760px;
-  max-height: 88vh;
+  max-height: 88dvh;
   background: hsl(var(--background));
-  /* No border: it would ring the full-bleed gradient hero. The info section
-     below carries its own top hairline; depth comes from the shadows. */
+  border: 0;
   border-radius: 6px;
   overflow: hidden;
   display: flex;
@@ -818,28 +817,32 @@ mark {
     0 8px 28px -8px rgba(0, 0, 0, 0.25);
   /* Enter animation */
   opacity: 0;
-  transform: scale(0.93) translateY(20px);
+  transform: translateY(20px);
   transition:
     opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.dark .project-overlay-panel {
+  border: 1px solid hsl(var(--foreground) / 0.12);
+}
+
 .project-overlay-panel--visible {
   opacity: 1;
-  transform: scale(1) translateY(0);
+  transform: translateY(0);
 }
 
 /* Close button floats over the top-right corner of the hero image */
 .project-overlay-close {
   position: absolute;
-  top: 0.75rem;
-  right: 0.75rem;
+  top: var(--project-overlay-action-inset);
+  right: var(--project-overlay-action-inset);
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: var(--project-overlay-close-size);
+  height: var(--project-overlay-close-size);
   border-radius: 50%;
   border: 1px solid hsl(var(--border));
   background: hsl(var(--background) / 0.8);
@@ -850,10 +853,22 @@ mark {
   transition: all 0.3s ease;
 }
 
+.project-overlay-close svg {
+  width: 14px;
+  height: 14px;
+}
+
 .project-overlay-close:hover {
   background: hsl(var(--background) / 0.95);
   border-color: hsl(var(--foreground) / 0.2);
   color: hsl(var(--foreground));
+}
+
+.project-overlay-close:focus-visible,
+.project-overlay-glass-link:focus-visible {
+  border-radius: 50%;
+  outline: none;
+  box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.65);
 }
 
 /* ─── Overlay: stacked vertical hero layout ─── */
@@ -862,6 +877,10 @@ mark {
    also carries .project-cover, so the card's gradient + framed window render
    identically here. */
 .project-overlay-hero {
+  --project-overlay-close-size: 28px;
+  --project-overlay-link-size: 44px;
+  --project-overlay-action-inset: 0.75rem;
+
   position: relative;
   width: 100%;
   /* Match exact 16:9 thumbnail ratio — no cropping */
@@ -891,7 +910,7 @@ mark {
   left: 0;
   right: 0;
   z-index: 3;
-  padding: 1rem 1.25rem 0.85rem;
+  padding: 1rem var(--project-overlay-action-inset) 0.85rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -925,19 +944,11 @@ mark {
   flex: 1 1 0%;
   min-height: 0;
   overflow-y: auto;
-  /* Inner border on the sides and bottom only — the hero above stays
-     completely borderless. Follows the panel's bottom corner radius. */
-  border: 1px solid hsl(var(--border) / 0.7);
-  border-top: none;
-  border-radius: 0 0 6px 6px;
-  padding: 1.25rem 1.4rem 1.25rem;
+  border: 0;
+  padding: clamp(0.95rem, 3vw, 1.4rem);
   display: flex;
   flex-direction: column;
   gap: 1rem;
-}
-
-.dark .project-overlay-info {
-  border-color: hsl(var(--foreground) / 0.08);
 }
 
 /* Layout for features and tech stack */
@@ -948,7 +959,7 @@ mark {
 }
 
 .project-overlay-description {
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   line-height: 1.7;
   color: hsl(var(--muted-foreground));
 }
@@ -960,7 +971,7 @@ mark {
 }
 
 .project-overlay-section-title {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -977,7 +988,7 @@ mark {
   display: inline-flex;
   align-items: center;
   padding: 0.22rem 0.6rem;
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 500;
   border-radius: 3px;
   background: hsl(var(--secondary) / 0.6);
@@ -1006,7 +1017,7 @@ mark {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  font-size: 0.7rem;
+  font-size: 0.67rem;
   color: hsl(var(--muted-foreground));
   line-height: 1.6;
 }
@@ -1015,15 +1026,15 @@ mark {
   color: hsl(var(--foreground) / 0.5);
   font-weight: 600;
   flex-shrink: 0;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
 }
 
 .project-overlay-glass-link {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
+  width: var(--project-overlay-link-size);
+  height: var(--project-overlay-link-size);
   border-radius: 50%;
   background: hsl(var(--background) / 0.8);
   backdrop-filter: blur(12px);
@@ -1032,6 +1043,11 @@ mark {
   color: hsl(var(--muted-foreground));
   transition: all 0.3s ease;
   flex-shrink: 0;
+}
+
+.project-overlay-glass-link svg {
+  width: 18px;
+  height: 18px;
 }
 
 .project-overlay-glass-link:hover {
@@ -1047,16 +1063,35 @@ mark {
 /* Responsive */
 @media (max-width: 640px) {
   .project-overlay-backdrop {
-    padding: 0.75rem;
+    padding: 0.5rem;
   }
 
   .project-overlay-panel {
-    max-height: 85vh;
+    max-height: calc(100dvh - 1rem);
     max-width: 100%;
   }
 
   .project-overlay-hero {
-    aspect-ratio: 16 / 9;
+    --project-overlay-close-size: 26px;
+    --project-overlay-link-size: 36px;
+    --project-overlay-action-inset: 0.625rem;
+  }
+
+  .project-overlay-glass-link svg {
+    width: 17px;
+    height: 17px;
+  }
+
+  .project-overlay-hero-title-bar {
+    padding-left: 1rem;
+  }
+
+  .project-overlay-info {
+    gap: 0.85rem;
+  }
+
+  .project-overlay-info-grid {
+    gap: 1rem;
   }
 }
 
