@@ -40,7 +40,7 @@ export function ProjectIndex({
             >
               <span className="sr-only">Open details for </span>
               <span
-                className={`w-28 shrink-0 text-sm group-hover:underline sm:w-36 ${
+                className={`group-hover:text-foreground w-28 shrink-0 text-sm transition-colors group-hover:underline sm:w-36 ${
                   active
                     ? "text-foreground font-semibold underline decoration-1 underline-offset-4"
                     : "text-foreground/80 font-medium"
@@ -50,7 +50,7 @@ export function ProjectIndex({
               </span>
               {item.meta.description && (
                 <span
-                  className={`hidden min-w-0 flex-1 text-xs sm:line-clamp-1 ${
+                  className={`group-hover:text-foreground/80 hidden min-w-0 flex-1 text-xs transition-colors sm:line-clamp-1 ${
                     active ? "text-foreground/80" : "text-muted-foreground"
                   }`}
                 >
@@ -64,7 +64,7 @@ export function ProjectIndex({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Visit ${item.meta.title}`}
-                className={`hover:text-foreground ml-auto shrink-0 self-center transition-colors ${
+                className={`hover:text-foreground group-hover:text-foreground ml-auto shrink-0 self-center transition-colors ${
                   active ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
