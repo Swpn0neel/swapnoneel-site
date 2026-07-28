@@ -27,7 +27,6 @@ export function ProjectIndex({
         return (
           <div
             key={item.meta.slug}
-            data-active={active ? "true" : "false"}
             className="group flex items-baseline gap-3 py-3 first:pt-0 last:pb-0 sm:gap-4"
           >
             <button

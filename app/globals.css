@@ -149,6 +149,16 @@ html {
      (e.g. text-sm renders larger than Tailwind's default text-sm). Don't
      "fix" this to 100% without re-checking every layout. */
   font-size: 120%;
+  /* Always reserve the scrollbar's width, even on pages short enough not to
+     need one (contact, 404). Without it, navigating from a long page to a
+     short one drops the scrollbar and the centred `mx-auto` column jumps
+     sideways by half its width. On overlay-scrollbar platforms (macOS,
+     touch) the gutter is zero-width, so this costs nothing there.
+
+     The gutter also survives a `body { overflow: hidden }` scroll lock, so
+     opening the mobile nav or a project overlay doesn't shift the page —
+     which is why neither needs to pad the scrollbar width back in. */
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -183,8 +193,7 @@ body {
 .prose td,
 .prose mark,
 mark,
-.image-shimmer,
-.skeleton {
+.image-shimmer {
   transition:
     background-color var(--theme-transition) ease,
     border-color var(--theme-transition) ease,
@@ -344,6 +353,22 @@ textarea {
 .blog-scaled-text {
   font-size: calc(0.75rem * var(--prose-scale, 1));
   line-height: 1.3333;
+}
+
+/* The tag row in the article footer is set off by a matching breathing gap on
+   both sides — article body → tags, and tags → the syndication/updated lines
+   below it — while those two lines stay close together as one block. Both
+   gaps track A-/A/A+ like the text they separate; Tailwind's mt-12 is a fixed
+   3rem, so it can't be used for either side without the pair drifting apart
+   at the non-default sizes. */
+.blog-footer-gap {
+  margin-top: calc(3rem * var(--prose-scale, 1));
+}
+
+/* The tight gap inside that block. Scaled for the same reason as the one
+   above — a fixed space-y-2 would look progressively tighter at A+. */
+.blog-footer-gap-tight {
+  margin-top: calc(0.5rem * var(--prose-scale, 1));
 }
 
 /* Prose / MDX content */
@@ -1166,81 +1191,7 @@ mark {
   object-fit: cover;
 }
 
-/* ─── Creative PFP ─── */
-@keyframes pfp-float {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-8px);
-  }
-}
-
-@keyframes pfp-glow {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: scale(1);
-    filter: blur(12px);
-  }
-
-  50% {
-    opacity: 0.7;
-    transform: scale(1.1);
-    filter: blur(18px);
-  }
-}
-
-.pfp-creative-container {
-  position: relative;
-  display: inline-block;
-  animation: pfp-float 5s ease-in-out infinite;
-}
-
-.pfp-glow-effect {
-  position: absolute;
-  inset: -2px;
-  background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899);
-  border-radius: 10px;
-  z-index: -1;
-  animation: pfp-glow 4s ease-in-out infinite;
-  pointer-events: none;
-}
-
-.pfp-image {
-  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
-}
-
-.pfp-creative-container:hover .pfp-image {
-  transform: scale(1.08) rotate(3deg);
-  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.4);
-}
-
-.pfp-creative-container:hover .pfp-glow-effect {
-  animation-duration: 2s;
-  opacity: 0.9;
-}
-
 /* ─── Micro-interactions ─── */
-
-/* Card hover lift effect */
-.card-hover {
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-}
-
-/* Button press effect */
-.btn-press:active {
-  transform: scale(0.97);
-}
 
 /* Smooth link hover */
 a {
@@ -1252,24 +1203,6 @@ a {
 /* Improved scroll behavior */
 html {
   scroll-behavior: smooth;
-}
-
-/* Skeleton pulse animation */
-@keyframes skeleton-pulse {
-  0%,
-  100% {
-    opacity: 0.5;
-  }
-
-  50% {
-    opacity: 0.8;
-  }
-}
-
-.skeleton {
-  animation: skeleton-pulse 1.5s ease-in-out infinite;
-  background: hsl(var(--secondary) / 0.6);
-  border-radius: 4px;
 }
 
 /* ─── Subtle Thin Scrollbar ─── */
@@ -1305,15 +1238,6 @@ html {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .pfp-creative-container {
-    animation: none;
-  }
-
-  .pfp-glow-effect {
-    animation: none;
-    opacity: 0.4;
   }
 }
 
@@ -1458,3 +1382,5 @@ html {
     display: none !important;
   }
 }
+
+

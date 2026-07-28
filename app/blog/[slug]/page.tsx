@@ -178,6 +178,19 @@ export default async function BlogPostPage({
     day: "numeric",
   });
 
+  // Not every post carries an `updated` frontmatter date, and a few of the
+  // older ones carry an unparseable one — the footer line is skipped in both
+  // cases rather than rendering "Invalid Date".
+  const updated = post.updatedAt ? new Date(post.updatedAt) : null;
+  const updatedStr =
+    updated && !Number.isNaN(updated.getTime())
+      ? updated.toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
+      : null;
+
   function getCrossPost(url: string) {
     if (url.includes("keploy"))
       return { label: "Keploy Blogs", color: "#F97316" };
@@ -361,8 +374,8 @@ export default async function BlogPostPage({
         />
       </div>
 
-      {(post.tags?.length || crossPosts.length > 0) && (
-        <footer className="mt-12 space-y-4">
+      {(post.tags?.length || crossPosts.length > 0 || updatedStr) && (
+        <footer className="blog-footer-gap space-y-4">
           {post.tags && post.tags.length > 0 && (
             <div className="flex flex-wrap items-center gap-2">
               {post.tags.map((tag) => (
@@ -375,30 +388,45 @@ export default async function BlogPostPage({
               ))}
             </div>
           )}
-          {crossPosts.length > 0 && (
-            <p className="text-muted-foreground blog-scaled-text">
-              {i18n.blog.alsoPublishedOn}{" "}
-              {crossPosts.map((cp, i) => (
-                <span key={cp.url}>
-                  <a
-                    href={cp.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
-                    style={{ color: cp.color }}
-                  >
-                    {cp.label}
-                    <ArrowUpRight className="h-3 w-3" />
-                  </a>
-                  {i < crossPosts.length - 2 && (
-                    <span className="text-muted-foreground">{", "}</span>
-                  )}
-                  {i === crossPosts.length - 2 && (
-                    <span className="text-muted-foreground">{" and "}</span>
-                  )}
-                </span>
-              ))}
-            </p>
+          {/* Syndication + updated date read as one block, so they sit tight
+              together and take the tag row's breathing gap as a pair. */}
+          {(crossPosts.length > 0 || updatedStr) && (
+            <div className="blog-footer-gap">
+              {crossPosts.length > 0 && (
+                <p className="text-muted-foreground blog-scaled-text">
+                  {i18n.blog.alsoPublishedOn}{" "}
+                  {crossPosts.map((cp, i) => (
+                    <span key={cp.url}>
+                      <a
+                        href={cp.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
+                        style={{ color: cp.color }}
+                      >
+                        {cp.label}
+                        <ArrowUpRight className="h-3 w-3" />
+                      </a>
+                      {i < crossPosts.length - 2 && (
+                        <span className="text-muted-foreground">{", "}</span>
+                      )}
+                      {i === crossPosts.length - 2 && (
+                        <span className="text-muted-foreground">{" and "}</span>
+                      )}
+                    </span>
+                  ))}
+                </p>
+              )}
+              {updatedStr && (
+                <p
+                  className={`text-muted-foreground blog-scaled-text ${
+                    crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
+                  }`}
+                >
+                  {i18n.blog.lastUpdatedOn}: {updatedStr}
+                </p>
+              )}
+            </div>
           )}
         </footer>
       )}

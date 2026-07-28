@@ -52,12 +52,10 @@ export function SmartCarousel({
   const focusedRef = useRef(false);
   const interactingRef = useRef(false);
   const reducedMotionRef = useRef(false);
-  const mountedRef = useRef(true);
   const pausedRef = useRef(paused);
   const releaseInteractionRef = useRef<(() => void) | null>(null);
   const onSlideChangeRef = useRef(onSlideChange);
   const [enhanced, setEnhanced] = useState(false);
-  const [autoplayActive, setAutoplayActive] = useState(false);
 
   useEffect(() => {
     onSlideChangeRef.current = onSlideChange;
@@ -94,10 +92,7 @@ export function SmartCarousel({
   const scheduleAutoplay = useCallback(() => {
     clearAutoplayTimer();
 
-    if (!canAutoplay()) {
-      if (mountedRef.current) setAutoplayActive(false);
-      return;
-    }
+    if (!canAutoplay()) return;
 
     const now = performance.now();
     let nextTickAt = now + autoplayDelay;
@@ -108,14 +103,10 @@ export function SmartCarousel({
       nextTickAt = synchronizedTickAt;
     }
 
-    if (mountedRef.current) setAutoplayActive(true);
     autoplayTimerRef.current = window.setTimeout(
       () => {
         autoplayTimerRef.current = null;
-        if (!canAutoplay()) {
-          if (mountedRef.current) setAutoplayActive(false);
-          return;
-        }
+        if (!canAutoplay()) return;
 
         apiRef.current?.scrollNext();
         if (autoplayDelay === DEFAULT_AUTOPLAY_DELAY_MS) {
@@ -152,7 +143,6 @@ export function SmartCarousel({
       interactionTimerRef.current = null;
     }
     clearAutoplayTimer();
-    setAutoplayActive(false);
 
     if (releaseInteractionRef.current) return;
     const release = () => {
@@ -172,7 +162,6 @@ export function SmartCarousel({
   }, [paused, scheduleAutoplay]);
 
   useEffect(() => {
-    mountedRef.current = true;
     const root = rootRef.current;
     if (!root) return;
 
@@ -218,7 +207,6 @@ export function SmartCarousel({
 
     return () => {
       cancelled = true;
-      mountedRef.current = false;
       loadObserver?.disconnect();
       clearAutoplayTimer();
       apiRef.current?.destroy();
@@ -311,13 +299,11 @@ export function SmartCarousel({
       ref={rootRef}
       className={`smart-carousel ${className}`}
       data-carousel-enhanced={enhanced ? "true" : "false"}
-      data-autoplay-active={autoplayActive ? "true" : "false"}
       onKeyDown={handleKeyDown}
       onPointerEnter={(event) => {
         if (event.pointerType === "touch") return;
         hoveredRef.current = true;
         clearAutoplayTimer();
-        setAutoplayActive(false);
       }}
       onPointerLeave={(event) => {
         if (event.pointerType === "touch") return;
@@ -327,7 +313,6 @@ export function SmartCarousel({
       onFocusCapture={(event) => {
         focusedRef.current = true;
         clearAutoplayTimer();
-        setAutoplayActive(false);
         revealFocusedSlide(event.target);
       }}
       onBlurCapture={(event) => {

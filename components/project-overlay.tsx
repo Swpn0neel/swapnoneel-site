@@ -11,8 +11,6 @@ import { ProjectWindow } from "./project-window";
 
 const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
-export type { ProjectOverlayData } from "@/lib/project-overlay-data";
-
 interface ProjectOverlayProps {
   project: ProjectOverlayData | null;
   onClose: () => void;
@@ -54,20 +52,14 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
     return () => cancelAnimationFrame(frame);
   }, [project]);
 
-  // Lock body scroll when overlay is open
+  // Lock body scroll when overlay is open. No paddingRight compensation for
+  // the vanishing scrollbar — `scrollbar-gutter: stable` on html (globals.css)
+  // holds that space open through the lock, so padding here would shift the
+  // page by the scrollbar's width rather than keep it still.
   useEffect(() => {
-    const scrollbarWidth =
-      window.innerWidth - document.documentElement.clientWidth;
-    if (project) {
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
-    }
+    document.body.style.overflow = project ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
     };
   }, [project]);
 
