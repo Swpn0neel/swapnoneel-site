@@ -1,7 +1,6 @@
-import { SmoothImage } from "@/components/smooth-image";
-import blurMap from "@/lib/blur-map.json";
 import paletteMap from "@/lib/palette-map.json";
 import type { CSSProperties } from "react";
+import { ProjectWindow } from "./project-window";
 
 interface ProjectMeta {
   slug: string;
@@ -44,29 +43,7 @@ export function ProjectCover({
         } as CSSProperties
       }
     >
-      <div className="project-window">
-        <div className="flex h-[18px] flex-none items-center bg-[#1b1b1f] px-2">
-          <span aria-hidden="true" className="flex items-center gap-1">
-            <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-white/20" />
-            <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-white/20" />
-            <span className="h-[5px] w-[5px] shrink-0 rounded-full bg-white/20" />
-          </span>
-        </div>
-        <div className="project-window-shot">
-          <div>
-            <SmoothImage
-              src={cover}
-              alt=""
-              fill
-              className="object-cover object-top"
-              sizes={sizes}
-              priority={priority}
-              showSkeleton
-              blurDataURL={(blurMap as Record<string, string>)[cover]}
-            />
-          </div>
-        </div>
-      </div>
+      <ProjectWindow src={cover} alt="" sizes={sizes} priority={priority} />
     </div>
   );
 }
@@ -74,7 +51,11 @@ export function ProjectCover({
 // Shared visual card used by both ProjectCarousel and ProjectGrid — the
 // interactive wrapper (slide vs. grid cell, click handling) stays with the
 // caller.
-export function ProjectCard({ item, sizes, priority = false }: ProjectCardProps) {
+export function ProjectCard({
+  item,
+  sizes,
+  priority = false,
+}: ProjectCardProps) {
   return (
     <div className="group border-border block h-full cursor-pointer overflow-hidden rounded-md border transition-colors">
       {item.meta.cover ? (

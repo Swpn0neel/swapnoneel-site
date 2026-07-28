@@ -1,14 +1,13 @@
 "use client";
 
-import { SmoothImage } from "@/components/smooth-image";
-import blurMap from "@/lib/blur-map.json";
-import paletteMap from "@/lib/palette-map.json";
 import { i18n } from "@/lib/i18n";
+import paletteMap from "@/lib/palette-map.json";
 import type { ProjectOverlayData } from "@/lib/project-overlay-data";
 import { firstLink } from "@/lib/utils";
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { ProjectWindow } from "./project-window";
 
 const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
@@ -158,31 +157,12 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
           }
         >
           {project?.meta.cover ? (
-            <div className="project-window">
-              <div className="flex h-[22px] flex-none items-center bg-[#1b1b1f] px-2.5">
-                <span aria-hidden="true" className="flex items-center gap-1.5">
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/20" />
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/20" />
-                  <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-white/20" />
-                </span>
-              </div>
-              <div className="project-window-shot">
-                <div>
-                  <SmoothImage
-                    src={project.meta.cover}
-                    alt={project?.meta.title ?? ""}
-                    fill
-                    className="object-cover object-top"
-                    sizes="(max-width: 640px) 100vw, 860px"
-                    priority
-                    showSkeleton
-                    blurDataURL={
-                      (blurMap as Record<string, string>)[project.meta.cover]
-                    }
-                  />
-                </div>
-              </div>
-            </div>
+            <ProjectWindow
+              src={project.meta.cover}
+              alt={project.meta.title}
+              sizes="(max-width: 640px) 86vw, 654px"
+              priority
+            />
           ) : (
             <div className="project-overlay-hero-placeholder">
               <span>{project?.meta.title}</span>
