@@ -1,6 +1,6 @@
 import { ExperienceSection } from "@/components/experience-section";
 import { PfpSpin } from "@/components/pfp-spin";
-import { ProjectCarousel } from "@/components/project-carousel";
+import { ProjectIndex } from "@/components/project-index";
 import { SocialLinks } from "@/components/social-links";
 import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
@@ -142,7 +142,7 @@ export default function Home() {
             {i18n.common.seeAll}
           </Link>
         </div>
-        <ProjectCarousel items={projects} />
+        <ProjectIndex items={projects} />
       </section>
 
       <hr className="border-border" />

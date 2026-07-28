@@ -42,12 +42,7 @@ export function ProjectCarousel({ items }: { items: ProjectOverlayData[] }) {
                     className="block h-full w-full text-left"
                   >
                     <span className="sr-only">Open details for </span>
-                    <ProjectCard
-                      item={item}
-                      imageWidth={520}
-                      imageHeight={293}
-                      sizes="350px"
-                    />
+                    <ProjectCard item={item} sizes="350px" />
                   </button>
                 </li>
               );

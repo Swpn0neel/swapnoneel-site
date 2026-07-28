@@ -542,6 +542,144 @@ mark {
   background-color: hsl(var(--secondary) / 0.3);
 }
 
+/* ─── Project Card Cover ───
+   Gradient painted from the cover image's two dominant hues (--pc-h1/--pc-h2,
+   set inline from lib/palette-map.json — see scripts/generate-palette.mjs).
+   Hues come from the data; saturation/lightness are theme recipes here. */
+.project-cover {
+  --pc-g1: hsl(var(--pc-h1) 55% 93%);
+  --pc-g2: hsl(var(--pc-h2) 40% 91%);
+  --pc-glow1: hsl(var(--pc-h1) 70% 86%);
+  --pc-glow2: hsl(var(--pc-h2) 50% 85%);
+  --pc-hglow: hsl(var(--pc-h1) 85% 81%);
+  /* light needs a stronger bloom: a soft glow is invisible on a light wash */
+  --pc-hglow-opacity: 0.85;
+  --pc-grain-opacity: 0.35;
+  background:
+    radial-gradient(90% 85% at 12% -10%, var(--pc-glow1), transparent 58%),
+    radial-gradient(85% 95% at 96% 112%, var(--pc-glow2), transparent 58%),
+    linear-gradient(135deg, var(--pc-g1), var(--pc-g2));
+}
+
+.dark .project-cover {
+  --pc-g1: hsl(var(--pc-h1) 42% 14%);
+  --pc-g2: hsl(var(--pc-h2) 38% 9%);
+  --pc-glow1: hsl(var(--pc-h1) 62% 28%);
+  --pc-glow2: hsl(var(--pc-h2) 48% 17%);
+  --pc-hglow: hsl(var(--pc-h1) 65% 33%);
+  --pc-hglow-opacity: 0.6;
+  --pc-grain-opacity: 0.5;
+}
+
+/* grain overlay — kills gradient banding */
+.project-cover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.16'/%3E%3C/svg%3E");
+  opacity: var(--pc-grain-opacity);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+}
+
+/* hover glow — the gradient breathes instead of a border highlight */
+.project-cover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    75% 75% at 50% 15%,
+    var(--pc-hglow),
+    transparent 72%
+  );
+  opacity: 0;
+  transition: opacity 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+}
+
+.group:hover .project-cover::before {
+  opacity: var(--pc-hglow-opacity);
+}
+
+/* css-rendered browser window; the screenshot itself ships frameless.
+   12px of the demo stays hidden below the fold so the hover lift reveals
+   demo pixels instead of exposing the gradient behind. */
+.project-window {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 12%;
+  bottom: -12px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+  /* Forces a proper stacking context so the rounded-corner clip stays
+     reliable while the window's hover transform is compositing. */
+  isolation: isolate;
+  /* Same color as the chrome bar: subpixel rounding during the hover
+     transform can open a hairline seam between the bar and the screenshot,
+     and this makes that seam invisible instead of showing the gradient. */
+  background: #1b1b1f;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 1px 2px rgb(0 0 0 / 0.2),
+    0 18px 44px -14px rgb(0 0 0 / 0.5);
+  transition:
+    transform 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.group:hover .project-window {
+  transform: translateY(-6px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 1px 2px rgb(0 0 0 / 0.2),
+    0 28px 60px -16px rgb(0 0 0 / 0.6);
+}
+
+/* Screenshots arrive from capture tools with stray 1–2px edge artifacts
+   (light hairlines, rounded-corner remnants). The shot box is oversized by
+   1.2% per side inside an overflow-hidden area, cropping them off with pure
+   geometry — no transform, so the image can never desync from the chrome
+   bar or escape the clip while the window's hover transform composites. */
+.project-window-shot {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.project-window-shot > div {
+  position: absolute;
+  inset: -1.2%;
+}
+
+/* ── overlay hero: the window rests in its fully raised (hover) state,
+   with the glow permanently on and stronger corner glows ── */
+.project-overlay-hero.project-cover {
+  --pc-glow1: hsl(var(--pc-h1) 78% 83%);
+  --pc-glow2: hsl(var(--pc-h2) 60% 82%);
+}
+
+.dark .project-overlay-hero.project-cover {
+  --pc-glow1: hsl(var(--pc-h1) 70% 34%);
+  --pc-glow2: hsl(var(--pc-h2) 58% 23%);
+}
+
+.project-overlay-hero.project-cover::before {
+  opacity: var(--pc-hglow-opacity);
+}
+
+.project-overlay-hero .project-window {
+  transform: translateY(-6px);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.06),
+    0 1px 2px rgb(0 0 0 / 0.2),
+    0 28px 60px -16px rgb(0 0 0 / 0.6);
+}
+
 /* ─── Project Overlay ─── */
 .project-overlay-backdrop {
   position: fixed;
@@ -569,13 +707,13 @@ mark {
   max-width: 760px;
   max-height: 88vh;
   background: hsl(var(--background));
-  border: 1px solid hsl(var(--border));
+  /* No border: it would ring the full-bleed gradient hero. The info section
+     below carries its own top hairline; depth comes from the shadows. */
   border-radius: 6px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   box-shadow:
-    0 0 0 1px hsl(var(--border) / 0.5),
     0 32px 72px -12px rgba(0, 0, 0, 0.45),
     0 8px 28px -8px rgba(0, 0, 0, 0.25);
   /* Enter animation */
@@ -620,7 +758,9 @@ mark {
 
 /* ─── Overlay: stacked vertical hero layout ─── */
 
-/* Hero image block — full bleed, no padding, no border */
+/* Hero block — full bleed, no padding, no border. When a cover exists it
+   also carries .project-cover, so the card's gradient + framed window render
+   identically here. */
 .project-overlay-hero {
   position: relative;
   width: 100%;
@@ -628,19 +768,14 @@ mark {
   aspect-ratio: 16 / 9;
   overflow: hidden;
   flex-shrink: 0;
-  background: hsl(var(--secondary) / 0.6);
 }
 
-.project-overlay-hero-img {
-  object-fit: contain;
-  object-position: center center;
-  transition: transform 0.6s ease;
-}
-
-/* Bottom gradient fade so title is readable over the image */
+/* Bottom gradient fade so title is readable over the image.
+   z-index keeps it above the framed window (.project-window is z-index: 1). */
 .project-overlay-hero-fade {
   position: absolute;
   inset: 0;
+  z-index: 2;
   background: linear-gradient(
     to bottom,
     transparent 40%,
@@ -655,6 +790,7 @@ mark {
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 3;
   padding: 1rem 1.25rem 0.85rem;
   display: flex;
   align-items: center;
@@ -674,6 +810,7 @@ mark {
 .project-overlay-hero-placeholder {
   width: 100%;
   height: 100%;
+  background: hsl(var(--secondary) / 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -688,10 +825,19 @@ mark {
   flex: 1 1 0%;
   min-height: 0;
   overflow-y: auto;
+  /* Inner border on the sides and bottom only — the hero above stays
+     completely borderless. Follows the panel's bottom corner radius. */
+  border: 1px solid hsl(var(--border) / 0.7);
+  border-top: none;
+  border-radius: 0 0 6px 6px;
   padding: 1.25rem 1.4rem 1.25rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.dark .project-overlay-info {
+  border-color: hsl(var(--foreground) / 0.08);
 }
 
 /* Layout for features and tech stack */
