@@ -793,7 +793,7 @@ mark {
   transition:
     background 0.4s cubic-bezier(0.16, 1, 0.3, 1),
     backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  padding: clamp(0.5rem, 2vw, 1.25rem);
+  padding: clamp(0.5rem, 2.5vw, 1.25rem);
 }
 
 .project-overlay-backdrop--visible {
@@ -805,7 +805,8 @@ mark {
   position: relative;
   width: 100%;
   max-width: 760px;
-  max-height: 88dvh;
+  max-height: min(88dvh, 900px);
+  container-type: inline-size;
   background: hsl(var(--background));
   border: 0;
   border-radius: 6px;
@@ -885,6 +886,7 @@ mark {
   width: 100%;
   /* Match exact 16:9 thumbnail ratio — no cropping */
   aspect-ratio: 16 / 9;
+  max-height: 52dvh;
   overflow: hidden;
   flex-shrink: 0;
 }
@@ -910,7 +912,8 @@ mark {
   left: 0;
   right: 0;
   z-index: 3;
-  padding: 1rem var(--project-overlay-action-inset) 0.85rem 1.25rem;
+  padding: clamp(0.75rem, 2.5cqi, 1rem) var(--project-overlay-action-inset)
+    clamp(0.7rem, 2.2cqi, 0.85rem) clamp(1rem, 3.25cqi, 1.25rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -918,7 +921,10 @@ mark {
 }
 
 .project-overlay-hero-title {
-  font-size: 1.05rem;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: clamp(0.9rem, 3cqi, 1.05rem);
+  line-height: 1.25;
   font-weight: 700;
   letter-spacing: -0.01em;
   color: #ffffff;
@@ -945,21 +951,22 @@ mark {
   min-height: 0;
   overflow-y: auto;
   border: 0;
-  padding: clamp(0.95rem, 3vw, 1.4rem);
+  padding: clamp(1rem, 3.5cqi, 1.4rem);
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: clamp(0.9rem, 2.5cqi, 1.15rem);
 }
 
 /* Layout for features and tech stack */
 .project-overlay-info-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(1rem, 3cqi, 1.4rem);
 }
 
 .project-overlay-description {
-  font-size: 0.74rem;
+  max-width: 70ch;
+  font-size: clamp(0.74rem, 2cqi, 0.8rem);
   line-height: 1.7;
   color: hsl(var(--muted-foreground));
 }
@@ -971,7 +978,7 @@ mark {
 }
 
 .project-overlay-section-title {
-  font-size: 0.62rem;
+  font-size: clamp(0.61rem, 1.65cqi, 0.67rem);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -988,7 +995,7 @@ mark {
   display: inline-flex;
   align-items: center;
   padding: 0.22rem 0.6rem;
-  font-size: 0.62rem;
+  font-size: clamp(0.61rem, 1.65cqi, 0.67rem);
   font-weight: 500;
   border-radius: 3px;
   background: hsl(var(--secondary) / 0.6);
@@ -1017,7 +1024,7 @@ mark {
   display: flex;
   align-items: baseline;
   gap: 0.5rem;
-  font-size: 0.67rem;
+  font-size: clamp(0.66rem, 1.85cqi, 0.72rem);
   color: hsl(var(--muted-foreground));
   line-height: 1.6;
 }
@@ -1026,7 +1033,13 @@ mark {
   color: hsl(var(--foreground) / 0.5);
   font-weight: 600;
   flex-shrink: 0;
-  font-size: 0.76rem;
+  font-size: clamp(0.76rem, 2cqi, 0.84rem);
+}
+
+@container (min-width: 600px) {
+  .project-overlay-info-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  }
 }
 
 .project-overlay-glass-link {
