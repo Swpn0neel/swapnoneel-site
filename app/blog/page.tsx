@@ -34,6 +34,18 @@ export const metadata = {
 export default async function BlogPage() {
   const posts = await getAllBlogPosts();
 
+  // BlogList is a client component, so every prop it receives is serialised
+  // into the RSC payload verbatim — including anything it never reads. A
+  // BlogPost carries its whole `content.markdown`, which across 43 posts is
+  // ~367 KB, and that was the entire weight of this route's payload. The list
+  // renders four fields, so hand it four fields.
+  const listPosts = posts.map(({ slug, title, publishedAt, urls }) => ({
+    slug,
+    title,
+    publishedAt,
+    urls,
+  }));
+
   return (
     <>
       <script
@@ -52,7 +64,7 @@ export default async function BlogPage() {
           }),
         }}
       />
-      <BlogList posts={posts} />
+      <BlogList posts={listPosts} />
     </>
   );
 }
