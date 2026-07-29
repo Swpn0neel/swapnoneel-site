@@ -98,6 +98,22 @@ export const i18n = {
       },
     },
   },
+  notFound: {
+    lead: "Looks like this page took a vacation.",
+    sub: "The page you're looking for doesn't exist or has been moved.",
+    latestLabel: "Latest post",
+    readNow: "read now",
+    game: {
+      canvasLabel: "Breakout: clear the 404",
+      idle: "break it",
+      hint: "drag to move",
+      won: "all clear, but still nothing here",
+      lost: "out of balls",
+      again: "play again",
+      left: "left",
+      livesLabel: (n: number) => `${n} of 3 balls left`,
+    },
+  },
   blog: {
     title: "Blog",
     description:
@@ -128,11 +144,6 @@ export const i18n = {
       subject: "what's this about?",
       message: "how can i help you?",
     },
-    // The button reports its own status, so every label here has to stay no
-    // wider than `sendMessage` — that's what keeps the button from resizing
-    // between states. Errors are deliberately generic for the same reason;
-    // the specific wording lives in `announcements` (tooltip, screen readers,
-    // console), not in the button.
     sendMessage: "Send Message",
     sendingMessage: "Sending...",
     messageSent: "Message sent",

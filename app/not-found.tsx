@@ -1,81 +1,51 @@
-import { navItems } from "@/lib/config";
+import { FourOhFourBreakout } from "@/components/four-oh-four-breakout";
+import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts } from "@/lib/md";
+import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 
-async function getRandomPost() {
-  const posts = await getAllBlogPosts();
-  if (posts.length === 0) return null;
-  const randomIndex = Math.floor(Math.random() * posts.length);
-  return posts[randomIndex];
-}
-
+// Previously this picked a random post, which forced the route to render per
+// request — re-reading all 43 markdown files and their narration JSON on every
+// 404. getAllBlogPosts() is already sorted newest-first, so taking the head is
+// both cheaper and more useful, and it lets the page prerender.
 export default async function NotFound() {
-  const randomPost = await getRandomPost();
+  const [latest] = await getAllBlogPosts();
 
   return (
     <div className="py-20">
-      <div className="text-center">
-        <p className="text-muted-foreground text-6xl font-bold">404</p>
-        <p className="text-foreground mt-4 text-lg">
-          Looks like this page took a vacation.
-        </p>
+      {/* The navbar above already carries home/work/blog/contact, so there is
+          no quick-links row here; it was the same four links twice. */}
+      <FourOhFourBreakout />
+
+      <div className="mt-8 text-center">
+        <p className="text-foreground text-lg">{i18n.notFound.lead}</p>
         <p className="text-muted-foreground mt-1 text-sm">
-          The page you&apos;re looking for doesn&apos;t exist or has been moved.
+          {i18n.notFound.sub}
         </p>
       </div>
 
-      <div className="mt-12">
-        <p className="text-muted-foreground mb-4 text-center text-xs tracking-widest uppercase">
-          Quick Links
-        </p>
-        <nav className="flex flex-wrap items-center justify-center gap-4">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-muted-foreground hover:text-foreground text-sm capitalize transition-colors"
-            >
-              {item.key}
-            </Link>
-          ))}
-        </nav>
-      </div>
-
-      {randomPost && (
+      {latest && (
         <div className="border-border bg-card mt-12 rounded-md border p-6">
           <p className="text-muted-foreground mb-3 text-center text-xs tracking-widest uppercase">
-            Maybe you&apos;ll find this interesting
+            {i18n.notFound.latestLabel}
           </p>
+          {/* The arrow is inline with the title rather than a flex sibling of
+              it. As a sibling it centred itself against the whole wrapped
+              block, so on a title long enough to wrap it floated off beside the
+              middle line instead of following the last word. */}
           <Link
-            href={`/blog/${randomPost.slug}`}
-            className="hover:text-foreground block text-center transition-colors"
+            href={`/blog/${latest.slug}`}
+            aria-label={`${i18n.notFound.readNow}: ${latest.title}`}
+            className="text-foreground hover:text-muted-foreground block text-center font-medium transition-colors"
           >
-            <span className="text-foreground font-medium">
-              {randomPost.title}
-            </span>
-            <span className="text-muted-foreground ml-2 text-sm">
-              ↗ read now
-            </span>
+            {latest.title}
+            <ArrowUpRight
+              aria-hidden="true"
+              className="ml-1 inline size-4 align-[-0.15em]"
+            />
           </Link>
         </div>
       )}
-
-      <div className="border-border bg-card mt-12 rounded-md border p-6">
-        <p className="text-muted-foreground mb-3 text-center text-xs tracking-widest uppercase">
-          Looking for something specific?
-        </p>
-        <p className="text-muted-foreground text-center text-sm">
-          Try browsing the{" "}
-          <Link href="/blog" className="text-foreground hover:underline">
-            blog
-          </Link>{" "}
-          or{" "}
-          <Link href="/work" className="text-foreground hover:underline">
-            projects
-          </Link>
-          .
-        </p>
-      </div>
     </div>
   );
 }
