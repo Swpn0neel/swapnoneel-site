@@ -1,12 +1,12 @@
 ---
-title: 'Trying Bifrost: An LLM Gateway That Simplified My Setup'
-date: '2026-07-30T00:00:00.000Z'
+title: "Trying Bifrost: An LLM Gateway That Simplified My Setup"
+date: "2026-07-30T00:00:00.000Z"
 description: >-
   I set up Bifrost locally with OpenCode, tested automatic model fallback and
   complexity-based routing, and it fixed how I juggle LLM providers.
 slug: trying-bifrost-llm-gateway
-link: ''
-canonical: 'https://www.swapnoneel.site/blog/trying-bifrost-llm-gateway'
+link: ""
+canonical: "https://www.swapnoneel.site/blog/trying-bifrost-llm-gateway"
 cover: /blog-img/2026/trying-bifrost-llm-gateway/thumbnail.webp
 brand: maxim
 tags:
@@ -14,12 +14,14 @@ tags:
   - webdev
   - ai
   - opensource
-updated: '2026-07-29T22:34:45.303Z'
+updated: "2026-07-29T22:34:45.303Z"
 ---
 
 I try a lot of models daily, and I kept ending up with a separate API key for every model provider I wanted to test with my desired harness. So I decided to try [Bifrost](https://www.getmaxim.ai/bifrost) on my local machine, to see if it would actually fix that.
 
 Bifrost is a high-performance, open-source LLM gateway, built in Go. It puts multiple AI providers behind a single OpenAI-compatible API, and it does that with ultra-low latency, automatic failover, load balancing, and enterprise governance features baked in.
+
+If you've used LiteLLM before, it may sound familiar on paper, but the experience is pretty different in practice. LiteLLM is a Python library and proxy you configure and run yourself; Bifrost ships as a standalone Go binary with a full web dashboard baked in, so there's no separate observability stack to stand up just to see what's actually happening to your requests. That dashboard ended up being the thing I used the most, as you'll see below.
 
 I wired it into [OpenCode](https://opencode.ai), an open-source coding harness similar to Claude Code and Codex. I'm using an OpenCode Zen key and a Gemini key, and together, these give me access to multiple SOTA models for free, without touching a separate dashboard for each provider.
 
@@ -33,9 +35,9 @@ First, I installed the Bifrost CLI using this command:
 npx -y @maximhq/bifrost
 ```
 
-Note: This requires Node and NPM to be installed on your machine, otherwise it won’t work. If you want to know how to install and manage node versions, [you can follow this blog that I’ve written earlier](https://www.swapnoneel.site/blog/nodejs-npm-nvm).
+Note: This requires Node and NPM to be installed on your machine, otherwise it won't work. If you want to know how to install and manage node versions, [you can follow this blog that I've written earlier](https://www.swapnoneel.site/blog/nodejs-npm-nvm).
 
-Now, it’s time to run Bifrost! I’m doing it in a directory level, but you can also do it in a system level as well, if you want. For that, you can easily follow the Bifrost documentation.
+Now, it's time to run Bifrost! I'm doing it in a directory level, but you can also do it in a system level as well, if you want. For that, you can easily follow the Bifrost documentation.
 
 ```bash
 npx -y @maximhq/bifrost -app-dir ./my-bifrost-data
@@ -47,7 +49,7 @@ And also, this will expose our dashboard in port 8080, and from there we can eas
 
 ## Connecting Your Providers
 
-Now it’s time to grab your API keys, and connect it to Bifrost.
+Now it's time to grab your API keys, and connect it to Bifrost.
 
 As I've mentioned previously, I will be using Zen and Gemini. Both of these have generous free tiers, and getting the API keys doesn't require any credit card details.
 
@@ -55,7 +57,7 @@ As I've mentioned previously, I will be using Zen and Gemini. Both of these have
 
 As you can see from the above screenshot, adding your keys is pretty simple. You just need to select your provider, assign a name to your key and you are good to go!
 
-Additionally, you can also add allowed models to your specific key, because most of these keys come with a lot of available models, and if you don’t want to use all of them, or limit your pool, you can do it from here as well.
+Additionally, you can also add allowed models to your specific key, because most of these keys come with a lot of available models, and if you don't want to use all of them, or limit your pool, you can do it from here as well.
 
 ## Integrating With OpenCode
 
@@ -83,6 +85,8 @@ But the file that we need to edit is `opencode.json`. In the provider block, we 
     }
 ```
 
+Note: I gave this its own `bifrost-local` provider block instead of just pointing OpenCode's built-in `openai` provider at Bifrost, the way Bifrost's own docs show it, because I wanted it visually obvious in the model selector which models are going through Bifrost versus hitting a provider directly, in case I ever wire up a real OpenAI key in the same config later. Either approach works functionally; this is just how I like to keep them apart.
+
 Now this will vary based on your selected model and provider. It is better if you can check it out from the Bifrost docs itself.
 
 Now that we are connected, we can launch OpenCode from our terminal (or app), and in the model selector we will see something like this:
@@ -91,7 +95,7 @@ Now that we are connected, we can launch OpenCode from our terminal (or app), an
 
 Now we can select this model and use it to do our task on OpenCode.
 
-But wait, till now I just described how Bifrost sits between your model provider and harness. So, let’s get to the crux and find out what more things we can do with Bifrost!
+But wait, till now I just described how Bifrost sits between your model provider and harness. So, let's get to the crux and find out what more things we can do with Bifrost!
 
 ## Monitoring and LLM Logs
 
@@ -109,7 +113,7 @@ Everything is stored locally and nothing gets sent to the cloud, other than the 
 
 Now the most interesting part: how do we automatically route the models?
 
-During production, one model might fail to respond, and it’s kinda common. So for those scenarios, we can set rules like:
+During production, one model might fail to respond, and it's kinda common. So for those scenarios, we can set rules like:
 
 If model A is not available, then use model B.
 
@@ -117,7 +121,7 @@ This is the simplest version though. Using CEL expressions, we can create custom
 
 If models are available and we have a specific logic in mind, we can implement that in Bifrost easily.
 
-So, for now, let’s create a simple rule, such that: if Gemini models aren’t available, we will route the traffic through Zen models instead.
+So, for now, let's create a simple rule, such that: if Gemini models aren't available, we will route the traffic through Zen models instead.
 
 ![The fallback rule: if Gemini's gemini-2.5-flash fails, route to OpenCode Zen's Big Pickle instead.](/blog-img/2026/trying-bifrost-llm-gateway/bifrost-gemini-fallback-rule.webp)
 
@@ -135,17 +139,17 @@ As you can see, the user didn't get any interruption at all. Let's check the log
 
 As we can see, the gemini model gave an error, and it automatically fell back to big-pickle, and gave me the response.
 
-That’s the magic of Bifrost.
+That's the magic of Bifrost.
 
 ## The Complexity Router
 
-Now that we have understood Model Routing, let’s see how we can determine and set what kind of requests should go to which kind of models.
+Now that we have understood Model Routing, let's see how we can determine and set what kind of requests should go to which kind of models.
 
 For example, we can route trivial queries to cheap models, while preserving the expensive ones for difficult tasks.
 
 The idea is simple: divide the incoming requests into four tiers: simple, medium, complex and reasoning.
 
-So I’ve configured my complexity routing profile, and you can easily do it as well based on your own requirement. Here’s my profile:
+So I've configured my complexity routing profile, and you can easily do it as well based on your own requirement. Here's my profile:
 
 ![My complexity routing profile: tier boundaries and keyword lists that decide simple, medium, complex, and reasoning requests.](/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-config.webp)
 
