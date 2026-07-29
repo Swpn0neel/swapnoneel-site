@@ -27,7 +27,7 @@ export function ProjectIndex({
         return (
           <div
             key={item.meta.slug}
-            className="group flex items-baseline gap-3 py-3 first:pt-0 last:pb-0 sm:gap-4"
+            className="group grid grid-cols-1 grid-rows-1 py-3 first:pt-0 last:pb-0 sm:flex sm:items-baseline sm:gap-4"
           >
             <button
               type="button"
@@ -36,11 +36,11 @@ export function ProjectIndex({
               aria-controls="project-overlay-dialog"
               aria-expanded={openSlug === item.meta.slug}
               aria-current={active ? "true" : undefined}
-              className="flex min-w-0 flex-1 cursor-pointer items-baseline gap-3 text-left sm:gap-4"
+              className="col-start-1 row-start-1 flex min-w-0 flex-1 cursor-pointer flex-col gap-1 text-left sm:flex-row sm:items-baseline sm:gap-4"
             >
               <span className="sr-only">Open details for </span>
               <span
-                className={`group-hover:text-foreground w-28 shrink-0 text-sm transition-colors group-hover:underline sm:w-36 ${
+                className={`group-hover:text-foreground shrink-0 pr-6 text-sm transition-colors group-hover:underline sm:w-36 sm:pr-0 ${
                   active
                     ? "text-foreground font-semibold underline decoration-1 underline-offset-4"
                     : "text-foreground/80 font-medium"
@@ -50,7 +50,7 @@ export function ProjectIndex({
               </span>
               {item.meta.description && (
                 <span
-                  className={`group-hover:text-foreground/80 hidden min-w-0 flex-1 text-xs transition-colors sm:line-clamp-1 ${
+                  className={`group-hover:text-foreground/80 line-clamp-2 min-w-0 flex-1 text-xs transition-colors sm:line-clamp-1 ${
                     active ? "text-foreground/80" : "text-muted-foreground"
                   }`}
                 >
@@ -64,15 +64,15 @@ export function ProjectIndex({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Visit ${item.meta.title}`}
-                className={`hover:text-foreground group-hover:text-foreground ml-auto shrink-0 self-center transition-colors ${
+                className={`hover:text-foreground group-hover:text-foreground col-start-1 row-start-1 flex h-5 shrink-0 items-center justify-self-end self-start text-xs transition-colors sm:ml-auto sm:h-auto sm:self-center ${
                   active ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {/* Same tilted-arrow glyph as the overlay's live link */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
+                  width="1em"
+                  height="1em"
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
