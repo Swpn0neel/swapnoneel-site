@@ -43,7 +43,9 @@ export function ProjectCarousel({
         className="w-full [--carousel-slide-width:82%] sm:[--carousel-slide-width:76%]"
         align="center"
         dragFree={false}
-        autoplayDelay={4500}
+        // Two beats of SmartCarousel's shared clock: the projects strip steps
+        // together with every second step of the socials strip.
+        autoplayDelay={5000}
         onSlideChange={handleSlideChange}
         paused={paused}
       >

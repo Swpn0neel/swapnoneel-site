@@ -13,9 +13,32 @@ const DEFAULT_AUTOPLAY_DELAY_MS = 2500;
 const RESUME_AFTER_INTERACTION_MS = 7000;
 const SYNCED_SCROLL_DURATION = 30;
 
-// Carousels that share the default delay read the same target time. This keeps
-// their next movement aligned without loading a separate autoplay plug-in.
-let synchronizedTickAt = 0;
+// Shared beat every synced carousel counts against, anchored the first time one
+// of them schedules a move. A carousel whose delay is a whole multiple of the
+// beat only moves on the beats divisible by that multiple — so the projects
+// strip (2 beats) steps in unison with every second step of the socials strip
+// (1 beat), rather than the two drifting on independent timers.
+let beatOrigin: number | null = null;
+
+// A timer can fire a moment before its deadline, which would otherwise resolve
+// to the beat that just passed and schedule a ~0ms timeout — advancing twice in
+// one beat. Treat anything within this window as already at the next beat.
+const BEAT_TOLERANCE_MS = 80;
+
+// Target time of the next beat this carousel is allowed to move on, or null if
+// its delay does not divide into the beat and it should run free.
+function nextSyncedTick(now: number, delay: number) {
+  if (delay % DEFAULT_AUTOPLAY_DELAY_MS !== 0) return null;
+
+  const multiple = delay / DEFAULT_AUTOPLAY_DELAY_MS;
+  if (beatOrigin === null) beatOrigin = now;
+
+  const from = now + BEAT_TOLERANCE_MS - beatOrigin;
+  const elapsedBeats = Math.floor(from / DEFAULT_AUTOPLAY_DELAY_MS);
+  // Round up to the next beat this carousel owns, always ahead of now.
+  const nextBeat = (Math.floor(elapsedBeats / multiple) + 1) * multiple;
+  return beatOrigin + nextBeat * DEFAULT_AUTOPLAY_DELAY_MS;
+}
 
 interface SmartCarouselProps {
   children: ReactNode;
@@ -95,13 +118,7 @@ export function SmartCarousel({
     if (!canAutoplay()) return;
 
     const now = performance.now();
-    let nextTickAt = now + autoplayDelay;
-    if (autoplayDelay === DEFAULT_AUTOPLAY_DELAY_MS) {
-      if (synchronizedTickAt <= now + 80) {
-        synchronizedTickAt = nextTickAt;
-      }
-      nextTickAt = synchronizedTickAt;
-    }
+    const nextTickAt = nextSyncedTick(now, autoplayDelay) ?? now + autoplayDelay;
 
     autoplayTimerRef.current = window.setTimeout(
       () => {
@@ -109,9 +126,6 @@ export function SmartCarousel({
         if (!canAutoplay()) return;
 
         apiRef.current?.scrollNext();
-        if (autoplayDelay === DEFAULT_AUTOPLAY_DELAY_MS) {
-          synchronizedTickAt = performance.now() + autoplayDelay;
-        }
         scheduleAutoplay();
       },
       Math.max(0, nextTickAt - now)
@@ -236,11 +250,10 @@ export function SmartCarousel({
 
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
-        visibleRef.current =
-          entry.isIntersecting && entry.intersectionRatio >= 0.2;
+        visibleRef.current = entry.isIntersecting;
         scheduleAutoplay();
       },
-      { threshold: [0, 0.2, 0.5] }
+      { threshold: 0 }
     );
     visibilityObserver.observe(root);
 
