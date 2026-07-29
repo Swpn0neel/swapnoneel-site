@@ -19,6 +19,8 @@ export type PostMeta = {
   cover?: string;
   link?: string | string[];
   tags?: string[];
+  /** Company accent key for posts with no cross-post URL — see lib/blog-brand. */
+  brand?: string;
   /** Includes the project in the homepage showcase. */
   featured?: boolean;
   // Keeps the markdown record but drops the item from every listing
@@ -160,6 +162,7 @@ export type BlogPost = {
   readingTime?: number;
   wordCount?: number;
   tags?: string[];
+  brand?: string;
 };
 
 export const getBlogPost = cache((slug: string): BlogPost | null => {
@@ -191,6 +194,7 @@ export const getBlogPost = cache((slug: string): BlogPost | null => {
         : undefined,
     wordCount,
     tags: post.meta.tags,
+    brand: post.meta.brand,
   };
 });
 

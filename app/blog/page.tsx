@@ -1,4 +1,5 @@
 import { BlogList } from "@/components/blog-list";
+import { brandColor } from "@/lib/blog-brand";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts } from "@/lib/md";
 import { ogImageUrl, safeJsonLd } from "@/lib/utils";
@@ -39,11 +40,13 @@ export default async function BlogPage() {
   // BlogPost carries its whole `content.markdown`, which across 43 posts is
   // ~367 KB, and that was the entire weight of this route's payload. The list
   // renders four fields, so hand it four fields.
-  const listPosts = posts.map(({ slug, title, publishedAt, urls }) => ({
+  // The list needs only the accent, not the URLs it can be derived from, so
+  // resolve it here and keep the payload to one short string per post.
+  const listPosts = posts.map(({ slug, title, publishedAt, urls, brand }) => ({
     slug,
     title,
     publishedAt,
-    urls,
+    accent: brandColor({ brand, urls }),
   }));
 
   return (

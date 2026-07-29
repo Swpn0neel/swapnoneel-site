@@ -1,4 +1,54 @@
 {
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-config.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-config.webp",
+    "width": 1280,
+    "height": 963
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-logs.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-logs.webp",
+    "width": 946,
+    "height": 96
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-routing-rules.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-routing-rules.webp",
+    "width": 1280,
+    "height": 596
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-gemini-fallback-rule.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-gemini-fallback-rule.webp",
+    "width": 1005,
+    "height": 958
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-llm-logs-dashboard.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-llm-logs-dashboard.webp",
+    "width": 1280,
+    "height": 790
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-logs-gemini-fallback.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-logs-gemini-fallback.webp",
+    "width": 926,
+    "height": 182
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-opencode-zen-key.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-opencode-zen-key.webp",
+    "width": 1277,
+    "height": 795
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/opencode-hi-response.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/opencode-hi-response.webp",
+    "width": 1280,
+    "height": 313
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/opencode-model-selector-bifrost.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/opencode-model-selector-bifrost.webp",
+    "width": 779,
+    "height": 209
+  },
+  "/blog-img/2026/trying-bifrost-llm-gateway/thumbnail.webp": {
+    "local": "/blog-img/2026/trying-bifrost-llm-gateway/thumbnail.webp",
+    "width": 1280,
+    "height": 720
+  },
   "https://c0.wallpaperflare.com/preview/726/785/255/blackboard-close-up-frame-gratitude.jpg": {
     "local": "/blog-img/2023/devbytes-short-coding-news/blackboard-close-up-frame-gratitude-a50f67f5.webp",
     "width": 910,

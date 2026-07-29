@@ -6,6 +6,10 @@ import sharp from "sharp";
 
 const mdDir = path.join(process.cwd(), "md", "blog");
 const outDir = path.join(process.cwd(), "public", "blog-img");
+// Originals for posts written here rather than syndicated from dev.to/Hashnode.
+// The tree mirrors the published paths: assets/blog-img/<year>/<slug>/name.png
+// becomes /blog-img/<year>/<slug>/name.webp.
+const localSrcDir = path.join(process.cwd(), "assets", "blog-img");
 const manifestPath = path.join(process.cwd(), "lib", "blog-images.json");
 const CONCURRENCY = 8;
 
@@ -60,6 +64,78 @@ function extractImageUrls(raw) {
     urls.add(match[1]);
   }
   return urls;
+}
+
+// Same idea for locally-authored posts, except the "source" is a file in
+// assets/blog-img instead of a remote host. The markdown already points at the
+// published /blog-img path, so these need no rewriting at render time — they
+// only need the transcode and the manifest dimensions (which is what keeps the
+// frame from shifting once the image loads).
+function extractLocalRefs(raw) {
+  const refs = new Set();
+  const { data, content } = matter(raw);
+  if (typeof data.cover === "string" && data.cover.startsWith("/blog-img/")) {
+    refs.add(data.cover);
+  }
+  const regex = /!\[[^\]]*\]\((\/blog-img\/[^\s)]+)/g;
+  let match;
+  while ((match = regex.exec(content))) {
+    refs.add(match[1]);
+  }
+  return refs;
+}
+
+// Finds the original next to the published path, whatever extension it was
+// authored in (screenshots arrive as .png, photos as .jpg).
+async function findLocalSource(ref) {
+  const relative = ref.replace(/^\/blog-img\//, "").replace(/\.webp$/, "");
+  const dir = path.join(localSrcDir, path.dirname(relative));
+  const base = path.basename(relative);
+  let entries;
+  try {
+    entries = await fs.readdir(dir);
+  } catch {
+    return null;
+  }
+  const hit = entries.find(
+    (entry) =>
+      entry.replace(/\.[^.]*$/, "") === base &&
+      /\.(png|jpe?g|webp|avif|gif|tiff?)$/i.test(entry)
+  );
+  return hit ? path.join(dir, hit) : null;
+}
+
+// Re-transcodes only when the original is newer than what is already published,
+// so a build over an unchanged assets/ tree does no image work at all.
+async function transcodeLocal(source, target) {
+  const absolute = path.join(
+    process.cwd(),
+    "public",
+    target.replace(/^\//, "")
+  );
+  const [sourceStat, targetStat] = await Promise.all([
+    fs.stat(source),
+    fs.stat(absolute).catch(() => null),
+  ]);
+  if (targetStat && targetStat.mtimeMs >= sourceStat.mtimeMs) {
+    const meta = await sharp(absolute).metadata();
+    return { local: target, width: meta.width, height: meta.height, bytes: 0 };
+  }
+
+  const output = await sharp(source, { density: 300 })
+    .resize({ width: MAX_WIDTH, withoutEnlargement: true })
+    .webp({ quality: WEBP_QUALITY })
+    .toBuffer({ resolveWithObject: true });
+
+  await fs.mkdir(path.dirname(absolute), { recursive: true });
+  await fs.writeFile(absolute, output.data);
+
+  return {
+    local: target,
+    width: output.info.width,
+    height: output.info.height,
+    bytes: output.data.length,
+  };
 }
 
 // Mirrored paths relative to public/blog-img, using forward slashes so they
@@ -169,6 +245,7 @@ async function mirrorBlogImages() {
   // directory, whichever order the filesystem hands the files back in.
   const files = (await getAllMarkdownFiles(mdDir)).sort();
   const allUrls = new Map();
+  const allLocalRefs = new Set();
   for (const file of files) {
     const relative = path.relative(mdDir, file);
     const owner = {
@@ -178,6 +255,9 @@ async function mirrorBlogImages() {
     const content = await fs.readFile(file, "utf8");
     for (const url of extractImageUrls(content)) {
       if (!allUrls.has(url)) allUrls.set(url, owner);
+    }
+    for (const ref of extractLocalRefs(content)) {
+      allLocalRefs.add(ref);
     }
   }
 
@@ -242,10 +322,34 @@ async function mirrorBlogImages() {
     });
   }
 
+  // Locally-authored images: transcode assets/blog-img into public/blog-img.
+  let localTranscoded = 0;
+  for (const ref of allLocalRefs) {
+    const source = await findLocalSource(ref);
+    if (!source) {
+      failures.push(`${ref} — no original found under assets/blog-img`);
+      continue;
+    }
+    try {
+      const result = await transcodeLocal(source, ref);
+      if (result.bytes) {
+        mirroredBytes += result.bytes;
+        localTranscoded += 1;
+      }
+      existing[ref] = {
+        local: result.local,
+        width: result.width,
+        height: result.height,
+      };
+    } catch (error) {
+      failures.push(`${ref} — ${error.message}`);
+    }
+  }
+
   // Prune manifest entries for images no longer referenced by any post.
   const manifest = Object.fromEntries(
     Object.keys(existing)
-      .filter((key) => allUrls.has(key))
+      .filter((key) => allUrls.has(key) || allLocalRefs.has(key))
       .sort()
       .map((key) => [key, existing[key]])
   );
@@ -268,7 +372,7 @@ async function mirrorBlogImages() {
   await removeEmptyDirectories(outDir);
 
   console.log(
-    `Successfully generated lib/blog-images.json (${Object.keys(manifest).length}/${allUrls.size} images mirrored, ${toFetch.length} fetched, ${moved} moved, ${pruned} pruned)`
+    `Successfully generated lib/blog-images.json (${Object.keys(manifest).length}/${allUrls.size + allLocalRefs.size} images mirrored, ${toFetch.length} fetched, ${localTranscoded} transcoded locally, ${moved} moved, ${pruned} pruned)`
   );
   if (mirroredBytes) {
     console.log(`  wrote ${(mirroredBytes / 1048576).toFixed(1)} MB`);

@@ -3,13 +3,15 @@
 import { cn } from "@/lib/utils";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { type CSSProperties, useState } from "react";
 
 interface Post {
   slug: string;
   title: string;
   publishedAt: string;
-  urls?: string[];
+  // Company accent for hover (Keploy orange, Maxim green, ...), already
+  // resolved server-side — see lib/blog-brand.
+  accent?: string;
 }
 
 interface BlogListProps {
@@ -88,10 +90,17 @@ export function BlogList({ posts }: BlogListProps) {
                           <span
                             className={cn(
                               "text-muted-foreground min-w-0 truncate text-sm transition-colors",
-                              post.urls?.some((u) => u.includes("keploy"))
-                                ? "group-hover:text-[#FF914D]"
+                              post.accent
+                                ? "group-hover:text-(--post-accent)"
                                 : "group-hover:text-foreground"
                             )}
+                            style={
+                              post.accent
+                                ? ({
+                                    "--post-accent": post.accent,
+                                  } as CSSProperties)
+                                : undefined
+                            }
                           >
                             {post.title}
                           </span>
