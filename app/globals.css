@@ -1,7 +1,7 @@
 @import "tailwindcss";
-/* Inlined Inter face — see scripts/generate-font-subset.mjs. Inlining keeps the
-   LCP paragraph from repainting when a linked font lands, which is what made
-   LCP swing between 1.9s and 2.8s on Slow 4G. */
+/* Subset Inter face — see scripts/generate-font-subset.mjs. font-display:
+   optional is what keeps the LCP paragraph from repainting when the face
+   lands, which is what made LCP swing between 1.9s and 2.8s on Slow 4G. */
 @import "./inter-subset.generated.css";
 
 @plugin "tailwindcss-animate";

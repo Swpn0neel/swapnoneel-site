@@ -12,10 +12,12 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import "./globals.css";
 
-// Inter is no longer loaded via next/font — it is inlined as a data URI by
+// Inter is not loaded via next/font — it is subset by
 // scripts/generate-font-subset.mjs and declared in inter-subset.generated.css.
-// A linked font arrives after first paint, repaints the LCP paragraph and
-// stamps a second, much later LCP candidate; inlining removes that entirely.
+// It is preloaded in <head> below so the fetch starts at HTML parse instead of
+// waiting for the stylesheet to resolve, and font-display: optional means a
+// face that loses that race is simply not used for that pageview rather than
+// repainting the LCP paragraph.
 
 // Applies the theme class in <head>, before <body> exists. next-themes ships an
 // equivalent script, but renders it inside the provider — i.e. ~700 bytes into
@@ -84,6 +86,17 @@ export default function RootLayout({
             without this. Only helps visitors whose OS is dark — an explicit
             dark choice on a light OS is handled by THEME_INIT below. */}
         <meta name="color-scheme" content="light dark" />
+        {/* Ahead of the theme script so the font request is in flight before
+            anything else in <head> runs. crossOrigin is required even for a
+            same-origin font: without it the preload is fetched in a different
+            mode than the CSS request and the file is downloaded twice. */}
+        <link
+          rel="preload"
+          href="/font/inter-latin.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
       </head>
       {/* duration-150 matches Tailwind's default `transition-colors`, which is

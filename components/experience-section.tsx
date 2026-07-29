@@ -4,6 +4,7 @@ import { i18n } from "@/lib/i18n";
 import type { PostMeta } from "@/lib/md";
 import { firstLink } from "@/lib/utils";
 import Link from "next/link";
+import type { CSSProperties } from "react";
 
 interface ExperienceSectionProps {
   items: { meta: PostMeta }[];
@@ -144,7 +145,25 @@ function ExperienceRow({
         />
       )}
       <div className="flex-1">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+        {/* While the logo is floated, the title/date pair is shorter than it
+            and would otherwise sit against its top edge. Matching the logo's
+            height centres the two against each other; the blurb below clears
+            the float either way, so nothing shifts down. The logo is sized in
+            px, so the height has to come from `logoSize` rather than a rem
+            utility — the reader can scale the root font, and the two would
+            drift apart. */}
+        <div
+          className={`flex flex-col md:flex-row md:items-center md:justify-between ${
+            detailed
+              ? "max-sm:min-h-[var(--exp-logo-height)] max-sm:justify-center"
+              : ""
+          }`}
+          style={
+            detailed
+              ? ({ "--exp-logo-height": `${logoSize}px` } as CSSProperties)
+              : undefined
+          }
+        >
           <p className="text-sm font-medium group-hover:underline">
             {item.meta.title}
           </p>

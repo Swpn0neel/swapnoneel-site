@@ -11,15 +11,43 @@ const withBA = withBundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
-  experimental: {
-    inlineCss: true,
-  },
+  // inlineCss is deliberately off. It re-serialises the entire compiled
+  // stylesheet into every HTML document *and* into every RSC navigation
+  // payload — twice per payload, once for the head segment and once for the
+  // page segment. Measured on the deployed site, that made a client-side
+  // navigation to /contact ship 217 KB of which 205 KB was two identical
+  // copies of the stylesheet, taking ~1.5s on a cold visit before the page's
+  // own JS chunks could even be requested. Linked instead, the same navigation
+  // is 12 KB and the stylesheet is cached once for the whole site.
+  //
+  // The cost is that the stylesheet is render-blocking on the first page. It
+  // is ~12 KB brotli, and the Inter face was moved out to its own preloaded
+  // file to keep it that small (see scripts/generate-font-subset.mjs).
   async rewrites() {
     return [
       {
         // /blog/my-post.md  →  /api/blog/my-post/raw
         source: "/blog/:slug.md",
         destination: "/api/blog/:slug/raw",
+      },
+    ];
+  },
+  async headers() {
+    return [
+      {
+        // Everything under /public is served `max-age=0` by default, which
+        // would put a revalidation round trip in front of the font on every
+        // page load — most of what moving it out of the CSS was meant to
+        // avoid. Unlike a build chunk the name carries no content hash, so if
+        // the subset in scripts/generate-font-subset.mjs ever changes, the
+        // filename has to change with it (here and in the layout preload).
+        source: "/font/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
       },
     ];
   },
