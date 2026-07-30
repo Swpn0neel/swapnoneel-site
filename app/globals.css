@@ -70,6 +70,12 @@ button:focus-visible {
   --card-foreground: 0 0% 3.9%;
   --muted: 0 0% 96.1%;
   --muted-foreground: 0 0% 35%;
+  /* Third text step, below --muted-foreground. Exists so the dimmest text on
+     the site is one named, contrast-checked value instead of the ad-hoc
+     /50–/80 alphas it replaces, five of which failed WCAG AA. Chosen to clear
+     4.5:1 in *this* theme, which is the harder of the two: 4.76:1 here,
+     4.81:1 in dark. Don't dim it further without re-measuring. */
+  --faint-foreground: 0 0% 45%;
   --border: 0 0% 89.8%;
   --secondary: 0 0% 96.1%;
   --secondary-foreground: 0 0% 3.9%;
@@ -100,6 +106,8 @@ button:focus-visible {
   --card-foreground: 0 0% 98%;
   --muted: 0 0% 14.9%;
   --muted-foreground: 0 0% 63.9%;
+  /* 4.81:1 on --background. See the light-theme note. */
+  --faint-foreground: 0 0% 49%;
   --border: 0 0% 14.9%;
   --secondary: 0 0% 14.9%;
   --secondary-foreground: 0 0% 98%;
@@ -124,6 +132,7 @@ button:focus-visible {
   --color-card-foreground: hsl(var(--card-foreground));
   --color-muted: hsl(var(--muted));
   --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-faint-foreground: hsl(var(--faint-foreground));
   --color-border: hsl(var(--border));
   --color-secondary: hsl(var(--secondary));
   --color-secondary-foreground: hsl(var(--secondary-foreground));
@@ -137,6 +146,15 @@ button:focus-visible {
   --color-ring: hsl(var(--ring));
   --color-surface: hsl(var(--surface));
   --color-surface-hover: hsl(var(--surface-hover));
+
+  /* One step below Tailwind's text-xs, for micro-labels: dates, badges,
+     timecodes, skill pills. It exists because `html` is at 120%, so text-xs
+     lands at 14.4px and the 18 places that wanted something smaller all
+     reached for a literal px value instead — which put them off the rem ramp
+     and, worse, froze them against the reader's browser font-size setting.
+     0.625rem renders at 12px here and scales like everything else. */
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.4;
 }
 
 * {
@@ -200,12 +218,23 @@ mark,
     color var(--theme-transition) ease;
 }
 
-@media (min-width: 640px) {
-  .justify-text p,
-  .justify-text li {
-    text-align: justify;
-    text-justify: inter-word;
-  }
+/* Article body used to justify at >=640px. Measured over 53 lines of a real
+   post, the median inter-word gap ran 1.26x the natural space, a third of
+   lines past 1.4x, and the worst line reached 4.07x — a visible hole punched
+   through the column. Justification only works when hyphenation can absorb
+   that slack, and `hyphens: auto` is not something a browser is guaranteed to
+   honour: Chromium needs a hyphenation dictionary shipped by its component
+   updater, and without it the property silently does nothing. Betting the
+   readability of every paragraph on whether the reader's browser happens to
+   have that dictionary is not a trade worth making at a 72ch measure, so the
+   text is now ragged-right, which has no rivers by construction.
+
+   `hyphens: auto` stays on for its other job: breaking the long unbroken
+   tokens this blog is full of (package names, URLs, flags) rather than
+   letting one overhang the measure. Where it is unsupported, ragged-right
+   already reads correctly. */
+.prose {
+  hyphens: auto;
 }
 
 /* ─── Blog narration (read-along highlighting) ─── */
@@ -316,12 +345,16 @@ textarea {
   scroll-snap-align: center;
 }
 
-.smart-carousel[data-carousel-align="center"]:not([data-carousel-enhanced="true"])
+.smart-carousel[data-carousel-align="center"]:not(
+    [data-carousel-enhanced="true"]
+  )
   .smart-carousel__slide:first-child {
   margin-inline-start: calc((100% - var(--carousel-slide-width, 100%)) / 2);
 }
 
-.smart-carousel[data-carousel-align="center"]:not([data-carousel-enhanced="true"])
+.smart-carousel[data-carousel-align="center"]:not(
+    [data-carousel-enhanced="true"]
+  )
   .smart-carousel__slide:last-child {
   margin-inline-end: calc((100% - var(--carousel-slide-width, 100%)) / 2);
 }
@@ -440,6 +473,11 @@ textarea {
 .prose h4 {
   color: hsl(var(--foreground));
   line-height: 1.35;
+  /* Evens out the line lengths of a wrapped heading instead of filling the
+     first line and leaving one or two words on the second. Only applies up to
+     a few lines in every engine that implements it, which is exactly the range
+     headings occupy. */
+  text-wrap: balance;
 }
 
 .prose h1 {
@@ -477,6 +515,11 @@ textarea {
   margin-bottom: 1.2em;
   line-height: 1.75;
   color: hsl(var(--muted-foreground));
+  /* `pretty`, not `balance`: this is multi-line body copy, where the goal is
+     only to stop the last line landing as a single orphaned word. `balance`
+     would try to even out every line of a long paragraph and is capped at a
+     few lines anyway. */
+  text-wrap: pretty;
 }
 
 .prose a {
@@ -1432,5 +1475,3 @@ html {
     display: none !important;
   }
 }
-
-
