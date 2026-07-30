@@ -273,7 +273,7 @@ export default async function BlogPostPage({
         <div className="self-center justify-self-end [grid-area:toggle]">
           <FontSizeToggle />
         </div>
-        <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight [grid-area:title] md:text-3xl">
+        <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight text-balance [grid-area:title] md:text-3xl">
           {post.title}
         </h1>
         <p className="text-muted-foreground blog-scaled-text self-center [grid-area:meta]">
@@ -297,7 +297,7 @@ export default async function BlogPostPage({
       {/* Main Content */}
       <div
         id="blog-prose"
-        className="prose prose-sm justify-text max-w-none [&>*:first-child]:mt-0"
+        className="prose prose-sm max-w-none [&>*:first-child]:mt-0"
       >
         <MDXRemote
           source={cleanMarkdown}

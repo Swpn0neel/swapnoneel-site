@@ -1227,7 +1227,7 @@ export function BlogNarrator({
           )}
         </button>
 
-        <span className="text-muted-foreground/80 hidden w-9 shrink-0 text-right font-mono text-[11px] font-medium tabular-nums sm:block">
+        <span className="text-faint-foreground text-2xs hidden w-9 shrink-0 text-right font-mono font-medium tabular-nums sm:block">
           {formatTime(elapsedSec)}
         </span>
 
@@ -1306,7 +1306,7 @@ export function BlogNarrator({
           </div>
         </div>
 
-        <span className="text-muted-foreground/80 hidden w-9 shrink-0 font-mono text-[11px] font-medium tabular-nums sm:block">
+        <span className="text-faint-foreground text-2xs hidden w-9 shrink-0 font-mono font-medium tabular-nums sm:block">
           {formatTime(durationSec)}
         </span>
 
@@ -1321,7 +1321,7 @@ export function BlogNarrator({
             aria-label={`Narration speed: ${rate}x`}
             aria-expanded={speedOpen}
             aria-haspopup="listbox"
-            className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono text-[11px] font-bold transition-colors duration-200"
+            className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground text-2xs flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono font-bold transition-colors duration-200"
           >
             {rate}x
             <ChevronDown
@@ -1343,7 +1343,7 @@ export function BlogNarrator({
                   role="option"
                   aria-selected={i === rateIdx}
                   onClick={() => selectRate(i)}
-                  className={`hover:bg-secondary flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono text-[11px] transition-colors sm:py-1.5 ${
+                  className={`hover:bg-secondary text-2xs flex w-full cursor-pointer items-center justify-between px-3 py-2 font-mono transition-colors sm:py-1.5 ${
                     i === rateIdx
                       ? "text-foreground font-bold"
                       : "text-muted-foreground"

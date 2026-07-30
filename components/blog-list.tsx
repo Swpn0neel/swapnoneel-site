@@ -54,13 +54,13 @@ export function BlogList({ posts }: BlogListProps) {
               {/* Full-opacity muted-foreground, not /60: at 10px on
                   secondary/65 the faded version was 3.29:1, below the 4.5:1
                   WCAG AA floor for small text. */}
-              <span className="text-muted-foreground bg-secondary/65 rounded-full px-2 py-0.5 font-mono text-[10px] leading-none font-medium">
+              <span className="text-muted-foreground bg-secondary/65 text-2xs rounded-full px-2 py-0.5 font-mono leading-none font-medium">
                 {grouped[year].length}
               </span>
             </div>
             <ChevronDown
               aria-hidden="true"
-              className="text-muted-foreground/50 group-hover/head:text-foreground h-4 w-4 -rotate-90 transition-all duration-300 group-open/year:rotate-0"
+              className="text-faint-foreground group-hover/head:text-foreground h-4 w-4 -rotate-90 transition-all duration-300 group-open/year:rotate-0"
             />
           </summary>
 
