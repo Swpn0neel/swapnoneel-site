@@ -273,7 +273,7 @@ export default async function BlogPostPage({
         <div className="self-center justify-self-end [grid-area:toggle]">
           <FontSizeToggle />
         </div>
-        <h1 className="text-foreground mt-4 mb-4 text-2xl font-bold tracking-tight text-balance [grid-area:title] md:text-3xl">
+        <h1 className="blog-title text-foreground mt-4 mb-4 font-bold tracking-tight text-balance [grid-area:title]">
           {post.title}
         </h1>
         <p className="text-muted-foreground blog-scaled-text self-center [grid-area:meta]">
@@ -334,13 +334,20 @@ export default async function BlogPostPage({
                 />
               );
             },
+            // Markdown `#` renders as <h2>. The post title above is already
+            // this page's <h1>, so the six posts that open with `#` were
+            // shipping a second one — a document-outline error that heading
+            // navigation reports as two top-level sections. It also frees the
+            // prose ramp: an in-body h1 had to be sized just under the title,
+            // which left no room for the levels beneath it. The id still comes
+            // from the same slug, so the table of contents keeps working.
             h1: ({ children }) => {
               const text = getRawText(children);
               const slug = generateSlug(text);
               return (
-                <h1 id={slug} className="scroll-mt-24">
+                <h2 id={slug} className="scroll-mt-24">
                   {children}
-                </h1>
+                </h2>
               );
             },
             h2: ({ children }) => {
