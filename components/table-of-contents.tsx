@@ -52,27 +52,32 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
             // Sizes track the reader's A-/A/A+ choice via --prose-scale (the
             // same variable .prose reads in globals.css), so the TOC stays
             // proportional to the article body it's navigating.
-            // Depth reads off indent and weight. It used to also ride a
-            // five-stop opacity ladder (/95 → /90 → /75 → /60) whose lower
-            // rungs measured 2.8:1 and 3.4:1 against the panel — below AA —
-            // and the ┗/•/- glyphs that marked each level sat at /20–/30,
-            // i.e. ~1.4:1, which is not a faint character but an unrendered
-            // one. Every level is now a named, contrast-checked token.
+            // Two sizes, not four. The old ramp ran 0.86 / 0.82 / 0.78 / 0.74
+            // rem — 1.05x between levels, which is below the threshold at
+            // which a size difference is perceived at all, so the real depth
+            // signal was an opacity ladder whose lower rungs failed contrast.
+            // Depth is carried by indent first (the one cue that scales to any
+            // number of levels), then weight, then the four-step text ramp:
+            // foreground -> body -> muted -> faint, the same tiers the rest of
+            // the site uses, so a heading's depth here matches how prominently
+            // it reads in the article. Sizes still track --prose-scale so the
+            // panel stays proportional to what it navigates.
+            const size =
+              depth <= 1
+                ? "text-[calc(0.875rem*var(--prose-scale,1))]"
+                : "text-[calc(0.75rem*var(--prose-scale,1))]";
             let indentClass = "";
             if (depth === 0) {
-              indentClass =
-                "font-bold text-[calc(0.86rem*var(--prose-scale,1))] text-foreground";
+              indentClass = `${size} font-semibold text-foreground`;
             } else if (depth === 1) {
-              indentClass =
-                "pl-4 font-semibold text-[calc(0.82rem*var(--prose-scale,1))] text-muted-foreground";
+              indentClass = `${size} pl-4 font-medium text-body-foreground`;
             } else if (depth === 2) {
-              indentClass =
-                "pl-8 text-[calc(0.78rem*var(--prose-scale,1))] text-muted-foreground";
+              indentClass = `${size} pl-8 text-muted-foreground`;
             } else {
               // Accommodate depth 3 (pl-12), depth 4 (pl-16), etc.
               const paddingClass =
                 depth === 3 ? "pl-12" : depth === 4 ? "pl-16" : "pl-20";
-              indentClass = `${paddingClass} text-[calc(0.74rem*var(--prose-scale,1))] text-faint-foreground`;
+              indentClass = `${size} ${paddingClass} text-faint-foreground`;
             }
             return (
               <a

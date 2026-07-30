@@ -246,11 +246,12 @@ export function BlogNarrator({
   const visualTrackRef = useRef<HTMLDivElement>(null);
   const visualTrackWidthRef = useRef(0);
   const visualProgressRef = useRef(0);
-  // Progress dot and waveform bars: written to directly through setProgressUI
-  // (below) rather than through React state/JSX style bindings. The dot moves
-  // as one compositor-rasterized layer; changing `left` on every frame makes
-  // the browser repaint each rounded edge at a different subpixel coverage,
-  // which can look like the leading edge stretches before the rear catches up.
+  // Playhead and waveform bars: written to directly through setProgressUI
+  // (below) rather than through React state/JSX style bindings. The playhead
+  // moves as one compositor-rasterized layer; changing `left` on every frame
+  // makes the browser repaint each rounded edge at a different subpixel
+  // coverage, which on a 3px-wide bar shows up as the edge shimmering as it
+  // travels.
   const dotPositionRef = useRef<HTMLSpanElement>(null);
   const barsRef = useRef<(SVGLineElement | null)[]>([]);
   const lastPlayedCountRef = useRef(-1);
@@ -288,16 +289,17 @@ export function BlogNarrator({
     const clamped = Math.min(1, Math.max(0, fraction));
     visualProgressRef.current = clamped;
     if (dotPositionRef.current) {
-      // Keep the circle's raster intact and translate that layer as a unit.
+      // Keep the playhead's raster intact and translate that layer as a unit.
       // Width is cached by the ResizeObserver below, so playback's rAF loop
-      // does not force layout on every frame.
+      // does not force layout on every frame. The -50% pair is self-relative,
+      // so it keeps centring correctly whatever the playhead's own size is.
       const x = clamped * visualTrackWidthRef.current;
       dotPositionRef.current.style.transform = `translate3d(${x}px, -50%, 0) translateX(-50%)`;
     }
 
-    // Compare the dot and bars in the SVG's own coordinate system. Bars are
-    // inset from the 0–640 track edges, so an index-based percentage makes
-    // them flip before or after the dot's center actually crosses them.
+    // Compare the playhead and bars in the SVG's own coordinate system. Bars
+    // are inset from the 0–640 track edges, so an index-based percentage makes
+    // them flip before or after the playhead actually crosses them.
     const dotX = clamped * WAVEFORM_VIEWBOX_WIDTH;
     const count =
       dotX < WAVEFORM_EDGE_INSET
@@ -1218,7 +1220,12 @@ export function BlogNarrator({
         <button
           onClick={playing ? pause : play}
           aria-label={playing ? "Pause narration" : "Play narration"}
-          className="text-foreground/80 hover:bg-foreground/6 hover:text-foreground flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:rounded-full! active:scale-95 motion-reduce:transition-none"
+          // Full strength, not the /80 it used to sit at. This is the primary
+          // control in the component; dimming it at rest put it below the
+          // played waveform beside it in the visual order. Hover feedback
+          // comes from the background wash and the active press, which is
+          // enough without also holding the icon back.
+          className="text-foreground hover:bg-foreground/6 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:rounded-full! active:scale-95 motion-reduce:transition-none"
         >
           {playing ? (
             <Pause className="h-4.5 w-4.5 fill-current" />
@@ -1227,7 +1234,7 @@ export function BlogNarrator({
           )}
         </button>
 
-        <span className="text-faint-foreground text-2xs hidden w-9 shrink-0 text-right font-mono font-medium tabular-nums sm:block">
+        <span className="text-muted-foreground text-2xs hidden w-9 shrink-0 text-right font-mono font-medium tabular-nums sm:block">
           {formatTime(elapsedSec)}
         </span>
 
@@ -1263,7 +1270,13 @@ export function BlogNarrator({
                 preserveAspectRatio="none"
                 className="absolute inset-0 h-full w-full"
               >
-                <g className="text-foreground/[0.14] [&_.nb-played]:text-foreground">
+                {/* Unplayed / played. Both stay alpha rather than moving to
+                    the text tokens: this is a two-state fill, not a step on
+                    the text ramp, and the unplayed bars have to sit well below
+                    --faint-foreground or the track stops reading as "not yet
+                    played". Nudged from 0.14, which left the scrub target
+                    almost invisible against the panel before playback starts. */}
+                <g className="text-foreground/20 [&_.nb-played]:text-foreground">
                   {barHeights.map((height, i) => {
                     const x =
                       WAVEFORM_EDGE_INSET +
@@ -1299,14 +1312,30 @@ export function BlogNarrator({
               // Playback owns this outer layer's transform. Keeping hover
               // scale on the child prevents the browser from recomposing the
               // live position transform when hover begins or ends.
-              className="pointer-events-none absolute top-1/2 left-0 size-2 will-change-transform"
+              //
+              // Height is a percentage of the track, not a fixed px, so it
+              // stays locked to the waveform: the bars are drawn in a 32-unit
+              // viewBox with preserveAspectRatio="none", so they stretch with
+              // the container and a px value would drift out of proportion.
+              // The tallest bar reaches 25.36 of those 32 units (79%), so 86%
+              // clears it by a little at every size — which is the whole point
+              // of a playhead: it has to read as sitting in front of the
+              // waveform, not as one more bar in it.
+              className="pointer-events-none absolute top-1/2 left-0 h-[86%] w-[3px] will-change-transform"
             >
-              <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-125 motion-reduce:transition-none" />
+              {/* 3px against the bars' 1.35px non-scaling stroke — heavy
+                  enough to read as the handle, still a hairline. rounded-full
+                  resolves to a 1.5px cap here, matching the bars'
+                  strokeLinecap="round". The background ring keeps a clear gap
+                  so the playhead never visually merges with a bar it overlaps.
+                  Hover thickens on X only: a uniform scale would also stretch
+                  it vertically past the track it is supposed to sit inside. */}
+              <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-x-150 motion-reduce:transition-none" />
             </span>
           </div>
         </div>
 
-        <span className="text-faint-foreground text-2xs hidden w-9 shrink-0 font-mono font-medium tabular-nums sm:block">
+        <span className="text-muted-foreground text-2xs hidden w-9 shrink-0 font-mono font-medium tabular-nums sm:block">
           {formatTime(durationSec)}
         </span>
 
