@@ -69,8 +69,16 @@ button:focus-visible {
   --card: 0 0% 100%;
   --card-foreground: 0 0% 3.9%;
   --muted: 0 0% 96.1%;
+  /* Running text. Sits between --foreground and --muted-foreground because
+     both extremes were wrong for long-form reading: muted left the body at
+     6.98:1, dim enough that --foreground stopped meaning "emphasis", while
+     --foreground itself is 19.8:1 here — near-black on pure white, harsher
+     over a full article than anything shipping. 12.2:1 in this theme and
+     12.0:1 in dark, which is the band GitHub (~15:1), Medium (~14:1) and
+     Stripe (~10:1) all sit inside. */
+  --body-foreground: 0 0% 21%;
   --muted-foreground: 0 0% 35%;
-  /* Third text step, below --muted-foreground. Exists so the dimmest text on
+  /* Fourth text step, below --muted-foreground. Exists so the dimmest text on
      the site is one named, contrast-checked value instead of the ad-hoc
      /50–/80 alphas it replaces, five of which failed WCAG AA. Chosen to clear
      4.5:1 in *this* theme, which is the harder of the two: 4.76:1 here,
@@ -105,6 +113,10 @@ button:focus-visible {
   --card: 0 0% 7%;
   --card-foreground: 0 0% 98%;
   --muted: 0 0% 14.9%;
+  /* 12.0:1 on --background. Pulling body text off pure white also takes the
+     edge off halation, which near-white on near-black provokes worse than the
+     reverse. See the light-theme note. */
+  --body-foreground: 0 0% 79%;
   --muted-foreground: 0 0% 63.9%;
   /* 4.81:1 on --background. See the light-theme note. */
   --faint-foreground: 0 0% 49%;
@@ -131,6 +143,7 @@ button:focus-visible {
   --color-card: hsl(var(--card));
   --color-card-foreground: hsl(var(--card-foreground));
   --color-muted: hsl(var(--muted));
+  --color-body-foreground: hsl(var(--body-foreground));
   --color-muted-foreground: hsl(var(--muted-foreground));
   --color-faint-foreground: hsl(var(--faint-foreground));
   --color-border: hsl(var(--border));
@@ -254,6 +267,41 @@ mark,
   opacity: 1;
   color: inherit;
   transition: none;
+}
+
+/* ─── Page entrance ─── */
+/* Replays on every navigation for free: PageTransition keys the wrapper on
+   the pathname, so React remounts the element and a remounted element
+   restarts its CSS animation. Running from CSS rather than element.animate()
+   also means it starts at first paint instead of after hydration, which is
+   what lets a hard-loaded page animate at all.
+
+   `backwards` fill so the first frame is the 0% state even before the
+   animation is scheduled — without it the page paints fully opaque for one
+   frame and then jumps back to transparent to start. */
+/* Starts at 0.4, not 0. Chrome does not treat a fully transparent element as
+   painted, so fading from zero pushed the largest-contentful-paint entry
+   ~55ms past first-contentful-paint on every first load (measured: LCP-FCP
+   went 0ms -> 52-56ms). Opening at 0.4 means the text is painted on the first
+   frame and LCP lands with FCP again; the remaining 0.4 -> 1 ramp plus the
+   1rem rise still reads as an entrance. Don't lower this floor back toward 0
+   without re-measuring LCP-FCP. */
+@keyframes page-enter {
+  from {
+    opacity: 0.4;
+    transform: translate3d(0, 1rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-page-transition="ready"] {
+    animation: page-enter 200ms ease-in-out backwards;
+  }
 }
 
 /* ─── Selection & Cursor ─── */
@@ -427,6 +475,29 @@ textarea {
   }
 }
 
+/* Post title. Outside .prose, but it is the top of the same ramp, so it has
+   to move with it on both axes the ramp moves on.
+
+   * --prose-scale: it was a plain text-2xl/md:text-3xl before, i.e. fixed
+     while every heading and paragraph beneath it multiplied by the reader's
+     A-/A/A+ choice. At A+ on a phone that put the title at 28.8px and the
+     first h2 at 27.6 — a ratio of 1.04, with the top of the hierarchy
+     effectively gone. Scaling here holds title/h2 constant at every setting.
+   * clamp instead of a breakpoint: the md: jump made that same ratio 1.20
+     below 768px and 1.50 above it, so the ramp's top step depended on
+     window width. The interpolation is pinned to hit 1.5rem at 375px and
+     1.875rem at 806px.
+
+   It stops growing at 806px because that is where the column stops: the
+   wrapper is max-w-2xl, which at the 120% root resolves to 806.4px. Letting
+   the title keep tracking vw past that point would widen the type against a
+   frozen measure, which is the one thing fluid headings reliably get wrong. */
+.blog-title {
+  font-size: calc(
+    clamp(1.5rem, 1.174rem + 1.67vw, 1.875rem) * var(--prose-scale, 1)
+  );
+}
+
 /* Blog meta line, tags, and "also published on" footer text sit outside
    .prose, but should still track the reader's A-/A/A+ preference set on
    <html> (see --prose-scale below). Base size matches Tailwind's text-xs,
@@ -480,41 +551,71 @@ textarea {
   text-wrap: balance;
 }
 
-.prose h1 {
-  font-size: calc(1.6rem * var(--prose-scale, 1));
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  margin-top: 2.2em;
-  margin-bottom: 0.8em;
-}
+/* The ramp is boxed in: body sits at 0.875rem and the post title caps at
+   1.5rem on a phone, leaving ~1.71x of range for three heading levels. An
+   even geometric step across all three spends that range at 1.111 each, which
+   is not enough contrast anywhere — so the range is spent where the writing
+   actually needs it instead.
 
+   Of the 44 posts, 26 use exactly h2+h3, 12 use h2 alone, and only 3 use all
+   three levels. h2 -> h3 is the distinction 59% of the archive depends on and
+   it gets a full 1.25 step. h4 appears in 6 posts, always as the deepest
+   level, so it compresses toward body and leans on weight instead:
+
+     size     24 -> 19.2 -> 17.28 -> 16.8
+     ratio       1.25   1.111    1.029
+     weight  700 ->  650 ->   600 ->  400
+     tracking -.015 -> -.008 -> -.004 -> 0
+     space    2em ->  1.8em ->  1.5em
+
+   Every axis still descends monotonically — the earlier version reversed
+   weight at the bottom (700 -> 600 -> 700) and papered over the seam with an
+   uppercase h4, which read as a different kind of element rather than a
+   deeper one. Nothing changes case now. The in-between weights are free: the
+   subset face is variable across 400-700 (see inter-subset.generated.css).
+
+   Markdown `#` is remapped to <h2> at render time (app/blog/[slug]/page.tsx),
+   which is why h1 shares h2's treatment: the post title is the page's only
+   <h1>. Three posts jump h2 -> h4, skipping h3; that is an authoring
+   inconsistency in those files, not something this ramp should absorb. */
+.prose h1,
 .prose h2 {
-  font-size: calc(1.3rem * var(--prose-scale, 1));
-  font-weight: 600;
+  font-size: calc(1.25rem * var(--prose-scale, 1));
+  font-weight: 700;
   letter-spacing: -0.015em;
   margin-top: 2em;
   margin-bottom: 0.7em;
 }
 
 .prose h3 {
-  font-size: calc(1.1rem * var(--prose-scale, 1));
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-size: calc(1rem * var(--prose-scale, 1));
+  font-weight: 650;
+  letter-spacing: -0.008em;
   margin-top: 1.8em;
   margin-bottom: 0.6em;
 }
 
 .prose h4 {
-  font-size: calc(0.95rem * var(--prose-scale, 1));
+  font-size: calc(0.9rem * var(--prose-scale, 1));
   font-weight: 600;
+  letter-spacing: -0.004em;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
 }
 
+/* Article body is --body-foreground: brighter than the --muted-foreground it
+   used to be, but deliberately short of --foreground. Muted passed contrast
+   comfortably (6.98:1 / 7.85:1), so this was never a legibility bug — it was
+   an emphasis one. With the body muted and 84 of the site's ~144 colour
+   utilities also muted, --foreground had stopped meaning "this matters" and
+   started meaning "this is a link". Going all the way to --foreground fixed
+   that but overshot: 19.8:1 is harsher than any comparable reading surface,
+   and it left headings with nowhere above the body to sit. Muted now marks
+   metadata, captions and asides, which is the distinction it can carry. */
 .prose p {
   margin-bottom: 1.2em;
   line-height: 1.75;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--body-foreground));
   /* `pretty`, not `balance`: this is multi-line body copy, where the goal is
      only to stop the last line landing as a single orphaned word. `balance`
      would try to even out every line of a long paragraph and is capped at a
@@ -543,7 +644,7 @@ textarea {
 
 .prose li {
   margin-bottom: 0.25em;
-  color: hsl(var(--muted-foreground));
+  color: hsl(var(--body-foreground));
 }
 
 .prose pre {
@@ -572,9 +673,15 @@ textarea {
   font-style: italic;
 }
 
+/* 600, not 500. Against a 400 body, a 500 is close to invisible — one of the
+   weight steps that reads as a rendering artifact rather than emphasis. The
+   old rule also set 0.9 alpha over a body that was dimmer still, so bold text
+   came out *lighter* than the sentence it was emphasising. It now steps up on
+   both axes at once: heavier, and to full --foreground against the slightly
+   inset --body-foreground around it. */
 .prose strong {
-  color: hsl(var(--foreground) / 0.9);
-  font-weight: 500;
+  font-weight: 600;
+  color: hsl(var(--foreground));
 }
 
 .prose mark,

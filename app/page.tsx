@@ -93,17 +93,20 @@ export default function Home() {
           <p className="text-muted-foreground mb-4 text-sm leading-relaxed lowercase">
             {i18n.home.hero.tagline}
           </p>
+          {/* The bio is the page's subject, not supporting text, so it reads at
+              body strength while the tagline above it — a subtitle — keeps the
+              muted tone. Same reasoning as .prose p in globals.css. */}
           {i18n.home.hero.paragraphs.map((paragraph, index) => (
             <p
               key={paragraph}
-              className={`text-muted-foreground text-sm leading-relaxed lowercase ${
+              className={`text-body-foreground text-sm leading-relaxed lowercase ${
                 index > 0 ? "mt-4" : ""
               }`}
             >
               {paragraph}
             </p>
           ))}
-          <p className="text-muted-foreground mt-4 text-sm leading-relaxed lowercase">
+          <p className="text-body-foreground mt-4 text-sm leading-relaxed lowercase">
             {i18n.home.hero.reachMeLabel}{" "}
             <a
               href={`mailto:${siteConfig.person.email}`}
@@ -152,7 +155,7 @@ export default function Home() {
         <h2 className="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
           {i18n.home.sections.contact}
         </h2>
-        <p className="text-muted-foreground text-sm">
+        <p className="text-body-foreground text-sm">
           {i18n.home.contact.intro}{" "}
           <Link href="/contact" className="text-foreground underline">
             {i18n.home.contact.messageLink}
