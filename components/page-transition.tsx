@@ -1,40 +1,31 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ReactNode, useLayoutEffect, useRef } from "react";
+import { ReactNode } from "react";
 
+/**
+ * The entrance animation itself lives in globals.css, keyed off the
+ * `data-page-transition` attribute. This used to drive it from a
+ * useLayoutEffect calling element.animate(), guarded by a ref comparison that
+ * skipped the very first mount — which meant a page only ever animated if you
+ * arrived by client-side routing.
+ *
+ * /resume is reachable only from the footer, and every footer link carries
+ * target="_blank", so it is always a fresh document and that guard always won:
+ * the one page that never animated. Any direct link, refresh or new tab hit
+ * the same hole on every other page too.
+ *
+ * Moving it to CSS closes that gap without a second code path. `key={pathname}`
+ * already remounts this div on every navigation, and remounting an element
+ * restarts its CSS animation — so one declaration covers both the first paint
+ * and every route change after it, and it starts at parse time instead of
+ * waiting for hydration.
+ */
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const previousPathRef = useRef(pathname);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useLayoutEffect(() => {
-    if (previousPathRef.current === pathname) return;
-    previousPathRef.current = pathname;
-
-    if (
-      !containerRef.current ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    ) {
-      return;
-    }
-
-    const animation = containerRef.current.animate(
-      [
-        { opacity: 0, transform: "translate3d(0, 1rem, 0)" },
-        { opacity: 1, transform: "translate3d(0, 0, 0)" },
-      ],
-      {
-        duration: 200,
-        easing: "ease-in-out",
-      }
-    );
-
-    return () => animation.cancel();
-  }, [pathname]);
 
   return (
-    <div key={pathname} ref={containerRef} data-page-transition="ready">
+    <div key={pathname} data-page-transition="ready">
       {children}
     </div>
   );
