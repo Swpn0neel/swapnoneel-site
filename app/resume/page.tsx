@@ -110,7 +110,12 @@ export default function ResumePage() {
     <div className="mx-auto max-w-3xl min-w-0 pt-2 pb-16 sm:pt-4 sm:pb-20">
       <div className="mb-4 flex flex-col items-start justify-between gap-4 sm:mb-8 sm:flex-row sm:items-center sm:gap-6 print:mb-6">
         <div className="min-w-0">
-          <h1 className="text-[clamp(1.45rem,8.2vw,2.25rem)] leading-[1.05] font-bold tracking-[-0.03em] text-balance uppercase print:text-3xl">
+          {/* Positive tracking, not negative. Capitals are drawn on a wider
+              sidebearing than lowercase and crowd each other at default
+              spacing; this was at -0.03em, which tightened them further. Large
+              display caps need only a little, hence 0.015em rather than the
+              0.05–0.1em the small uppercase labels below carry. */}
+          <h1 className="text-[clamp(1.45rem,8.2vw,2.25rem)] leading-[1.05] font-bold tracking-[0.015em] text-balance uppercase print:text-3xl">
             {siteConfig.person.fullName}
           </h1>
           <p className="text-muted-foreground mt-2 text-sm leading-snug font-medium text-pretty sm:text-lg print:text-base">
@@ -192,7 +197,7 @@ export default function ResumePage() {
             </h2>
             <div className="grid grid-cols-1 gap-6 min-[560px]:grid-cols-3 min-[560px]:gap-5 print:gap-4">
               <div className="space-y-3">
-                <h3 className="text-muted-foreground border-border border-b border-dashed pb-1 text-[10px] font-bold tracking-widest uppercase">
+                <h3 className="text-muted-foreground border-border text-2xs border-b border-dashed pb-1 font-bold tracking-widest uppercase">
                   {i18n.resume.skillsCategories.languages}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -207,7 +212,7 @@ export default function ResumePage() {
                 </div>
               </div>
               <div className="space-y-3">
-                <h3 className="text-muted-foreground border-border border-b border-dashed pb-1 text-[10px] font-bold tracking-widest uppercase">
+                <h3 className="text-muted-foreground border-border text-2xs border-b border-dashed pb-1 font-bold tracking-widest uppercase">
                   {i18n.resume.skillsCategories.frameworks}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -222,7 +227,7 @@ export default function ResumePage() {
                 </div>
               </div>
               <div className="space-y-3">
-                <h3 className="text-muted-foreground border-border border-b border-dashed pb-1 text-[10px] font-bold tracking-widest uppercase">
+                <h3 className="text-muted-foreground border-border text-2xs border-b border-dashed pb-1 font-bold tracking-widest uppercase">
                   {i18n.resume.skillsCategories.tools}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
@@ -253,14 +258,14 @@ export default function ResumePage() {
                 {workItems.map((item) => (
                   <div key={item.meta.slug} className="group min-w-0">
                     <div className="mb-2 flex min-w-0 flex-col items-start gap-1 min-[480px]:flex-row min-[480px]:items-baseline min-[480px]:justify-between min-[480px]:gap-4">
-                      <h3 className="min-w-0 text-sm leading-snug font-semibold text-balance uppercase">
+                      <h3 className="min-w-0 text-sm leading-snug font-semibold tracking-wider text-balance uppercase">
                         {item.meta.title}
                       </h3>
-                      <span className="text-muted-foreground shrink-0 text-[11px] font-medium whitespace-nowrap min-[480px]:text-[10px]">
+                      <span className="text-muted-foreground text-2xs shrink-0 font-medium whitespace-nowrap">
                         {item.meta.date}
                       </span>
                     </div>
-                    <div className="text-muted-foreground prose prose-sm prose-invert prose-p:my-1 prose-li:my-0.5 max-w-none space-y-2 text-[0.8125rem] leading-relaxed text-pretty lowercase">
+                    <div className="text-muted-foreground prose prose-sm prose-invert prose-p:my-1 prose-li:my-0.5 max-w-none space-y-2 text-xs leading-relaxed text-pretty lowercase">
                       {/* We'll render a simplified version of the content here or just the description */}
                       <p>{item.meta.description}</p>
                       {/* For the resume, it's better to provide a few bullet points. 
@@ -292,7 +297,7 @@ export default function ResumePage() {
                         project.meta.link ? "cursor-pointer" : ""
                       }`}
                     >
-                      <h3 className="mb-1 flex min-w-0 items-start justify-between gap-3 text-sm leading-snug font-semibold uppercase">
+                      <h3 className="mb-1 flex min-w-0 items-start justify-between gap-3 text-sm leading-snug font-semibold tracking-wider uppercase">
                         <span className="min-w-0 wrap-anywhere">
                           {project.meta.title}
                         </span>
@@ -302,7 +307,7 @@ export default function ResumePage() {
                           </span>
                         )}
                       </h3>
-                      <p className="text-muted-foreground line-clamp-3 text-[0.8125rem] leading-relaxed text-pretty lowercase sm:line-clamp-2 sm:text-[11px]">
+                      <p className="text-muted-foreground line-clamp-3 text-xs leading-relaxed text-pretty lowercase sm:line-clamp-2">
                         {project.meta.description}
                       </p>
                     </CardComponent>
@@ -323,13 +328,13 @@ export default function ResumePage() {
               <div className="space-y-6 print:space-y-4">
                 {i18n.resume.education.map((edu, i) => (
                   <div key={i} className="space-y-1">
-                    <h3 className="text-sm leading-tight font-semibold uppercase">
+                    <h3 className="text-sm leading-tight font-semibold tracking-wider uppercase">
                       {edu.school}
                     </h3>
-                    <p className="text-muted-foreground text-[0.8125rem] leading-relaxed lowercase sm:text-xs">
+                    <p className="text-muted-foreground text-xs leading-relaxed lowercase">
                       {edu.degree}
                     </p>
-                    <p className="text-muted-foreground text-xs leading-relaxed font-medium lowercase italic sm:text-[11px]">
+                    <p className="text-muted-foreground text-2xs leading-relaxed font-medium lowercase italic">
                       {edu.date} | {edu.result}
                     </p>
                   </div>
@@ -349,7 +354,7 @@ export default function ResumePage() {
                     <span className="text-muted-foreground mt-0.5 text-xs">
                       -
                     </span>
-                    <p className="text-muted-foreground text-[0.8125rem] leading-relaxed text-pretty lowercase sm:text-[12px]">
+                    <p className="text-muted-foreground text-xs leading-relaxed text-pretty lowercase">
                       {achievement}
                     </p>
                   </div>

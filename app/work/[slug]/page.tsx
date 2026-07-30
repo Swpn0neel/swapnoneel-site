@@ -1,7 +1,12 @@
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
-import { breadcrumbJsonLd, firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import {
+  breadcrumbJsonLd,
+  firstLink,
+  ogImageUrl,
+  safeJsonLd,
+} from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -74,7 +79,8 @@ export default async function WorkItemPage({
   if (!item) notFound();
 
   const backHref = from === "home" ? "/" : "/work";
-  const backLabel = from === "home" ? "home" : i18n.work.otherExperience.backLink;
+  const backLabel =
+    from === "home" ? "home" : i18n.work.otherExperience.backLink;
 
   const url = `https://www.swapnoneel.site/work/${slug}`;
 
@@ -117,7 +123,9 @@ export default async function WorkItemPage({
         >
           ← {backLabel}
         </Link>
-        <h1 className="mt-4 mb-1 text-xl font-semibold">{item.meta.title}</h1>
+        <h1 className="mt-4 mb-1 text-xl font-semibold text-balance">
+          {item.meta.title}
+        </h1>
         <p className="text-muted-foreground text-xs">{item.meta.date}</p>
       </div>
       <div className="prose prose-sm max-w-none">
@@ -132,11 +140,14 @@ export default async function WorkItemPage({
           components={{
             a: ({ href, children, ...props }) => {
               const isExternal =
-                href && (href.startsWith("http://") || href.startsWith("https://"));
+                href &&
+                (href.startsWith("http://") || href.startsWith("https://"));
               return (
                 <a
                   href={href}
-                  {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  {...(isExternal
+                    ? { target: "_blank", rel: "noopener noreferrer" }
+                    : {})}
                   {...props}
                 >
                   {children}
