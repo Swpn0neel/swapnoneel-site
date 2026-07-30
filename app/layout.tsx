@@ -140,9 +140,14 @@ export default function RootLayout({
             {i18n.common.skipToContent}
           </a>
           <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-4">
-            <div className="print:hidden">
+            {/* <header>, not a plain div: the page had nav/main/contentinfo
+                landmarks but no banner, so landmark-based navigation skipped
+                straight past the masthead. Direct child of the layout wrapper
+                (not of main/article/section), which is what makes it map to
+                the banner role. */}
+            <header className="print:hidden">
               <Navbar />
-            </div>
+            </header>
             <main id="main-content" tabIndex={-1} className="flex-1">
               <PageTransition>{children}</PageTransition>
             </main>

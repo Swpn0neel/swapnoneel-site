@@ -37,13 +37,21 @@ export function BackToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const hidden = !isVisible || isBlocked;
+
   return (
     <button
       onClick={handleClick}
+      // pointer-events-none only takes the button away from the mouse. Faded
+      // out it was still a tab stop and still in the accessibility tree, so a
+      // keyboard user tabbing the page landed on an invisible 48px control and
+      // a screen reader announced a button that is not on screen. `inert`
+      // removes it from both until it is actually shown.
+      inert={hidden}
       className={`border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-100 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 ${
-        isVisible && !isBlocked
-          ? "translate-y-0 opacity-100"
-          : "pointer-events-none translate-y-4 opacity-0"
+        hidden
+          ? "pointer-events-none translate-y-4 opacity-0"
+          : "translate-y-0 opacity-100"
       }`}
       aria-label="Back to top"
     >
