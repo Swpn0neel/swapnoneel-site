@@ -28,14 +28,14 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
       {/* Clickable Minimal Header Row */}
       <button
         onClick={() => setIsExpanded(!isExpanded)}
-        className="text-muted-foreground/80 hover:text-foreground group flex w-full cursor-pointer items-center justify-between p-4 text-[10px] font-bold tracking-wider uppercase transition-all duration-300 select-none focus:outline-none md:p-5"
+        className="text-muted-foreground hover:text-foreground group text-2xs flex w-full cursor-pointer items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none focus:outline-none md:p-5"
       >
         <span>Table of Contents</span>
         <ChevronDown
           className={`h-4 w-4 transition-all duration-300 ${
             isExpanded
               ? "text-foreground rotate-180"
-              : "text-muted-foreground/50 group-hover:text-foreground"
+              : "text-faint-foreground group-hover:text-foreground"
           }`}
         />
       </button>
@@ -52,27 +52,36 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
             // Sizes track the reader's A-/A/A+ choice via --prose-scale (the
             // same variable .prose reads in globals.css), so the TOC stays
             // proportional to the article body it's navigating.
+            // Depth reads off indent and weight. It used to also ride a
+            // five-stop opacity ladder (/95 → /90 → /75 → /60) whose lower
+            // rungs measured 2.8:1 and 3.4:1 against the panel — below AA —
+            // and the ┗/•/- glyphs that marked each level sat at /20–/30,
+            // i.e. ~1.4:1, which is not a faint character but an unrendered
+            // one. Every level is now a named, contrast-checked token.
             let indentClass = "";
             if (depth === 0) {
               indentClass =
-                "font-bold text-[calc(0.86rem*var(--prose-scale,1))] text-foreground/95";
+                "font-bold text-[calc(0.86rem*var(--prose-scale,1))] text-foreground";
             } else if (depth === 1) {
               indentClass =
-                "pl-4 font-semibold text-[calc(0.82rem*var(--prose-scale,1))] text-muted-foreground/90 before:content-['└'] before:mr-1.5 before:text-muted-foreground/20";
+                "pl-4 font-semibold text-[calc(0.82rem*var(--prose-scale,1))] text-muted-foreground";
             } else if (depth === 2) {
               indentClass =
-                "pl-8 text-[calc(0.78rem*var(--prose-scale,1))] text-muted-foreground/75 before:content-['•'] before:mr-2 before:text-muted-foreground/30";
+                "pl-8 text-[calc(0.78rem*var(--prose-scale,1))] text-muted-foreground";
             } else {
               // Accommodate depth 3 (pl-12), depth 4 (pl-16), etc.
               const paddingClass =
                 depth === 3 ? "pl-12" : depth === 4 ? "pl-16" : "pl-20";
-              indentClass = `${paddingClass} text-[calc(0.74rem*var(--prose-scale,1))] text-muted-foreground/60 before:content-['-'] before:mr-2 before:text-muted-foreground/20`;
+              indentClass = `${paddingClass} text-[calc(0.74rem*var(--prose-scale,1))] text-faint-foreground`;
             }
             return (
               <a
                 key={idx}
                 href={`#${item.slug}`}
-                className={`hover:text-foreground text-muted-foreground block transition-colors ${indentClass}`}
+                // No base colour here: every depth branch sets its own, and two
+                // competing text-* utilities on one element resolve by
+                // Tailwind's output order rather than the order written here.
+                className={`hover:text-foreground block transition-colors ${indentClass}`}
               >
                 {item.text}
               </a>

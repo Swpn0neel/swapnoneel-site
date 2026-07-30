@@ -396,15 +396,14 @@ export function FourOhFourBreakout() {
           <button
             type="button"
             onClick={() => startRef.current()}
-            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring cursor-pointer rounded-sm font-mono text-[11px] tracking-wide underline-offset-4 transition-colors hover:underline focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:outline-none"
+            className="text-muted-foreground hover:text-foreground focus-visible:ring-ring text-2xs cursor-pointer rounded-sm font-mono tracking-wide underline-offset-4 transition-colors hover:underline focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:outline-none"
           >
             {i18n.notFound.game.idle}
           </button>
         )}
 
         {playing && (
-          <div className="text-muted-foreground motion-safe:animate-in motion-safe:fade-in-0 flex flex-col items-center gap-1.5 font-mono text-[11px] tracking-wide duration-300">
-
+          <div className="text-muted-foreground motion-safe:animate-in motion-safe:fade-in-0 text-2xs flex flex-col items-center gap-1.5 font-mono tracking-wide duration-300">
             {/* State on top: what it is costing and how much is left. Lives
                 read faster as marks than as a number, and three is small enough
                 that precision costs nothing. */}
@@ -433,7 +432,7 @@ export function FourOhFourBreakout() {
             {/* The instruction stays put for the whole game, the way the
                 restart sits under the result. It used to retire after the first
                 move, which quietly assumed everyone would remember it. */}
-            <span className="text-muted-foreground/70">
+            <span className="text-faint-foreground">
               {i18n.notFound.game.hint}
             </span>
           </div>
@@ -451,7 +450,7 @@ export function FourOhFourBreakout() {
             <button
               type="button"
               onClick={() => startRef.current()}
-              className="text-muted-foreground hover:text-foreground focus-visible:ring-ring cursor-pointer rounded-sm font-mono text-[11px] tracking-wide underline underline-offset-4 transition-colors focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:outline-none"
+              className="text-muted-foreground hover:text-foreground focus-visible:ring-ring text-2xs cursor-pointer rounded-sm font-mono tracking-wide underline underline-offset-4 transition-colors focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:outline-none"
             >
               {i18n.notFound.game.again}
             </button>

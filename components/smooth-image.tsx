@@ -241,7 +241,7 @@ function SmoothImageInner({
           <button
             type="button"
             onClick={handleManualRetry}
-            className="border-border bg-background/70 text-foreground hover:bg-background rounded-sm border px-2 py-1 text-[0.65rem] transition-colors"
+            className="border-border bg-background/70 text-foreground hover:bg-background text-2xs rounded-sm border px-2 py-1 transition-colors"
           >
             Try again
           </button>
