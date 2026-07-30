@@ -10,6 +10,7 @@ import { safeJsonLd } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
+import { preload } from "react-dom";
 import "./globals.css";
 
 // Inter is not loaded via next/font — it is subset by
@@ -78,6 +79,21 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // React hoists font/style preloads into <head> itself and dedupes them by
+  // href. Declaring this as a raw <link> in the tree below got it emitted
+  // twice — once hoisted, once in place — so it goes through react-dom's
+  // preload() instead, which is the API that hoisting is keyed on.
+  //
+  // React puts it ahead of the stylesheet, so the request is in flight before
+  // anything else in <head> runs. crossOrigin is required even for a
+  // same-origin font: without it the preload is fetched in a different mode
+  // than the CSS request and the file is downloaded twice.
+  preload("/font/inter-latin.woff2", {
+    as: "font",
+    type: "font/woff2",
+    crossOrigin: "anonymous",
+  });
+
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
@@ -86,17 +102,6 @@ export default function RootLayout({
             without this. Only helps visitors whose OS is dark — an explicit
             dark choice on a light OS is handled by THEME_INIT below. */}
         <meta name="color-scheme" content="light dark" />
-        {/* Ahead of the theme script so the font request is in flight before
-            anything else in <head> runs. crossOrigin is required even for a
-            same-origin font: without it the preload is fetched in a different
-            mode than the CSS request and the file is downloaded twice. */}
-        <link
-          rel="preload"
-          href="/font/inter-latin.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin="anonymous"
-        />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
       </head>
       {/* duration-150 matches Tailwind's default `transition-colors`, which is

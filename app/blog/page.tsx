@@ -35,13 +35,12 @@ export const metadata = {
 export default async function BlogPage() {
   const posts = await getAllBlogPosts();
 
-  // BlogList is a client component, so every prop it receives is serialised
-  // into the RSC payload verbatim — including anything it never reads. A
-  // BlogPost carries its whole `content.markdown`, which across 43 posts is
-  // ~367 KB, and that was the entire weight of this route's payload. The list
-  // renders four fields, so hand it four fields.
-  // The list needs only the accent, not the URLs it can be derived from, so
-  // resolve it here and keep the payload to one short string per post.
+  // BlogList is a server component now, so these props are never serialised
+  // into the payload at all — only its rendered output is. The narrowing is
+  // kept regardless: brandColor() has to be resolved somewhere, and handing
+  // the list four fields instead of whole BlogPost objects (each carrying its
+  // full `content.markdown`, ~367 KB across 44 posts) keeps it honest if this
+  // ever becomes interactive again.
   const listPosts = posts.map(({ slug, title, publishedAt, urls, brand }) => ({
     slug,
     title,

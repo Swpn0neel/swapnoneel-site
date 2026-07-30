@@ -1,4 +1,6 @@
-import { FourOhFourBreakout } from "@/components/four-oh-four-breakout";
+// Imported through the slot, not directly: see components/four-oh-four-game-slot
+// for why the game may not be a static import from this file.
+import { FourOhFourGameSlot } from "@/components/four-oh-four-game-slot";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts } from "@/lib/md";
 import { ArrowUpRight } from "lucide-react";
@@ -15,7 +17,7 @@ export default async function NotFound() {
     <div className="py-20">
       {/* The navbar above already carries home/work/blog/contact, so there is
           no quick-links row here; it was the same four links twice. */}
-      <FourOhFourBreakout />
+      <FourOhFourGameSlot />
 
       <div className="mt-8 text-center">
         <p className="text-foreground text-lg">{i18n.notFound.lead}</p>

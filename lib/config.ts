@@ -47,7 +47,11 @@ export const siteConfig = {
   images: {
     avatar: "/img/pfp-dark.webp",
     avatarHover: "/img/pfp-light.webp",
-    icon: "/img/pfp-circle.webp",
+    // 96px, not the 2010px pfp-circle.webp this used to point at. The favicon
+    // is fetched on every page, and at full size it was 130 KB — the single
+    // largest resource on the site, larger than the compiled JS bundle, for
+    // something that renders into a 16px tab strip.
+    icon: "/img/pfp-icon-96.webp",
   },
   calendar: {
     namespaceDark: "dark-booking",

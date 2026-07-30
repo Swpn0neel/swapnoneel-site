@@ -81,10 +81,25 @@ function SmoothImageInner({
   const [fallbackExhausted, setFallbackExhausted] = useState(false);
   const [shimmerActive, setShimmerActive] = useState(false);
   const shimmerRef = useRef<HTMLSpanElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const retryTimeoutRef = useRef<number | null>(null);
 
+  // A `priority` image is the page's LCP candidate, and an element at
+  // opacity:0 is not an LCP candidate at all. Gating the reveal on the client
+  // `onLoad` therefore deferred LCP to hydration: on a blog post whose cover
+  // bytes had arrived in 460ms, LCP landed at 4.3s with 2.2s of it recorded as
+  // "element render delay". Priority images paint at full opacity straight
+  // from the server HTML; the fade stays for everything off the critical path.
+  const isPriority = imageProps.priority === true;
   const hasVisibleImage = loaded || fallbackLoaded;
   const showError = fallbackExhausted && !hasVisibleImage;
+
+  // If the image completed before React hydrated — cached, or just fast — its
+  // load event has already fired and will not fire again, so `onLoad` alone
+  // would leave the element stuck at opacity:0 for the whole pageview.
+  useEffect(() => {
+    if (imageRef.current?.complete) setLoaded(true);
+  }, []);
 
   useEffect(() => {
     const shimmer = shimmerRef.current;
@@ -181,9 +196,10 @@ function SmoothImageInner({
       {!failed && (
         <Image
           {...imageProps}
+          ref={imageRef}
           alt={alt}
           className={`transition-[opacity,transform,scale] duration-300 ease-out ${
-            loaded ? "opacity-100" : "opacity-0"
+            loaded || isPriority ? "opacity-100" : "opacity-0"
           } ${className}`}
           placeholder={blurDataURL ? "blur" : undefined}
           blurDataURL={blurDataURL}

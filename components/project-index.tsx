@@ -64,7 +64,12 @@ export function ProjectIndex({
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Visit ${item.meta.title}`}
-                className={`hover:text-foreground group-hover:text-foreground col-start-1 row-start-1 flex h-5 shrink-0 items-center justify-self-end self-start text-xs transition-colors sm:ml-auto sm:h-auto sm:self-center ${
+                // size-6 is the WCAG 2.5.8 floor, not a visual choice: the
+                // glyph is 1em of text-xs, so the link measured 14.4x24px and
+                // failed target-size. The box grows around the same 1em glyph
+                // rather than scaling it, and the button's mobile pr-6 already
+                // reserves exactly this much room.
+                className={`hover:text-foreground group-hover:text-foreground col-start-1 row-start-1 flex size-6 shrink-0 items-center justify-center justify-self-end self-start text-xs transition-colors sm:ml-auto sm:self-center ${
                   active ? "text-foreground" : "text-muted-foreground"
                 }`}
               >

@@ -1190,7 +1190,27 @@ export function BlogNarrator({
     // leaving them unstyled until the next unrelated progress change.
   }, [progress, setProgressUI, ready]);
 
-  if (!supported || !ready) return null;
+  if (!supported) return null;
+
+  // `ready` can only be decided on the client — it means "the article scan
+  // found words to read" — so returning null until then left a ~108px hole
+  // that filled after hydration and shoved the whole article down. That was
+  // the 0.022 CLS every post carried. Reserving the box keeps the layout
+  // decided once.
+  //
+  // Deliberately the player's own wrapper, with a spacer the height of the
+  // waveform track (h-11) that actually sets the row height, rather than a
+  // hardcoded pixel value the real player could silently drift away from.
+  if (!ready) {
+    return (
+      <div
+        aria-hidden="true"
+        className="border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3"
+      >
+        <div className="h-11" />
+      </div>
+    );
+  }
 
   return (
     <div className="border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3">
@@ -1294,13 +1314,18 @@ export function BlogNarrator({
         <div ref={speedMenuRef} className="relative shrink-0">
           <button
             onClick={() => setSpeedOpen((o) => !o)}
-            aria-label="Narration speed"
+            // The rate has to appear in the accessible name, not just in the
+            // visible text: a bare "Narration speed" label overrode the "1x"
+            // on screen, so a voice-control user saying the label they can see
+            // addressed nothing (WCAG 2.5.3, Label in Name).
+            aria-label={`Narration speed: ${rate}x`}
             aria-expanded={speedOpen}
             aria-haspopup="listbox"
             className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono text-[11px] font-bold transition-colors duration-200"
           >
             {rate}x
             <ChevronDown
+              aria-hidden="true"
               className={`h-3 w-3 transition-transform duration-200 motion-reduce:transition-none ${
                 speedOpen ? "rotate-180" : ""
               }`}

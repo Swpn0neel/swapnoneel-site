@@ -365,6 +365,35 @@ textarea {
   }
 }
 
+/* The /blog year accordion is a native <details> so the 44-row list needs no
+   hydration (see components/blog-list.tsx). <details> has no open/close
+   animation of its own; ::details-content plus interpolate-size restores the
+   height transition the old JS grid-rows trick provided. Where that is not
+   supported the accordion snaps open, which is the acceptable degradation. */
+@supports (interpolate-size: allow-keywords) {
+  .details-animated {
+    interpolate-size: allow-keywords;
+  }
+
+  .details-animated::details-content {
+    height: 0;
+    overflow: hidden;
+    transition:
+      height 200ms ease-out,
+      content-visibility 200ms allow-discrete;
+  }
+
+  .details-animated[open]::details-content {
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .details-animated::details-content {
+      transition: none;
+    }
+  }
+}
+
 /* Blog meta line, tags, and "also published on" footer text sit outside
    .prose, but should still track the reader's A-/A/A+ preference set on
    <html> (see --prose-scale below). Base size matches Tailwind's text-xs,
