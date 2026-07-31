@@ -99,14 +99,33 @@ export const i18n = {
     },
   },
   notFound: {
-    lead: "Looks like this page took a vacation.",
-    sub: "The page you're looking for doesn't exist or has been moved.",
-    latestLabel: "Latest post",
-    readNow: "read now",
+    // The page's only sentence about what went wrong, and it is about the
+    // address rather than the page — which is the part the visitor can act on.
+    // It replaces a pair of lines ("took a vacation" over "doesn't exist or has
+    // been moved") that said the same thing twice under a headline already
+    // saying it a third time, and neither said what to do next. The joke went
+    // with them: the game underneath is where this page's humour lives, and it
+    // is drier and funnier than the vacation was.
+    lead: "Nothing at this address.",
+    sub: "The link may be out of date, or the address mistyped.",
     game: {
       canvasLabel: "Breakout: clear the 404",
       idle: "break it",
-      hint: "drag to move",
+      // The hint follows the ball rather than standing still: while it is parked
+      // on the paddle the only thing to know is how to send it off, and once it
+      // is away that instruction is spent and where you catch it is what
+      // matters. One line that is always current beats one line that is half
+      // relevant at any moment.
+      hint: {
+        serve: "click to serve",
+        aim: "move to aim",
+      },
+      // A finger cannot hover, so the serve moved off the press and onto the
+      // release — worth saying, because nothing on screen shows it.
+      hintTouch: {
+        serve: "lift to serve",
+        aim: "drag to aim",
+      },
       won: "all clear, but still nothing here",
       lost: "out of balls",
       again: "play again",

@@ -20,8 +20,21 @@ export type Brick = {
   seq: number;
 };
 /** A brick that has been hit, briefly outliving itself so every hit lands. */
-export type Debris = { x: number; y: number; w: number; h: number; life: number };
-export type Stats = { phase: Phase; bricks: number; lives: number };
+export type Debris = {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  life: number;
+};
+export type Stats = {
+  phase: Phase;
+  bricks: number;
+  lives: number;
+  /** True while the ball is parked on the paddle waiting to be served. The HUD
+   *  reads it to tell the player which half of the controls is live. */
+  stuck: boolean;
+};
 
 /** Seconds for the wall to finish assembling. */
 const REVEAL_S = 0.55;
@@ -30,8 +43,18 @@ const REVEAL_S = 0.55;
 const DEBRIS_S = 0.18;
 /** Seconds the paddle stays compressed after a bounce. */
 const SQUASH_S = 0.16;
-/** Ball positions kept for the motion trail. */
-const TRAIL_N = 8;
+/** Seconds of flight kept for the motion trail. A duration rather than a count
+ *  of frames: the trail used to be the last eight sampled positions, so how far
+ *  it reached across the field was however far the ball happened to travel
+ *  between frames. On a desktop at 60fps that is a short comet; on a phone at
+ *  30 it is the same eight dots strung over twice the ground, which is exactly
+ *  what the smear on mobile was. Keeping a fixed slice of the ball's past makes
+ *  the streak the same length everywhere, and the renderer spaces the dots
+ *  along it by distance so it looks the same too. The value is not free choice:
+ *  it is the eight frames at 60fps the old trail spanned, plus half a frame for
+ *  where the oldest surviving sample falls inside the window — so a desktop
+ *  keeps the streak it already had. */
+const TRAIL_S = 0.14;
 /** Seconds for the paddle to glide back to centre after a life is lost. It used
  *  to teleport, which was the single cheapest-looking moment in the game. */
 const PADDLE_GLIDE_S = 0.42;
@@ -60,8 +83,7 @@ const WORD = "404";
 const GLYPH_W = 5;
 const GLYPH_GAP = 1;
 export const WALL_ROWS = 7;
-export const WALL_COLS =
-  WORD.length * GLYPH_W + (WORD.length - 1) * GLYPH_GAP;
+export const WALL_COLS = WORD.length * GLYPH_W + (WORD.length - 1) * GLYPH_GAP;
 
 /** Lays the matrix into an arbitrary box. Pure geometry, so the balance script
  *  builds the identical wall the page does. */
@@ -118,6 +140,12 @@ const MIN_SLOPE = 0.24;
 const ASSIST_AT = 12;
 /** Sideways acceleration of that nudge, in px/s². */
 const ASSIST_PULL = 330;
+/** How fast a held arrow key slides the paddle, in px/s. Close to the ~840px/s
+ *  the old per-keypress version reached once the OS key repeat got going — the
+ *  speed was never the problem, the half-second of nothing before the repeat
+ *  started was. Above BALL_MAX on purpose, so the paddle can always out-run the
+ *  ball's horizontal component rather than merely tie with it. */
+const PADDLE_SPEED = 820;
 
 export class BreakoutEngine {
   private onStats: (s: Stats) => void;
@@ -130,6 +158,10 @@ export class BreakoutEngine {
   h = 0;
   paddleX = 0;
   ball = { x: 0, y: 0, vx: 0, vy: 0 };
+  /** -1, 0 or 1: which way the keyboard is currently pushing. A direction the
+   *  tick keeps acting on, rather than a step, which is what makes a held arrow
+   *  slide instead of stutter. */
+  paddleDir = 0;
 
   /* Presentation state. It lives here rather than in the component because it
      is time-based, and time is what tick() owns — a renderer that derived it
@@ -138,7 +170,10 @@ export class BreakoutEngine {
   /** 0–1 assembly progress for the wall. */
   reveal = 0;
   debris: Debris[] = [];
-  trail: { x: number; y: number }[] = [];
+  /** Recent ball positions, each stamped with the engine time it was taken at
+   *  so the trail can be trimmed by age instead of by however many frames the
+   *  device managed to render. */
+  trail: { x: number; y: number; t: number }[] = [];
   /** 1 immediately after a paddle bounce, decaying to 0. */
   squash = 0;
   /** 0–1 as the ball and paddle leave once the game is over. */
@@ -151,6 +186,9 @@ export class BreakoutEngine {
 
   private glideFrom = 0;
   private glideTo = 0;
+  /** Seconds since the engine was created. Only ever read as a difference, so
+   *  it never needs resetting. */
+  private clock = 0;
 
   constructor(onStats: (s: Stats) => void) {
     this.onStats = onStats;
@@ -163,7 +201,12 @@ export class BreakoutEngine {
   }
 
   private emit() {
-    this.onStats({ phase: this.phase, bricks: this.alive, lives: this.lives });
+    this.onStats({
+      phase: this.phase,
+      bricks: this.alive,
+      lives: this.lives,
+      stuck: this.stuck,
+    });
   }
 
   resize(w: number, h: number) {
@@ -201,6 +244,9 @@ export class BreakoutEngine {
       vx: 0,
       vy: 0,
     };
+    // `stuck` is on the HUD now, so every path that parks the ball has to say
+    // so — including the resize, which is the one that does not emit after.
+    this.emit();
   }
 
   start() {
@@ -212,6 +258,9 @@ export class BreakoutEngine {
     this.squash = 0;
     this.endFade = 0;
     this.reveal = this.reduced ? 1 : 0;
+    // An arrow held down through the end of the last game would otherwise still
+    // be steering this one, with no keyup ever coming to stop it.
+    this.paddleDir = 0;
     // No glide on a fresh game: the paddle has no previous position to travel
     // from, so it simply arrives with the wall.
     this.resetBall(false);
@@ -222,6 +271,15 @@ export class BreakoutEngine {
    *  to keep running after the game is over, so the last brick's fade and the
    *  final trail actually finish instead of freezing mid-air. */
   private tickEffects(dt: number) {
+    this.clock += dt;
+
+    // Trimming the trail by age here rather than in the physics is what lets it
+    // drain after the game is over: nothing new is being pushed, so it retracts
+    // into the ball over TRAIL_S instead of hanging in the air.
+    while (this.trail.length > 0 && this.clock - this.trail[0].t > TRAIL_S) {
+      this.trail.shift();
+    }
+
     if (this.reveal < 1) this.reveal = Math.min(1, this.reveal + dt / REVEAL_S);
     if (this.squash > 0) this.squash = Math.max(0, this.squash - dt / SQUASH_S);
 
@@ -247,10 +305,6 @@ export class BreakoutEngine {
       d.life -= dt / DEBRIS_S;
       if (d.life <= 0) this.debris.splice(i, 1);
     }
-
-    // The trail is drained rather than frozen once the ball stops, so it
-    // retracts into the ball instead of hanging in the air.
-    if (this.phase !== "playing" && this.trail.length > 0) this.trail.shift();
   }
 
   /**
@@ -266,7 +320,8 @@ export class BreakoutEngine {
     if (Math.abs(b.vx) < min) {
       const dir = b.vx === 0 ? (Math.random() < 0.5 ? -1 : 1) : Math.sign(b.vx);
       b.vx = dir * min;
-      b.vy = Math.sign(b.vy || -1) * Math.sqrt(Math.max(sp * sp - min * min, 1));
+      b.vy =
+        Math.sign(b.vy || -1) * Math.sqrt(Math.max(sp * sp - min * min, 1));
     }
   }
 
@@ -308,6 +363,20 @@ export class BreakoutEngine {
     this.ball.vx = Math.cos(a) * BALL_SPEED;
     this.ball.vy = Math.sin(a) * BALL_SPEED;
     this.deflect();
+    this.emit();
+  }
+
+  /**
+   * Held-key steering, as a direction rather than a step.
+   *
+   * The keyboard used to move the paddle a fixed 28px per keydown, which hands
+   * the pacing to the operating system's key repeat: nothing at all for the
+   * repeat delay — half a second on a stock configuration — and then a stutter
+   * at whatever rate the OS chose. Holding an arrow now sets a direction the
+   * tick integrates, so the paddle simply moves.
+   */
+  steer(dir: number) {
+    this.paddleDir = Math.sign(dir);
   }
 
   /** `x` is already local to the canvas; the caller owns the rect maths. */
@@ -326,6 +395,15 @@ export class BreakoutEngine {
     if (this.phase !== "playing") return;
     const b = this.ball;
 
+    // Keyboard steering, integrated before anything reads paddleX — so a ball
+    // still parked on the paddle rides along with it below.
+    if (this.paddleDir !== 0) {
+      // Cancels the glide home, for the reason a mouse does: smoothing a
+      // movement the player is actively making reads as lag.
+      this.settle = 1;
+      this.nudge(this.paddleDir * PADDLE_SPEED * dt);
+    }
+
     if (this.stuck) {
       b.x = this.paddleX + PADDLE_W / 2;
       b.y = this.h - PADDLE_BOTTOM - BALL_R - 1;
@@ -333,10 +411,7 @@ export class BreakoutEngine {
       return;
     }
 
-    if (!this.reduced) {
-      this.trail.push({ x: b.x, y: b.y });
-      if (this.trail.length > TRAIL_N) this.trail.shift();
-    }
+    if (!this.reduced) this.trail.push({ x: b.x, y: b.y, t: this.clock });
 
     this.assist(dt);
     b.x += b.vx * dt;
