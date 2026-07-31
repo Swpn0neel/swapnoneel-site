@@ -144,22 +144,45 @@ export const i18n = {
       subject: "what's this about?",
       message: "how can i help you?",
     },
-    sendMessage: "Send Message",
-    sendingMessage: "Sending...",
-    messageSent: "Message sent",
-    errorLabel: "Error",
-    successMessage: "Message sent successfully! I'll get back to you soon.",
-    errors: {
-      credentialsMissing:
-        "EmailJS credentials are not configured in environment variables.",
-      sendFailedPrefix: "Failed to send:",
+    submit: {
+      idle: "Send Message",
+      pending: "Sending",
+      success: {
+        label: "Message sent",
+        detail: "Message sent. I'll get back to you soon.",
+      },
     },
-    announcements: {
-      invalidEmail: "Please enter a valid email address.",
-      nameTooLong: "Name must be less than 100 characters.",
-      subjectTooLong: "Subject must be less than 150 characters.",
-      messageTooLong: "Message must be less than 5000 characters.",
-      allFieldsRequired: "All fields are required.",
+    errors: {
+      emptyFields: {
+        label: "Fill in every field",
+        detail: "Every field is required.",
+      },
+      invalidEmail: {
+        label: "Check that email",
+        detail: "That email address doesn't look right.",
+      },
+      nameTooLong: {
+        label: "Name is too long",
+        detail: "Name must be under 100 characters.",
+      },
+      subjectTooLong: {
+        label: "Subject is too long",
+        detail: "Subject must be under 150 characters.",
+      },
+      messageTooLong: {
+        label: "Message is too long",
+        detail: "Message must be under 5000 characters.",
+      },
+      notConfigured: {
+        label: "Can't send right now",
+        detail:
+          "The mail service isn't configured. Try the email link instead.",
+      },
+      sendFailed: {
+        label: "Didn't send",
+        detail:
+          "Something went wrong on the way out. Try again in a moment. The details are in the browser console.",
+      },
     },
     bookCall: {
       title: "Book a Call",
