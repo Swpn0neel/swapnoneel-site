@@ -5,6 +5,7 @@ import {
   StatusButton,
   type StatusButtonStatus,
 } from "@/components/ui/status-button";
+import { checkEmail } from "@/lib/email";
 import { i18n } from "@/lib/i18n";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ type ContactError = keyof typeof errors;
 
 type FormState =
   | { status: "idle" | "pending" | "success" }
-  | { status: "error"; error: ContactError };
+  | { status: "error"; error: ContactError; suggestion?: string };
 
 /** How long a terminal state sits in the button before it resets to idle. */
 const RESET_DELAY: Record<"success" | "error", number> = {
@@ -27,19 +28,28 @@ const RESET_DELAY: Record<"success" | "error", number> = {
   error: 5000,
 };
 
-const LIMITS = { name: 100, email: 255, subject: 150, message: 5000 };
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const LIMITS = { name: 100, email: 254, subject: 150, message: 5000 };
 
 type Fields = Record<"name" | "email" | "subject" | "message", string>;
 
+/** A failure, plus the corrected domain when we can name one. */
+type Failure = { error: ContactError; suggestion?: string };
+
 /** First failing rule wins, in the order a reader would meet the fields. */
-function validate(fields: Fields): ContactError | null {
-  if (Object.values(fields).some((value) => !value)) return "emptyFields";
-  if (fields.name.length > LIMITS.name) return "nameTooLong";
-  if (fields.email.length > LIMITS.email || !EMAIL_PATTERN.test(fields.email))
-    return "invalidEmail";
-  if (fields.subject.length > LIMITS.subject) return "subjectTooLong";
-  if (fields.message.length > LIMITS.message) return "messageTooLong";
+function validate(fields: Fields): Failure | null {
+  if (Object.values(fields).some((value) => !value))
+    return { error: "emptyFields" };
+  if (fields.name.length > LIMITS.name) return { error: "nameTooLong" };
+
+  const email = checkEmail(fields.email);
+  if (email?.kind === "malformed") return { error: "invalidEmail" };
+  if (email?.kind === "typo")
+    return { error: "emailTypo", suggestion: email.suggestion };
+
+  if (fields.subject.length > LIMITS.subject)
+    return { error: "subjectTooLong" };
+  if (fields.message.length > LIMITS.message)
+    return { error: "messageTooLong" };
   return null;
 }
 
@@ -59,12 +69,16 @@ function present(state: FormState): {
         label: submit.success.label,
         announcement: submit.success.detail,
       };
-    case "error":
+    case "error": {
+      const copy = state.suggestion
+        ? i18n.contactPage.emailSuggestion(state.suggestion)
+        : errors[state.error];
       return {
         status: "error",
-        label: errors[state.error].label,
-        announcement: errors[state.error].detail,
+        label: copy.label,
+        announcement: copy.detail,
       };
+    }
   }
 }
 
@@ -107,7 +121,7 @@ export default function ContactPage() {
     };
 
     const invalid = validate(fields);
-    if (invalid) return setState({ status: "error", error: invalid });
+    if (invalid) return setState({ status: "error", ...invalid });
 
     const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
     const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
@@ -172,7 +186,13 @@ export default function ContactPage() {
         </p>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
+      {/* noValidate: the browser's own bubbles would otherwise pre-empt this
+          form's error reporting for some failures and not others — `required`
+          never reaches validate() at all, and `type="email"` waves through
+          `a@b` while blocking `abc` with an unstyled popup. One validator, one
+          place the result is shown. `type="email"` stays for the keyboard it
+          gets on phones. */}
+      <form onSubmit={handleSubmit} noValidate className="space-y-6">
         <div className="space-y-4">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <Input

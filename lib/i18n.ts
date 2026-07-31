@@ -161,6 +161,10 @@ export const i18n = {
         label: "Check that email",
         detail: "That email address doesn't look right.",
       },
+      emailTypo: {
+        label: "Check the domain",
+        detail: "That email domain looks like a typo.",
+      },
       nameTooLong: {
         label: "Name is too long",
         detail: "Name must be under 100 characters.",
@@ -184,6 +188,12 @@ export const i18n = {
           "Something went wrong on the way out. Try again in a moment. The details are in the browser console.",
       },
     },
+    // A recognised domain typo says which domain instead of just that one
+    // exists — the button sizes itself to whatever this returns.
+    emailSuggestion: (domain: string) => ({
+      label: `Did you mean @${domain}?`,
+      detail: `That domain looks like a typo. Did you mean @${domain}?`,
+    }),
     bookCall: {
       title: "Book a Call",
       description:
