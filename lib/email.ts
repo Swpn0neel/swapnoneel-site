@@ -27,56 +27,113 @@ const LOCAL_PART =
 const DOMAIN = /^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,}$/i;
 
 /**
- * Domains near-identical to one people meant to type. Curated rather than
- * derived from an edit-distance threshold on purpose: `mail.com` is one edit
- * from `gmail.com` and is a real provider, so a distance rule would tell
- * genuine users to correct a correct address. Every key here is a domain that
- * does not accept mail.
+ * Domains a typo is measured against. Only entries of 9+ characters belong
+ * here: a one-edit neighbourhood around a short domain is crowded with other
+ * real domains (`me.com` is one edit from `my.com`, both real), so short
+ * providers are recognised but never used as a correction target.
  */
-const LOOKALIKES: Record<string, string> = {
-  // gmail
-  "gmail.co": "gmail.com",
-  "gmail.con": "gmail.com",
-  "gmail.cm": "gmail.com",
-  "gmail.om": "gmail.com",
-  "gmail.comm": "gmail.com",
-  "gmaill.com": "gmail.com",
-  "gmial.com": "gmail.com",
-  "gmai.com": "gmail.com",
-  "gamil.com": "gmail.com",
-  "gnail.com": "gmail.com",
-  "gmall.com": "gmail.com",
-  "googlemail.co": "gmail.com",
-  // outlook / hotmail / live
-  "outlook.co": "outlook.com",
-  "outlook.con": "outlook.com",
-  "outlok.com": "outlook.com",
-  "outloo.com": "outlook.com",
-  "outlool.com": "outlook.com",
-  "hotmail.co": "hotmail.com",
-  "hotmail.con": "hotmail.com",
-  "hotmial.com": "hotmail.com",
-  "hotmai.com": "hotmail.com",
-  "hotmall.com": "hotmail.com",
-  "live.co": "live.com",
-  // yahoo
-  "yahoo.co": "yahoo.com",
-  "yahoo.con": "yahoo.com",
-  "yaho.com": "yahoo.com",
-  "yahooo.com": "yahoo.com",
-  "yhaoo.com": "yahoo.com",
-  "yahoo.cm": "yahoo.com",
-  // apple
-  "icloud.co": "icloud.com",
-  "icloud.con": "icloud.com",
-  "iclould.com": "icloud.com",
-  "icloude.com": "icloud.com",
-  "iclod.com": "icloud.com",
-  // proton
-  "proton.m": "proton.me",
-  "protonmai.com": "protonmail.com",
-  "protonmail.co": "protonmail.com",
-};
+const CORRECTION_TARGETS = [
+  "gmail.com",
+  "googlemail.com",
+  "yahoo.com",
+  "yahoo.co.uk",
+  "hotmail.com",
+  "hotmail.co.uk",
+  "outlook.com",
+  "icloud.com",
+  "protonmail.com",
+  "proton.me",
+  "fastmail.com",
+  "yandex.com",
+  "comcast.net",
+  "verizon.net",
+  "sbcglobal.net",
+  "btinternet.com",
+  "rediffmail.com",
+];
+
+/**
+ * Domains that are real and must never be "corrected". Anything one edit from
+ * a correction target that actually accepts mail has to be listed, or genuine
+ * users get told to fix an address that was already right — `mail.com`,
+ * `ymail.com` and `email.com` are each one edit from `gmail.com`.
+ */
+const KNOWN_GOOD = new Set([
+  ...CORRECTION_TARGETS,
+  "mail.com",
+  "email.com",
+  "ymail.com",
+  "rocketmail.com",
+  "aol.com",
+  "gmx.com",
+  "gmx.de",
+  "gmx.net",
+  "web.de",
+  "me.com",
+  "my.com",
+  "mac.com",
+  "msn.com",
+  "live.com",
+  "live.co.uk",
+  "zoho.com",
+  "qq.com",
+  "163.com",
+  "126.com",
+  "naver.com",
+  "yandex.ru",
+  "mail.ru",
+  "tutanota.com",
+  "hey.com",
+  "pm.me",
+]);
+
+/**
+ * True when one insertion, deletion, substitution or transposition of adjacent
+ * characters turns `a` into `b` — Damerau-Levenshtein distance of exactly 1,
+ * decided by scanning off the common prefix and suffix rather than filling a
+ * matrix, since the only question is whether the distance is 1.
+ *
+ * Transposition is what earns the "Damerau": `gmial`, `gamil`, `hotmial` and
+ * `yhaoo` are all a single swap of neighbours, and plain Levenshtein scores
+ * those 2, lumping them in with genuinely different domains.
+ */
+function isOneEditApart(a: string, b: string): boolean {
+  if (a === b) return false;
+  if (Math.abs(a.length - b.length) > 1) return false;
+
+  let head = 0;
+  while (head < a.length && head < b.length && a[head] === b[head]) head++;
+
+  let tail = 0;
+  while (
+    tail < a.length - head &&
+    tail < b.length - head &&
+    a[a.length - 1 - tail] === b[b.length - 1 - tail]
+  ) {
+    tail++;
+  }
+
+  const restA = a.length - head - tail;
+  const restB = b.length - head - tail;
+
+  // One leftover character on each side is a substitution; one on a single
+  // side is an insertion or a deletion.
+  if (restA <= 1 && restB <= 1) return true;
+
+  // Two leftover on both sides, crossing over: an adjacent transposition.
+  return (
+    restA === 2 &&
+    restB === 2 &&
+    a[head] === b[head + 1] &&
+    a[head + 1] === b[head]
+  );
+}
+
+/** The domain this one was probably meant to be, if any. */
+function findTypo(domain: string): string | undefined {
+  if (KNOWN_GOOD.has(domain)) return undefined;
+  return CORRECTION_TARGETS.find((target) => isOneEditApart(domain, target));
+}
 
 export type EmailProblem =
   | { kind: "malformed" }
@@ -100,11 +157,17 @@ export function checkEmail(address: string): EmailProblem | null {
   if (local.length > MAX_LOCAL || !LOCAL_PART.test(local)) {
     return { kind: "malformed" };
   }
+  // Ask for a correction before ruling on the structure. A domain can fail the
+  // structural test *and* sit one edit from a real one — `proton.m` has a
+  // one-character TLD, and naming `proton.me` answers that far better than a
+  // generic "check that email" does.
+  const suggestion = findTypo(domain.toLowerCase());
+  if (suggestion) return { kind: "typo", suggestion };
+
   if (!DOMAIN.test(domain)) return { kind: "malformed" };
   if (domain.split(".").some((label) => label.length > MAX_LABEL)) {
     return { kind: "malformed" };
   }
 
-  const suggestion = LOOKALIKES[domain.toLowerCase()];
-  return suggestion ? { kind: "typo", suggestion } : null;
+  return null;
 }
