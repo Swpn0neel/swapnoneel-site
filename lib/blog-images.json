@@ -1,96 +1,96 @@
 {
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-logs-rate-limited.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-logs-rate-limited.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-rate-limited.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-rate-limited.webp",
     "width": 1280,
     "height": 805
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-logs-request-source.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-logs-request-source.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-request-source.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-request-source.webp",
     "width": 1280,
     "height": 418
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-mcp-logs-context7.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-mcp-logs-context7.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-logs-context7.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-logs-context7.webp",
     "width": 1280,
     "height": 579
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-mcp-server-library.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-mcp-server-library.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-server-library.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-server-library.webp",
     "width": 1280,
     "height": 777
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-prompt-repository.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-prompt-repository.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-prompt-repository.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-prompt-repository.webp",
     "width": 1280,
     "height": 776
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-skills-repository.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-skills-repository.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-skills-repository.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-skills-repository.webp",
     "width": 1280,
     "height": 772
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-virtual-key-create.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-virtual-key-create.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-create.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-create.webp",
     "width": 1280,
     "height": 778
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-virtual-key-rate-limits.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/bifrost-virtual-key-rate-limits.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-rate-limits.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-rate-limits.webp",
     "width": 988,
     "height": 803
   },
-  "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/thumbnail.webp": {
-    "local": "/blog-img/2026/bifrost-virtual-keys-mcp-gateway-skills/thumbnail.webp",
+  "/blog-img/2026/deep-dive-into-bifrost/thumbnail.webp": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/thumbnail.webp",
     "width": 1280,
     "height": 720
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-config.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-config.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-complexity-router-config.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-complexity-router-config.webp",
     "width": 1280,
     "height": 963
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-logs.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-router-logs.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-complexity-router-logs.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-complexity-router-logs.webp",
     "width": 946,
     "height": 96
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-routing-rules.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-complexity-routing-rules.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-complexity-routing-rules.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-complexity-routing-rules.webp",
     "width": 1280,
     "height": 596
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-gemini-fallback-rule.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-gemini-fallback-rule.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-gemini-fallback-rule.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-gemini-fallback-rule.webp",
     "width": 1005,
     "height": 958
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-llm-logs-dashboard.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-llm-logs-dashboard.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-llm-logs-dashboard.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-llm-logs-dashboard.webp",
     "width": 1280,
     "height": 790
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-logs-gemini-fallback.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-logs-gemini-fallback.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-logs-gemini-fallback.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-logs-gemini-fallback.webp",
     "width": 926,
     "height": 182
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-opencode-zen-key.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/bifrost-opencode-zen-key.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-opencode-zen-key.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/bifrost-opencode-zen-key.webp",
     "width": 1277,
     "height": 795
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/opencode-hi-response.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/opencode-hi-response.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/opencode-hi-response.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/opencode-hi-response.webp",
     "width": 1280,
     "height": 313
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/opencode-model-selector-bifrost.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/opencode-model-selector-bifrost.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/opencode-model-selector-bifrost.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/opencode-model-selector-bifrost.webp",
     "width": 779,
     "height": 209
   },
-  "/blog-img/2026/trying-bifrost-llm-gateway/thumbnail.webp": {
-    "local": "/blog-img/2026/trying-bifrost-llm-gateway/thumbnail.webp",
+  "/blog-img/2026/trying-bifrost-ai-gateway/thumbnail.webp": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/thumbnail.webp",
     "width": 1280,
     "height": 720
   },
