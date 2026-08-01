@@ -342,15 +342,19 @@ i {
 
 /* Ensure interactive elements have correct cursors */
 a,
+a *,
 button,
+button *,
 [role="button"],
-.cursor-pointer {
+[role="button"] *,
+.cursor-pointer,
+.cursor-pointer * {
   cursor: pointer !important;
 }
 
 input,
 textarea {
-  cursor: text;
+  cursor: text !important;
 }
 
 /* Carousel: native scroll-snap is the no-JS fallback. Embla is imported only
