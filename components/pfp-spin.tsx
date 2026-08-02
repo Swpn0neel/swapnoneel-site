@@ -12,12 +12,17 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // .dark, not .light — see the note above .pfp-flip-card-inner in globals.css.
-  // With storage blocked neither class is written, and testing for .light would
-  // report "dark" on a page that is visibly light, landing the spin on the
-  // wrong face.
+  // The attribute is authoritative after initialization. If JavaScript or
+  // storage is unavailable and no attribute exists, CSS follows the OS, so the
+  // animation must resolve that same media query.
   function isDark() {
-    return document.documentElement.classList.contains("dark");
+    const theme = document.documentElement.dataset.theme;
+
+    return (
+      theme === "dark" ||
+      (theme !== "light" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches)
+    );
   }
 
   function handleClick() {

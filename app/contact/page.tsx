@@ -130,7 +130,11 @@ export default function ContactPage() {
       return setState({ status: "error", error: "notConfigured" });
     }
 
-    const isDark = document.documentElement.classList.contains("dark");
+    const renderedTheme = document.documentElement.dataset.theme;
+    const isDark =
+      renderedTheme === "dark" ||
+      (renderedTheme !== "light" &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
     const theme = isDark
       ? {
           pageBg: "#000000",

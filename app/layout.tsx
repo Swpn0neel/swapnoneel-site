@@ -20,20 +20,11 @@ import "./globals.css";
 // face that loses that race is simply not used for that pageview rather than
 // repainting the LCP paragraph.
 
-// Applies the theme class in <head>, before <body> exists. next-themes ships an
-// equivalent script, but renders it inside the provider — i.e. ~700 bytes into
-// <body>, behind 98KB of inlined head CSS (the data-URI Inter face). At that
-// point the browser has a parsed stylesheet and a <body> carrying
-// `bg-background`, which resolves to white until `.dark` lands on <html>; a
-// chunk boundary anywhere in that gap paints one white frame before the script
-// runs. Nothing can paint before <body> is parsed, so running here closes the
-// gap outright. next-themes' own script re-applies the same values afterwards.
-//
-// Deliberately read-only on localStorage: writing here is what used to fire a
-// storage event on every load and yank other tabs back to light.
-// colorScheme is set alongside the class so form controls, scrollbars and the
-// document canvas agree from the first frame rather than after hydration.
-const THEME_INIT = `(function(){var e=document.documentElement,t=null;try{t=localStorage.getItem("theme")}catch(_){}var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);e.classList.add(d?"dark":"light");e.style.colorScheme=d?"dark":"light"})();`;
+// Apply only an explicit saved choice before <body> exists. With no saved
+// choice, the CSS media query owns the first frame and next-themes keeps
+// following live system changes after hydration. The storage read is guarded
+// because some privacy modes and embedded browsers make localStorage throw.
+const THEME_INIT = `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(_){}})();`;
 
 export const metadata: Metadata = {
   title: {
@@ -97,18 +88,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
       <head>
-        {/* Covers the frame before THEME_INIT runs: on a cold start the browser
-            paints its own canvas before parsing anything, and defaults to white
-            without this. Only helps visitors whose OS is dark — an explicit
-            dark choice on a light OS is handled by THEME_INIT below. */}
+        {/* Gives native controls and the browser canvas both supported schemes;
+            CSS narrows this to the active scheme from the first rendered frame. */}
         <meta name="color-scheme" content="light dark" />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
       </head>
-      {/* duration-150 matches Tailwind's default `transition-colors`, which is
-          what the rest of the site uses. At the previous 500ms the background
-          visibly lagged behind every link, border and card on a theme switch. */}
       <body
-        className={`bg-background text-foreground min-h-screen font-sans antialiased transition-colors duration-150 ease-in-out`}
+        className="bg-background text-foreground min-h-screen font-sans antialiased"
         suppressHydrationWarning
       >
         {/* Blog prose size (A-/A/A+). Unlike the theme this is a lasting
@@ -120,13 +106,15 @@ export default function RootLayout({
             __html: `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStorage.getItem("prose-scale")];if(s)document.documentElement.style.setProperty("--prose-scale",s)}catch(e){}})();`,
           }}
         />
-        {/* next-themes owns persistence and the pre-hydration class entirely.
-            An earlier version layered a sessionStorage-backed script on top to
-            scope the choice to one browsing session; because that script also
-            wrote localStorage on every load, and next-themes syncs across tabs
-            from that same key, opening a second tab fired a storage event that
-            yanked already-open tabs back to light. */}
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        {/* next-themes remains the application state and live system-preference
+            owner; the toggle mirrors its resolved value to data-theme inside
+            the same synchronous mutation used by the visual transition. */}
+        <ThemeProvider
+          attribute="data-theme"
+          defaultTheme="system"
+          enableSystem
+          enableColorScheme
+        >
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{
