@@ -13,6 +13,8 @@ export type SocialBrand =
   | "instagram"
   | "hashnode"
   | "devdotto"
+  | "medium"
+  | "substack"
   | "letterboxd"
   | "discord"
   | "telegram";
@@ -90,16 +92,11 @@ export const socialLinks: readonly SocialLink[] = [
     url: "https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/",
   },
   { name: "x", brand: "x", url: "https://x.com/swapnoneel123" },
-  {
-    name: "reddit",
-    brand: "reddit",
-    url: "https://www.reddit.com/user/swapnoneel123/",
-  },
-  {
-    name: "daily.dev",
-    brand: "dailydev",
-    url: "https://daily.dev/swapnoneel",
-  },
+  // {
+  //   name: "reddit",
+  //   brand: "reddit",
+  //   url: "https://www.reddit.com/user/swapnoneel123/",
+  // },
   // {
   //   name: "peerlist",
   //   brand: "peerlist",
@@ -107,9 +104,24 @@ export const socialLinks: readonly SocialLink[] = [
   // },
   { name: "dev.to", brand: "devdotto", url: "https://dev.to/swapnoneel123" },
   {
+    name: "medium",
+    brand: "medium",
+    url: "https://medium.com/@swapnoneel",
+  },
+  {
     name: "hashnode",
     brand: "hashnode",
     url: "https://swapnoneel.hashnode.dev",
+  },
+  {
+    name: "daily.dev",
+    brand: "dailydev",
+    url: "https://daily.dev/swapnoneel",
+  },
+  {
+    name: "substack",
+    brand: "substack",
+    url: "https://substack.com/@swapnoneel123",
   },
   {
     name: "leetcode",

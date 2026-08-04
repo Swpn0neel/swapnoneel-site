@@ -189,10 +189,12 @@ Swapnoneel publishes deep-dives into programming paradigms, AI tooling, and web 
 *   **GitHub:** https://github.com/Swpn0neel
 *   **LinkedIn:** https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/
 *   **X (formerly Twitter):** https://x.com/swapnoneel123
-*   **Reddit:** https://www.reddit.com/user/swapnoneel123/
-*   **daily.dev:** https://daily.dev/swapnoneel
+<!-- *   **Reddit:** https://www.reddit.com/user/swapnoneel123/ -->
 *   **Dev.to:** https://dev.to/swapnoneel123
+*   **Medium:** https://medium.com/@swapnoneel
 *   **Hashnode:** https://swapnoneel.hashnode.dev
+*   **daily.dev:** https://daily.dev/swapnoneel
+*   **Substack:** https://substack.com/@swapnoneel123
 *   **LeetCode:** https://leetcode.com/u/Swapnoneel/
 *   **Instagram:** https://instagram.com/swapnoneel111
 *   **Letterboxd:** https://letterboxd.com/Swapnoneel/
