@@ -24,7 +24,7 @@ const CONCURRENCY = 8;
 // wider can never be selected by a srcset candidate, so storing it would only
 // slow the transcode down.
 const MAX_WIDTH = 1280;
-const WEBP_QUALITY = 88;
+const WEBP_QUALITY = 100;
 
 async function getAllMarkdownFiles(dir) {
   let results = [];
