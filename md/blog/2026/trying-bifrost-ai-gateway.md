@@ -179,4 +179,6 @@ Model routing and the complexity router are the two features that got me the mos
 
 Honestly, I loved this. Setting it up took maybe fifteen minutes end to end, and it quietly fixed a problem I'd been living with for a while: juggling separate API keys and dashboards for every provider I wanted to test. The fallback and complexity routing worked exactly the way the docs said they would, no surprises, and that alone made this whole exercise worth it.
 
+![Please like, share and follow](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s436tk6aszvy9g079vjt.png)
+
 If you're juggling more than one model provider and keep swapping keys by hand, give Bifrost a shot. And if you've already tried it, let me know what you built with it, and also if the enterprise version intrigues you, you can [book a demo as well](https://www.getmaxim.ai/bifrost/book-a-demo).

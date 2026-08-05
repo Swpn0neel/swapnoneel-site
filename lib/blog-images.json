@@ -1,102 +1,4 @@
 {
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-rate-limited.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-rate-limited.webp",
-    "width": 1536,
-    "height": 966,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-request-source.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-logs-request-source.webp",
-    "width": 1536,
-    "height": 502,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-logs-context7.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-logs-context7.webp",
-    "width": 1536,
-    "height": 695,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-server-library.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-mcp-server-library.webp",
-    "width": 1536,
-    "height": 933,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-prompt-repository.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-prompt-repository.webp",
-    "width": 1536,
-    "height": 932,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-skills-repository.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-skills-repository.webp",
-    "width": 1536,
-    "height": 926,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-create.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-create.webp",
-    "width": 1536,
-    "height": 934,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-rate-limits.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/bifrost-virtual-key-rate-limits.webp",
-    "width": 988,
-    "height": 803,
-    "renditions": [
-      640,
-      960,
-      988
-    ]
-  },
-  "/blog-img/2026/deep-dive-into-bifrost/thumbnail.webp": {
-    "local": "/blog-img/2026/deep-dive-into-bifrost/thumbnail.webp",
-    "width": 1536,
-    "height": 864,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1536
-    ]
-  },
   "https://c0.wallpaperflare.com/preview/726/785/255/blackboard-close-up-frame-gratitude.jpg": {
     "local": "/blog-img/2023/devbytes-short-coding-news/blackboard-close-up-frame-gratitude-a50f67f5.webp",
     "width": 910,
@@ -754,10 +656,32 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4loyitgxbfeatne9i0tw.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/4loyitgxbfeatne9i0tw-1394ff9c.webp",
+    "width": 1536,
+    "height": 502,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4pd0cgpsjrqtwi6jdlro.png": {
     "local": "/blog-img/2026/testing-ai-coding-agents/4pd0cgpsjrqtwi6jdlro-7e88209c.webp",
     "width": 1536,
     "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/52yz7mhdo4guxv5lcs42.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/52yz7mhdo4guxv5lcs42-d77308af.webp",
+    "width": 1536,
+    "height": 933,
     "renditions": [
       640,
       960,
@@ -785,6 +709,28 @@
       960,
       1280,
       1519
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/6t4h091k4dsmanep2cfy.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/6t4h091k4dsmanep2cfy-6bbbfba5.webp",
+    "width": 1536,
+    "height": 966,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/6yl65270vb753sc5r70d.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/6yl65270vb753sc5r70d-bbc05cdb.webp",
+    "width": 1536,
+    "height": 932,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
     ]
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8axw0rg5qpcc7kx5dtwq.png": {
@@ -832,6 +778,17 @@
     "local": "/blog-img/2026/geo-for-developers/a877ztvlh1in45i8vcxu-2d3c354f.webp",
     "width": 1536,
     "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a9fhtat7d34dmp2h8mov.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/a9fhtat7d34dmp2h8mov-3bb25ff5.webp",
+    "width": 1536,
+    "height": 934,
     "renditions": [
       640,
       960,
@@ -970,6 +927,16 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/n1uzzssp5q6qmi5v1vhn.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/n1uzzssp5q6qmi5v1vhn-fcfc2840.webp",
+    "width": 988,
+    "height": 803,
+    "renditions": [
+      640,
+      960,
+      988
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/n2oyhuh4p1el7u73bhrn.png": {
     "local": "/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/n2oyhuh4p1el7u73bhrn-ede97372.webp",
     "width": 1536,
@@ -981,8 +948,30 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/p08hea4cd4ubq3zystk1.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/p08hea4cd4ubq3zystk1-058e3d91.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/pivin0jtpppbxla1ajho.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/pivin0jtpppbxla1ajho-69cc7de6.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s436tk6aszvy9g079vjt.png": {
+    "local": "/blog-img/2026/trying-bifrost-ai-gateway/s436tk6aszvy9g079vjt-cfad970a.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1087,6 +1076,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/x4gq8350s5mk3wqle4iz.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/x4gq8350s5mk3wqle4iz-7e7cdfd9.webp",
+    "width": 1536,
+    "height": 926,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/xobsofohyefwrq57pkq2.png": {
     "local": "/blog-img/2026/geo-for-developers/xobsofohyefwrq57pkq2-45b45b9b.webp",
     "width": 1536,
@@ -1124,6 +1124,28 @@
     "local": "/blog-img/2026/make-ai-write-in-your-voice/yv9s4xjb0kxh7d4tjhz7-8d600ede.webp",
     "width": 1536,
     "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yxaj337vywpb3o2aygoa.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/yxaj337vywpb3o2aygoa-3aca0a80.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/z86aq2lb1z6jcc9xygxu.png": {
+    "local": "/blog-img/2026/deep-dive-into-bifrost/z86aq2lb1z6jcc9xygxu-092957d9.webp",
+    "width": 1536,
+    "height": 695,
     "renditions": [
       640,
       960,
