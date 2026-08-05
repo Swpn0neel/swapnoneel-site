@@ -1,107 +1,142 @@
-# Swapnoneel Saha — Personal Site
+# Swapnoneel Saha - Personal Portfolio
 
-[![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js)](https://nextjs.org/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/) [![shadcn/ui](https://img.shields.io/badge/shadcn/ui-black?style=for-the-badge&logo=shadcnui)](https://ui.shadcn.com/) [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript)](https://www.typescriptlang.org/)
+An architecturally elegant, state-of-the-art developer portfolio and digital garden designed for extreme performance, accessibility, and modern aesthetics.
 
-A premium, minimalist personal portfolio and blog built with the latest web technologies. Designed for high performance, accessibility, and architectural elegance.
+[![Next.js](https://img.shields.io/badge/Next.js%2016-000000?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/) [![React 19](https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/) [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS%20v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/) [![TypeScript 6](https://img.shields.io/badge/TypeScript%206-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/) [![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-000000?style=for-the-badge&logo=shadcnui&logoColor=white)](https://ui.shadcn.com/) [![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com/)
 
-![Portfolio](./public/img/headshot.webp)
+![Swapnoneel Saha Portfolio Preview](./public/img/headshot.webp)
 
----
-
-## Features
-
-- **Infinite Project Carousel**: A seamless, auto-scrolling display for showcasing engineering projects and designs.
-- **Achievements & Milestones**: A dedicated section for hackathon wins, open-source contributions, and technical highlights.
-- **Markdown-Driven Content**: Fully dynamic blog, work experience, and project pages powered by local Markdown files.
-- **Modern Tech Stack**: Leveraging Next.js 16 App Router, Tailwind CSS v4, and shadcn/ui for a state-of-the-art developer experience.
-- **Interactive Integrations**:
-  - **Cal.com**: Integrated booking system for scheduling calls.
-  - **RSS Feed**: Automated RSS generation for blog updates.
-  - **EmailJS**: Smooth contact form functionality.
-  - **Responsive Layout**: Optimized for all devices with vibrant micro-animations.
+[Explore Live Site](https://swapnoneel.hashnode.dev) | [Report Bug](https://github.com/Swpn0neel/swapnoneel-site/issues) | [Request Feature](https://github.com/Swpn0neel/swapnoneel-site/issues)
 
 ---
 
-## Tech Stack
+## Key Features & Engineering Highlights
 
-| Layer               | Technology                               |
-| ------------------- | ---------------------------------------- |
-| **Framework**       | Next.js 16 (App Router)                  |
-| **Styling**         | Tailwind CSS v4 + Motion                 |
-| **Components**      | shadcn/ui                                |
-| **Content**         | Markdown + gray-matter + next-mdx-remote |
-| **Animations**      | CSS Transitions + Tailwind Animate       |
-| **Package Manager** | pnpm                                     |
+This is not just another simple static portfolio. It is engineered from the ground up with automated content pipelines, custom build scripts, and modern web standards.
+
+- **Next.js 16 & React 19 Engine**: Built entirely on the latest App Router architecture with Turbopack for ultra-fast compilation and optimal bundle delivery.
+- **Modern UI & Micro-Animations**: Crafted using **Tailwind CSS v4** and **shadcn/ui**, featuring smooth transitions, dark and light theme morphing, and an interactive hover flip-card effect for user avatars.
+- **Infinite Project & Work Carousel**: A seamless, fluid auto-scrolling showcase powered by Embla Carousel to present engineering achievements, hackathon victories, and open-source contributions.
+- **Dynamic Markdown & MDX Content Pipeline**: Professional experience, technical blog posts, and projects are managed as local `.md` and MDX files, automatically parsed with `gray-matter` and `next-mdx-remote`.
+- **AI & LLM Scraper Compatibility (`llms.txt`)**: Generates structured, token-optimized `/llms.txt` and full-text AI readability files (`llms-full.txt`) automatically during build time so autonomous agents and LLMs can seamlessly analyze the site content.
+- **Automated Audio Blog Narrations**: Custom pre-commit and build scripts powered by `msedge-tts` automatically synthesize high-quality audio narrations for blog articles, allowing visitors to listen on the go.
+- **Interactive Breakout Game Engine**: Includes a physics-balanced, built-in mini Easter egg Breakout game engineered directly into the TypeScript UI.
+- **Seamless External Integrations**:
+  - **Cal.com**: Embedded dual-theme call booking system for client consultations and coffee chats.
+  - **EmailJS**: Zero-backend real-time contact form communication.
+  - **RSS & Hashnode Sync**: Custom automated RSS generation and GraphQL integration.
 
 ---
 
-## Project Structure
+## Blazing Fast & Lighthouse Optimized
+
+Performance is treated as a first-class citizen. Every asset, script, and styling rule is strictly budgeted to deliver instant page loads, crystal-clear typography, and pristine Web Vitals.
+
+![Lighthouse & PageSpeed Performance Score](./public/img/pagespeed.webp)
+
+### Performance Engineering Optimizations
+- **Strict Asset Budgeting**: Favicon resources downscaled from massive 130KB images to hyper-optimized 96px WebP assets (~3KB), eliminating main-thread network congestion.
+- **Automated Blur Placeholders**: Pre-build script (`generate-blur.mjs`) generates crisp base64 image placeholders via Sharp to guarantee zero Cumulative Layout Shift (CLS).
+- **Dynamic Color Palettes**: Pre-computes harmonious background and UI theme accents (`generate-palette.mjs`) tailored directly to featured project visuals.
+- **Sub-setted Typography**: Automatically optimizes font delivery (`generate-font-subset.mjs`) for lightning-fast First Contentful Paint (FCP).
+- **Real-time Telemetry**: Integrated with Vercel Speed Insights and Analytics for continuous zero-overhead performance tracking.
+
+---
+
+## Technology Stack
+
+| Architecture Layer      | Core Technologies |
+| :---------------------- | :---------------- |
+| **Framework & Engine**  | [Next.js 16](https://nextjs.org/) (App Router) + [React 19](https://react.dev/) |
+| **Styling & Animation** | [Tailwind CSS v4](https://tailwindcss.com/) + Motion + CSS Transitions |
+| **Component System**    | [shadcn/ui](https://ui.shadcn.com/) + Lucide Icons |
+| **Content & Parser**    | Markdown + `gray-matter` + `next-mdx-remote` + Rehype Highlight |
+| **Image & Build Tools** | [Sharp](https://sharp.pixelplumbing.com/) + Node.js Custom Pipeline Scripts |
+| **Speech Synthesis**    | `msedge-tts` automated narration engine |
+| **Code Quality**        | TypeScript 6, ESLint 9, Prettier with import and Tailwind class sorting |
+| **Package Management**  | [pnpm](https://pnpm.io/) + Simple Git Hooks |
+
+---
+
+## Architecture & Directory Structure
 
 ```text
 swapnoneel-site/
-├── app/                # Next.js App Router (pages and layouts)
-│   ├── blog/           # Blog listing and dynamic post pages
-│   ├── work/           # Work experience and project details
-│   └── globals.css     # Design system and Tailwind v4 config
-├── components/         # Reusable UI components (Navbar, Carousel, etc.)
-├── lib/                # Shared utilities and Markdown parsers
-├── md/                 # ← All data resides here (blog, work, projects)
-│   ├── blog/           # .md files for blog posts
-│   ├── work/           # .md files for professional experience
-│   └── projects/       # .md files for portfolio projects
-├── public/             # Static assets (images, icons, etc.)
-└── components.json     # shadcn/ui configuration
+├── app/                  # Next.js 16 App Router (Layouts, routes, and API endpoints)
+│   ├── blog/             # Dynamic blog listing and single-post reader view
+│   ├── work/             # Work history and technical project deep-dives
+│   ├── contact/          # Interactive contact forms and social gateways
+│   └── globals.css       # Tailwind CSS v4 variables and custom utility layers
+├── components/           # Reusable UI components (Navbar, Infinite Carousel, Cards, Game)
+├── lib/                  # Site configs, Markdown parsers, TTS hooks, and Breakout engine
+├── md/                   # Core data content store
+│   ├── blog/             # Markdown articles and tech tutorials
+│   ├── work/             # Professional career experiences
+│   └── projects/         # Engineering milestones and hackathon wins
+├── public/               # Static web assets
+│   ├── img/              # Optimized headshots, avatars, and performance scores
+│   └── narration/        # Auto-generated MP3 audio narrations for blog posts
+├── scripts/              # Build utilities (blur generation, font subsetting, TTS, LLM txt)
+└── components.json       # shadcn/ui configuration
 ```
 
 ---
 
-## Setup & Development
+## Getting Started
 
 ### Prerequisites
+- [Node.js](https://nodejs.org/) (v18.0 or higher recommended)
+- [pnpm](https://pnpm.io/) package manager (`npm install -g pnpm`)
 
-- [Node.js](https://nodejs.org/) v18+
-- [pnpm](https://pnpm.io/) `npm install -g pnpm`
-
-### Installation
+### Local Development
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/Swpn0neel/swapnoneel-site.git
    cd swapnoneel-site
    ```
+
 2. **Install dependencies:**
    ```bash
    pnpm install
    ```
-3. **Run the development server:**
+   *(This automatically attaches simple-git-hooks for automated narration build hooks prior to commits).*
+
+3. **Start the development server with Turbopack:**
    ```bash
    pnpm dev
    ```
-   Wait for the site to be available at `http://localhost:3000`.
+   Open [http://localhost:3000](http://localhost:3000) to view the application in your browser. The dev server automatically executes pre-development checks including image blurring, palette map creation, and LLM text updates.
 
 ---
 
-## Configuration & Customization
+## Customization & Scripts
 
-### Content Management
+### Available NPM Scripts
 
-- **Projects/Work/Blog**: Simply add or edit `.md` files in the respective `md/` subdirectories. The site automatically parses metadata (frontmatter) and renders content.
-- **Site Configuration**: Core site details such as your bio, email, social links, Cal.com scheduling link, and Hashnode URL are managed centrally in `lib/config.ts`.
+| Command | Description |
+| :--- | :--- |
+| `pnpm dev` | Starts Next.js dev server with Turbopack and runs predev asset generation |
+| `pnpm build` | Builds a production bundle with complete optimization pipeline |
+| `pnpm start` | Launches the built production server |
+| `pnpm format` | Formats all files with Prettier (auto-sorts Tailwind classes and imports) |
+| `pnpm lint:fix` | Runs ESLint and automatically repairs linting warnings |
 
-### Media
-
-- **Profile Picture**: Replace `public/img/pfp.jpg` with your own photo. The UI supports an interactive flip-card effect using `pfp-hover.webp`.
+### Content & Configuration
+- **Site Metadata**: Easily update name, bio, social links, Cal.com parameters, and email configuration directly in `lib/config.ts`.
+- **Adding Content**: Simply drop a new `.md` file into `md/blog/`, `md/projects/`, or `md/work/`. Frontmatter metadata is automatically extracted and styled.
 
 ---
 
 ## Deployment
 
-The project is optimized for **Vercel**.
+This application is architecturally tailored for deployment on **Vercel** with zero configuration required:
 
-1. Push your changes to GitHub.
-2. Connect your repository to Vercel.
-3. The build settings are auto-detected. Deploy!
+1. Push your latest code to your GitHub repository.
+2. Import the project into your Vercel Dashboard.
+3. Vercel automatically detects Next.js, installs `pnpm` dependencies, and executes the automated build scripts (`prebuild`).
+4. Hit **Deploy** and watch your high-performance portfolio go live instantly!
 
 ---
 
-Created by **Swapnoneel Saha**. Feel free to use this as inspiration for your own portfolio.
+Built with perfection. Feel free to reference this architecture for your own developer site!
