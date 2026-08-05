@@ -1,4 +1,5 @@
 import { SmoothImage } from "@/components/smooth-image";
+import { renditionsFor } from "@/lib/blog-image-loader";
 import { mirroredAspectRatio, mirroredSrc } from "@/lib/blog-image-map";
 
 interface BlogImageProps {
@@ -36,12 +37,16 @@ function isOptimizedHost(src: string): boolean {
 // The rendered column is ~770px: max-w-2xl is 42rem and the root font-size is
 // 120%, so the container is ~806px and the content ~770px wide.
 //
-// The two density conditions keep 3x/4x phones near a balanced 2x rendition.
-// Without them a 390px-wide phone requests ~1170px of image for a 390px slot,
-// which costs several times the bytes for detail the panel cannot resolve.
+// The two density conditions still hold high-DPR phones below their nominal
+// pixel count — a 390px-wide phone asking for the literal ~1170px it wants at
+// 3x costs several times the bytes for detail the panel barely resolves. But
+// 49/65vw undershot hard enough to be the visible kind of soft: they pinned a
+// 3x phone to the 960 candidate for a ~358px slot, i.e. an effective 2.7x.
+// 70/85vw reaches the 1280 candidate instead, which is already pre-encoded, so
+// this costs bandwidth but no extra build output.
 const IMAGE_SIZES =
-  "(max-width: 640px) and (min-resolution: 3.5dppx) 49vw, " +
-  "(max-width: 640px) and (min-resolution: 2.5dppx) 65vw, " +
+  "(max-width: 640px) and (min-resolution: 3.5dppx) 70vw, " +
+  "(max-width: 640px) and (min-resolution: 2.5dppx) 85vw, " +
   "(max-width: 810px) 100vw, 770px";
 
 export function BlogImage({
@@ -54,6 +59,9 @@ export function BlogImage({
   if (!src) return null;
 
   const resolvedSrc = mirroredSrc(src);
+  // Mirrored images have build-time AVIF siblings and skip the optimizer.
+  // Anything that failed to mirror keeps the old /_next/image path.
+  const renditions = renditionsFor(resolvedSrc);
 
   return (
     // data-no-narrate: the blog narrator skips this subtree (image + caption)
@@ -79,8 +87,14 @@ export function BlogImage({
           fetchPriority={priority ? "high" : eager ? "low" : undefined}
           className="object-cover"
           sizes={IMAGE_SIZES}
+          // Ignored on the static path (the loader picks a pre-encoded file),
+          // and still needed for images that fall back to the optimizer: it
+          // opts out of Next's default 75, which arrives at the AVIF encoder as
+          // q55. Must be listed in images.qualities in next.config.ts.
+          quality={90}
+          renditions={renditions}
           showSkeleton
-          unoptimized={!isOptimizedHost(resolvedSrc)}
+          unoptimized={!renditions && !isOptimizedHost(resolvedSrc)}
         />
       </span>
       {alt && !hideCaption && (

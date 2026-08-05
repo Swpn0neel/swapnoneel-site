@@ -17,14 +17,86 @@ const CONCURRENCY = 8;
 // origins answer in ~1s. Every /_next/image cache miss paid that round trip
 // plus a full-size transcode before a single byte reached the reader, so a
 // 5KB image could take over a second. Mirroring the sources into public/ at
-// build time removes the third-party hop entirely: the optimizer now reads a
-// small local file off our own CDN.
+// build time removes the third-party hop entirely.
+//
+// The WebP mirror is no longer what readers download — see DEVICE_SIZES below —
+// but it is still the input to the OG card URL in app/blog/[slug]/page.tsx and
+// the source SmoothImage falls back to when a rendition fails to load.
 //
 // MAX_WIDTH matches the largest entry in next.config deviceSizes — anything
 // wider can never be selected by a srcset candidate, so storing it would only
 // slow the transcode down.
-const MAX_WIDTH = 1280;
+const MAX_WIDTH = 1536;
 const WEBP_QUALITY = 100;
+
+// Pre-generated AVIF renditions, one per deviceSize, served through the custom
+// loader in lib/blog-image-loader.ts instead of /_next/image.
+//
+// This exists because two things in Next's optimizer cannot be configured and
+// both cost real quality (measured against the 1672px originals on the 2026
+// posts, PSNR at 1536 wide):
+//
+//   * `effort: 3` is hardcoded. Effort 6 is worth ~2-6% fewer bytes AND
+//     +0.2-0.3 dB for the same quality number; the optimizer's 7s timeout is
+//     why it cannot afford the search on demand. At build time we can.
+//   * its input is whatever the URL points at — the q100 WebP mirror — so every
+//     served image paid a second lossy generation worth ~1.1 dB. Encoding from
+//     the original buffer we already hold in memory removes that entirely.
+//
+// Together: ~+1.3 dB at ~2% *fewer* bytes than the q90/effort-3 optimizer path.
+// The WebP mirrors stay because the OG card URL in app/blog/[slug]/page.tsx
+// still goes through /_next/image, and SmoothImage's error fallback renders the
+// mirror directly.
+const DEVICE_SIZES = [640, 960, 1280, 1536];
+const AVIF_QUALITY = 70;
+const AVIF_EFFORT = 6;
+
+// Never emit a rendition wider than the mirror — `withoutEnlargement` would
+// just write the same pixels under four names. The mirror's own width is always
+// included so the widest srcset candidate is an exact match rather than a
+// smaller file the browser has to upscale.
+function renditionWidths(mirroredWidth) {
+  return Array.from(
+    new Set([...DEVICE_SIZES.filter((w) => w < mirroredWidth), mirroredWidth])
+  ).sort((a, b) => a - b);
+}
+
+function renditionLocal(target, width) {
+  return target.replace(/\.webp$/, `-${width}.avif`);
+}
+
+function absolutePublic(local) {
+  return path.join(process.cwd(), "public", local.replace(/^\//, ""));
+}
+
+// `source` is the ORIGINAL bytes wherever possible (see the note above); the
+// mirror is only passed in when the original can no longer be fetched.
+async function writeRenditions(source, target, mirroredWidth) {
+  const widths = renditionWidths(mirroredWidth);
+  let bytes = 0;
+  for (const width of widths) {
+    const absolute = absolutePublic(renditionLocal(target, width));
+    const buffer = await sharp(source, { density: 300 })
+      .resize({ width, withoutEnlargement: true })
+      .avif({ quality: AVIF_QUALITY, effort: AVIF_EFFORT })
+      .toBuffer();
+    await fs.mkdir(path.dirname(absolute), { recursive: true });
+    await fs.writeFile(absolute, buffer);
+    bytes += buffer.length;
+  }
+  return { widths, bytes };
+}
+
+async function renditionsPresent(target, mirroredWidth) {
+  for (const width of renditionWidths(mirroredWidth)) {
+    try {
+      await fs.stat(absolutePublic(renditionLocal(target, width)));
+    } catch {
+      return false;
+    }
+  }
+  return true;
+}
 
 async function getAllMarkdownFiles(dir) {
   let results = [];
@@ -119,7 +191,27 @@ async function transcodeLocal(source, target) {
   ]);
   if (targetStat && targetStat.mtimeMs >= sourceStat.mtimeMs) {
     const meta = await sharp(absolute).metadata();
-    return { local: target, width: meta.width, height: meta.height, bytes: 0 };
+    // The mirror is current, but the AVIF renditions may not be (first run
+    // after they were introduced, or a partially deleted public/blog-img).
+    // Regenerate from the original, never from the mirror — the whole point is
+    // to keep the second lossy generation out of the served bytes.
+    if (await renditionsPresent(target, meta.width)) {
+      return {
+        local: target,
+        width: meta.width,
+        height: meta.height,
+        bytes: 0,
+        renditions: renditionWidths(meta.width),
+      };
+    }
+    const repaired = await writeRenditions(source, target, meta.width);
+    return {
+      local: target,
+      width: meta.width,
+      height: meta.height,
+      bytes: repaired.bytes,
+      renditions: repaired.widths,
+    };
   }
 
   const output = await sharp(source, { density: 300 })
@@ -130,11 +222,14 @@ async function transcodeLocal(source, target) {
   await fs.mkdir(path.dirname(absolute), { recursive: true });
   await fs.writeFile(absolute, output.data);
 
+  const rendered = await writeRenditions(source, target, output.info.width);
+
   return {
     local: target,
     width: output.info.width,
     height: output.info.height,
-    bytes: output.data.length,
+    bytes: output.data.length + rendered.bytes,
+    renditions: rendered.widths,
   };
 }
 
@@ -230,12 +325,93 @@ async function mirror(url, target) {
   await fs.mkdir(path.dirname(absolute), { recursive: true });
   await fs.writeFile(absolute, output.data);
 
+  // From `buffer`, not `output.data` — the downloaded original, before the
+  // WebP round trip.
+  const rendered = await writeRenditions(buffer, target, output.info.width);
+
   return {
     local: target,
     width: output.info.width,
     height: output.info.height,
-    bytes: output.data.length,
+    bytes: output.data.length + rendered.bytes,
+    renditions: rendered.widths,
   };
+}
+
+// Mirrors written before pre-generated renditions existed have a WebP file and
+// a manifest entry but no AVIF siblings, and nothing above will notice: the
+// fetch pass only reruns when the *mirror* is missing. Re-downloading the
+// original is what makes these full quality, so that is tried first; an image
+// whose upstream has since died falls back to encoding from the mirror, which
+// still gains the effort-6 search but keeps the ~1.1 dB generation loss.
+async function backfillRenditions(manifest, failures) {
+  // `degraded` entries are retried on every later run. A transient upstream
+  // timeout under CONCURRENCY-way fetching is otherwise invisible and permanent
+  // — the entry gets renditions, so nothing reruns it, and the image quietly
+  // keeps the generation loss forever. One image did exactly that on the run
+  // that introduced renditions, and only a PSNR check against the original
+  // caught it.
+  const pending = Object.entries(manifest).filter(
+    ([, entry]) => !entry.renditions || entry.degraded
+  );
+  let repaired = 0;
+  let fromMirror = 0;
+  let bytes = 0;
+
+  for (let i = 0; i < pending.length; i += CONCURRENCY) {
+    const batch = pending.slice(i, i + CONCURRENCY);
+    await Promise.all(
+      batch.map(async ([key, entry]) => {
+        const mirrorFile = absolutePublic(entry.local);
+        let source = null;
+        let degraded = false;
+
+        if (key.startsWith("/")) {
+          source = await findLocalSource(key);
+        } else {
+          // Two attempts: the first failure here is usually a timeout caused by
+          // our own fetch concurrency, not a dead host.
+          for (let attempt = 0; attempt < 2 && !source; attempt++) {
+            try {
+              const res = await fetch(key, {
+                signal: AbortSignal.timeout(20000),
+              });
+              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+              source = Buffer.from(await res.arrayBuffer());
+            } catch {
+              source = null;
+            }
+          }
+        }
+
+        if (!source) {
+          source = mirrorFile;
+          degraded = true;
+        }
+
+        try {
+          const rendered = await writeRenditions(
+            source,
+            entry.local,
+            entry.width
+          );
+          entry.renditions = rendered.widths;
+          bytes += rendered.bytes;
+          repaired += 1;
+          if (degraded) {
+            entry.degraded = true;
+            fromMirror += 1;
+          } else {
+            delete entry.degraded;
+          }
+        } catch (error) {
+          failures.push(`${key} — renditions: ${error.message}`);
+        }
+      })
+    );
+  }
+
+  return { repaired, fromMirror, bytes };
 }
 
 async function mirrorBlogImages() {
@@ -318,6 +494,7 @@ async function mirrorBlogImages() {
         local: result.local,
         width: result.width,
         height: result.height,
+        renditions: result.renditions,
       };
     });
   }
@@ -340,6 +517,7 @@ async function mirrorBlogImages() {
         local: result.local,
         width: result.width,
         height: result.height,
+        renditions: result.renditions,
       };
     } catch (error) {
       failures.push(`${ref} — ${error.message}`);
@@ -354,15 +532,22 @@ async function mirrorBlogImages() {
       .map((key) => [key, existing[key]])
   );
 
+  const backfilled = await backfillRenditions(manifest, failures);
+  mirroredBytes += backfilled.bytes;
+
   await fs.writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
 
   // Delete mirrored files that no longer belong to any manifest entry, then
-  // the directories a deleted post left behind.
-  const kept = new Set(
-    Object.values(manifest).map((entry) =>
-      entry.local.replace("/blog-img/", "")
-    )
-  );
+  // the directories a deleted post left behind. The AVIF siblings have to be
+  // listed explicitly — they are not manifest `local` values, and without them
+  // every rendition would be pruned on the run that created it.
+  const kept = new Set();
+  for (const entry of Object.values(manifest)) {
+    kept.add(entry.local.replace("/blog-img/", ""));
+    for (const width of entry.renditions ?? []) {
+      kept.add(renditionLocal(entry.local, width).replace("/blog-img/", ""));
+    }
+  }
   let pruned = 0;
   for (const file of await listMirroredFiles()) {
     if (kept.has(file)) continue;
@@ -374,6 +559,14 @@ async function mirrorBlogImages() {
   console.log(
     `Successfully generated lib/blog-images.json (${Object.keys(manifest).length}/${allUrls.size + allLocalRefs.size} images mirrored, ${toFetch.length} fetched, ${localTranscoded} transcoded locally, ${moved} moved, ${pruned} pruned)`
   );
+  if (backfilled.repaired) {
+    console.log(
+      `  backfilled AVIF renditions for ${backfilled.repaired} image(s)` +
+        (backfilled.fromMirror
+          ? `, ${backfilled.fromMirror} from the mirror (upstream unreachable — ~1.1 dB lossier, marked degraded and retried next run)`
+          : "")
+    );
+  }
   if (mirroredBytes) {
     console.log(`  wrote ${(mirroredBytes / 1048576).toFixed(1)} MB`);
   }

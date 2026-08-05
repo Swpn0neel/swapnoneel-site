@@ -1,17 +1,24 @@
 "use client";
 
+import { pickRendition } from "@/lib/blog-rendition";
 import Image from "next/image";
 import { ComponentProps, useEffect, useRef, useState } from "react";
 
 interface SmoothImageProps extends Omit<
   ComponentProps<typeof Image>,
-  "placeholder" | "blurDataURL"
+  "placeholder" | "blurDataURL" | "loader"
 > {
   blurDataURL?: string;
   showSkeleton?: boolean;
   // "span" when rendered in phrasing-content contexts (e.g. inside a
   // markdown paragraph) where a div would break HTML nesting rules.
   as?: "div" | "span";
+  // Widths of the build-time AVIF renditions for this image; when present the
+  // element is served from those instead of /_next/image. The widths rather
+  // than a loader function because the callers are server components and a
+  // function prop cannot cross the RSC boundary — and rather than a boolean
+  // because the alternative is shipping the whole image manifest to the client.
+  renditions?: number[];
 }
 
 const MAX_AUTOMATIC_RETRIES = 2;
@@ -69,6 +76,7 @@ function SmoothImageInner({
   alt = "",
   showSkeleton = false,
   as: Wrapper = "div",
+  renditions,
   onLoad,
   onError,
   ...imageProps
@@ -196,6 +204,14 @@ function SmoothImageInner({
       {!failed && (
         <Image
           {...imageProps}
+          // Only the primary element. The fallback below is `unoptimized`,
+          // which bypasses loaders anyway, and its whole job is to retry the
+          // untransformed source.
+          loader={
+            renditions
+              ? ({ src, width }) => pickRendition(src, renditions, width)
+              : undefined
+          }
           ref={imageRef}
           alt={alt}
           className={`transition-[opacity,transform,scale] duration-300 ease-out ${

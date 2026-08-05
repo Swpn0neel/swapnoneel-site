@@ -75,14 +75,30 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
-    qualities: [75],
-    // Every (url, width, quality) triple is its own optimizer cache entry, and
-    // a miss costs a transcode before the first byte ships. Three widths cover
-    // the real layout — 640 for 1x phones, 960 for 2x phones and 1x desktop,
-    // 1280 for retina desktop — while keeping misses rare. It also stops a
-    // small high-DPR phone from pulling a 1536px rendition it cannot resolve
-    // (see IMAGE_SIZES in components/blog-image.tsx).
-    deviceSizes: [640, 960, 1280],
+    // Next encodes AVIF at `quality - 20` (see optimizeImage in
+    // next/dist/server/image-optimizer.js), so the default 75 ships AVIF q55 —
+    // visibly soft on screenshots and diagrams. 90 lands the AVIF at q70.
+    //
+    // Blog images no longer come through here at all; they are pre-encoded at
+    // build time and served by the loader in lib/blog-image-loader.ts. This
+    // still covers the two paths that remain: blog images that failed to mirror
+    // (dead upstream URLs) and the OG card URL in app/blog/[slug]/page.tsx.
+    //
+    // 75 stays in the list because it is Next's default and every image that
+    // does not opt in explicitly still requests it — dropping it 400s them.
+    qualities: [75, 90],
+    // next/image builds its srcset from these whatever loader is in play, so
+    // this list decides which AVIF renditions scripts/mirror-blog-images.mjs
+    // has to emit as well. Four widths cover the real layout — 640 for 1x
+    // phones, 960 for 1x desktop, 1280 for high-DPR phones, 1536 for retina
+    // desktop.
+    //
+    // 1536 is here because the column is ~770px, so a 2x desktop wants 1540 and
+    // the old 1280 ceiling served it 1.66x. It only pays off for sources wide
+    // enough to fill it, which is why MAX_WIDTH in scripts/mirror-blog-images.mjs
+    // tracks this value — the two have to move together, or the widest srcset
+    // candidate is a narrower file the browser then upscales.
+    deviceSizes: [640, 960, 1280, 1536],
     imageSizes: [16, 32, 48, 60, 64, 96, 120, 128, 140, 256, 280, 384],
     minimumCacheTTL: 31536000,
   },
