@@ -6,7 +6,24 @@
 
 @plugin "tailwindcss-animate";
 
-@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* Two arms, because there are two ways to be dark. THEME_INIT writes the
+   resolved value to data-theme before <body> exists, so the attribute arm is
+   what every visitor running JavaScript hits. The media arm exists for the one
+   case that cannot have an attribute — scripting disabled — and must stay in
+   step with the `:root:not([data-theme])` palette block below: a `dark:`
+   utility that only checked the attribute would render its light form on a
+   page whose colours had already gone dark. */
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    &:where(:root:not([data-theme]), :root:not([data-theme]) *) {
+      @slot;
+    }
+  }
+}
 
 @keyframes shimmer-transform {
   from {
@@ -68,6 +85,16 @@ button:focus-visible {
   --theme-x: 50vw;
   --theme-y: 0px;
   --theme-radius: 150vmax;
+  /* Overwritten per click by the toggle; these are what the animations fall
+     back to if the pseudo-elements are ever built without one having run. */
+  --theme-duration: 360ms;
+  /* Kept in step with THEME_EASE in theme-toggle.tsx, which owns the wipe. */
+  --theme-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Fractions of the spine, so the gesture keeps its shape at every viewport:
+     the control resolves first, the profile card settles just inside the wipe,
+     and nothing is left moving once the reveal completes. */
+  --theme-icon-duration: calc(var(--theme-duration) * 0.7);
+  --theme-photo-duration: calc(var(--theme-duration) * 0.9);
   --background: 0 0% 100%;
   --foreground: 0 0% 3.9%;
   --card: 0 0% 100%;
@@ -102,13 +129,67 @@ button:focus-visible {
   --radius: 0.5rem;
   --mark-bg: 55 92% 80%;
   --mark-fg: 0 0% 10%;
+  /* Syntax colours for the rehype-highlight output in .prose pre. Five roles,
+     not the forty class names highlight.js can emit: the archive is Python,
+     JS/TS, shell and JSON, where keyword / string / name / number / comment
+     covers effectively every token. All five clear 4.5:1 on --secondary,
+     which is the code block's background in both themes. */
+  --code-keyword: 355 72% 42%;
+  --code-string: 219 82% 27%;
+  --code-name: 264 62% 47%;
+  --code-number: 214 94% 33%;
+  --code-comment: 212 10% 40%;
   /* Raised tile surface (social link cards). Deliberately not --secondary:
      in dark mode these sit *below* --secondary rather than above it. */
   --surface: 0 0% 96.1%;
   --surface-hover: 0 0% 94.9%;
   --interaction-color-transition: 150ms;
+  /* ── Theme-derived values for rules that used to be duplicated under a
+     `.dark X` selector. Expressing them as palette variables means the rule
+     itself is written once and follows whichever palette block won, so it
+     cannot silently fail to match in the no-attribute state the way a
+     `[data-theme="dark"] X` selector does. ── */
+  /* Resting/hover angles for the profile flip card: light rests on the colour
+     face (180deg), dark on the black-and-white one. */
+  --pfp-rest: 180deg;
+  --pfp-hover: 360deg;
+  /* Project cover: saturation/lightness pairs fed to hsl() alongside the
+     per-project hues, plus the framed-window recipe. Everything here that does
+     not depend on a per-card hue lives at this level and inherits down. */
+  --pc-g1-sl: 55% 93%;
+  --pc-g2-sl: 40% 91%;
+  --pc-glow1-sl: 70% 86%;
+  --pc-glow2-sl: 50% 85%;
+  --pc-hero-glow1-sl: 78% 83%;
+  --pc-hero-glow2-sl: 60% 82%;
+  --pc-hglow-sl: 85% 81%;
+  --pc-hglow-opacity: 0.85;
+  --pc-grain-opacity: 0.35;
+  /* How much of the page background is mixed into the screenshot backdrop. */
+  --pw-shot-mix: 58%;
+  /* Selects the rail fill between the two window colours already computed on
+     .project-cover. Both candidates depend on per-card hues, so they cannot be
+     hoisted here — this picks between them at 0%/100%, where color-mix returns
+     one side exactly. */
+  --pw-rail-chrome: 0%;
+  --project-window-image-inset: 0px;
+  --project-window-highlight: rgb(255 255 255 / 0.055);
+  --project-window-edge-shadow: inset 0 1px 0 var(--project-window-highlight);
+  /* Inward hairline on the project overlay panel. A real border would only
+     exist in dark, making the panel's content box 2px narrower than in light —
+     and the hero's aspect-ratio box, and the window geometry, along with it.
+     Light draws a zero-size transparent shadow, which is a no-op. */
+  --overlay-panel-hairline: 0 0 0 0 transparent;
 }
 
+/* ── Dark palette ──────────────────────────────────────────────────────────
+   Declared twice on purpose, and the two copies must stay identical. CSS has
+   no way to say "this attribute selector OR this media query" in one rule, and
+   both states are real: the attribute covers everyone running JavaScript, the
+   media query covers scripting-disabled visitors on a dark OS. A value added
+   to one copy and not the other renders light-on-dark for no-script visitors
+   with nothing to flag it. Keep them adjacent so a diff shows both.
+   ──────────────────────────────────────────────────────────────────────── */
 :root[data-theme="dark"] {
   color-scheme: dark;
   --background: 0 0% 3.9%;
@@ -136,13 +217,37 @@ button:focus-visible {
   --ring: 0 0% 98%;
   --mark-bg: 55 50% 30%;
   --mark-fg: 0 0% 90%;
+  --code-keyword: 4 90% 74%;
+  --code-string: 207 90% 80%;
+  --code-name: 266 90% 82%;
+  --code-number: 208 95% 74%;
+  --code-comment: 212 9% 62%;
   --surface: 0 0% 10.2%;
   --surface-hover: 0 0% 14.5%;
+  --pfp-rest: 0deg;
+  --pfp-hover: 180deg;
+  --pc-g1-sl: 42% 14%;
+  --pc-g2-sl: 38% 9%;
+  --pc-glow1-sl: 62% 28%;
+  --pc-glow2-sl: 48% 17%;
+  --pc-hero-glow1-sl: 70% 34%;
+  --pc-hero-glow2-sl: 58% 23%;
+  --pc-hglow-sl: 65% 33%;
+  --pc-hglow-opacity: 0.6;
+  --pc-grain-opacity: 0.5;
+  --pw-shot-mix: 70%;
+  --pw-rail-chrome: 100%;
+  --project-window-image-inset: 1px;
+  --project-window-edge-shadow:
+    inset 0 1px 0 var(--project-window-highlight),
+    inset 1px 0 0 var(--project-window-highlight),
+    inset -1px 0 0 var(--project-window-highlight);
+  --overlay-panel-hairline: inset 0 0 0 1px hsl(var(--foreground) / 0.12);
 }
 
-/* No explicit preference: render the OS theme before any JavaScript runs.
-   next-themes later writes the same resolved value to data-theme and keeps it
-   synchronized while the application preference remains "system". */
+/* Second copy of the block above — see the note there before editing either.
+   Scripting disabled means no data-theme can ever be written, so this is the
+   only thing that renders a dark-OS visitor's page dark. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme]) {
     color-scheme: dark;
@@ -167,8 +272,32 @@ button:focus-visible {
     --ring: 0 0% 98%;
     --mark-bg: 55 50% 30%;
     --mark-fg: 0 0% 90%;
+    --code-keyword: 4 90% 74%;
+    --code-string: 207 90% 80%;
+    --code-name: 266 90% 82%;
+    --code-number: 208 95% 74%;
+    --code-comment: 212 9% 62%;
     --surface: 0 0% 10.2%;
     --surface-hover: 0 0% 14.5%;
+    --pfp-rest: 0deg;
+    --pfp-hover: 180deg;
+    --pc-g1-sl: 42% 14%;
+    --pc-g2-sl: 38% 9%;
+    --pc-glow1-sl: 62% 28%;
+    --pc-glow2-sl: 48% 17%;
+    --pc-hero-glow1-sl: 70% 34%;
+    --pc-hero-glow2-sl: 58% 23%;
+    --pc-hglow-sl: 65% 33%;
+    --pc-hglow-opacity: 0.6;
+    --pc-grain-opacity: 0.5;
+    --pw-shot-mix: 70%;
+    --pw-rail-chrome: 100%;
+    --project-window-image-inset: 1px;
+    --project-window-edge-shadow:
+      inset 0 1px 0 var(--project-window-highlight),
+      inset 1px 0 0 var(--project-window-highlight),
+      inset -1px 0 0 var(--project-window-highlight);
+    --overlay-panel-hairline: inset 0 0 0 1px hsl(var(--foreground) / 0.12);
   }
 }
 
@@ -235,6 +364,20 @@ body {
 }
 
 /* ─── Theme transition ─── */
+
+/* No pointer-events rule here on purpose: it was tried and measured, and does
+   nothing. While a transition runs the document is unreachable by pointer —
+   captured content is skipped for hit-testing, not only for painting, so there
+   is nothing underneath for a click to fall through to. Mid-transition clicks
+   are resolved by geometry in the window listener in theme-toggle.tsx. */
+
+/* The group as well as the two captures. Its UA default animates the snapshot's
+   geometry, a no-op for the root, but still a live animation the transition
+   waits on and one more thing to keep in step when the wipe is re-keyed. */
+::view-transition-group(root) {
+  animation: none;
+}
+
 ::view-transition-old(root),
 ::view-transition-new(root) {
   animation: none;
@@ -245,19 +388,16 @@ body {
   z-index: 1;
 }
 
+/* The wipe on this pseudo-element is absent from this file on purpose — it is
+   built in theme-toggle.tsx, which re-keys it when a click reverses the gesture
+   and so needs the Animation object rather than a declaration.
+
+   One tempo for the whole switch: --theme-duration is written by the toggle from
+   the distance the wipe has to travel, and the icon and profile card take fixed
+   fractions of it, so the three keep the same relative rhythm at every
+   viewport. */
 ::view-transition-new(root) {
   z-index: 2;
-  animation: theme-reveal 360ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes theme-reveal {
-  from {
-    clip-path: circle(0 at var(--theme-x) var(--theme-y));
-  }
-
-  to {
-    clip-path: circle(var(--theme-radius) at var(--theme-x) var(--theme-y));
-  }
 }
 
 /* Preserve the incumbent control and profile motion above the root reveal.
@@ -284,20 +424,26 @@ body {
   transform-origin: center;
 }
 
+/* Leads the wipe: the control the visitor touched is the first thing to
+   resolve, and it is clear of the reveal well before the corners fill. */
 :root[data-theme="dark"]::view-transition-old(theme-icon) {
-  animation: theme-icon-out-to-dark 240ms ease both;
+  animation: theme-icon-out-to-dark var(--theme-icon-duration) var(--theme-ease)
+    both;
 }
 
 :root[data-theme="dark"]::view-transition-new(theme-icon) {
-  animation: theme-icon-in-to-dark 240ms ease both;
+  animation: theme-icon-in-to-dark var(--theme-icon-duration) var(--theme-ease)
+    both;
 }
 
 :root[data-theme="light"]::view-transition-old(theme-icon) {
-  animation: theme-icon-out-to-light 240ms ease both;
+  animation: theme-icon-out-to-light var(--theme-icon-duration)
+    var(--theme-ease) both;
 }
 
 :root[data-theme="light"]::view-transition-new(theme-icon) {
-  animation: theme-icon-in-to-light 240ms ease both;
+  animation: theme-icon-in-to-light var(--theme-icon-duration) var(--theme-ease)
+    both;
 }
 
 @keyframes theme-icon-out-to-dark {
@@ -324,13 +470,18 @@ body {
   }
 }
 
-::view-transition-group(profile-photo) {
-  perspective: 1000px;
-}
-
 /* The captures are the two faces of one card. Each travels the full 180deg and
    remains exactly half a turn from the other at every frame, so backface
-   visibility performs the handoff naturally at the edge-on midpoint. */
+   visibility performs the handoff naturally at the edge-on midpoint.
+
+   The perspective is baked into each transform rather than declared on
+   ::view-transition-group, which cannot reach these: the group is their
+   grandparent, and ::view-transition-image-pair sits between carrying
+   `isolation: isolate` from the UA stylesheet — a grouping property, so it
+   flattens the 3D context even with `transform-style: preserve-3d` added.
+   Measured: a 140px box at rotateY(60deg) reports a 149px bounding box when the
+   perspective reaches it and exactly 140px through the group. Without this the
+   flip renders as a flat horizontal squash. */
 ::view-transition-old(profile-photo),
 ::view-transition-new(profile-photo) {
   backface-visibility: hidden;
@@ -338,61 +489,65 @@ body {
   transform-origin: center;
 }
 
+/* Settles just inside the wipe rather than running past it, so nothing is left
+   turning on a page that has already committed. */
 :root[data-theme="dark"]::view-transition-old(profile-photo) {
-  animation: profile-photo-old-to-dark 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: profile-photo-old-to-dark var(--theme-photo-duration)
+    var(--theme-ease) both;
 }
 
 :root[data-theme="dark"]::view-transition-new(profile-photo) {
-  animation: profile-photo-new-to-dark 600ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation: profile-photo-new-to-dark var(--theme-photo-duration)
+    var(--theme-ease) both;
 }
 
 :root[data-theme="light"]::view-transition-old(profile-photo) {
-  animation: profile-photo-old-to-light 600ms cubic-bezier(0.22, 1, 0.36, 1)
-    both;
+  animation: profile-photo-old-to-light var(--theme-photo-duration)
+    var(--theme-ease) both;
 }
 
 :root[data-theme="light"]::view-transition-new(profile-photo) {
-  animation: profile-photo-new-to-light 600ms cubic-bezier(0.22, 1, 0.36, 1)
-    both;
+  animation: profile-photo-new-to-light var(--theme-photo-duration)
+    var(--theme-ease) both;
 }
 
 @keyframes profile-photo-old-to-dark {
   from {
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 
   to {
-    transform: rotateY(-180deg);
+    transform: perspective(1000px) rotateY(-180deg);
   }
 }
 
 @keyframes profile-photo-new-to-dark {
   from {
-    transform: rotateY(180deg);
+    transform: perspective(1000px) rotateY(180deg);
   }
 
   to {
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 
 @keyframes profile-photo-old-to-light {
   from {
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 
   to {
-    transform: rotateY(180deg);
+    transform: perspective(1000px) rotateY(180deg);
   }
 }
 
 @keyframes profile-photo-new-to-light {
   from {
-    transform: rotateY(-180deg);
+    transform: perspective(1000px) rotateY(-180deg);
   }
 
   to {
-    transform: rotateY(0deg);
+    transform: perspective(1000px) rotateY(0deg);
   }
 }
 
@@ -405,28 +560,67 @@ body {
   transition: none !important;
 }
 
-/* Unsupported browsers get a bounded color-only crossfade. The broad selector
-   is active only for the same 360ms window as the primary transition. */
+/* Unsupported browsers get a bounded crossfade. The broad selector is active
+   only for the window the toggle holds .theme-transition open.
+
+   The list covers motion as well as colour because `transition-property` is
+   forced with !important, so anything left off it has its transition cancelled
+   mid-flight — a colour-only list snapped a card's 450ms hover lift to its end
+   state if the theme changed under it. Included, those keep running at this
+   duration for the length of the switch, which reads as a slight speed change
+   rather than a jump. */
 :root.theme-transition,
 :root.theme-transition *,
 :root.theme-transition *::before,
 :root.theme-transition *::after {
   transition-property:
-    color, background-color, border-color, box-shadow, fill, stroke !important;
-  transition-duration: 360ms !important;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    color, background-color, border-color, outline-color, box-shadow, fill,
+    stroke, opacity, filter, transform, translate, scale, rotate !important;
+  transition-duration: var(--theme-duration) !important;
+  transition-timing-function: var(--theme-ease) !important;
 }
 
-/* The fallback crossfade must not replace the transform motion already owned
-   by these two elements. These values mirror their incumbent declarations. */
+/* Elements whose theme-driven motion has a duration of its own worth keeping,
+   on the same fractions as the View Transitions path so the switch has one
+   shape whichever path runs.
+
+   The invariant: the toggle holds .theme-transition for THEME_TRANSITION_HOLD
+   ms, which must be >= every duration this class drives — including the
+   universal rule above, which is the longest at 1.0x. Removing a property from
+   transition-property cancels a transition that is still running on it, so
+   pulling the class early does not hand the element back to its own
+   declaration, it snaps it to the end value. Keep every fraction here <= 1. */
 :root.theme-transition .theme-toggle-icon {
   transition:
-    scale 240ms cubic-bezier(0.4, 0, 0.2, 1),
-    rotate 240ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+    scale var(--theme-icon-duration) var(--theme-ease),
+    rotate var(--theme-icon-duration) var(--theme-ease) !important;
 }
 
 :root.theme-transition .pfp-flip-card-inner {
-  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  transition: transform var(--theme-photo-duration) var(--theme-ease) !important;
+}
+
+/* Reduced motion still gets feedback, just no geometry. Skipping the switch
+   outright left these visitors with a hard cut between near-white and
+   near-black across the whole viewport, which is its own kind of harsh — the
+   guidance is to substitute a non-motion transition, not to remove one. So the
+   colour crossfade above runs, the wipe never starts (the toggle does not call
+   startViewTransition), and the two elements that would otherwise rotate are
+   pinned so they change state without travelling. */
+@media (prefers-reduced-motion: reduce) {
+  :root.theme-transition,
+  :root.theme-transition *,
+  :root.theme-transition *::before,
+  :root.theme-transition *::after {
+    transition-property:
+      color, background-color, border-color, outline-color, box-shadow, fill,
+      stroke !important;
+  }
+
+  :root.theme-transition .theme-toggle-icon,
+  :root.theme-transition .pfp-flip-card-inner {
+    transition: none !important;
+  }
 }
 
 /* Article body used to justify at >=640px. Measured over 53 lines of a real
@@ -569,10 +763,14 @@ textarea {
 }
 
 .smart-carousel[data-carousel-enhanced="true"] {
-  /* Chromium still includes transformed Embla slides in the document's scroll
-     width with `clip`; `hidden` creates the horizontal scroll container needed
-     to keep the off-screen loop copies from leaking into the page viewport. */
-  overflow-x: hidden;
+  /* Both axes, and `clip` rather than `hidden`. The off-screen loop copies have
+     to stop contributing to the document's scroll width, which any clipping
+     achieves — but `overflow-x: hidden` computes overflow-y to `auto`, which
+     makes this a scroll container, and a scroll container is exactly what
+     revealFocusedSlide below assumes does not exist: the browser would scroll a
+     focused off-screen slide into view by setting scrollLeft, fighting the
+     transform Embla is driving. `clip` never creates one on either axis. */
+  overflow: clip;
   scroll-snap-type: none;
 }
 
@@ -852,18 +1050,118 @@ textarea {
   color: hsl(var(--body-foreground));
 }
 
-.prose pre {
+/* The shell lives on the wrapper so the chips can sit inside it. They're taken
+   out of flow so the code starts at the top of the box: in normal flow they
+   reserved a full-width band, which left an empty strip across the top of every
+   block. Deliberately not `overflow: hidden` — the copy button's focus ring is
+   drawn outside its box and a clipping ancestor would cut it off. */
+.prose .code-block {
+  position: relative;
   background: hsl(var(--secondary));
-  border-radius: 6px;
-  padding: 1rem;
-  overflow-x: auto;
-  margin-bottom: 1em;
   border: 1px solid hsl(var(--border));
+  border-radius: 6px;
+  margin: 1em 0;
+}
+
+/* Pinned to the top-right corner, roughly centred on the first line of code.
+   The language chip is absent on the archive's bare ``` fences; anchoring the
+   row by its right edge keeps the button in the same corner either way. */
+.prose .code-block__controls {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* One-line blocks sit on the same axis instead. The fixed inset above is a
+   corner offset, which only reads as one on a block tall enough to have a
+   corner: against a single 25.2px line in a 65.6px box it leaves 15.4px above
+   the chips and 21.4px below, so they hang visibly high over the one line they
+   belong to. The code's own padding is already symmetric, so centring the chips
+   is all it takes to put line, chip and button on one axis. */
+.prose .code-block--one-line .code-block__controls {
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.prose pre {
+  /* Shell moved to .code-block; this is now purely the scroll container. The
+     5px radius sits inside the wrapper's 1px border and exists to keep the
+     horizontal scrollbar within the rounded corners. */
+  background: transparent;
+  border: 0;
+  border-radius: 5px;
+  margin: 0;
+  padding: 1rem;
+  /* Clears the chip pair, which no longer reserves space of its own. Sized for
+     the widest label the archive produces — "JavaScript" makes a 121px pair —
+     plus the 0.75rem inset and a matching gap. End padding is part of the
+     scrollable area, so this holds at full scroll too, not just at rest. */
+  padding-right: 8rem;
+  overflow-x: auto;
 }
 
 .prose code {
   font-family: "Menlo", "Monaco", "Courier New", monospace;
   font-size: 0.875em;
+}
+
+/* rehype-highlight only tags the tokens; without a theme every block rendered
+   in a single flat colour. Class names below are highlight.js's, grouped onto
+   the five --code-* roles. */
+.prose .hljs-keyword,
+.prose .hljs-built_in,
+.prose .hljs-literal,
+.prose .hljs-type,
+.prose .hljs-meta,
+.prose .hljs-selector-tag {
+  color: hsl(var(--code-keyword));
+}
+
+.prose .hljs-string,
+.prose .hljs-regexp,
+.prose .hljs-char.escape_,
+.prose .hljs-addition,
+.prose .hljs-meta .hljs-string {
+  color: hsl(var(--code-string));
+}
+
+.prose .hljs-title,
+.prose .hljs-title.class_,
+.prose .hljs-title.function_,
+.prose .hljs-section,
+.prose .hljs-name,
+.prose .hljs-selector-class,
+.prose .hljs-selector-id {
+  color: hsl(var(--code-name));
+}
+
+.prose .hljs-number,
+.prose .hljs-symbol,
+.prose .hljs-variable,
+.prose .hljs-template-variable,
+.prose .hljs-attr,
+.prose .hljs-attribute,
+.prose .hljs-bullet {
+  color: hsl(var(--code-number));
+}
+
+.prose .hljs-comment,
+.prose .hljs-quote,
+.prose .hljs-deletion {
+  color: hsl(var(--code-comment));
+  font-style: italic;
+}
+
+.prose .hljs-emphasis {
+  font-style: italic;
+}
+
+.prose .hljs-strong {
+  font-weight: 600;
 }
 
 .prose hr {
@@ -977,13 +1275,11 @@ mark {
    set inline from lib/palette-map.json — see scripts/generate-palette.mjs).
    Hues come from the data; saturation/lightness are theme recipes here. */
 .project-cover {
-  --pc-g1: hsl(var(--pc-h1) 55% 93%);
-  --pc-g2: hsl(var(--pc-h2) 40% 91%);
-  --pc-glow1: hsl(var(--pc-h1) 70% 86%);
-  --pc-glow2: hsl(var(--pc-h2) 50% 85%);
-  --pc-hglow: hsl(var(--pc-h1) 85% 81%);
-  --pc-hglow-opacity: 0.85;
-  --pc-grain-opacity: 0.35;
+  --pc-g1: hsl(var(--pc-h1) var(--pc-g1-sl));
+  --pc-g2: hsl(var(--pc-h2) var(--pc-g2-sl));
+  --pc-glow1: hsl(var(--pc-h1) var(--pc-glow1-sl));
+  --pc-glow2: hsl(var(--pc-h2) var(--pc-glow2-sl));
+  --pc-hglow: hsl(var(--pc-h1) var(--pc-hglow-sl));
   --project-window-chrome: color-mix(
     in oklab,
     rgb(16 17 20 / 0.96) 94%,
@@ -991,39 +1287,20 @@ mark {
   );
   --project-window-shot-bg: color-mix(
     in oklab,
-    hsl(var(--background)) 58%,
+    hsl(var(--background)) var(--pw-shot-mix),
     var(--pc-g2)
   );
-  --project-window-highlight: rgb(255 255 255 / 0.055);
-  --project-window-image-inset: 0px;
-  --project-window-rail: var(--project-window-shot-bg);
-  --project-window-edge-shadow: inset 0 1px 0 var(--project-window-highlight);
+  /* Light rails with the screenshot backdrop, dark with the window chrome. */
+  --project-window-rail: color-mix(
+    in oklab,
+    var(--project-window-chrome) var(--pw-rail-chrome),
+    var(--project-window-shot-bg)
+  );
   background:
     radial-gradient(90% 85% at 12% -10%, var(--pc-glow1), transparent 58%),
     radial-gradient(85% 95% at 96% 112%, var(--pc-glow2), transparent 58%),
     linear-gradient(135deg, var(--pc-g1), var(--pc-g2));
   container-type: inline-size;
-}
-
-:root[data-theme="dark"] .project-cover {
-  --pc-g1: hsl(var(--pc-h1) 42% 14%);
-  --pc-g2: hsl(var(--pc-h2) 38% 9%);
-  --pc-glow1: hsl(var(--pc-h1) 62% 28%);
-  --pc-glow2: hsl(var(--pc-h2) 48% 17%);
-  --pc-hglow: hsl(var(--pc-h1) 65% 33%);
-  --pc-hglow-opacity: 0.6;
-  --pc-grain-opacity: 0.5;
-  --project-window-shot-bg: color-mix(
-    in oklab,
-    hsl(var(--background)) 70%,
-    var(--pc-g2)
-  );
-  --project-window-rail: var(--project-window-chrome);
-  --project-window-image-inset: 1px;
-  --project-window-edge-shadow:
-    inset 0 1px 0 var(--project-window-highlight),
-    inset 1px 0 0 var(--project-window-highlight),
-    inset -1px 0 0 var(--project-window-highlight);
 }
 
 /* grain overlay — kills gradient banding */
@@ -1180,13 +1457,8 @@ mark {
 /* ── overlay hero: the window rests in its fully raised (hover) state,
    with the glow permanently on and stronger corner glows ── */
 .project-overlay-hero.project-cover {
-  --pc-glow1: hsl(var(--pc-h1) 78% 83%);
-  --pc-glow2: hsl(var(--pc-h2) 60% 82%);
-}
-
-:root[data-theme="dark"] .project-overlay-hero.project-cover {
-  --pc-glow1: hsl(var(--pc-h1) 70% 34%);
-  --pc-glow2: hsl(var(--pc-h2) 58% 23%);
+  --pc-glow1: hsl(var(--pc-h1) var(--pc-hero-glow1-sl));
+  --pc-glow2: hsl(var(--pc-h2) var(--pc-hero-glow2-sl));
 }
 
 .project-overlay-hero.project-cover::before {
@@ -1235,6 +1507,7 @@ mark {
   display: flex;
   flex-direction: column;
   box-shadow:
+    var(--overlay-panel-hairline),
     0 32px 72px -12px rgba(0, 0, 0, 0.45),
     0 8px 28px -8px rgba(0, 0, 0, 0.25);
   /* Enter animation */
@@ -1243,16 +1516,6 @@ mark {
   transition:
     opacity 0.38s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.38s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Same hairline as before, drawn inward. A real border would only exist in
-   dark, making the panel's content box 2px narrower than in light — and the
-   hero's aspect-ratio box, and therefore the window geometry, along with it. */
-:root[data-theme="dark"] .project-overlay-panel {
-  box-shadow:
-    inset 0 0 0 1px hsl(var(--foreground) / 0.12),
-    0 32px 72px -12px rgba(0, 0, 0, 0.45),
-    0 8px 28px -8px rgba(0, 0, 0, 0.25);
 }
 
 .project-overlay-panel--visible {
@@ -1541,10 +1804,11 @@ mark {
   perspective: 1000px;
 }
 
-/* Light is the unprefixed default; the stable data-theme value selects the
-   dark face after the pre-paint script or next-themes resolves the preference. */
-
-/* Light (default): colour face resting, B/W on hover */
+/* Light rests on the colour face and shows black-and-white on hover; dark is
+   the other way round. Both angles come from the palette rather than a
+   `[data-theme="dark"]` selector, so the card follows whichever palette block
+   won — including the media-query one, where no attribute exists to select on
+   and a keyed rule would have left the card resting on the wrong face. */
 .pfp-flip-card-inner {
   position: relative;
   width: 100%;
@@ -1552,20 +1816,11 @@ mark {
   text-align: center;
   transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
   transform-style: preserve-3d;
-  transform: rotateY(180deg);
+  transform: rotateY(var(--pfp-rest));
 }
 
 .pfp-flip-card:hover .pfp-flip-card-inner {
-  transform: rotateY(360deg);
-}
-
-/* Dark: B/W face resting, colour on hover */
-:root[data-theme="dark"] .pfp-flip-card-inner {
-  transform: rotateY(0deg);
-}
-
-:root[data-theme="dark"] .pfp-flip-card:hover .pfp-flip-card-inner {
-  transform: rotateY(180deg);
+  transform: rotateY(var(--pfp-hover));
 }
 
 .pfp-flip-card-front,

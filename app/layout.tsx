@@ -20,11 +20,24 @@ import "./globals.css";
 // face that loses that race is simply not used for that pageview rather than
 // repainting the LCP paragraph.
 
-// Apply only an explicit saved choice before <body> exists. With no saved
-// choice, the CSS media query owns the first frame and next-themes keeps
-// following live system changes after hydration. The storage read is guarded
-// because some privacy modes and embedded browsers make localStorage throw.
-const THEME_INIT = `(function(){try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(_){}})();`;
+// Writes the *resolved* theme to data-theme before <body> exists, whether the
+// visitor has a saved choice or is on "system". Resolving here rather than
+// leaving the attribute off and letting the prefers-color-scheme block in
+// globals.css handle "system" is what keeps the page internally consistent: the
+// media query can only restate the palette, so in the gap before next-themes
+// hydrates, every `dark:` utility and every rule keyed on the attribute would
+// still render its light form over an already-dark background — company logos
+// un-inverted on black, the profile card resting on the wrong face.
+//
+// This does not pin the theme. next-themes still owns the preference and still
+// rewrites data-theme when the OS flips while "system" is selected; the
+// attribute being present up front changes nothing about that.
+//
+// The storage read is guarded because some privacy modes and embedded browsers
+// make localStorage throw, and colorScheme is set alongside so form controls,
+// scrollbars and the document canvas agree from the first frame — the CSS says
+// the same thing, but only once the stylesheet has parsed.
+const THEME_INIT = `(function(){var e=document.documentElement,t=null;try{t=localStorage.getItem("theme")}catch(_){}var d=t==="dark"||(t!=="light"&&window.matchMedia("(prefers-color-scheme: dark)").matches);e.dataset.theme=d?"dark":"light";e.style.colorScheme=d?"dark":"light"})();`;
 
 export const metadata: Metadata = {
   title: {

@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/status-button";
 import { checkEmail } from "@/lib/email";
 import { i18n } from "@/lib/i18n";
+import { getRenderedTheme } from "@/lib/theme";
 import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 
@@ -130,11 +131,7 @@ export default function ContactPage() {
       return setState({ status: "error", error: "notConfigured" });
     }
 
-    const renderedTheme = document.documentElement.dataset.theme;
-    const isDark =
-      renderedTheme === "dark" ||
-      (renderedTheme !== "light" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches);
+    const isDark = getRenderedTheme() === "dark";
     const theme = isDark
       ? {
           pageBg: "#000000",

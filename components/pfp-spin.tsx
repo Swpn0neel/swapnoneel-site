@@ -1,5 +1,6 @@
 "use client";
 
+import { getRenderedTheme } from "@/lib/theme";
 import { useRef } from "react";
 
 export function PfpSpin({ children }: { children: React.ReactNode }) {
@@ -12,17 +13,10 @@ export function PfpSpin({ children }: { children: React.ReactNode }) {
     );
   }
 
-  // The attribute is authoritative after initialization. If JavaScript or
-  // storage is unavailable and no attribute exists, CSS follows the OS, so the
-  // animation must resolve that same media query.
+  // The resting angles below have to agree with --pfp-rest in globals.css, so
+  // they resolve the theme the same way the palette does.
   function isDark() {
-    const theme = document.documentElement.dataset.theme;
-
-    return (
-      theme === "dark" ||
-      (theme !== "light" &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches)
-    );
+    return getRenderedTheme() === "dark";
   }
 
   function handleClick() {
