@@ -19,7 +19,7 @@ tags:
   - webdev
   - ai
   - opensource
-updated: '2026-08-04T09:54:06.375Z'
+updated: '2026-08-05T09:50:14.671Z'
 ---
 
 I try a lot of models daily, and I kept ending up with a separate API key for every model provider I wanted to test with my desired harness. So I decided to try [Bifrost](https://www.getmaxim.ai/bifrost) on my local machine, to see if it would actually fix that.
@@ -112,7 +112,7 @@ In the screenshot below, you will be able to see how Bifrost does that:
 
 We can see and check the detailed logs as well.
 
-All of your data is stored locally and nothing gets sent to the cloud, other than the messages we're sending to the model providers, which is obvious. Everything is kept air-gaped.
+All of your data is stored locally and nothing gets sent to the cloud, other than the messages we're sending to the model providers, which is obvious. Everything is kept air-gapped.
 
 ## Model Routing using Automatic Fallback
 

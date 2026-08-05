@@ -677,7 +677,7 @@ In the screenshot below, you will be able to see how Bifrost does that:
 
 We can see and check the detailed logs as well.
 
-All of your data is stored locally and nothing gets sent to the cloud, other than the messages we're sending to the model providers, which is obvious. Everything is kept air-gaped.
+All of your data is stored locally and nothing gets sent to the cloud, other than the messages we're sending to the model providers, which is obvious. Everything is kept air-gapped.
 
 ## Model Routing using Automatic Fallback
 
