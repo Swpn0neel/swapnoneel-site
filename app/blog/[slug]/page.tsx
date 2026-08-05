@@ -1,17 +1,18 @@
 import { BlogImage } from "@/components/blog-image";
 import { BlogNarrator } from "@/components/blog-narrator";
+import { CodeBlock } from "@/components/code-block";
 import { FontSizeToggle } from "@/components/font-size-toggle";
 import { TableOfContents } from "@/components/table-of-contents";
 import { mirroredSrc } from "@/lib/blog-image-map";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
+import { getRawText } from "@/lib/mdx-text";
 import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import type { ReactNode } from "react";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
@@ -82,25 +83,6 @@ const generateSlug = (text: string) => {
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-");
-};
-
-const getRawText = (node: ReactNode): string => {
-  if (!node) return "";
-  if (typeof node === "string") return node;
-  if (typeof node === "number") return String(node);
-  if (Array.isArray(node))
-    return (node as ReactNode[]).map(getRawText).join("");
-  if (
-    node &&
-    typeof node === "object" &&
-    "props" in node &&
-    node.props &&
-    typeof node.props === "object" &&
-    "children" in node.props
-  ) {
-    return getRawText((node.props as { children?: ReactNode }).children);
-  }
-  return "";
 };
 
 // The first images of a post sit just under the cover and table of contents,
@@ -309,6 +291,7 @@ export default async function BlogPostPage({
             },
           }}
           components={{
+            pre: CodeBlock,
             img: (props) => {
               const src = typeof props.src === "string" ? props.src : undefined;
               return (

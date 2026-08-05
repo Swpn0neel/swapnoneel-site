@@ -1,3 +1,4 @@
+import { CodeBlock } from "@/components/code-block";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
@@ -138,6 +139,7 @@ export default async function WorkItemPage({
             },
           }}
           components={{
+            pre: CodeBlock,
             a: ({ href, children, ...props }) => {
               const isExternal =
                 href &&
