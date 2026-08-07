@@ -1,13 +1,8 @@
 ---
-title: Designing Machine Learning Workflows in Python
+title: "Designing Machine Learning Workflows in Python"
 date: "2024-02-02T16:07:14.579Z"
 description: >-
-  Introduction
-
-  In our recent AI-revolutionized world, to design proper machine learning
-  workflows is important for getting insights, making predictions, and also
-  solving complex problems. Python, with its vast collection of libraries and
-  frameworks, is...
+  A machine-learning workflow turns data into features, trains and evaluates a model, and saves the result. Build that process in Python with Fashion MNIST and IMDb examples.
 cover: >-
   https://web.archive.org/web/20240417063106/https://cdn.hashnode.com/res/hashnode/image/upload/v1706889691867/9b2f329b-3ac3-47e5-a748-c9a1eadee06a.png
 link: "https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python"
@@ -19,237 +14,262 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+Machine learning code is rarely just a model. You also need data that the model can read, a repeatable way to turn that data into features, an evaluation that matches the problem, and a way to save the result for later.
 
-In our recent AI-revolutionized world, to design proper machine learning workflows is important for getting insights, making predictions, and also solving complex problems. Python, with its vast collection of libraries and frameworks, is the go-to language for developing machine learning models and workflows. So, that's why, understanding the steps involved in designing machine learning workflows in Python is essential to progress in this field.
+That collection of steps is a machine learning workflow. Python is useful here because the same language can handle data loading with Pandas, numerical work with NumPy, classical models with scikit-learn, and neural networks with TensorFlow or PyTorch.
 
-In this article, we will explore the fundamental steps and considerations that go into building efficient and robust machine learning pipelines. We will cover all the essential aspects that is needed using some of the extensive support from libraries such as NumPy, Pandas, Scikit-Learn, TensorFlow, and PyTorch.
+The order matters. If you clean the test data using information from the training data, your score becomes too optimistic. If you choose a metric that does not match the cost of an error, a high score may hide a bad product decision.
 
-So, let's dive in and discover the key components of designing machine learning workflows in Python. By the end of this article, you'll have a solid foundation to tackle real-world machine learning challenges and unleash the power of Python in your data-driven endeavors.
+## Start with the question
 
-## What's the process?
+Before opening a notebook, write down what the model should predict and what a useful prediction would change. Predicting whether a review is positive is a classification problem. Predicting the price of a house is a regression problem. Grouping similar customers without labels is a clustering problem.
 
-To design a machine learning workflow, we have to perform and maintain some specific steps which are crucial. They are stated below:
+This decision affects the target column, the model family, and the metric. It also tells you what kind of error matters. In a fraud system, missing a suspicious transaction may matter more than reviewing an extra legitimate one. In a delivery estimate, the size of the error may matter more than whether the answer is on one side of a threshold.
 
-1. ### Data Preparation
+## Build the workflow in order
 
-   It is a crucial step in designing machine learning workflows. It involves ensuring that the data is in a suitable format and quality for the subsequent stages of the workflow.
+### Prepare the data
+
+The model cannot learn from a messy table in the same way a person can. You need to decide which rows are usable, which column is the target, how missing values are handled, and how categories or text become numbers.
+
+The test set must remain untouched while you make those choices. It is meant to imitate data the model has never seen.
+
+This example shows the shape of a classification workflow. It assumes `data.csv` contains numeric feature columns and a column named `target`.
 
 ```python
-# Import necessary libraries
 import numpy as np
 import pandas as pd
-
-# Load and explore the dataset
-dataset = pd.read_csv('data.csv')
-print(dataset.head())
-
-# Handle missing data and outliers
-dataset = dataset.dropna()
-dataset = dataset[dataset['column'] < threshold]
-
-# Preprocess the data
-X = dataset.drop('target', axis=1)
-y = dataset['target']
-
-# Split the data into training and testing sets
 from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score
+
+dataset = pd.read_csv("data.csv")
+target_column = "target"
+
+# Remove rows that cannot be used for the target decision.
+dataset = dataset.dropna(subset=[target_column])
+
+X = dataset.drop(columns=[target_column])
+y = dataset[target_column]
+
+# Keep the test set separate until the final evaluation.
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y,
+)
+
+# Fit preprocessing only on the training data by putting it in a pipeline.
+model = make_pipeline(
+    StandardScaler(),
+    LogisticRegression(max_iter=1000),
+)
+model.fit(X_train, y_train)
+
+y_pred = model.predict(X_test)
+print("Accuracy:", accuracy_score(y_test, y_pred))
+print("Precision:", precision_score(y_test, y_pred, zero_division=0))
+print("Recall:", recall_score(y_test, y_pred, zero_division=0))
 ```
 
-1. ### Feature Engineering
+The file and column names are assumptions, so change them for your dataset. The important part is the boundary: split first, fit transformations on the training data, and use the test data only for the final check.
 
-   It is the next step that comes after Data Preparation. It involves transforming raw data into a format that can effectively represent the underlying patterns and relationships in them.
+### Create useful features
+
+A feature is an input the model can use. Raw data is not always arranged in a useful form. A timestamp may become hour and weekday columns. A sentence may become word features. A table with hundreds of related numeric columns may need dimensionality reduction.
+
+Principal component analysis, or PCA, is one way to reduce numeric features to a smaller representation. Fit it on the training data, then apply the already-fitted transformation to the test data.
 
 ```python
-# Extract relevant features from the data
-# Feature extraction techniques like PCA, LDA, etc.
-
-# Perform dimensionality reduction
 from sklearn.decomposition import PCA
-pca = PCA(n_components=2)
+
+pca = PCA(n_components=2, random_state=42)
 X_train_pca = pca.fit_transform(X_train)
 X_test_pca = pca.transform(X_test)
 ```
 
-1. ### Model Selection
+PCA is not automatically a good feature choice. Two components are easy to plot, but they may discard information that the model needs. Compare the reduced version with the original features rather than assuming fewer columns means a better model.
 
-   The model selection section involves choosing an appropriate algorithm or model architecture that best fits the problem at hand. It includes tasks such as determining the type of problem selecting the appropriate model class (e.g., decision trees, neural networks, support vector machines), and tuning hyperparameters to optimize model performance.
+### Choose and compare models
+
+Model selection is a comparison against the problem, not a contest for the most complicated algorithm. A linear model can be easier to inspect and may work well when the relationship is simple. A tree-based model can capture different kinds of boundaries but may need its own tuning.
+
+Cross-validation gives you several training and validation splits instead of trusting one lucky split. Use the same scoring rule for each candidate.
 
 ```python
-# Import necessary libraries
-from sklearn.model_selection import cross_val_score
-from sklearn.metrics import accuracy_score, precision_score, recall_score
-
-# Choose appropriate models based on the problem
-from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
-# Split data into input features (X) and target variable (y)
-X = X_train_pca
-y = y_train
+logistic_model = LogisticRegression(max_iter=1000)
+forest_model = RandomForestClassifier(random_state=42)
 
-# Define evaluation metrics for model selection
-scoring = 'accuracy'
+logistic_scores = cross_val_score(
+    logistic_model,
+    X_train_pca,
+    y_train,
+    cv=5,
+    scoring="accuracy",
+)
+forest_scores = cross_val_score(
+    forest_model,
+    X_train_pca,
+    y_train,
+    cv=5,
+    scoring="accuracy",
+)
 
-# Train and evaluate models using cross-validation
-model_lr = LogisticRegression()
-scores_lr = cross_val_score(model_lr, X, y, cv=5, scoring=scoring)
-model_rf = RandomForestClassifier()
-scores_rf = cross_val_score(model_rf, X, y, cv=5, scoring=scoring)
-
-# Select the best-performing model based on evaluation metrics
-best_model = model_rf if np.mean(scores_rf) > np.mean(scores_lr) else model_lr
+best_model = (
+    forest_model
+    if np.mean(forest_scores) > np.mean(logistic_scores)
+    else logistic_model
+)
+print("Logistic regression:", np.mean(logistic_scores))
+print("Random forest:", np.mean(forest_scores))
 ```
 
-1. ### Model Training and Evaluation
+The comparison above uses the PCA features from the previous step. In a real project, put PCA inside a scikit-learn pipeline before cross-validation so each fold learns its own transformation. That prevents information from the validation fold leaking into training.
 
-   The model training process involves feeding the input data and corresponding labels into the model, adjusting the model's internal parameters iteratively using optimization techniques (e.g., gradient descent), and updating the parameters to minimize the specified loss function. Evaluation metrics such as accuracy, precision, recall, or mean squared error are calculated to quantify the model's predictive performance.
+### Train and evaluate
+
+Training is where the model learns parameters from the training set. Evaluation asks how well those learned parameters work on data held back from that process.
 
 ```python
-# Train the selected model on the training set
 best_model.fit(X_train_pca, y_train)
-
-# Evaluate the model using test set
 y_pred = best_model.predict(X_test_pca)
 
-# Calculate evaluation metrics
 accuracy = accuracy_score(y_test, y_pred)
-precision = precision_score(y_test, y_pred)
-recall = recall_score(y_test, y_pred)
+precision = precision_score(y_test, y_pred, zero_division=0)
+recall = recall_score(y_test, y_pred, zero_division=0)
+
+print("Accuracy:", accuracy)
+print("Precision:", precision)
+print("Recall:", recall)
 ```
 
-1. ### Model Deployment
+Accuracy is the fraction of correct predictions. Precision asks how many predicted positives were actually positive. Recall asks how many real positives the model found. Choose the metric before looking for the best score, otherwise it is easy to optimize for a number that does not describe the product.
 
-   The Model Deployment section involves making the trained machine learning model available for use in real-world applications. This process includes preparing the model for deployment, such as converting it into a deployable format or packaging it into a containerized environment.
+### Save the model
+
+Training can be expensive, and a deployed application needs the learned model without retraining it for every request. Save the fitted model together with every preprocessing step it needs.
 
 ```python
-# Save the trained model to a file
 import joblib
-joblib.dump(best_model, 'model.pkl')
+
+joblib.dump(best_model, "model.pkl")
 ```
 
-Now, with all these covered, it may seem overwhelming to you, so let’s check some examples to solidify your concepts.
+If the feature transformation is separate from the model, save that transformation too. A production prediction must receive data in the same shape and scale used during training.
 
-## Examples
+## Example with Fashion MNIST
 
-### Machine Learning workflow for Image Classification using the Fashion MNIST dataset
-
-Here's an example of a machine learning workflow for image classification using the Fashion MNIST dataset. The workflow includes data loading, preprocessing, model selection, training, evaluation, and saving the trained model. Let’s check the code sample, how we are doing that-
+Fashion MNIST is a useful small example because every image has the same shape and the dataset already comes with training and test splits. The model below classifies the images into ten categories.
 
 ```python
-# Import necessary libraries
+import numpy as np
 import tensorflow as tf
 from tensorflow import keras
-import numpy as np
 
-# Load the Fashion MNIST dataset
 fashion_mnist = keras.datasets.fashion_mnist
 (X_train, y_train), (X_test, y_test) = fashion_mnist.load_data()
 
-# Preprocess the data
-X_train = X_train / 255.0
-X_test = X_test / 255.0
+# Pixel values arrive as integers from 0 to 255.
+X_train = X_train.astype("float32") / 255.0
+X_test = X_test.astype("float32") / 255.0
 
-# Model Selection
-model = keras.models.Sequential([
-    keras.layers.Flatten(input_shape=(28, 28)),
-    keras.layers.Dense(128, activation='relu'),
-    keras.layers.Dense(10, activation='softmax')
+model = keras.Sequential([
+    keras.Input(shape=(28, 28)),
+    keras.layers.Flatten(),
+    keras.layers.Dense(128, activation="relu"),
+    keras.layers.Dense(10, activation="softmax"),
 ])
 
-# Model Training
-model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-model.fit(X_train, y_train, epochs=10)
+model.compile(
+    optimizer="adam",
+    loss="sparse_categorical_crossentropy",
+    metrics=["accuracy"],
+)
+model.fit(X_train, y_train, epochs=10, validation_split=0.1)
 
-# Model Evaluation
-test_loss, test_accuracy = model.evaluate(X_test, y_test)
-print(f"Test Loss: {test_loss}")
-print(f"Test Accuracy: {test_accuracy}")
+test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
+print(f"Test loss: {test_loss:.4f}")
+print(f"Test accuracy: {test_accuracy:.4f}")
 
-# Save the trained model
-model.save("fashion_mnist_model.h5")
+model.save("fashion_mnist_model.keras")
 ```
 
-Now, let’s see how the workflow works:
+The dataset is loaded with the [keras.datasets.fashion](http://keras.datasets.fashion)\_mnist module. The images are stored as 28-by-28 pixel arrays, and dividing by 255 puts each pixel into a small numeric range.
 
-1. We import the necessary libraries, including TensorFlow and Keras, which provide high-level APIs for building and training deep learning models.
-2. The Fashion MNIST dataset is loaded using the [keras.datasets.fashion](http://keras.datasets.fashion)\_mnist module and is split into training and testing sets, and the images and labels are stored in variables X_train, y_train, X_test, and y_test, respectively.
-3. Pre-processing the data: The pixel values of the images are scaled to a range of 0 to 1 by dividing them by 255. This normalization step ensures that the input data is in a suitable range for the model.
-4. Model Selection: We create a sequential model using keras.models.Sequential(). In this example, we use a simple architecture with a flattening layer, a dense layer with 128 units and ReLU activation, and a dense output layer with 10 units (corresponding to the number of classes in the dataset) and softmax activation.
-5. Model Training: We compile the model using model.compile() with the Adam optimizer, sparse categorical cross-entropy loss function, and accuracy as the evaluation metric. The model is trained using [model.fit](http://model.fit)() with the training data (X_train and y_train) for a specified number of epochs.
-6. Model Evaluation: We evaluate the trained model on the test set using model.evaluate(). The test loss and accuracy are calculated and printed.
+The `Flatten` layer turns each image into one vector. The hidden dense layer learns combinations of those pixel values, and the final layer produces ten class scores. `sparse_categorical_crossentropy` fits integer labels such as `0` through `9` without requiring you to convert them into one-hot arrays.
 
-Saving the trained model: We save the trained model to a file using [model.save](http://model.save)().
-
-When the code is run through the terminal, the model is trained, evaluated and the test loss and accuracy is printed, as shown below:
+The model trains with [model.fit](http://model.fit)() on the training images and checks the test images only after training. When the code is run through the terminal, the model is trained, evaluated, and the test loss and accuracy are printed, as shown below:
 
 ![Terminal output of Fashion MNIST model training and evaluation](https://cdn.hashnode.com/res/hashnode/image/upload/v1706888496190/80a5fff8-8809-43d7-b8cc-8459949edd5c.png)
 
-### Machine Learning workflow for Sentiment Analysis using the IMDb movie review dataset
+## Example with IMDb sentiment
 
-Let’s get into the example of a machine learning workflow for sentiment analysis using the IMDb movie review dataset. The workflow includes data preparation, feature engineering, model selection, training, evaluation, and deployment. Let’s dive into the code and check how we are doing that-
+Text needs a different feature step. A logistic regression model cannot read raw sentences, so `TfidfVectorizer` turns words into numbers based on how often they appear in a review and how unusual they are across the dataset.
 
 ```python
-# Import necessary libraries
+import joblib
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
-import joblib
+from sklearn.model_selection import train_test_split
 
-# Load the IMDb movie review dataset
-df = pd.read_csv('imdb_reviews.csv')
+df = pd.read_csv("imdb_reviews.csv")
+X = df["review"]
+y = df["sentiment"]
 
-# Data Preparation
-X = df['review']
-y = df['sentiment']
+X_train, X_test, y_train, y_test = train_test_split(
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y,
+)
 
-# Split the data into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-# Feature Engineering
 vectorizer = TfidfVectorizer()
 X_train_vectors = vectorizer.fit_transform(X_train)
 X_test_vectors = vectorizer.transform(X_test)
 
-# Model Selection
-model = LogisticRegression(max_iter=100000)
-
-# Model Training
+model = LogisticRegression(max_iter=1000)
 model.fit(X_train_vectors, y_train)
 
-# Model Evaluation
 y_pred = model.predict(X_test_vectors)
 accuracy = accuracy_score(y_test, y_pred)
-print(f"Accuracy: {accuracy}")
+print(f"Accuracy: {accuracy:.4f}")
 
-# Model Deployment
-joblib.dump(model, 'sentiment_analysis_model.pkl')
-joblib.dump(vectorizer, 'vectorizer.pkl')
+joblib.dump(model, "sentiment_analysis_model.pkl")
+joblib.dump(vectorizer, "vectorizer.pkl")
 ```
 
-Now, let’s see how the workflow works:
+The dataset is loaded with [pd.read](http://pd.read)\_csv() into a DataFrame. In this example, `review` contains the text and `sentiment` contains the label. The split happens before fitting the vectorizer, which keeps vocabulary information from the test set out of training.
 
-1. We start by importing the necessary libraries, including Pandas for data manipulation, scikit-learn for machine learning functionality, and joblib for model serialization.
-2. The IMDb movie review dataset is loaded using [pd.read](http://pd.read)\_csv() into a Pandas DataFrame called df. The dataset contains two columns: "review" (textual movie reviews) and "sentiment" (positive or negative sentiment).
-3. Data Preparation: We assign the "review" column to X and the "sentiment" column to Y, which prepares the data for training and testing.
-4. Splitting the data: The train_test_split() function is used to split the data into training and testing sets. We assign 80% of the data to training and 20% to testing. The random_state parameter ensures reproducibility of the split.
-5. Feature Engineering: We use the TfidfVectorizer from scikit-learn to convert the textual reviews into numerical features. The fit_transform() function is applied to the training set (X_train), and the transform() function is applied to the testing set (X_test), as you can clearly see in the code.
-6. Model Selection: We choose a logistic regression model for sentiment analysis. In this example, we use scikit-learn's LogisticRegression() class.
-7. Model Training: We fit the logistic regression model to the training data using [model.fit](http://model.fit)() with the training vectors (X_train_vectors) and corresponding labels (y_train).
-8. Model Evaluation: We make predictions on the testing set using model.predict() with the testing vectors (X_test_vectors). The accuracy is calculated by comparing the predicted labels (y_pred) with the actual labels (y_test).
-9. Model Deployment: And finally, we save the trained model and vectorizer using joblib.dump() for future use and deployment.
+The [model.fit](http://model.fit)() call learns the relationship between the training reviews and their labels. The `model.predict()` call then produces labels for reviews it did not see during training. Finally, `joblib.dump()` saves both the classifier and the vectorizer because the deployed application needs to transform new text in the same way. The Keras example uses [model.save](http://model.save)() for the same reason.
 
-When the code is run through the terminal, the model is trained, evaluated and the accuracy is printed, as shown below:
+When the code is run through the terminal, the model is trained, evaluated, and the accuracy is printed, as shown below:
 
 ![Terminal output of sentiment analysis model training and accuracy](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889095784/94b6cb10-93a0-4b56-8e9d-0cd704d94764.png)
 
-## Conclusion
+## Moving from a notebook to an application
 
-Thank you for reading the blog! I hope you found it informative and valuable. For more information, follow me on [**Twitter (swapnoneel123**](http://twitter.com/swapnoneel123)**)** where I share more such content through my tweets and threads. And, please consider sharing it with others on **Twitter** and tag me in your post so I can see it too. You can also check my [**GitHub (Swpn0neel)**](https://github.com/Swpn0neel) to see my projects.
+Keep a record of the data columns, preprocessing steps, model version, and evaluation split. A saved model without the code that prepared its inputs is hard to trust and harder to reproduce.
 
-I wish you a great day ahead and till then keep learning and keep exploring!!
+Before deployment, test the prediction path with new examples and invalid input. Watch for missing columns, unexpected categories, empty text, and values outside the range used during training. Log model inputs carefully and avoid storing private data unless you have a clear reason to do so.
+
+Once the model is running, monitor the inputs and the outcomes you can observe. Data changes over time, and a score from last month cannot tell you whether today's requests still look like the training data.
+
+## What to remember
+
+A machine learning workflow is a chain. Start with a clearly defined prediction, prepare the data without leaking the test set, create features that represent the problem, compare models with a meaningful metric, evaluate on held-out data, and save every piece needed for prediction.
+
+The code is only one part of the job. The decisions around the code determine whether the final number tells you anything useful. I still find the data split and metric choice easier to get wrong than the model import, which is probably why they deserve more attention than the flashy part.
+
+For more posts, you can follow me on [Twitter (swapnoneel123)](http://twitter.com/swapnoneel123). You can also check my [GitHub (Swpn0neel)](https://github.com/Swpn0neel) for projects.
 
 ![Machine learning model evaluation matrix and performance metrics](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889699251/e0331511-ab42-4e0c-997c-5cbe529b3888.png)

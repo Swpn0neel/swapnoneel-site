@@ -1,12 +1,8 @@
 ---
-title: The Impact of AI on Code Commenting and Software Documentation
+title: "The Impact of AI on Code Commenting and Software Documentation"
 date: "2024-11-15T00:21:42.000Z"
 description: >-
-  Table of Contents In modern software development, clear code documentation and
-  commenting are not only just a part of good practices, but also they are
-  essential for effective collaboration, maintainability, and scaling projects
-  over time. However, they are often neglected due to time constraints or lack
-  of clarity on how much detail is necessary. But, [...]
+  AI can draft comments and documentation, but it cannot decide whether they explain the right behavior or the reason behind it. Use a review loop before committing generated text.
 cover: >-
   https://wp.keploy.io/wp-content/uploads/2024/11/document-and-comment-code-with-ai.webp
 link: >-
@@ -19,74 +15,84 @@ tags:
   - software-engineering
 ---
 
-In modern software development, clear code documentation and commenting are not only just a part of good practices, but also they are essential for effective collaboration, maintainability, and scaling projects over time. However, they are often neglected due to time constraints or lack of clarity on how much detail is necessary.
+Comments and documentation answer questions that the code cannot answer by itself. A function can show how it calculates a value, but it may not show why the product needs that rule, which input is trusted, or what must stay true when the code changes.
 
-But, with the advent of artificial intelligence, developers now have tools to streamline this process, allowing them to focus on coding without compromising on clarity. In this blog, we’ll discuss how AI is revolutionizing the world of code documentation and commenting. So, let’s get started!
+That information is easy to postpone. Then a few months pass, the original author is busy, and a harmless-looking change turns into archaeology. AI tools can help you write a first draft, but they cannot take responsibility for whether that draft describes the code honestly.
 
-## Why is Code Documentation and Commenting Important?
+## What good documentation is supposed to do
 
-Before diving into how **AI-powered code commenting** assists in documentation, it’s essential to understand why documenting and commenting code is crucial:
+Start with the reader. Someone opening a file should be able to understand the purpose of the module, the assumptions around its inputs, and the unusual decisions that would otherwise look like mistakes.
 
-1.  **Clarity and Communication**: Comments explain the “why” behind code, helping teammates (and your future self) understand the reasoning behind specific approaches.
-2.  **Debugging and Maintenance**: **AI in code documentation** aids in quickly identifying issues and updating systems without breaking other functionalities.
-3.  **Onboarding New Team Members**: New developers can ramp up faster with concise, **NLP-generated code comments** that outline the purpose, behavior, and structure of different code segments.Yet, the process is often viewed as a chore. That’s where AI comes in.
+Comments are most useful when they explain a reason or a constraint. They should not narrate obvious syntax. This comment adds little information:
 
-## How AI-Powered Tools are Transforming Code Documentation?
+```python
+# Add one to the count.
+count += 1
+```
 
-**AI-driven code commenting** tools, leveraging **NLP in code documentation**, are changing how developers handle commenting. Here’s how:
+This one gives the next reader something they could not get by staring at the line:
 
-1.  **Automated Comment Generation**: Tools like GitHub Copilot and Amazon CodeWhisperer analyze your code and automatically generate descriptive comments. For instance, when writing a function that calculates the factorial of a number, the **AI-powered code comments** might suggest:
+```python
+# Keep the first event in the count because the reporting API uses one-based totals.
+count += 1
+```
 
-    **Example**: Writing a function that calculates the factorial of a number might automatically generate comments like:
+Documentation outside the code has a different job. A README can explain how to run a project. An API document can describe a request and response. A comment belongs near the decision it explains, so it should stay short enough to update when that decision changes.
 
-    ```python
-    # This function calculates the factorial of a given integer.
-    # It uses recursion to find the product of all positive integers up to n.
-    def factorial(n):
-        if n <= 1:
-            return 1
-        return n * factorial(n - 1)
-    ```
+## Where AI helps
 
-    2.  **Code Summarization:** Advanced **AI for developers** can generate summaries of entire code files, providing a high-level overview without diving into each line—a significant advantage for lengthy codebases.
-    3.  **Integration with Development Environments:** Many **automated coding assistance** tools integrate seamlessly with IDEs like VS Code, enabling developers to receive real-time suggestions while coding.
-    4.  **Standardization and Consistency:** AI can enforce consistency in documentation style, terminology, and formatting across a project, helping to uphold best practices and support smoother collaboration.
+AI assistants are useful when the work is repetitive and the boundaries are clear. They can summarize a file, suggest a docstring, or turn a function signature into a rough explanation. Tools such as GitHub Copilot and Amazon CodeWhisperer can also propose comments while you write code.
 
-## When to Leverage AI for Effective Code Comments
+For example, an assistant may draft this explanation for a recursive factorial function:
 
-While **AI-driven documentation** tools are powerful, understanding when and where to add comments remains essential. Here are some best practices for using **AI in code documentation** effectively:
+```python
+# This function calculates the factorial of a given integer.
+# It uses recursion to find the product of all positive integers up to n.
+def factorial(n):
+    if n <= 1:
+        return 1
+    return n * factorial(n - 1)
+```
 
-- **Avoid Over-Commenting**: Only add comments to complex logic, critical code segments, or areas where clarity is necessary.
-- **Prioritize Value**: Comments should provide additional context without restating obvious logic.
-- **Regularly Review Comments**: AI-generated comments may become outdated over time. Make it a habit to review and update comments to keep documentation accurate.
+The draft is a starting point, not a completed review. It does not say what should happen for a negative value, and it assumes that recursion is the right detail for the reader. You still need to decide whether the comment belongs, what contract the function should have, and how that contract is enforced.
 
-### What are the Challenges of Using AI in Code Documentation?
+AI can also summarize a long file before you read it closely. That can help you find the main entry points, but a summary is a map, not proof. Check it against the code before you copy it into a README or an issue.
 
-Although AI is a valuable tool, it is not without challenges and also comes it’s own limitations and flaws:
+## When a generated comment is dangerous
 
-1.  **Potential for Inaccurate Documentation**: AI-generated comments may sometimes misinterpret the intention of complex code, leading to inaccuracies. That’s why, we need to re-check the generated comments to ensure that they are correct.
-2.  **Dependency Concerns**: If you are relying too heavily on AI without cross-checking, it could lead to a lack of critical thinking or misunderstandings in your codebase.
-3.  **Bias and Security Risks**: Kee\[ in mind, AI models are trained on publicly available code that may inadvertently introduce security risks or biases. That’s why, you have to always ensure that the generated documentation aligns with organizational standards and security policies.
+The code tells the model what exists. It does not always tell the model why it exists. A generated sentence can sound confident while inventing an intention, missing an edge case, or describing an old version of the implementation.
 
-## What is the Future of AI in Code Documentation?
+That matters most around permissions, money, security checks, retries, data retention, and compatibility rules. A wrong comment in one of those places can push the next person toward the wrong fix.
 
-The role of AI in code documentation is evolving rapidly and the future advancements could bring even more intelligent systems capable of understanding broader software contexts, which can also integrate with task management tools, and even learning the coding styles of individual developers or teams. By reducing the manual burden of commenting and documentation, AI empowers developers to focus on building innovative, high-quality software while ensuring their code remains transparent and accessible.
+There is another failure mode: stale truth. If a comment repeats what the next line does and that line changes, the comment can drift without anyone noticing. The reader then has two conflicting versions of the program.
 
-## Can AI be Used to Automate Software Testing?
+My caveat is simple: I would rather leave a small section undocumented for a moment than merge a polished explanation that nobody verified. A plain TODO that names the missing decision is more honest than an incorrect paragraph.
 
-Just as **AI tools for developers** can enhance documentation, they can also streamline testing. **Keploy**, for instance, offers **automated testing** solutions that generate test cases and mocks for unit, integration as well as e2e testing. It’s straightforward to use and integrates seamlessly with IDEs like VS Code, allowing you to improve testing efficiency while maintaining code quality.
+## A review loop that works
+
+Use the generated text in a short loop. First, ask the tool for a draft that focuses on behavior and assumptions. Then read the code yourself and delete anything that merely repeats syntax. Finally, run the tests and update the comment if the test exposes a different contract.
+
+Keep the prompt close to the question you need answered. "Explain this file" is broad. "Describe why this cache entry is rejected when the version changes" gives the tool a narrower task and gives you a clearer result to review.
+
+Do not send secrets, private data, or proprietary implementation details to a service unless your project allows it. Also check generated comments for sensitive names, internal URLs, and details that should not be public. Documentation can leak information even when the code path itself is protected.
+
+## Can AI help with software testing too
+
+The same review rule applies to generated tests. A test is useful when it checks a behavior you care about, not when it only makes the coverage number larger.
+
+[Keploy](https://keploy.io) is mentioned here because it can generate test cases and stubs or mocks for unit and integration testing from API interactions. If you use a tool like that, inspect the captured inputs, remove sensitive values, and confirm that the expected response represents a real contract before keeping the test.
 
 ![Keploy documentation logo](https://keploy.io/docs/img/keploy-logo-dark.svg)
 
-So, wouldn’t it be great if there was a AI tool that can automate this task too? Yes, that’s where [Keploy](https://keploy.io) comes in. Keploy is an AI based test case and stubs/mocks generator for integration and unit testing. And also, it’s extremely easy-to-use and is also available directly through your IDEs, like VS Code! So go ahead and give it a try now!
+The image above belongs in the testing section because the connection is practical: documentation tells you what a boundary should do, and a test can check that the boundary keeps doing it. The tool can save typing, but you still own the test's meaning.
 
-## Conclusion
+## The part AI cannot sign off on
 
-AI has transformed both **code documentation** and **automated software testing**, enabling developers to maintain clarity and consistency without slowing down. Embracing **AI-driven code commenting** and testing tools like Keploy means better collaboration, maintainable software, and a brighter, more productive future for developers.
+AI is good at producing a plausible first pass. You are still responsible for the final sentence. Check every claim against the code, the tests, and the project rules, then leave a comment only when it will help the next reader make a better decision.
 
-For more information, follow me on [**Twitter (swapnoneel123**](http://twitter.com/swapnoneel123)**)** where I share more such content through my tweets and threads. And, please consider sharing it with others on **Twitter** and tag me in your post so I can see it too. You can also check my [**GitHub (Swpn0neel)**](https://github.com/Swpn0neel) to see my projects.
+That is the useful division of labor. Let the tool handle the blank page and repetitive wording. Keep the judgment, context, and security review with the person who understands what the software is allowed to do.
 
-I wish you a great day ahead and till then keep learning and keep exploring!!
+For more writing about software, follow me on [Twitter (swapnoneel123)](http://twitter.com/swapnoneel123). You can also browse my [GitHub (Swpn0neel)](https://github.com/Swpn0neel) projects.
 
 ![Thank you graphic for AI code commenting blog](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
 

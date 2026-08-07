@@ -1,14 +1,9 @@
 ---
 cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676971804561/522eb53e-7247-4c31-a43d-a85a1bd1ea1c.png"
-title: Overriding & Overloading in Python
+title: "Overriding and Overloading in Python Explained"
 date: "Tue, 21 Feb 2023 11:34:18 GMT"
 description: >-
-  Method Overriding
-
-  Method overriding is a powerful feature in object-oriented programming that
-  allows you to redefine a method in a derived class. The method in the derived
-  class is said to override the method in the base class. When you create an
-  ins...
+  Method overriding replaces inherited behavior, while operator overloading gives expressions such as + a meaning for your own objects.
 link: "https://swapnoneel.hashnode.dev/overriding-overloading-in-python"
 tags:
   - python
@@ -18,92 +13,78 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Method Overriding
+Inheritance becomes useful when the calling code can ask different objects to do the same job. A `Circle` and a `Rectangle` can both answer `area()`, even though the calculation is different. The caller keeps one method name, while each class supplies the behavior that belongs to it.
 
-Method overriding is a powerful feature in object-oriented programming that allows you to redefine a method in a derived class. The method in the derived class is said to override the method in the base class. When you create an instance of the derived class and call the overridden method, the version of the method in the derived class is executed, rather than the version in the base class.
+There are two different ideas in this post. Method overriding changes inherited behavior. Operator overloading gives a familiar operator, such as `+`, a meaning for your own class. They are related because both depend on Python choosing a method at runtime, but they solve different problems.
 
-### How can we do Method Overriding?
+## Replacing inherited behavior
 
-In Python, method overriding is a way to customize the behavior of a class based on its specific needs. For example, consider the following base class:
+When a child class defines a method with the same name as a method in its parent, Python finds the child implementation first. That is method overriding.
+
+Here is a complete example with one common interface:
 
 ```python
 class Shape:
     def area(self):
-        pass
-```
+        raise NotImplementedError("Each shape must define area()")
 
-In this base class, the area method is defined but does not have any implementation. If you want to create a derived class that represents a circle, you can override the area method and provide an implementation that calculates the area of a circle:
 
-```python
 class Circle(Shape):
     def __init__(self, radius):
         self.radius = radius
 
     def area(self):
-        return 3.14 * self.radius * self.radius
+        return 3.14159 * self.radius ** 2
+
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def area(self):
+        return self.width * self.height
+
+
+shapes = [Circle(2), Rectangle(3, 4)]
+for shape in shapes:
+    print(shape.area())
 ```
 
-In this example, the Circle class inherits from the Shape class and overrides the area method. The new implementation of the area method calculates the area of a circle, based on its radius.
+The output is approximately `12.56636` followed by `12`. The loop does not need an `isinstance()` check because every object follows the same `area()` contract. That is the useful part of overriding: the caller can stay ignorant of the concrete class.
 
-It's important to note that when you override a method, the new implementation must have the same method signature as the original method. This means that the number and type of arguments, as well as the return type, must be the same.
+Python does not enforce an identical signature or return type when you override a method. Your design still should. If every shape is expected to answer `area()` without arguments, adding a required argument in one child breaks the promise made by the parent. Inheritance does not remove the need to keep an interface consistent.
 
-Another way to customize the behavior of a class is to call the base class method from the derived class method. To do this, you can use the super function. The super function allows you to call the base class method from the derived class method and can be useful when you want to extend the behavior of the base class method, rather than replace it.
+## Keeping part of the parent behavior
 
-For example, consider the following base class:
+Sometimes the child needs to add a detail rather than replace everything. `super()` calls the next implementation in Python's method resolution order, which is usually the parent method in a simple hierarchy.
+
+For example, the parent can provide a general description:
 
 ```python
 class Shape:
-    def area(self):
-        print("Calculating area...")
-```
+    def describe(self):
+        return "This object is a shape."
 
-In this base class, the area method prints a message indicating that the area is being calculated. If you want to create a derived class that represents a circle, and you also want to print a message indicating the type of shape, you can use the super function to call the base class method, and add your own message:
 
-```python
 class Circle(Shape):
-    def __init__(self, radius):
-        self.radius = radius
+    def describe(self):
+        parent_description = super().describe()
+        return f"{parent_description} It is specifically a circle."
 
-    def area(self):
-        print("Calculating area of a circle...")
-        super().area()
-        return 3.14 * self.radius * self.radius
+
+print(Circle().describe())
 ```
 
-In this example, the Circle class overrides the area method and calls the base class method using the super function. This allows you to extend the behavior of the base class method, while still maintaining its original behavior.
+The output contains both sentences. My caveat is that `super()` is easy to add mechanically and harder to justify mechanically. Use it when the parent's work remains part of the child behavior. If the child is meant to replace that behavior completely, calling `super()` only makes the result harder to follow.
 
-In conclusion, method overriding is a powerful feature in Python that allows you to customize the behavior of a class based on its specific needs. By using method overriding, you can create more robust and reliable code, and ensure that your classes behave in the way that you need them to. Additionally, by using the super function, you can extend the behavior of a base class method, rather than replace it, giving you even greater flexibility and control over the behavior of your classes.
+## Giving operators a meaning
 
-## Operator Overloading
+Operator overloading lets a class define what an operator means for its instances. Python translates an expression such as `p1 + p2` into a special method call, roughly `p1.__add__(p2)`. These are called dunder methods because their names begin and end with two underscores.
 
-Operator Overloading is a feature in Python that allows developers to redefine the behavior of mathematical and comparison operators for custom data types. This means that you can use the standard mathematical operators (+, -, \*, /, etc.) and comparison operators (&gt;, &lt;, ==, etc.) in your own classes, just as you would for built-in data types like `int`, `float`, and `str`.
+### A point that can be added
 
-### Why do we need operator overloading?
-
-Operator overloading allows you to create more readable and intuitive code. For instance, consider a custom class that represents a point in 2D space. You could define a method called 'add' to add two points together, but using the + operator makes the code more concise and readable:
-
-```python
-p1 = Point(1, 2)
-p2 = Point(3, 4)
-p3 = p1 + p2
-print(p3.x, p3.y) # prints 4, 6
-```
-
-### How to overload an operator in Python?
-
-You can overload an operator in Python by defining special methods in your class. These methods are identified by their names, which start and end with double underscores `__`. Here are some of the most commonly overloaded operators and their corresponding special methods:
-
-```python
-+ : __add__
-- : __sub__
-* : __mul__
-/ : __truediv__
-< : __lt__
-> : __gt__
-== : __eq__
-```
-
-For example, if you want to overload the + operator to add two instances of a custom class, you would define the **add** method:
+Suppose a point has an `x` coordinate and a `y` coordinate. Adding two points coordinate by coordinate is a meaning a reader can understand, so `+` is a reasonable fit:
 
 ```python
 class Point:
@@ -112,15 +93,23 @@ class Point:
         self.y = y
 
     def __add__(self, other):
+        if not isinstance(other, Point):
+            return NotImplemented
         return Point(self.x + other.x, self.y + other.y)
+
+
+p1 = Point(1, 2)
+p2 = Point(3, 4)
+p3 = p1 + p2
+print(p3.x, p3.y)
 ```
 
-It's important to note that operator overloading is not limited to the built-in operators, you can overload any user-defined operator as well.
+The output is `4 6`. Returning `NotImplemented` tells Python that this operand type is unsupported and gives the other operand a chance to handle the operation. Returning `None` would be different: the expression would appear to work and leave you with an unusable result.
 
-In conclusion, Operator overloading is a powerful feature in Python that allows you to create more readable and intuitive code. By redefining the behavior of mathematical and comparison operators for custom data types, you can write code that is both concise and expressive. However, it's important to use operator overloading wisely, as overloading the wrong operator or using it inappropriately can lead to confusing or unexpected behavior.
+The same idea maps other operators to special methods: `-` calls `__sub__()`, `*` calls `__mul__()`, `<` calls `__lt__()`, and `==` calls `__eq__()`.
 
-## Conclusion
+There is one naming trap. Python does not support traditional method overloading where several methods share one name and differ only by parameter types. If you define `load()` twice, the second definition replaces the first. Default arguments or `*args` can support different call shapes, but a single clear method is usually easier to test.
 
-Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
+So the judgment is fairly simple. Override a parent method when a child needs a different implementation of the same contract. Overload an operator when the resulting expression reads naturally and rejects unsupported types clearly. If the expression needs a paragraph of explanation before it makes sense, a named method is probably the better design.
 
 ![Thank you banner graphic](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)

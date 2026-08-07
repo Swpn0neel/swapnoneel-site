@@ -1,15 +1,10 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676646935359/8a36f405-f26f-4a80-8636-2eb562b13eeb.png?w=1200&auto=compress,format&format=webp&fm=png
-title: Constructors and Decorators in Python
+title: "Constructors and Decorators in Python with Examples"
 date: "Fri, 17 Feb 2023 15:16:04 GMT"
 description: >-
-  Introduction
-
-  Python is a versatile programming language that provides a wide range of
-  features and tools to developers for building robust and efficient software
-  applications. Among the most important aspects of Python are constructors and
-  decorators...
+  Python creates an object before __init__ initializes it, while decorators wrap functions to add behavior. This guide shows both ideas with small examples.
 link: "https://swapnoneel.hashnode.dev/constructors-and-decorators-in-python"
 tags:
   - python
@@ -19,133 +14,146 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+## A class call has two stages
 
-Python is a versatile programming language that provides a wide range of features and tools to developers for building robust and efficient software applications. Among the most important aspects of Python are constructors and decorators, which allow programmers to create and modify objects and functions in powerful ways.
+When you write Details("Crab", "Crustaceans"), Python does more than run a normal function. It creates an object, then initializes that object with the arguments you passed.
 
-In this blog post, we'll dive into the world of Python constructors and decorators, exploring their fundamental concepts, syntax, and use cases. We'll cover how constructors work in Python classes to initialize object properties and states, and how decorators can modify functions and methods to add functionality, behavior, or metadata. Understanding constructors and decorators are crucial to writing clean, maintainable, and extensible code. So let's get started and learn how to leverage these powerful tools in your Python development journey.
+The method that creates the object is __new__. The method that prepares its attributes is __init__. People often call __init__ the constructor, and that shorthand is fine for everyday work, but the distinction matters when you need to control object creation itself.
 
-## Constructors
+For most classes, you only write __init__:
 
-A constructor is a special method in a class used to create and initialize an object of a class. There are different types of constructors. Constructor is invoked automatically when an object of a class is created.
-
-A constructor is a unique function that gets called automatically when an object is created of a class. The main purpose of a constructor is to initialize or assign values to the data members of that class. It cannot return any value other than None.
-
-### Syntax of Python Constructor
-
-```python
-def __init__(self):
-	# initializations
-```
-
-`__init__` is one of the reserved functions(dunder methods\*) in Python. In Object Oriented Programming, it is known as a constructor.
-
-_\*We will be covering Dunder Methods in Python in complete detail in the upcoming blogs, so make sure to follow me on Hashnode to get notified._
-
-### Types of Constructors
-
-In Python, there are two types of Constructors; namely,
-
-1. Parameterizedd Constructor
-2. Default Constructor
-
-#### Parameterized Constructor
-
-When the constructor accepts arguments along with self, it is known as parameterized constructor.
-
-These arguments can be used inside the class to assign the values to the data members.
-
-**Example:**
-
-```python
+~~~python
 class Details:
     def __init__(self, animal, group):
         self.animal = animal
         self.group = group
 
-obj1 = Details("Crab", "Crustaceans")
-print(obj1.animal, "belongs to the", obj1.group, "group.")
-```
 
-**Output:**
+details = Details("Crab", "Crustaceans")
+print(details.animal, "belongs to the", details.group, "group.")
+~~~
 
-```python
+self is the newly created object. The assignments attach animal and group to that object, so another Details instance can store different values. The output is:
+
+~~~text
 Crab belongs to the Crustaceans group.
-```
+~~~
 
-#### Default Constructor
+If you leave out __init__, Python can still create instances when no setup is required. Add an initializer when the object needs a known starting state:
 
-When the constructor doesn't accept any arguments from the object and has only one argument, self, in the constructor, it is known as a Default constructor.
+~~~python
+class Counter:
+    def __init__(self):
+        self.value = 0
 
-**Example:**
+    def increment(self):
+        self.value += 1
 
-```python
-class Details:
-  def __init__(self):
-    print("animal Crab belongs to Crustaceans group")
-obj1=Details()
-```
 
-**Output:**
+counter = Counter()
+counter.increment()
+print(counter.value)
+~~~
 
-```python
-animal Crab belongs to Crustaceans group
-```
+The output is 1. A common mistake is returning a value from __init__. It must return None; its job is to configure self, not replace it. return self and return 5 both raise TypeError when Python calls the class.
 
-## Decorators
+## When new matters
 
-Python decorators are a powerful and versatile tool that allows you to modify the behavior of functions and methods. They are a way to extend the functionality of a function or method without modifying its source code.
+You can define __new__ when object creation needs special rules, such as returning an existing object or creating an immutable value. That is advanced territory. If all you need is to copy arguments into attributes, __init__ is the right place.
 
-A decorator is a function that takes another function as an argument and returns a new function that modifies the behavior of the original function. The new function is often referred to as a "decorated" function. The basic syntax for using a decorator is the following:
+This version makes the order visible:
 
-```python
-@decorator_function
-def my_function():
-    pass
-```
+~~~python
+class Example:
+    def __new__(cls, value):
+        print("creating")
+        return super().__new__(cls)
 
-The `@decorator_function` notation is just a shorthand for the following code:
+    def __init__(self, value):
+        print("initializing")
+        self.value = value
 
-```python
-def my_function():
-    pass
-my_function = decorator_function(my_function)
-```
 
-Decorators are often used to add functionality to functions and methods, such as logging, memoization, and access control.
+example = Example(10)
+print(example.value)
+~~~
 
-### Use-Case Scenario
+The lines print creating, initializing, and 10, in that order. If __new__ returns an object that is not an instance of cls, Python will not continue with the usual __init__ call. That is one reason not to override it casually.
 
-One common use of decorators is to add logging to a function. For example, you could use a decorator to log the arguments and return value of a function each time it is called:
+## A decorator replaces the name with a callable result
 
-```python
-import logging
+Now switch from objects to functions. A decorator is a callable that receives a function and returns something that will be used in its place. The @ syntax is just a readable spelling of that assignment.
+
+~~~python
+def show_call(func):
+    def wrapper():
+        print("before")
+        result = func()
+        print("after")
+        return result
+
+    return wrapper
+
+
+@show_call
+def greet():
+    print("hello")
+    return 42
+
+
+print(greet())
+~~~
+
+Python reads the decoration roughly like this:
+
+~~~python
+def greet():
+    print("hello")
+    return 42
+
+
+greet = show_call(greet)
+~~~
+
+After that assignment, the name greet refers to wrapper. Calling greet() prints before, then hello, then after, and finally 42. The original function still runs because the wrapper calls func().
+
+The final return result is easy to forget. If you remove it, the log still appears, but print(greet()) prints None. That kind of bug feels strange when the function body clearly returns a value, because the wrapper has quietly swallowed it.
+
+## A decorator that accepts real arguments
+
+A wrapper with no parameters only works for a function with no arguments. In normal code, use *args and **kwargs so the wrapper can pass along positional and keyword arguments.
+
+~~~python
+from functools import wraps
+
 
 def log_function_call(func):
-    def decorated(*args, **kwargs):
-        logging.info(f"Calling {func.__name__} with args={args}, kwargs={kwargs}")
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        print(f"calling {func.__name__}")
         result = func(*args, **kwargs)
-        logging.info(f"{func.__name__} returned {result}")
+        print(f"{func.__name__} returned {result}")
         return result
-    return decorated
+
+    return wrapper
+
 
 @log_function_call
-def my_function(a, b):
-    return a + b
-```
+def add(first, second):
+    return first + second
 
-In this example, the `log_function_call` decorator takes a function as an argument and returns a new function that logs the function call before and after the original function is called.
 
-Decorators are a powerful and flexible feature in Python that can be used to add functionality to functions and methods without modifying their source code. They are a great tool for separating concerns, reducing code duplication, and making your code more readable and maintainable. Python decorators are a way to extend the functionality of functions and methods, by modifying their behavior without modifying the source code. They are used for a variety of purposes, such as logging, memoization, access control, and more. It is a powerful tool that can be used to make your code more readable, maintainable, and extendable.
+print(add(2, second=3))
+~~~
 
-## Conclusion
+wraps is worth keeping. Without it, add.__name__ would be wrapper, and tools that inspect the function would see the wrapper's metadata instead of add's. This is not just cosmetic when a framework uses names, signatures, or docstrings.
 
-In this blog post, we've explored the key concepts and applications of constructors and decorators in Python. We've seen how constructors provide a way to initialize object properties and states, and how decorators can flexibly modify functions and methods.
+Exceptions travel through the wrapper too. If add("2", 3) runs, the addition raises TypeError, the second log line is skipped, and the error reaches the caller. Add a try and finally only when you have a real reason to log failures or clean up resources.
 
-By using constructors and decorators effectively in your Python projects, you can write more efficient, maintainable, and scalable code. Whether you're working on web development, data science, or any other field that uses Python, understanding constructors and decorators is a crucial part of your skill set.
+## Where each tool earns its place
 
-So, as you continue your Python development journey, remember to experiment with constructors and decorators to take your code to the next level. With practice and experience, you'll be able to leverage these tools to build more complex, sophisticated, and impactful software applications.
+Use __init__ for ordinary object setup. Use __new__ only when the act of creating the object needs custom behavior. Use a decorator when the same surrounding behavior belongs around several functions, such as logging or permission checks.
 
-Thank you for reading, and happy coding!
+My caveat is that decorators hide a call. A tiny @ line can change arguments, errors, metadata, and return values while leaving the function body untouched. When a decorated function behaves oddly, inspect the decorator before blaming the function. I like decorators, but I trust them only when the wrapper is short enough to read in one sitting.
 
 ![Thank you card maker graphic](https://cdn.pizap.com/pizapfiles/images/thank_you_card_maker_app01.jpg)

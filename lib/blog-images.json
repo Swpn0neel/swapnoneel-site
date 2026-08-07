@@ -8,16 +8,6 @@
       910
     ]
   },
-  "https://cdn.hashnode.com/res/hashnode/image/upload/v1674633040452/4d7032cc-d320-44c8-9bb1-3db7076b1e9a.png": {
-    "local": "/blog-img/2023/string-formatting-in-python/4d7032cc-d320-44c8-9bb1-3db7076b1e9a-de4f3b59.webp",
-    "width": 1200,
-    "height": 400,
-    "renditions": [
-      640,
-      960,
-      1200
-    ]
-  },
   "https://cdn.hashnode.com/res/hashnode/image/upload/v1674921373638/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png": {
     "local": "/blog-img/2023/sets-in-python/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a-4a756fdc.webp",
     "width": 1536,
@@ -1211,27 +1201,6 @@
       640,
       960,
       1125
-    ]
-  },
-  "https://images.unsplash.com/photo-1487712010531-65e9aa8b4b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80": {
-    "local": "/blog-img/2023/class-variables-vs-instance-variables/photo-1487712010531-65e9aa8b4b1a-a7480931.webp",
-    "width": 1074,
-    "height": 806,
-    "renditions": [
-      640,
-      960,
-      1074
-    ]
-  },
-  "https://img.freepik.com/free-vector/handwritten-style-thank-you-typography_53876-43732.jpg?w=1380&t=st=1676362202~exp=1676362802~hmac=b258d692e9dd15ac0383a1e618b301eb654bb0aa68d3529c487992087a2162cc": {
-    "local": "/blog-img/2023/enumerate-function-in-python/handwritten-style-thank-you-typography-53876-437-7b9bcf51.webp",
-    "width": 1380,
-    "height": 984,
-    "renditions": [
-      640,
-      960,
-      1280,
-      1380
     ]
   },
   "https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2": {

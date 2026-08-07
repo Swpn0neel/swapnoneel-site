@@ -1,15 +1,10 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676894340817/c0f1b8e2-f5dc-4950-82e9-dc74866f3c74.png?w=1200&auto=compress,format&format=webp&fm=png
-title: Class Methods in Python
+title: "Class Methods in Python with Examples"
 date: "Mon, 20 Feb 2023 11:59:17 GMT"
 description: >-
-  Introduction
-
-  In Python, classes are a way to define custom data types that can store data
-  and define functions that can manipulate that data. One type of function that
-  can be defined within a class is called a "method." In this blog post, we will
-  exp...
+  Python class methods receive the class as cls, so they can build objects from alternate inputs and manage class-level behavior without an existing instance.
 link: "https://swapnoneel.hashnode.dev/class-methods-in-python"
 tags:
   - python
@@ -19,100 +14,135 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+## Start with the question of who owns the work
 
-In Python, classes are a way to define custom data types that can store data and define functions that can manipulate that data. One type of function that can be defined within a class is called a "method." In this blog post, we will explore what Python class methods are, why they are useful, and how to use them.
+Before talking about decorators, ask one plain question: what does this method need to know?
 
-## What are Python Class Methods?
+An instance method needs one particular object, so Python gives it that object as self. A class method needs the class, so Python gives it the class as cls. A static method needs neither. That is the whole split, and most of the confusing explanations become easier once you keep that ownership question in view.
 
-A class method is a type of method that is bound to the class and not the instance of the class. In other words, it operates on the class as a whole, rather than on a specific instance of the class. Class methods are defined using the `@classmethod` decorator, followed by a function definition. The first argument of the function is always `cls`, which represents the class itself.
+Here is a small class with one method that belongs to an object and another that belongs to the class:
 
-## Why Use Python Class Methods?
+~~~python
+class User:
+    def __init__(self, name, role):
+        self.name = name
+        self.role = role
 
-Class methods are useful in several situations. For example, you might want to create a factory method that creates instances of your class in a specific way. You could define a class method that creates the instance and returns it to the caller. Another common use case is to provide alternative constructors for your class. This can be useful if you want to create instances of your class in multiple ways, but still have a consistent interface for doing so.
+    def describe(self):
+        return f"{self.name} is a {self.role}."
 
-### How to Use Python Class Methods?
-
-To define a class method, you simply use the `@classmethod` decorator before the method definition. The first argument of the method should always be `cls`, which represents the class itself. Here is an example of how to define a class method:
-
-```python
-class ExampleClass:
     @classmethod
-    def factory_method(cls, argument1, argument2):
-        return cls(argument1, argument2)
-```
+    def guest(cls):
+        return cls("Guest", "reader")
 
-In this example, the `factory_method` is a class method that takes two arguments, `argument1` and `argument2`. It creates a new instance of the class `ExampleClass` using the `cls` keyword, and returns the new instance to the caller.
 
-It's important to note that class methods cannot modify the class in any way. If you need to modify the class, you should use a class-level variable instead.
+user = User.guest()
+print(user.describe())
+~~~
 
-## Class Methods as Alternative Constructors
+describe() cannot do anything useful until a User exists, because it reads self.name and self.role. guest() has no existing user to inspect. It is a recipe for making one, so Python calls it with User as cls. The output is:
 
-In object-oriented programming, the term "constructor" refers to a special type of method that is automatically executed when an object is created from a class. The purpose of a constructor is to initialize the object's attributes, allowing the object to be fully functional and ready to use.
+~~~text
+Guest is a reader.
+~~~
 
-However, there are times when you may want to create an object in a different way, or with different initial values than what is provided by the default constructor. This is where class methods can be used as alternative constructors.
+That is why User.guest() works before you have an instance. The decorator changes how the function is bound when you access it through the class.
 
-A class method belongs to the class rather than to an instance of the class. One common use case for class methods as alternative constructors is when you want to create an object from data that is stored in a different format, such as a string or a dictionary. For example, consider a class named `Person` that has two attributes: `name` and `age`. The default constructor for the class might look like this:
+## What the decorator changes
 
-```python
+Without @classmethod, this method is an ordinary function sitting in the class body. If you call it through an instance, Python supplies that instance as the first argument. With @classmethod, Python stores a class-bound method instead and supplies the class.
+
+You can see the practical difference by trying to use an instance method as a factory:
+
+~~~python
+class Ticket:
+    def __init__(self, number):
+        self.number = number
+
+    def from_text(self, text):
+        return Ticket(int(text))
+
+
+# Ticket.from_text("42")  # TypeError: self is missing
+ticket = Ticket(1)
+print(ticket.from_text("42").number)
+~~~
+
+The commented call fails because from_text expects self. You have to create a meaningless Ticket(1) before you can use it. The class method version expresses the intent directly:
+
+~~~python
+class Ticket:
+    def __init__(self, number):
+        self.number = number
+
+    @classmethod
+    def from_text(cls, text):
+        return cls(int(text))
+
+
+ticket = Ticket.from_text("42")
+print(ticket.number)
+~~~
+
+Now parsing and construction have a name of their own, and callers do not need to know how the text is converted.
+
+## Alternative constructors are the sweet spot
+
+The usual reason to write a class method is that one type can arrive in several input formats. Keep the normal __init__ for the canonical arguments, then add named entry points for other formats.
+
+~~~python
 class Person:
     def __init__(self, name, age):
         self.name = name
         self.age = age
-```
-
-But what if you want to create a Person object from a string that contains the person's name and age, separated by a comma? You can define a class method named `from_string` to do this:
-
-```python
-class Person:
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
 
     @classmethod
-    def from_string(cls, string):
-        name, age = string.split(',')
-        return cls(name, int(age))
-```
+    def from_string(cls, text):
+        name, age_text = text.split(",", maxsplit=1)
+        return cls(name.strip(), int(age_text))
 
-Now you can create a Person object from a string like this:
+    @classmethod
+    def child(cls, name):
+        return cls(name, 0)
 
-```python
-person = Person.from_string("John Doe, 30")
-```
 
-Another common use case for class methods as alternative constructors is when you want to create an object with a different set of default values than what is provided by the default constructor. For example, consider a class named `Rectangle` that has two attributes: `width` and `height`. The default constructor for the class might look like this:
+print(Person.from_string("John Doe, 30").age)
+print(Person.child("Mina").name)
+~~~
 
-```python
-class Rectangle:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-```
+The constructor still owns the actual object setup. The class methods only translate input into the arguments that the constructor expects. If you later add validation in __init__, both alternate paths get it automatically.
 
-But what if you want to create a Rectangle object with a default width of 10 and a default height of 5? You can define a class method named `square` to do this:
+There is one detail here that is easy to miss. Use cls(...), not Person(...), inside a class method:
 
-```python
-class Rectangle:
-  def __init__(self, width, height):
-    self.width = width
-    self.height = height
+~~~python
+class Employee(Person):
+    pass
 
-  @classmethod
-  def square(cls, size):
-    return cls(size, size)
-```
 
-Now you can create a square and rectangle like this:
+employee = Employee.from_string("Ravi, 28")
+print(type(employee).__name__)
+~~~
 
-```python
-rectangle = Rectangle.square(10)
-```
+The output is Employee. Python passes the class used for the call as cls, so the method stays friendly to subclasses. Hard-code Person(...) and you quietly throw that behavior away.
 
-## Conclusion
+Bad input still fails. A string without a comma raises ValueError during unpacking, and text such as "Ravi, twenty" raises ValueError when int() runs. That is not a class method problem. It is the parser telling you that the input is not in the format it promised to accept. If the format comes from users or a file, catch those errors at the boundary and report the bad input there.
 
-Python class methods are a powerful tool for defining functions that operate on the class as a whole, rather than on a specific instance of the class. They are useful for creating factory methods, alternative constructors, and other types of methods that operate at the class level. With the knowledge of how to define and use class methods, you can start writing more complex and organized code in Python.
+## Class methods versus static methods
 
-Thanks for reading the blog, and I hope you have learned something new today. And until the next one, keep learning and keep exploring.
+A static method is useful when a function is conceptually grouped with a class but does not need either the object or the class:
+
+~~~python
+class Person:
+    @staticmethod
+    def valid_age(age):
+        return isinstance(age, int) and age >= 0
+
+
+print(Person.valid_age(30))
+~~~
+
+This could be a module-level function too. Keeping it on Person is reasonable if the rule is meaningful only in that small namespace. A class method is the better choice when the class itself matters, especially for factories that must preserve subclasses. A regular method is the right choice when the answer depends on one object's state.
+
+My against-interest judgment is that class methods are easy to overuse. If a function does not construct an object or work with class-wide state, putting @classmethod on it adds ceremony and makes the reader wonder what cls is for. Start from the data the method needs. The first argument usually tells you which kind of method you actually have.
 
 ![Thank you label illustration](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2)

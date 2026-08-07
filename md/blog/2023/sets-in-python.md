@@ -1,15 +1,10 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1674921373638/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
-title: Sets in Python
+title: "Sets in Python with Examples"
 date: "2023-01-25T18:09:15.443Z"
 description: >-
-  Introduction
-
-  Sets are unordered collection of data items. They store multiple items in a
-  single variable. Set items are separated by commas and enclosed within curly
-  brackets {}. Sets are unchangeable, meaning you cannot change items of the set
-  once ...
+  Python sets store unique hashable values and make membership, union, intersection, difference, and symmetric difference easy.
 link: "https://swapnoneel.hashnode.dev/sets-in-python"
 tags:
   - python
@@ -19,32 +14,43 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+You have a list of email addresses and want to know who has already signed up. You can scan the list every time, or you can put the addresses in a set and ask one direct question: `email in subscribers`.
 
-Sets are unordered collection of data items. They store multiple items in a single variable. Set items are separated by commas and enclosed within curly brackets {}. Sets are unchangeable, meaning you cannot change items of the set once created. Sets do not contain duplicate items.
+A set is a mutable collection of unique, hashable values. It is built for membership checks and operations between groups, not for keeping items at numbered positions. That one distinction explains most of the behavior that surprises people at first.
 
-#### Example
+Curly braces create a set when they contain values. Repeated values collapse immediately:
 
 ```python
 info = {"Carla", 19, False, 5.9, 19}
 print(info)
 ```
 
-#### Output
+The printed order can vary, and the duplicate `19` appears only once:
 
-```python
+```text
 {False, 19, 5.9, 'Carla'}
 ```
 
-Here we see that the items of set occur in random order and hence they cannot be accessed using index numbers. Also sets do not allow duplicate values.
+Do not build logic around that printed order. A set has no list-like index, so `info[0]` raises a `TypeError`. For an empty set, use `set()`, because `{}` creates an empty dictionary:
 
-## Accessing set items:
+```python
+empty_set = set()
+empty_dictionary = {}
+print(type(empty_set).__name__)
+print(type(empty_dictionary).__name__)
+```
 
-#### Using a For loop
+The values inside a set must be hashable. Strings, numbers, tuples containing hashable values, and booleans work. A list does not:
 
-You can access items of set using a for loop.
+```python
+values = {"ready", ["not", "hashable"]}
+```
 
-#### Example
+That code raises `TypeError: unhashable type: 'list'`. A mutable list could change after insertion, which would make its lookup position unreliable. If you need a fixed collection inside a set, use a tuple when its contents are hashable.
+
+## Iterating and checking membership
+
+Iterate over a set with a `for` loop. Each value appears once, but the order may differ between runs:
 
 ```python
 info = {"Carla", 19, False, 5.9}
@@ -52,156 +58,134 @@ for item in info:
     print(item)
 ```
 
-#### Output
+The loop visits each value once. If you need predictable output for a report or a test, sort a compatible set first:
 
-```python
+```text
 False
-Carla
-19
 5.9
+19
+Carla
 ```
 
-## Joining Sets
+For a membership check, the syntax is much shorter:
 
-Sets in python more or less work in the same way as sets in mathematics. We can perform operations like union and intersection on the sets just like in mathematics.
+```python
+allowed_roles = {"admin", "editor", "viewer"}
+role = "editor"
 
-### _I. Union and Update_
+if role in allowed_roles:
+    print("access granted")
+```
 
-The union() and update() methods prints all items that are present in the two sets. The union() method returns a new set whereas update() method adds item into the existing set from another set.
+The set does not tell you where `"editor"` is. It answers whether the value belongs to the group. That is the contract you should design around.
 
-#### Example
+## Combining groups
+
+Set operations use the same ideas you may have seen in mathematics. A union collects values from either set, an intersection keeps values found in both, and a difference keeps values found on one side only. The methods return new sets unless their name ends in `_update`.
+
+### Union without changing either set
+
+`union()` returns a new set and leaves both inputs alone:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Tokyo", "Seoul", "Kabul", "Madrid"}
 cities3 = cities.union(cities2)
-print(cities3)
+print(sorted(cities3))
+print(sorted(cities))
 ```
 
-#### Output
+The first line is `['Berlin', 'Delhi', 'Kabul', 'Madrid', 'Seoul', 'Tokyo']`, while the second still contains only the original four cities. The `|` operator is a shorter spelling for the same non-mutating operation:
 
 ```python
-{'Tokyo', 'Madrid', 'Kabul', 'Seoul', 'Berlin', 'Delhi'}
+all_cities = cities | cities2
 ```
 
-#### Example
+When you do want to change `cities`, use `update()`:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Tokyo", "Seoul", "Kabul", "Madrid"}
 cities.update(cities2)
-print(cities)
+print(sorted(cities))
 ```
 
-#### Output
+Here `cities` itself has changed. This difference between a new result and an in-place update is worth checking before you pass a set into another function.
 
-```python
-{'Berlin', 'Madrid', 'Tokyo', 'Delhi', 'Kabul', 'Seoul'}
-```
+### Shared values with intersection
 
-### _II. intersection and intersection_update()_
-
-The intersection() and intersection_update() methods prints only items that are similar to both the sets. The intersection() method returns a new set whereas intersection_update() method updates into the existing set from another set.
-
-#### Example
+`intersection()` keeps values found in both sets and returns a new set:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Tokyo", "Seoul", "Kabul", "Madrid"}
 cities3 = cities.intersection(cities2)
-print(cities3)
+print(sorted(cities3))
 ```
 
-### Output
+The output is `['Madrid', 'Tokyo']`. The `&` operator expresses the same idea as `cities & cities2`.
 
-```python
-{'Madrid', 'Tokyo'}
-```
-
-### Example
+The update form keeps only the shared values in the original set:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Tokyo", "Seoul", "Kabul", "Madrid"}
 cities.intersection_update(cities2)
-print(cities)
+print(sorted(cities))
 ```
 
-### Output
+Now `cities` contains only the shared values. Use this form when you own the set and intentionally want to discard the other values.
 
-```python
-{'Tokyo', 'Madrid'}
-```
+### Values that belong to one side
 
-### _III. symmetric_difference and symmetric_difference_update()_
-
-The symmetric_difference() and symmetric_difference_update() methods prints only items that are not similar to both the sets. The symmetric_difference() method returns a new set whereas symmetric_difference_update() method updates into the existing set from another set.
-
-#### Example
+`symmetric_difference()` keeps values that belong to one set but not both:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Tokyo", "Seoul", "Kabul", "Madrid"}
 cities3 = cities.symmetric_difference(cities2)
-print(cities3)
+print(sorted(cities3))
 ```
 
-#### Output
+The output is `['Berlin', 'Delhi', 'Kabul', 'Seoul']`. The `^` operator is the shorter form.
 
-```python
-{'Seoul', 'Kabul', 'Berlin', 'Delhi'}
-```
-
-#### Example
+If you call the update version, `cities` changes in place:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Tokyo", "Seoul", "Kabul", "Madrid"}
 cities.symmetric_difference_update(cities2)
-print(cities)
+print(sorted(cities))
 ```
 
-#### Output
+The result is the same four one-sided values, stored back in `cities`.
 
-```python
-{'Kabul', 'Delhi', 'Berlin', 'Seoul'}
-```
+### Values missing from the other set
 
-### **IV.** difference() and difference_update()
-
-The difference() and difference_update() methods prints only items that are only present in the original set and not in both the sets. The difference() method returns a new set whereas difference_update() method updates into the existing set from another set.
-
-#### Example
+`difference()` is directional. It keeps values in the first set that are missing from the second:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Seoul", "Kabul", "Delhi"}
 cities3 = cities.difference(cities2)
-print(cities3)
+print(sorted(cities3))
 ```
 
-#### Output
+The output is `['Berlin', 'Madrid', 'Tokyo']`. Reversing the operands gives a different answer because `cities2 - cities` means something else.
 
-```python
-{'Tokyo', 'Madrid', 'Berlin'}
-```
-
-#### Example
+`difference_update()` stores the result back in the first set:
 
 ```python
 cities = {"Tokyo", "Madrid", "Berlin", "Delhi"}
 cities2 = {"Seoul", "Kabul", "Delhi"}
-print(cities.difference(cities2))
+cities.difference_update(cities2)
+print(sorted(cities))
 ```
 
-#### Output
+Now `cities` contains only cities that were not in `cities2`.
 
-```python
-{'Tokyo', 'Berlin', 'Madrid'}
-```
+You can also ask whether one set contains another with `issubset()` and `issuperset()`, or test whether two sets share nothing with `isdisjoint()`. These methods read like the question you are asking, which is usually better than writing a manual loop.
 
-## Conclusion
-
-Thanks for reading this blog!! I hope you have learnt something new today and I wish you an amazing day ahead ❤
+My practical judgment is that sets are the right tool for membership and group comparison, and a bad tool for ordered output. If the order is part of the result, keep a list or convert the set to a sorted list at the boundary where you display it. The set should answer "does this belong?"; a list should answer "what comes next?".
 
 ![Thank you banner graphic for Python sets blog](https://images.pexels.com/photos/2072165/pexels-photo-2072165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)

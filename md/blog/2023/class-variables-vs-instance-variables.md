@@ -1,17 +1,10 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676806711688/0c46e75c-e465-45b9-880c-be4cff7fdb14.png?w=1200&auto=compress,format&format=webp&fm=png
-title: Class Variables vs Instance Variables
+title: "Class Variables vs Instance Variables in Python"
 date: "Sun, 19 Feb 2023 11:38:55 GMT"
 description: >-
-  Introduction
-
-  In Python, variables can be defined at the class level or at the instance
-  level. Understanding the difference between these types of variables is
-  crucial for writing efficient and maintainable code. So, let's just dive into
-  it !!
-
-  Class V...
+  Class variables live on the class and are shared by default, while instance variables belong to one object. Learn how lookup and mutable defaults affect Python classes.
 link: "https://swapnoneel.hashnode.dev/class-variables-vs-instance-variables"
 tags:
   - python
@@ -21,63 +14,151 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+## The lookup happens in two places
 
-In Python, variables can be defined at the class level or at the instance level. Understanding the difference between these types of variables is crucial for writing efficient and maintainable code. So, let's just dive into it !!
+Take account.owner. Python first asks the account object whether it has an owner attribute. If it does not, Python checks the class and then the classes above it. That small lookup rule is why a class attribute can appear to belong to every instance.
 
-## Class Variables
+The value has not been copied into each object, though. An instance variable is stored on one object. A class variable is stored on the class and is shared by every object that reads it. Once you see where the value lives, the rest follows.
 
-Class variables are defined at the class level and are shared among all instances of the class. They are defined outside of any method and are usually used to store information that is common to all instances of the class. For example, a class variable can be used to store the number of instances of a class that have been created.
+## Instance variables describe one object
 
-```python
-class MyClass:
-    class_variable = 0
+Put per-object state on self, usually in __init__. Each call to a class creates a separate object, and each object gets its own attribute dictionary.
 
-    def __init__(self):
-        MyClass.class_variable += 1
+~~~python
+class User:
+    def __init__(self, name, points):
+        self.name = name
+        self.points = points
 
-    def print_class_variable(self):
-        print(MyClass.class_variable)
+    def summary(self):
+        return f"{self.name}: {self.points} points"
 
 
-obj1 = MyClass()
-obj2 = MyClass()
+first = User("John", 12)
+second = User("Jane", 7)
 
-obj1.print_class_variable() # Output: 2
-obj2.print_class_variable() # Output: 2
-```
+first.points += 5
+print(first.summary())
+print(second.summary())
+~~~
 
-In the example above, the `class_variable` is shared among all instances of the class `MyClass`. When we create new instances of `MyClass`, the value of `class_variable` is incremented. When we call the `print_class_variable` method on `obj1` and `obj2`, we get the same value of `class_variable`.
+The output is:
 
-## Instance Variables
+~~~text
+John: 17 points
+Jane: 7 points
+~~~
 
-Instance variables are defined at the instance level and are unique to each instance of the class. They are defined inside the **init** method and are usually used to store information that is specific to each instance of the class. For example, an instance variable can be used to store the name of an employee in a class that represents an employee.
+first.points += 5 changes the attribute on first. It has no route to second.points. Both objects share the summary method through the class, but their data is separate.
 
-```python
-class MyClass:
+You can inspect that storage directly while learning:
+
+~~~python
+print(first.__dict__)
+print(second.__dict__)
+~~~
+
+Each dictionary contains its own name and points. This is a useful debugging trick, but do not build a design around __dict__; some Python objects use __slots__ and do not have one.
+
+## Class variables describe the class
+
+Put shared data in the class body. A count is a good example because there should be one count for all User objects.
+
+~~~python
+class User:
+    total_users = 0
+
     def __init__(self, name):
         self.name = name
+        type(self).total_users += 1
 
-    def print_name(self):
-        print(self.name)
 
-obj1 = MyClass("John")
-obj2 = MyClass("Jane")
+first = User("John")
+second = User("Jane")
 
-obj1.print_name() # Output: John
-obj2.print_name() # Output: Jane
-```
+print(User.total_users)
+print(first.total_users)
+print(second.total_users)
+~~~
 
-In the example above, each instance of the class `MyClass` has its own value for the name variable. When we call the `print_name` method on `obj1` and `obj2`, we get different values for the name.
+All three prints show 2. The first lookup finds total_users on User. The other two lookups fail to find it on the individual objects, then find it on the class.
 
-## Summary
+type(self).total_users is a deliberate choice. It lets a subclass keep its own count instead of always updating the User count. If you want one global count for the whole family, write User.total_users += 1 and make that ownership explicit.
 
-In summary, class variables are shared among all instances of a class and are used to store information that is common to all instances. Instance variables are unique to each instance of a class and are used to store information that is specific to each instance. Understanding the difference between class variables and instance variables is crucial for writing efficient and maintainable code in Python.
+Also, prefer User.total_users when reading class-owned data. first.total_users is legal, but it hides the fact that the value is shared.
 
-It's also worth noting that, in python, class variables are defined outside of any methods and don't need to be explicitly declared as class variables. They are defined at the class level and can be accessed via `class_name.varibale_name` or `self.class.variable_name`. But instance variables are defined inside the methods and need to be explicitly declared as instance variables by using `self.variable_name`.
+## Assignment can hide the class value
 
-## Conclusion
+This is the part that catches people:
 
-Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
+~~~python
+class User:
+    role = "reader"
 
-![Thank you graphic for class vs instance variables blog](https://images.unsplash.com/photo-1487712010531-65e9aa8b4b1a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80)
+
+first = User()
+second = User()
+
+first.role = "admin"
+print(first.role)
+print(second.role)
+print(User.role)
+~~~
+
+The output is:
+
+~~~text
+admin
+reader
+reader
+~~~
+
+The assignment did not update User.role. It created a new role attribute on first, so that one object now shadows the class value. Delete first.role and lookup falls back to User.role again:
+
+~~~python
+del first.role
+print(first.role)
+~~~
+
+This is why class attributes are fine for defaults that instances may override, but they are a poor substitute for a shared setting that callers can casually shadow.
+
+## Mutable class variables share one object
+
+Numbers make sharing look harmless. Lists expose the trap immediately:
+
+~~~python
+class Team:
+    members = []
+
+    def add_member(self, name):
+        self.members.append(name)
+
+
+red = Team()
+blue = Team()
+red.add_member("Asha")
+
+print(red.members)
+print(blue.members)
+~~~
+
+Both lines print ['Asha'] because red.members and blue.members found the same list on Team, and append() mutated that list in place. If each team needs its own collection, create it in __init__:
+
+~~~python
+class Team:
+    def __init__(self):
+        self.members = []
+
+    def add_member(self, name):
+        self.members.append(name)
+~~~
+
+The class-level list is not always wrong. A shared immutable default, or a deliberately shared registry, can be exactly what you need. The failure comes from forgetting that a mutable value is one shared object until you create separate copies.
+
+## My default choice
+
+For ordinary application state, I choose instance variables first. They make ownership obvious, prevent accidental cross-object changes, and fit the way most objects are used. I reach for class variables when the value genuinely belongs to the class: a constant, a shared configuration default, or a counter that the class owns.
+
+So the practical rule is simple: put per-object data on self, and make shared data visibly class-owned. Be extra suspicious of class-level lists and dictionaries. But that's just me, and your workflow might be different.
+
+![Thank you graphic for class vs instance variables blog](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2)

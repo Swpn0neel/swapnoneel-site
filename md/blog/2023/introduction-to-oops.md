@@ -1,24 +1,10 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676570291151/466fa74a-d06c-4241-83c6-7ac394ae1242.png?w=1200&auto=compress,format&format=webp&fm=png
-title: Introduction to OOPs
+title: "Introduction to OOPs in Python"
 date: "Thu, 16 Feb 2023 17:58:21 GMT"
 description: >-
-  Introduction
-
-  In programming languages, mainly there are two approaches that are used to
-  write programs or code.
-
-
-  Procedural Programming
-
-
-  Object-Oriented Programming
-
-
-
-  In the previous blogs, I have covered almost all of the advanced nitty-gritty
-  of Py...
+  Object-oriented programming groups data and behavior into classes and objects. This Python guide explains abstraction, encapsulation, inheritance, and polymorphism without treating OOP as a rule.
 link: "https://swapnoneel.hashnode.dev/introduction-to-oops"
 tags:
   - python
@@ -28,65 +14,141 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+## What object-oriented programming tries to solve
 
-In programming languages, mainly there are two approaches that are used to write programs or code.
+Procedural code starts with actions: read a value, transform it, then save or print the result. That style is perfectly fine for a script that imports a file once. As the program grows, though, the data and the functions allowed to change it can end up scattered across many modules.
 
-- Procedural Programming
-- Object-Oriented Programming
+Object-oriented programming, or OOP, gives related state and behavior a home. A class describes a kind of object. An object is one concrete value made from that class. You are not required to use classes for every problem, and forcing a tiny script into a hierarchy is a quick way to make simple code feel strange.
 
-In the previous blogs, I have covered almost all of the advanced nitty-gritty of Python. So, in this one and also in the upcoming blogs we will be diving right into the space of Object Oriented Programming(OOP). The basic idea of object-oriented programming (OOP) is to use classes and objects to represent real-world concepts and entities.
+Start with a class that keeps a person's data beside an operation that uses it:
 
-## Class
+~~~python
+class Person:
+    def __init__(self, name):
+        self.name = name
 
-A class is a blueprint or template for creating objects. It defines the properties and methods that an object of that class will have. Properties are the data or state of an object, and methods are the actions or behaviors that an object can perform. It is used for creating objects, providing initial values for state (member variables or attributes), and implementations of behavior (member functions or methods). The user-defined objects are created using the class keyword.
+    def greet(self):
+        return f"Hello, I am {self.name}."
 
-### Creating a Class
 
-Let us now create a class using the class keyword.
+first = Person("Ryan")
+second = Person("Mina")
 
-```python
-class Details:
-    name = "Ryan"
-    age = 20
-```
+print(first.greet())
+print(second.greet())
+~~~
 
-## Object
+Person is the class. first and second are objects, also called instances. The class supplies the greet method, while each object stores its own name. The output is:
 
-An object is an instance of a class, and it contains its own data and methods. For example, you could create a class called "Person" that has properties such as name and age, and methods such as speak() and walk(). Each instance of the Person class would be a unique object with its own name and age, but they would all have the same methods to speak and walk.
+~~~text
+Hello, I am Ryan.
+Hello, I am Mina.
+~~~
 
-### Creating an Object
+That relationship is the foundation. The four words usually connected with OOP describe different ways of using it.
 
-Let us now create an object of the previous class `Details`.
+## Abstraction hides the steps you do not need
 
-```python
-obj1 = Details()
-```
+Abstraction means exposing an operation while keeping its internal steps out of the caller's way. When you call first.greet(), you do not need to rebuild the string or know where name is stored. The method gives you the operation you need.
 
-## Features of OOPs
+The same idea exists in ordinary functions. A function that loads and validates a configuration file is an abstraction even if the program contains no class. The [OOP concepts overview](https://stackify.com/oops-concepts-in-java/) describes this as hiding complexity behind a simpler interface.
 
-Object Oriented Programming provides some unique features, namely ---- Abstraction, Encapsulation, Inheritance and Polymorphism.
+Good abstraction has a limit. If the method name is vague, or if it secretly opens files, makes network requests, and changes global state, the caller has a harder time predicting what will happen. Hide the steps that are implementation details, but keep the public action honest.
 
-### Abstraction
+## Encapsulation keeps rules near the data
 
-**Abstraction** is defined as a process of handling complexity by hiding unnecessary information from the user. This is one of the core [](https://stackify.com/oops-concepts-in-java/)concepts of object-oriented programming (OOP) languages. That enables the user to implement even more complex logic on top of the provided abstraction without understanding or even thinking about all the hidden background/back-end complexity.
+Encapsulation means putting state and the operations that protect it in the same place. Python does not enforce private fields in the same way as some languages. A leading underscore is a convention, not a locked door, but it tells readers which attribute the class owns internally.
 
-### Encapsulation
+~~~python
+class Wallet:
+    def __init__(self, amount=0):
+        if amount < 0:
+            raise ValueError("amount cannot be negative")
+        self._balance = amount
 
-One of the key features of OOP in Python is encapsulation, which means that the internal state of an object is hidden and can only be accessed or modified through the object's methods. This helps to protect the object's data and prevent it from being modified in unexpected ways.
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("deposit must be positive")
+        self._balance += amount
 
-### Inheritance
+    def spend(self, amount):
+        if amount <= 0 or amount > self._balance:
+            raise ValueError("invalid spending amount")
+        self._balance -= amount
 
-Another key feature of OOP in Python is inheritance, which allows new classes to be created that inherit the properties and methods of an existing class. This allows for code reuse and makes it easy to create new classes that have similar functionality to existing classes.
+    @property
+    def balance(self):
+        return self._balance
 
-### Polymorphism
 
-Polymorphism is also supported in Python, which means that objects of different classes can be treated as if they were objects of a common class. This allows for greater flexibility in code and makes it easier to write code that can work with multiple types of objects.
+wallet = Wallet(20)
+wallet.deposit(5)
+wallet.spend(8)
+print(wallet.balance)
+~~~
 
-## Conclusion
+The output is 17. The class owns the rules for changing the balance, so callers do not have to remember every check. Someone can still write wallet._balance = -100, because Python trusts convention, but ordinary code has a clear public path.
 
-In summary, OOP in Python allows developers to model real-world concepts and entities using classes and objects, encapsulate data, reuse code through inheritance, and write more flexible code through polymorphism.
+This is where encapsulation pays off. If the storage changes from a number to another representation later, the deposit, spend, and balance interface can stay the same.
 
-We will get into the details of every topic mentioned here in my upcoming blogs. So, follow me to get notified about them!!
+## Inheritance describes a narrower type
+
+Inheritance lets a new class reuse or replace behavior from an existing class:
+
+~~~python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+
+    def speak(self):
+        return "Some sound"
+
+
+class Dog(Animal):
+    def speak(self):
+        return "Bark"
+
+
+dog = Dog("Max")
+print(dog.name)
+print(dog.speak())
+~~~
+
+Dog gets the name setup from Animal and supplies a more specific speak method. This is a reasonable relationship because a dog is an animal. A Dog has a Collar, though, so a collar would usually be stored as another object rather than added as a parent class.
+
+Inheritance is useful when code genuinely expects the parent type. It becomes awkward when the only shared feature is a few lines of implementation. A helper function or composition can be clearer in that case.
+
+## Polymorphism lets the caller ignore the concrete type
+
+Polymorphism means different objects can respond to the same operation in their own way. Python often handles this through duck typing: the function asks for behavior instead of checking a long list of class names.
+
+~~~python
+class Dog:
+    def speak(self):
+        return "Bark"
+
+
+class Cat:
+    def speak(self):
+        return "Meow"
+
+
+def announce(animal):
+    print(animal.speak())
+
+
+announce(Dog())
+announce(Cat())
+~~~
+
+announce does not need separate branches for Dog and Cat. It only needs an object with a speak method. Pass an object without speak and Python raises AttributeError at the call, which is a useful, direct failure. If you need a friendlier error, validate the interface before doing work, but do not add type checks just to make the code look formal.
+
+Python's built-in types use the same idea all over the place. Anything with a __len__ method can work with len(), and anything iterable can work in a for loop. The class name matters less than the behavior the operation requires.
+
+## OOP is a tool, not a rule
+
+Classes help when state and behavior belong together, when several objects share a clear interface, or when a type has rules that should live in one place. A plain function and a dictionary can be better for a one-off transformation.
+
+My honest view is that OOP is easiest to understand after you stop treating its four labels as a checklist. Start with the data and the operations. If they naturally belong together, make a class. If a class would only wrap one function and a couple of values, skip it. The design should make the next change easier, not earn points for containing more objects.
 
 ![Thank you image](https://iag.me/assets/thank-you.jpg.webp)

@@ -1,15 +1,10 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676210306432/63b57168-8c4b-4acc-9266-b8345e942e2e.png?w=1200&auto=compress,format&format=webp&fm=png
-title: OS Modules in Python
+title: "OS Modules in Python with Examples"
 date: "2023-02-12T13:58:39.078Z"
 description: >-
-  Introduction
-
-  The os module in Python is a built-in library that provides functions for
-  interacting with the operating system. It allows you to perform a wide variety
-  of tasks, such as reading and writing files, interacting with the file system,
-  and r...
+  The Python os module connects your code to the operating system. Read and write files, inspect folders, create directories, and run shell commands with care.
 link: "https://swapnoneel.hashnode.dev/os-modules-in-python"
 tags:
   - python
@@ -19,97 +14,118 @@ tags:
 updated: "2026-07-23T13:07:48.942Z"
 ---
 
-## Introduction
+Python usually lets you forget that a program is running on top of an operating system. You call `open()`, read a string, and carry on. The `os` module is where that boundary becomes visible: folders have names, files have descriptors, processes have exit codes, and each operating system has its own path rules.
 
-The os module in Python is a built-in library that provides functions for interacting with the operating system. It allows you to perform a wide variety of tasks, such as reading and writing files, interacting with the file system, and running system commands.
+You do not need to memorize the whole module. Think in three buckets. Are you working with a path, with a file at a lower level, or with a command that another process should run? The answer points you toward a different part of `os`.
 
-There are a lot of methods in the os module. But, here we will be discussing only the most important and commonly used methods of the os module.
+## Opening files at the lower level
 
-## Reading and Writing Files
+Most Python code should use the built-in `open()` function because it gives you a convenient file object and closes it neatly with `with`. `os.open()` is lower level. It returns an integer file descriptor, and you are responsible for reading bytes and closing that descriptor.
 
-The os module provides functions for opening, reading, and writing files. For example, to open a file for reading, you can use the open function:
-
-```python
-import os
-
-# Open the file in read-only mode
-f = os.open("myfile.txt", os.O_RDONLY)
-
-# Read the contents of the file
-contents = os.read(f, 1024)
-
-# Close the file
-os.close(f)
-```
-
-To open a file for writing, you can use the `os.O_WRONLY` flag:
+This complete example creates a small file, reads it back, and removes it at the end. Run it in a scratch directory if you want to watch the file appear:
 
 ```python
 import os
 
-# Open the file in write-only mode
-f = os.open("myfile.txt", os.O_WRONLY)
+path = "os-module-demo.txt"
 
-# Write to the file
-os.write(f, b"Hello, world!")
+try:
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o644)
+    try:
+        os.write(fd, b"Hello from a file descriptor!")
+    finally:
+        os.close(fd)
 
-# Close the file
-os.close(f)
+    fd = os.open(path, os.O_RDONLY)
+    try:
+        contents = os.read(fd, 1024)
+        print(contents.decode("utf-8"))
+    finally:
+        os.close(fd)
+finally:
+    if os.path.exists(path):
+        os.remove(path)
 ```
 
-## Interacting with the File System
+The printed text is `Hello from a file descriptor!`. The flags explain the first open call: `O_WRONLY` requests writing, `O_CREAT` creates the file if it is missing, and `O_TRUNC` clears old contents. The numeric mode controls permissions on systems that use them. The `try` and `finally` blocks matter because leaving a descriptor open can exhaust the process's file handles.
 
-The os module also provides functions for interacting with the file system. For example, you can use the `os.listdir` function to get a list of the files in a directory:
+For normal text files, this is more work than you need. Use `os.open()` when an API requires a descriptor or when you genuinely need low-level flags. The built-in file object is the better default.
 
 ```python
 import os
 
-# Get a list of the files in the current directory
-files = os.listdir(".")
-print(files)  # Output: ['myfile.txt', 'otherfile.txt']
+# The high-level version closes the file for you
+with open("message.txt", "w", encoding="utf-8") as file:
+    file.write("Hello, world!")
 ```
 
-You can also use the `os.mkdir` function to create a new directory:
+## Inspecting paths and folders
+
+`os.listdir()` returns the names inside a directory as strings. The result is not sorted, so sort it when the order is part of what a person will read:
 
 ```python
 import os
 
-# Create a new directory
-os.mkdir("newdir")
+files = sorted(os.listdir("."))
+print(files)
 ```
 
-## Running System Commands
-
-Finally, the os module provides functions for running system commands. For example, you can use the `os.system` function to run a command and get the output:
+`os.mkdir()` creates one directory and raises an error if the directory already exists. `os.makedirs()` is more useful when the path may contain missing parents:
 
 ```python
 import os
 
-# Run the "ls" command and print the output
-output = os.system("ls")
-print(output)  # Output: ['myfile.txt', 'otherfile.txt']
+os.makedirs("reports/2023", exist_ok=True)
 ```
 
-You can also use the `os.popen` function to run a command and get the output as a file-like object:
+The `exist_ok=True` argument makes a second run harmless. For paths that combine several parts, use `os.path.join()` instead of typing `/` or `\\` yourself:
 
 ```python
 import os
 
-# Run the "ls" command and get the output as a file-like object
-f = os.popen("ls")
-
-# Read the contents of the output
-output = f.read()
-print(output)  # Output: ['myfile.txt', 'otherfile.txt']
-
-# Close the file-like object
-f.close()
+config_path = os.path.join("config", "settings.json")
+print(config_path)
 ```
 
-## Conclusion
+The printed separator depends on the operating system. That is why joining path parts is safer than assembling one string by hand. You can also inspect a value without guessing what it means:
 
-In summary, the os module in Python is a built-in library that provides a wide variety of functions for interacting with the operating system. It allows you to perform tasks such as reading and writing files, interacting with the file system, and running system commands. The above-discussed methods are the most commonly used and are very important to remember.
+```python
+import os
 
-Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
+print(os.path.abspath("reports"))
+print(os.path.exists("reports"))
+```
+
+The first line gives the full path, while the second prints `True` if the directory exists. These checks still have a race condition if another process changes the filesystem immediately afterward, so handle the actual operation's exception as well when the code matters.
+
+## Asking the shell to do something
+
+`os.system()` sends a string to the system shell and returns an exit status. It does not give your Python code the command's printed text:
+
+```python
+import os
+
+status = os.system("echo Hello from the shell")
+print(f"exit status: {status}")
+```
+
+The shell prints `Hello from the shell`, then Python prints a status. A zero status generally means the command completed successfully, but the exact value can be represented differently across platforms.
+
+`os.popen()` gives you a file-like object for command output:
+
+```python
+import os
+
+with os.popen("echo Hello from the shell") as output_file:
+    output = output_file.read()
+
+print(output.strip())
+```
+
+Do not build a shell command by joining untrusted user input into a string. Shell metacharacters can change what actually runs. For new code that needs arguments, error handling, or separate output streams, use `subprocess.run()` with a list of arguments instead. The `os` shortcuts are useful for learning the boundary, but they are easy to outgrow.
+
+## The practical rule
+
+Start with Python's high-level file and path tools. Reach for `os.path`, `os.listdir()`, or `os.makedirs()` when you need to inspect the machine. Use `os.open()` and shell calls only when their lower-level behavior is the reason you are writing the code. That boundary keeps the module useful without turning every file operation into a permissions and cleanup puzzle.
 
 ![Thank you placard concept illustration](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8)
