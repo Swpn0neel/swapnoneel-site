@@ -6,10 +6,11 @@ description: >-
   complexity-based routing, and it fixed how I juggle LLM providers.
 slug: trying-bifrost-ai-gateway
 link:
-  - >-
-    https://dev.to/swapnoneel123/trying-bifrost-an-ai-gateway-that-simplified-my-setup-5c62
+  - 'https://substack.com/home/post/p-210123962'
   - >-
     https://swapnoneel.medium.com/trying-bifrost-an-ai-gateway-that-simplified-my-setup-2011a7be76b3
+  - >-
+    https://dev.to/swapnoneel123/trying-bifrost-an-ai-gateway-that-simplified-my-setup-5c62
 canonical: 'https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yf5e404oqqi9lk161aik.png
@@ -19,7 +20,7 @@ tags:
   - webdev
   - ai
   - opensource
-updated: '2026-08-05T09:50:14.671Z'
+updated: '2026-08-07T17:43:55.040Z'
 ---
 
 I try a lot of models daily, and I kept ending up with a separate API key for every model provider I wanted to test with my desired harness. So I decided to try [Bifrost](https://www.getmaxim.ai/bifrost) on my local machine, to see if it would actually fix that.

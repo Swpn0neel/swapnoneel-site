@@ -33,27 +33,17 @@ export async function generateMetadata({
   const post = await getBlogPost(slug);
   if (!post) return {};
   const url = `https://www.swapnoneel.site/blog/${slug}`;
-  // Use the post's own thumbnail for link-embed previews when it has one —
-  // same image readers already see at the top of the post — falling back
-  // to the generated title-card only for older posts without a cover. Only
-  // the generated card is guaranteed to actually be 1200x630; real covers
-  // vary, so let crawlers measure those themselves rather than claim a
-  // fixed size that doesn't match the file.
-  // Covers are routed through the Next image optimizer: raw uploads can be
-  // ~1MB, and WhatsApp (and some other messengers) silently drop preview
-  // thumbnails larger than ~600KB. w must be one of next.config deviceSizes.
-  // Prefer the build-time mirror so crawlers hit our own origin too.
   const ogImage = post.cover
     ? {
-        url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
-        alt: post.title,
-      }
+      url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
+      alt: post.title,
+    }
     : {
-        url: ogImageUrl(post.title, post.brief),
-        width: 1200,
-        height: 630,
-        alt: post.title,
-      };
+      url: ogImageUrl(post.title, post.brief),
+      width: 1200,
+      height: 630,
+      alt: post.title,
+    };
   return {
     title: post.title,
     description: post.brief,
@@ -85,11 +75,6 @@ const generateSlug = (text: string) => {
     .replace(/-+/g, "-");
 };
 
-// The first images of a post sit just under the cover and table of contents,
-// so a reader reaches them almost immediately. Native lazy loading only fires
-// once they are nearly in view, which leaves a visible gap on the first scroll;
-// starting these with the page hides that without eagerly pulling every image
-// in a 20-image post.
 const EAGER_IMAGE_COUNT = 2;
 
 function extractLeadImageSources(markdown: string): Set<string> {
@@ -160,17 +145,14 @@ export default async function BlogPostPage({
     day: "numeric",
   });
 
-  // Not every post carries an `updated` frontmatter date, and a few of the
-  // older ones carry an unparseable one — the footer line is skipped in both
-  // cases rather than rendering "Invalid Date".
   const updated = post.updatedAt ? new Date(post.updatedAt) : null;
   const updatedStr =
     updated && !Number.isNaN(updated.getTime())
       ? updated.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
       : null;
 
   function getCrossPost(url: string) {
@@ -179,6 +161,8 @@ export default async function BlogPostPage({
     if (url.includes("dev.to")) return { label: "DEV.to", color: "#3B49DF" };
     if (url.includes("medium.com"))
       return { label: "Medium", color: "#02B875" };
+    if (url.includes("substack.com"))
+      return { label: "Substack", color: "#FF6719" };
     return { label: "Hashnode", color: "#2962FF" };
   }
 
@@ -240,11 +224,7 @@ export default async function BlogPostPage({
           ),
         }}
       />
-      {/* Font-size toggle sits where the old cross-post link used to:
-          next to the back link on mobile, next to the meta line on
-          desktop. That link now lives in the footer of every syndicated
-          post ("Also published on ..."). A responsive grid moves the one
-          toggle between rows instead of mounting two synced copies. */}
+
       <div className="mb-6 grid grid-cols-[1fr_auto] gap-x-4 [grid-template-areas:'back_toggle'_'title_title'_'meta_meta'] sm:[grid-template-areas:'back_back'_'title_title'_'meta_toggle']">
         <Link
           href="/blog"
@@ -317,13 +297,6 @@ export default async function BlogPostPage({
                 />
               );
             },
-            // Markdown `#` renders as <h2>. The post title above is already
-            // this page's <h1>, so the six posts that open with `#` were
-            // shipping a second one — a document-outline error that heading
-            // navigation reports as two top-level sections. It also frees the
-            // prose ramp: an in-body h1 had to be sized just under the title,
-            // which left no room for the levels beneath it. The id still comes
-            // from the same slug, so the table of contents keeps working.
             h1: ({ children }) => {
               const text = getRawText(children);
               const slug = generateSlug(text);
@@ -409,9 +382,8 @@ export default async function BlogPostPage({
               )}
               {updatedStr && (
                 <p
-                  className={`text-muted-foreground blog-scaled-text ${
-                    crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
-                  }`}
+                  className={`text-muted-foreground blog-scaled-text ${crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
+                    }`}
                 >
                   {i18n.blog.lastUpdatedOn}: {updatedStr}
                 </p>
