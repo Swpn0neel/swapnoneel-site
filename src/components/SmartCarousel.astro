@@ -1,0 +1,46 @@
+---
+interface Props {
+  ariaLabel: string;
+  class?: string;
+  /** Must be a whole multiple of 2500ms to stay on the shared beat. */
+  autoplayDelay?: number;
+  align?: "start" | "center";
+  dragFree?: boolean;
+  /** Marks this instance for the generic auto-initialiser. */
+  autoInit?: boolean;
+}
+
+const {
+  ariaLabel,
+  class: className = "",
+  autoplayDelay,
+  align = "start",
+  dragFree = true,
+  autoInit = true,
+} = Astro.props;
+---
+
+<div
+  class={`smart-carousel ${className}`}
+  data-smart-carousel={autoInit ? "" : undefined}
+  data-carousel-align={align}
+  data-carousel-enhanced="false"
+  data-carousel-drag-free={String(dragFree)}
+  data-carousel-delay={autoplayDelay ? String(autoplayDelay) : undefined}
+  role="region"
+  aria-label={ariaLabel}
+  aria-roledescription="carousel"
+>
+  <slot />
+</div>
+
+<script>
+  import { initSmartCarousel } from "../scripts/smart-carousel";
+
+  // Instances that need to be driven by sibling UI (the project showcase) opt
+  // out with autoInit={false} and are constructed by their own script, which
+  // keeps the controller handle.
+  for (const root of document.querySelectorAll<HTMLElement>("[data-smart-carousel]")) {
+    initSmartCarousel(root);
+  }
+</script>

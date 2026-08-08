@@ -1,0 +1,20 @@
+---
+import { i18n } from "@/lib/i18n";
+
+interface Props {
+  href: string;
+  label?: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<div class="flex justify-end py-5">
+  <a
+    href={href}
+    class="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"
+  >
+    <span class="group-hover/more:underline">{label || i18n.common.viewMore}</span>
+    <span class="text-2xs">→</span>
+  </a>
+</div>

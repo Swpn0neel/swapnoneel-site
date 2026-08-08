@@ -4,7 +4,7 @@ import sharp from "sharp";
 
 // Derives each project cover's two dominant hues at build time so the card
 // can paint a brand-matched gradient behind the screenshot (see
-// .project-cover in app/globals.css). Only hues are stored: saturation and
+// .project-cover in src/styles/global.css). Only hues are stored: saturation and
 // lightness are theme-dependent and live in CSS.
 
 const HUE_BIN_SIZE = 30;
@@ -88,7 +88,7 @@ async function extractHues(filePath) {
 }
 
 async function generatePaletteMap() {
-  const dirPath = path.join(process.cwd(), "public", "project");
+  const dirPath = path.join(process.cwd(), "src", "assets", "project");
   const paletteMap = {};
 
   const files = await fs.readdir(dirPath);

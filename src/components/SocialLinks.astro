@@ -1,0 +1,35 @@
+---
+import { socialLinks } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
+import SmartCarousel from "./SmartCarousel.astro";
+import SocialIcon from "./SocialIcon.astro";
+---
+
+<nav aria-label={i18n.common.socialLinksRegion}>
+  <SmartCarousel ariaLabel={i18n.common.socialLinksRegion} class="w-full">
+    <ul class="smart-carousel__container flex">
+      {
+        socialLinks.map((link) => (
+          <li
+            class="smart-carousel__slide mr-2 w-24 shrink-0 sm:mr-3 sm:w-26.5"
+            aria-label={`Link to ${link.name}`}
+          >
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Visit Swapnoneel on ${link.name}`}
+              class="bg-surface border-border/60 hover:bg-surface-hover group flex h-13 w-24 items-center justify-center rounded-sm border transition-colors sm:h-15 sm:w-26.5"
+            >
+              <SocialIcon
+                brand={link.brand}
+                class="text-foreground h-5 w-5 opacity-80 transition-opacity group-hover:opacity-100 sm:h-6 sm:w-6"
+              />
+              <span class="sr-only">{link.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </SmartCarousel>
+</nav>

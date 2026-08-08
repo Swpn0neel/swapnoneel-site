@@ -7,6 +7,7 @@ import { safeJsonLd } from "@/lib/utils";
 import BackToTop from "../components/BackToTop.astro";
 import Navbar from "../components/Navbar.astro";
 import SiteFooterLinks from "../components/SiteFooterLinks.astro";
+import { resolveAsset } from "../lib/images";
 import "../styles/global.css";
 
 interface Props {
@@ -33,6 +34,12 @@ const fullTitle = title
   ? `${title} | ${siteConfig.person.fullName}`
   : siteConfig.person.fullName;
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, SITE).href;
+
+// The avatar moved into src/assets so Astro optimises it, which means it is
+// emitted with a content hash rather than served from a fixed public path.
+// JSON-LD needs an absolute URL, so resolve the built asset here.
+const avatar = resolveAsset(siteConfig.images.avatar);
+const personImage = avatar ? new URL(avatar.src, SITE).href : undefined;
 
 // Writes the *resolved* theme to data-theme before <body> exists, whether the
 // visitor has a saved choice or is on "system". Resolving here rather than
@@ -105,7 +112,7 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
     <script
       type="application/ld+json"
       is:inline
-      set:html={safeJsonLd({ "@context": "https://schema.org", ...buildPersonSchema() })}
+      set:html={safeJsonLd({ "@context": "https://schema.org", ...buildPersonSchema(personImage) })}
     />
   </head>
 

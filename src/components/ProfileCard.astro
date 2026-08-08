@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import { siteConfig } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
+import { resolveAsset } from "../lib/images";
+
+const front = resolveAsset(siteConfig.images.avatar);
+const back = resolveAsset(siteConfig.images.avatarHover);
+
+/* Both faces load eagerly. Which one a visitor sees first depends on their OS
+   theme, so the old assumption that a first visit is always light left
+   dark-theme visitors watching the hero pop in. fetchpriority stays low: the
+   LCP element is the bio paragraph, and neither face may compete with the
+   font.
+
+   The blur placeholders these carried are gone with blur-map.json — Astro
+   emits exact intrinsic dimensions, so there is no layout shift for a
+   placeholder to cover, and a blur-up on a 140px eager image was never buying
+   much. */
+---
+
+<button
+  type="button"
+  data-pfp-spin
+  class="block w-fit cursor-pointer appearance-none self-start border-0 bg-transparent p-0 text-left"
+  aria-label="Animate profile photo"
+>
+  <div class="pfp-flip-card mb-2">
+    <div class="pfp-flip-card-inner">
+      <div class="pfp-flip-card-front">
+        {
+          front && (
+            <Image
+              src={front}
+              alt={i18n.home.hero.avatarAlt}
+              width={140}
+              height={140}
+              layout="none"
+              widths={[140, 280]}
+              sizes="140px"
+              loading="eager"
+              fetchpriority="low"
+              decoding="async"
+              class="pfp-image-flip"
+            />
+          )
+        }
+      </div>
+      <div class="pfp-flip-card-back">
+        {
+          back && (
+            <Image
+              src={back}
+              alt={i18n.home.hero.avatarHoverAlt}
+              width={140}
+              height={140}
+              layout="none"
+              widths={[140, 280]}
+              sizes="140px"
+              loading="eager"
+              fetchpriority="low"
+              decoding="async"
+              class="pfp-image-flip"
+            />
+          )
+        }
+      </div>
+    </div>
+  </div>
+</button>
+
+<script>
+  import { initPfpSpin } from "../scripts/pfp-spin";
+
+  const button = document.querySelector<HTMLButtonElement>("[data-pfp-spin]");
+  if (button) initPfpSpin(button);
+</script>

@@ -68,6 +68,12 @@ const work = defineCollection({
     date: z.string(),
     description: z.string(),
     cover: z.string(),
+    /**
+     * No work entry uses this today, but ExperienceSection has always branched
+     * on it: an entry with a link points straight at the company instead of at
+     * its own detail page. Declared so that behaviour stays reachable.
+     */
+    link: z.union([z.string(), z.array(z.string())]).optional(),
   }),
 });
 

@@ -3,9 +3,9 @@
   "description": "personal site (swapnoneel)",
   "version": "1.0.0",
   "scripts": {
-    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
+    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "dev": "astro dev",
-    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
+    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",

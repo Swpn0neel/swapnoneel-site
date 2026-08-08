@@ -1,0 +1,51 @@
+---
+import paletteMap from "@/lib/palette-map.json";
+import { resolveAsset } from "../lib/images";
+import ProjectWindow from "./ProjectWindow.astro";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Public-style path from frontmatter, e.g. "/project/anrl.jpg". */
+  cover?: string;
+  sizes: string;
+  priority?: boolean;
+}
+
+const { title, description, cover, sizes, priority = false } = Astro.props;
+
+const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
+const palette = cover ? palettes[cover] : undefined;
+const asset = resolveAsset(cover);
+---
+
+<div
+  class="group border-border block h-full cursor-pointer overflow-hidden rounded-md border transition-colors"
+>
+  {
+    asset ? (
+      <div
+        class="project-cover relative aspect-video w-full overflow-hidden"
+        style={`--pc-h1:${palette?.h1 ?? 220};--pc-h2:${palette?.h2 ?? 200}`}
+      >
+        <ProjectWindow src={asset} alt="" sizes={sizes} priority={priority} />
+      </div>
+    ) : (
+      <div class="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
+        {title}
+      </div>
+    )
+  }
+  <div class="p-3">
+    <div class="flex items-center justify-between">
+      <p class="text-sm font-semibold">{title}</p>
+    </div>
+    {
+      description && (
+        <p class="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed">
+          {description}
+        </p>
+      )
+    }
+  </div>
+</div>

@@ -1,0 +1,77 @@
+---
+import { Image } from "astro:assets";
+import { resolveAsset } from "../lib/images";
+
+interface Props {
+  alt: string;
+  src?: string;
+  size?: number;
+  /**
+   * Low-priority is right when the logo sits below other above-the-fold
+   * content (home, behind the hero) and can afford to lose the fetch queue to
+   * fonts. Set false where the logo IS the top-of-page content (e.g. /work's
+   * experience section) so it doesn't visibly pop in after paint.
+   */
+  lowPriority?: boolean;
+  /** Layout classes for the outer box — e.g. floating it out of the text flow. */
+  class?: string;
+}
+
+const {
+  alt,
+  src,
+  size = 60,
+  lowPriority = true,
+  class: className = "",
+} = Astro.props;
+
+const asset = resolveAsset(src);
+
+// One intrinsic size regardless of how large the logo is drawn. /work renders
+// these at 60 and the home page at 40; fetching one size for both means the
+// home page primes the cache for /work (and vice versa) instead of each page
+// pulling its own rendition.
+const FETCH_SIZE = 60;
+
+// The only logo whose artwork needs inverting to stay legible on a dark page.
+const adaptsToTheme = src === "/work/zonko.webp";
+
+/* The React version faded a skeleton out on load. These are local, hashed,
+   eagerly loaded 60px assets emitted by the build — there is no load to wait
+   for and no fetch that can fail, so the skeleton and its state went with it.
+
+   layout="none" opts out of the global `constrained` responsive behaviour:
+   these are fixed-size, so a widths list spanning the page breakpoints would
+   be waste. `densities={[1, 2]}` would say this more directly but is ignored
+   whenever a layout is configured anywhere, so the pair is spelled out as
+   explicit widths instead. */
+---
+
+{
+  asset ? (
+    <span
+      class={`relative block shrink-0 overflow-hidden rounded-md ${className}`}
+      style={`width:${size}px;height:${size}px`}
+    >
+      <Image
+        src={asset}
+        alt={alt}
+        width={FETCH_SIZE}
+        height={FETCH_SIZE}
+        layout="none"
+        widths={[FETCH_SIZE, FETCH_SIZE * 2]}
+        sizes={`${FETCH_SIZE}px`}
+        loading="eager"
+        fetchpriority={lowPriority ? "low" : "auto"}
+        decoding="async"
+        class={`rounded-md object-cover ${adaptsToTheme ? "dark:brightness-200 dark:invert" : ""}`}
+        style={`width:${size}px;height:${size}px`}
+      />
+    </span>
+  ) : (
+    <div
+      class={`bg-secondary shrink-0 rounded-md ${className}`}
+      style={`width:${size}px;height:${size}px`}
+    />
+  )
+}
