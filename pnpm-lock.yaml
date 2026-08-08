@@ -44,9 +44,6 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
-      cookie:
-        specifier: ^2.0.1
-        version: 2.0.1
       embla-carousel:
         specifier: 8.6.0
         version: 8.6.0
