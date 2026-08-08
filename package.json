@@ -10,7 +10,6 @@
     "preview": "astro preview",
     "check": "astro check",
     "update-blog-dates": "node scripts/update-blog-dates.mjs",
-    "generate-font-subset": "node scripts/generate-font-subset.mjs",
     "generate-narrations": "node scripts/generate-narrations.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",

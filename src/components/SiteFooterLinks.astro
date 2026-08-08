@@ -1,0 +1,39 @@
+---
+import { footerLinks, type FooterLink } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
+
+const mainSiteLink: FooterLink = {
+  href: "https://swapnoneel.site",
+  key: "site",
+};
+
+const pathname = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+/* /resume swaps its own entry for a link back to the main site, since the
+   resume page is reached in a new tab and has nowhere else to go. */
+const links =
+  pathname === "/resume"
+    ? [mainSiteLink, ...footerLinks.filter((link) => link.key !== "resume")]
+    : footerLinks;
+
+/* target="_blank" on every link, internal ones included. This is deliberate
+   and not an oversight: the footer is meant to open alongside the page you are
+   reading rather than replace it. */
+---
+
+<div
+  class="mb-4 flex flex-col gap-2 text-sm lowercase min-[400px]:flex-row min-[400px]:gap-4"
+>
+  {
+    links.map((link) => (
+      <a
+        href={link.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hover:text-foreground flex items-center gap-1.5 transition-colors"
+      >
+        <span>↗</span> {i18n.footer[link.key]}
+      </a>
+    ))
+  }
+</div>

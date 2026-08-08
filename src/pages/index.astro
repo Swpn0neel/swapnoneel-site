@@ -1,14 +1,27 @@
 ---
-// Placeholder — replaced by the real homepage in Phase 3.
-const greeting = "astro toolchain ok";
+// Placeholder body — the real homepage lands in Phase 3. The chrome around it
+// (layout, nav, theme toggle, footer, back-to-top) is what Phase 2 delivers.
+import Base from "../layouts/Base.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>{greeting}</title>
-  </head>
-  <body>
-    <h1>{greeting}</h1>
-  </body>
-</html>
+<Base>
+  <div class="space-y-6 pb-24">
+    <h1 class="text-3xl font-semibold tracking-tight">Phase 2 — chrome</h1>
+    <p class="text-muted-foreground text-sm">
+      Layout, styles and theme are ported. The homepage content arrives in Phase 3.
+    </p>
+    <div class="prose prose-sm max-w-none">
+      <h2>Prose sample</h2>
+      <p>
+        Body copy in Inter, served by <code>astro:fonts</code>. This paragraph exists
+        to check the type ramp, link colour and <mark>mark styling</mark> survived the
+        move.
+      </p>
+      <pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name</span>):
+    <span class="hljs-comment"># five roles: keyword, string, name, number, comment</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">f"hello &#123;name&#125;"</span> * <span class="hljs-number">3</span></code></pre>
+    </div>
+    {/* Tall enough to bring the back-to-top button into play. */}
+    <div class="h-[120vh]"></div>
+  </div>
+</Base>

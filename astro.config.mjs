@@ -1,10 +1,9 @@
 // @ts-check
 import { unified } from "@astrojs/markdown-remark";
-import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, fontProviders } from "astro/config";
 
 export default defineConfig({
   site: "https://www.swapnoneel.site",
@@ -19,11 +18,11 @@ export default defineConfig({
   output: "static",
   adapter: vercel(),
 
-  // react() is here for exactly one component: components/blog-narrator.tsx.
-  // Every other island on this site is vanilla TS. When the narrator is
-  // rewritten (the final migration phase), this integration and react/react-dom
-  // come out and the site ships zero framework JavaScript.
-  integrations: [react(), sitemap()],
+  // No react() yet, deliberately. Registering the integration emits its 191 KB
+  // client renderer into dist/_astro even when no island uses it — dead weight
+  // in the deploy. It comes back in Phase 4, when blog-narrator (the one React
+  // holdout) actually needs it, and goes again for good once that is rewritten.
+  integrations: [sitemap()],
 
   vite: {
     plugins: [tailwindcss()],
@@ -52,16 +51,55 @@ export default defineConfig({
     responsiveStyles: false,
   },
 
+  // The subsetting pipeline is gone; this ships the full variable face. It
+  // costs ~27 KB more on a cold first visit and nothing after that, in exchange
+  // for deleting a Python/fonttools build step, a generated stylesheet, a
+  // hand-written preload and a filename that had to be kept in sync in three
+  // places. Astro emits the @font-face, a metric-matched fallback, a hashed
+  // filename and the immutable cache headers.
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: "Inter",
+      cssVariable: "--font-inter",
+      fallbacks: ["system-ui", "sans-serif"],
+      options: {
+        variants: [
+          {
+            weight: "100 900",
+            style: "normal",
+            src: ["./assets/fonts/inter-latin-variable.woff2"],
+            // The only value with no bad failure mode here. `swap` reflows the
+            // hero block by 27.3px when the face lands, which measured a real
+            // 0.027 CLS in the field; `block` risks FCP. `optional` never
+            // swaps: resolved in time it paints Inter from the first paint,
+            // and if not, that pageview keeps the metric-matched fallback.
+            // Either way the layout is decided once and never shifts.
+            display: "optional",
+          },
+        ],
+      },
+    },
+  ],
+
   markdown: {
     // Astro 7's default processor is Sätteri (mdastPlugins/hastPlugins). The
     // remark/rehype pipeline is opted into here because the transforms this
     // site needs — external-link rel, code-block copy buttons, the <picture>
     // rewrite for blog images — are being written against that ecosystem.
     processor: unified({}),
-    // Replaces rehype-highlight and its stylesheet: Shiki runs at build and
-    // emits inline styles, so code blocks cost no CSS and no client JS.
-    shikiConfig: {
-      themes: { light: "github-light", dark: "github-dark" },
-    },
+    // Astro's built-in Shiki is off, and rehype-highlight is kept instead.
+    //
+    // This reverses what the migration plan said, on the evidence. Shiki would
+    // have been a downgrade here, not an upgrade: both run at build time and
+    // cost zero client JS, so there was never a runtime win to collect, and
+    // switching would have cost three real things. The five --code-* roles in
+    // global.css were picked to clear 4.5:1 on --secondary in both themes, and
+    // Shiki's css-variables theme has no token for the distinction the archive
+    // actually needs; its themes inline a fixed palette into the HTML, which
+    // is both larger and no longer theme-aware; and lib/mdx-text.ts reads the
+    // `language-*` class that rehype-highlight leaves behind to label each
+    // block, which Shiki does not emit.
+    syntaxHighlight: false,
   },
 });

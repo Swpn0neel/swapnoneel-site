@@ -1,0 +1,58 @@
+---
+/**
+ * The five lucide icons the chrome uses, inlined.
+ *
+ * lucide-react shipped these as React components, which meant a framework
+ * runtime on every page to render nine static <path> elements. The geometry
+ * below is copied verbatim from lucide-react 1.8.0 (ISC) so the icons are
+ * pixel-identical to what the site renders today — same 24x24 viewBox, same
+ * round caps and joins, same stroke width.
+ */
+export type IconName = "sun" | "moon" | "menu" | "x" | "arrow-up";
+
+interface Props {
+  name: IconName;
+  size?: number;
+  strokeWidth?: number;
+  class?: string;
+}
+
+const { name, size = 24, strokeWidth = 2, class: className = "" } = Astro.props;
+
+const PATHS: Record<IconName, string[]> = {
+  sun: [
+    "M12 2v2",
+    "M12 20v2",
+    "m4.93 4.93 1.41 1.41",
+    "m17.66 17.66 1.41 1.41",
+    "M2 12h2",
+    "M20 12h2",
+    "m6.34 17.66-1.41 1.41",
+    "m19.07 4.93-1.41 1.41",
+  ],
+  moon: [
+    "M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401",
+  ],
+  menu: ["M4 5h16", "M4 12h16", "M4 19h16"],
+  x: ["M18 6 6 18", "m6 6 12 12"],
+  "arrow-up": ["m5 12 7-7 7 7", "M12 19V5"],
+};
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={`lucide ${className}`}
+  aria-hidden="true"
+>
+  {/* Only the sun carries a non-path element. */}
+  {name === "sun" && <circle cx="12" cy="12" r="4" />}
+  {PATHS[name].map((d) => <path d={d} />)}
+</svg>
