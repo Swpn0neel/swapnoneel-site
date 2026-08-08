@@ -1,35 +1,26 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "target": "ES2017",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
     "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
     "incremental": true,
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    // @astrojs/react needs this for the one React island the site still has
+    // (components/blog-narrator.tsx). It goes when that island does.
+    "jsx": "react-jsx",
+    "jsxImportSource": "react",
+    // lib/ deliberately stays at the repo root rather than moving under src/,
+    // so every `@/lib/...` import resolves unchanged and this alias never has
+    // to move.
     "paths": {
       "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    ".astro/types.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.astro",
-    ".next/types/**/*.ts",
-    ".next/dev/types/**/*.ts"
-  ],
-  "exclude": ["node_modules", "dist"]
+  "include": [".astro/types.d.ts", "**/*.ts", "**/*.tsx", "**/*.astro"],
+  // app/ and components/ are the Next implementation, kept on disk purely as a
+  // reference to port from. They are not part of the Astro build and are
+  // deleted in the final phase; excluding them keeps `astro check` reporting on
+  // the Astro side only.
+  "exclude": ["node_modules", "dist", ".vercel", "app", "components"]
 }

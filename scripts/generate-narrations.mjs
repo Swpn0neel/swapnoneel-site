@@ -1,7 +1,7 @@
 // Generates read-along narration for blog posts with Microsoft Edge neural TTS,
 // and keeps narration in sync with the current set of posts.
 //
-// For each post in md/blog it synthesizes the narratable prose (same skip
+// For each post in src/content/blog it synthesizes the narratable prose (same skip
 // rules as the client narrator: no code, tables, images) and produces:
 //   - an MP3: always cached locally at public/narration/<year>/<slug>.mp3
 //     (gitignored — a local backup copy, not the source of truth) and
@@ -9,11 +9,11 @@
 //     production reads from)
 //   - public/narration/<year>/<slug>.json (committed): word timings + audio
 //     URL, consumed by components/blog-narrator.tsx to drive word highlighting.
-//     The year subfolder mirrors md/blog/<year>/ and is keyed off the post's
+//     The year subfolder mirrors src/content/blog/<year>/ and is keyed off the post's
 //     own publish year, not its folder — see yearOf() below.
 //
 // A full run (no slug args) also prunes posts that no longer exist in
-// md/blog: their Blob object, local JSON and local MP3 are all deleted.
+// src/content/blog: their Blob object, local JSON and local MP3 are all deleted.
 //
 // This runs automatically via predev/prebuild (so local dev and `pnpm build`
 // stay in sync with the current posts) and via a pre-commit hook (so the
@@ -51,7 +51,7 @@ const BYTES_PER_MS = 48000 / 8 / 1000;
 const SEGMENT_MAX_CHARS = 3000;
 
 const ROOT = process.cwd();
-const BLOG_DIR = path.join(ROOT, "md", "blog");
+const BLOG_DIR = path.join(ROOT, "src", "content", "blog");
 const OUT_DIR = path.join(ROOT, "public", "narration");
 
 try {
@@ -221,7 +221,7 @@ async function saveAudio(slug, year, buffer) {
   return blob.url;
 }
 
-// The narration folder mirrors md/blog/<year>/, keyed off each post's own
+// The narration folder mirrors src/content/blog/<year>/, keyed off each post's own
 // `date` frontmatter (matching how app/blog/[slug]/page.tsx picks the year it
 // asks blog-narrator.tsx to fetch from), not the folder the .md happens to
 // live in.
@@ -316,7 +316,7 @@ async function processPost(filePath) {
   return "generated";
 }
 
-// ---- pruning (posts removed from md/blog) --------------------------------------
+// ---- pruning (posts removed from src/content/blog) --------------------------------------
 
 async function pruneOrphans(currentSlugs) {
   let removed = 0;

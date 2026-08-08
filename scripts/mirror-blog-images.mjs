@@ -4,7 +4,7 @@ import matter from "gray-matter";
 import path from "path";
 import sharp from "sharp";
 
-const mdDir = path.join(process.cwd(), "md", "blog");
+const mdDir = path.join(process.cwd(), "src", "content", "blog");
 const outDir = path.join(process.cwd(), "public", "blog-img");
 // Originals for posts written here rather than syndicated from dev.to/Hashnode.
 // The tree mirrors the published paths: assets/blog-img/<year>/<slug>/name.png
@@ -284,7 +284,7 @@ function slugify(value, fallback, maxLength = Infinity) {
 }
 
 // Mirrored files live under blog-img/<year>/<post-slug>/ so the directory tree
-// matches md/blog and a post's images can be found (or deleted) as a unit.
+// matches src/content/blog and a post's images can be found (or deleted) as a unit.
 // The hash suffix keeps two same-named uploads from different hosts (there are
 // several `image.png`s) from overwriting each other, and changes whenever the
 // source URL changes so a stale file can never be served.

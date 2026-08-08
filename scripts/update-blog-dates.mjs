@@ -26,8 +26,8 @@ function stableStringify(obj) {
 }
 
 try {
-  // Get git status of files in md/blog
-  const statusOutput = execSync("git status --porcelain -- md/blog", {
+  // Get git status of files in src/content/blog
+  const statusOutput = execSync("git status --porcelain -- src/content/blog", {
     encoding: "utf8",
   });
   const lines = statusOutput

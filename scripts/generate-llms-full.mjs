@@ -25,7 +25,7 @@ async function getFilesRecursively(dir) {
 }
 
 async function readFolder(folder) {
-  const dirPath = path.join(process.cwd(), "md", folder);
+  const dirPath = path.join(process.cwd(), "src", "content", folder);
   const filePaths = await getFilesRecursively(dirPath);
 
   const entries = [];
