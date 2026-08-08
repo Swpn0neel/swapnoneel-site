@@ -8,7 +8,6 @@ slug: deep-dive-into-bifrost
 link:
   - https://dev.to/swapnoneel123/deep-diving-into-bifrost-virtual-keys-mcp-and-skills-30i4
   - https://swapnoneel.medium.com/deep-diving-into-bifrost-virtual-keys-mcp-and-skills-ea1237b58a88
-canonical: 'https://www.swapnoneel.site/blog/deep-dive-into-bifrost'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yxaj337vywpb3o2aygoa.png
 brand: maxim

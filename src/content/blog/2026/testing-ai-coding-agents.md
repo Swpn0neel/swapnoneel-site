@@ -8,7 +8,6 @@ slug: testing-ai-coding-agents
 link:
   - "https://dev.to/swapnoneel123/nobodys-testing-ai-coding-agents-enough-4bo"
   - "https://swapnoneel.medium.com/nobodys-testing-ai-coding-agents-enough-17f2f20eb44f"
-canonical: "https://www.swapnoneel.site/blog/testing-ai-coding-agents"
 cover: "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gjnz7e2p554wi14eules.png"
 tags:
   - ai

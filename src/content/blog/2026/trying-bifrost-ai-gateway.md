@@ -11,7 +11,6 @@ link:
     https://swapnoneel.medium.com/trying-bifrost-an-ai-gateway-that-simplified-my-setup-2011a7be76b3
   - >-
     https://dev.to/swapnoneel123/trying-bifrost-an-ai-gateway-that-simplified-my-setup-5c62
-canonical: 'https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yf5e404oqqi9lk161aik.png
 brand: maxim

@@ -37,11 +37,6 @@ const blog = defineCollection({
     brand: z.string().optional(),
     /** Present on seven posts; see filenameId above. */
     slug: z.string().optional(),
-    /* Neither of these is read by the site today. They are declared so the
-       schema does not quietly drop them, and so the next person to reach for
-       them can see they already exist in the archive. */
-    canonical: z.string().optional(),
-    primary_keyword: z.string().optional(),
   }),
 });
 

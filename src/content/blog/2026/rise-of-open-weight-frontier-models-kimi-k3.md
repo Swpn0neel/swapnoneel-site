@@ -9,7 +9,6 @@ tags:
   - productivity
   - webdev
 link: "https://dev.to/swapnoneel123/kimi-k3-and-the-rise-of-open-weight-frontier-models-241h"
-canonical: "https://www.swapnoneel.site/blog/rise-of-open-weight-frontier-models-kimi-k3"
 cover: "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/wsouqrqbycj0330o3inq.png"
 ---
 
