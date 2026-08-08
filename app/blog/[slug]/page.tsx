@@ -2,12 +2,14 @@ import { BlogImage } from "@/components/blog-image";
 import { BlogNarrator } from "@/components/blog-narrator";
 import { CodeBlock } from "@/components/code-block";
 import { FontSizeToggle } from "@/components/font-size-toggle";
+import { RelatedPosts } from "@/components/related-posts";
 import { TableOfContents } from "@/components/table-of-contents";
 import { mirroredSrc } from "@/lib/blog-image-map";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
 import { getRawText } from "@/lib/mdx-text";
+import { getRelatedPosts } from "@/lib/related-posts";
 import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -181,6 +183,7 @@ export default async function BlogPostPage({
 
   const headings = extractHeadings(cleanMarkdown);
   const leadImages = extractLeadImageSources(cleanMarkdown);
+  const relatedPosts = getRelatedPosts(slug);
 
   return (
     <article className="pb-16">
@@ -392,6 +395,8 @@ export default async function BlogPostPage({
           )}
         </footer>
       )}
+
+      <RelatedPosts posts={relatedPosts} />
     </article>
   );
 }

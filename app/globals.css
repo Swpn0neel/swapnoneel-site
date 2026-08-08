@@ -928,6 +928,29 @@ textarea {
   margin-top: calc(0.5rem * var(--prose-scale, 1));
 }
 
+/* "Read next" recommendations below the article. Outside .prose like the
+   footer text above, and scaled for the same reason: at A+ everything from
+   the post title down grows, and a block pinned to text-sm/text-xs would be
+   the one thing on the page that didn't — the last thing a reader sees, so
+   the mismatch lands hardest there. The section heading and the recommended
+   titles sit at the prose body size — which is also the text-sm the home
+   page's section headings use, so "Read next" matches Experience/Projects at
+   the default setting and only parts company at A-/A+. Dates and briefs sit
+   at the meta size. The line-heights are set here rather than with leading-*
+   utilities: these rules are outside @layer, so they'd win against the
+   utility anyway. */
+.blog-related-title {
+  font-size: calc(0.875rem * var(--prose-scale, 1));
+  line-height: 1.4;
+}
+
+/* Looser than .blog-scaled-text's 1.3333 — this one wraps to the two lines
+   the description is clamped to, rather than sitting on a single line. */
+.blog-related-meta {
+  font-size: calc(0.75rem * var(--prose-scale, 1));
+  line-height: 1.6;
+}
+
 /* Prose / MDX content */
 .prose {
   /* Match the home page's text-sm body size (0.875rem). The `prose-sm`

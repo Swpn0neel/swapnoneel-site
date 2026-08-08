@@ -140,6 +140,7 @@ export const i18n = {
     backLink: "blog",
     alsoPublishedOn: "Also published on",
     lastUpdatedOn: "Last updated on",
+    readNext: "Read next",
     textSizeLabel: "Adjust article text size",
     textSizeTitles: {
       sm: "Smaller text",
