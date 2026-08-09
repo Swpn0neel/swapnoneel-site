@@ -1,27 +1,123 @@
 ---
-// Placeholder body — the real homepage lands in Phase 3. The chrome around it
-// (layout, nav, theme toggle, footer, back-to-top) is what Phase 2 delivers.
+import { siteConfig } from "@/lib/config";
+import { getFeaturedProjects, getWorkItems } from "@/lib/content";
+import { i18n } from "@/lib/i18n";
+import { buildPersonSchema } from "@/lib/structured-data";
+import { safeJsonLd } from "@/lib/utils";
+import CalBooking from "../components/CalBooking.astro";
+import ExperienceSection from "../components/ExperienceSection.astro";
+import ProfileCard from "../components/ProfileCard.astro";
+import ProjectOverlay from "../components/ProjectOverlay.astro";
+import ProjectShowcase from "../components/ProjectShowcase.astro";
+import SocialLinks from "../components/SocialLinks.astro";
 import Base from "../layouts/Base.astro";
+import { resolveAsset } from "../lib/images";
+import { toProjectView } from "../lib/projects";
+
+const workItems = await getWorkItems();
+const projects = (await getFeaturedProjects()).map(toProjectView);
+
+const avatar = resolveAsset(siteConfig.images.avatar);
+const personImage = avatar
+  ? new URL(avatar.src, "https://www.swapnoneel.site").href
+  : undefined;
 ---
 
 <Base>
-  <div class="space-y-6 pb-24">
-    <h1 class="text-3xl font-semibold tracking-tight">Phase 2 — chrome</h1>
-    <p class="text-muted-foreground text-sm">
-      Layout, styles and theme are ported. The homepage content arrives in Phase 3.
-    </p>
-    <div class="prose prose-sm max-w-none">
-      <h2>Prose sample</h2>
-      <p>
-        Body copy in Inter, served by <code>astro:fonts</code>. This paragraph exists
-        to check the type ramp, link colour and <mark>mark styling</mark> survived the
-        move.
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "ProfilePage",
+      mainEntity: buildPersonSchema(personImage),
+    })}
+  />
+
+  <div class="space-y-7 pb-12">
+    {/* Hero */}
+    <section class="flex flex-col gap-5">
+      <ProfileCard />
+      <div>
+        <h1
+          class="mb-3 flex flex-wrap items-baseline gap-2 text-2xl font-semibold tracking-tight"
+        >
+          <span>{siteConfig.person.displayName}</span>
+        </h1>
+        <p class="text-muted-foreground mb-4 text-sm leading-relaxed lowercase">
+          {i18n.home.hero.tagline}
+        </p>
+        {/* The bio is the page's subject, not supporting text, so it reads at
+            body strength while the tagline above it — a subtitle — keeps the
+            muted tone. Same reasoning as .prose p in global.css. */}
+        {
+          i18n.home.hero.paragraphs.map((paragraph, index) => (
+            <p
+              class={`text-body-foreground text-sm leading-relaxed lowercase ${index > 0 ? "mt-4" : ""}`}
+            >
+              {paragraph}
+            </p>
+          ))
+        }
+        <p class="text-body-foreground mt-4 text-sm leading-relaxed lowercase">
+          {i18n.home.hero.reachMeLabel}{" "}
+          <a
+            href={`mailto:${siteConfig.person.email}`}
+            class="text-foreground underline transition-opacity hover:opacity-70"
+          >
+            {siteConfig.person.email}
+          </a>{" "}
+          {i18n.home.hero.reachMeSuffix}
+        </p>
+      </div>
+    </section>
+
+    <SocialLinks />
+
+    <hr class="border-border" />
+
+    <ExperienceSection
+      items={workItems}
+      seeAllHref="/work"
+      from="home"
+      class="deferred-render"
+    />
+
+    <section class="deferred-render">
+      <div class="mb-5 flex items-center justify-between">
+        <h2 class="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+          {i18n.home.sections.projects}
+        </h2>
+        <a
+          href="/work"
+          class="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
+        >
+          {i18n.common.seeAll}
+        </a>
+      </div>
+      <ProjectShowcase items={projects} />
+    </section>
+
+    <hr class="border-border" />
+
+    <section>
+      <h2 class="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
+        {i18n.home.sections.contact}
+      </h2>
+      <p class="text-body-foreground text-sm">
+        {i18n.home.contact.intro}{" "}
+        <a href="/contact" class="text-foreground underline">
+          {i18n.home.contact.messageLink}
+        </a>{" "}
+        {i18n.home.contact.middle}{" "}
+        <CalBooking
+          customText={i18n.home.contact.bookCall}
+          class="text-foreground cursor-pointer underline"
+        />{" "}
+        {i18n.home.contact.outro}
       </p>
-      <pre><code class="hljs language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">greet</span>(<span class="hljs-params">name</span>):
-    <span class="hljs-comment"># five roles: keyword, string, name, number, comment</span>
-    <span class="hljs-keyword">return</span> <span class="hljs-string">f"hello &#123;name&#125;"</span> * <span class="hljs-number">3</span></code></pre>
-    </div>
-    {/* Tall enough to bring the back-to-top button into play. */}
-    <div class="h-[120vh]"></div>
+    </section>
   </div>
+
+  <ProjectOverlay items={projects} />
 </Base>

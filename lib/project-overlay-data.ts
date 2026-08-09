@@ -13,7 +13,7 @@ export interface ProjectOverlayData {
   techStack: string[];
 }
 
-function parseSection(content: string, heading: string): string[] {
+export function parseSection(content: string, heading: string): string[] {
   const regex = new RegExp(
     `###\\s+${heading}[\\s\\S]*?\\n([\\s\\S]*?)(?=###|$)`,
     "i"

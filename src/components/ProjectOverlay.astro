@@ -1,0 +1,140 @@
+---
+import paletteMap from "@/lib/palette-map.json";
+import { i18n } from "@/lib/i18n";
+import type { ProjectView } from "../lib/projects";
+import { cleanFeature, techLabel } from "../lib/projects";
+import { resolveAsset } from "../lib/images";
+import Icon from "./Icon.astro";
+import ProjectWindow from "./ProjectWindow.astro";
+
+interface Props {
+  items: ProjectView[];
+}
+
+const { items } = Astro.props;
+const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
+
+/**
+ * One modal shell plus a <template> per project, both rendered at build time.
+ *
+ * The React version rendered the panel on demand through a portal, which meant
+ * the markup, the image URLs and the srcsets all had to be produced in the
+ * browser. Here Astro has already built every panel — including each hero's
+ * processed <picture> — and opening one is a clone.
+ *
+ * <template> is doing real work: its contents are inert, so the twelve hero
+ * images are parsed but never fetched until a panel is actually opened. A
+ * hidden <div> would not give that guarantee.
+ */
+---
+
+<div
+  id="project-overlay-dialog"
+  class="project-overlay-backdrop"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="project-overlay-title"
+  hidden
+  data-project-overlay
+>
+</div>
+
+{
+  items.map((item) => {
+    const palette = item.cover ? palettes[item.cover] : undefined;
+    const asset = resolveAsset(item.cover);
+    return (
+      <template data-project-panel={item.slug}>
+        <div class="project-overlay-panel">
+          <div
+            class={`project-overlay-hero ${asset ? "project-cover" : ""}`}
+            style={asset ? `--pc-h1:${palette?.h1 ?? 220};--pc-h2:${palette?.h2 ?? 200}` : undefined}
+          >
+            {asset ? (
+              <ProjectWindow
+                src={asset}
+                alt={item.title}
+                sizes="(max-width: 640px) 86vw, 654px"
+              />
+            ) : (
+              <div class="project-overlay-hero-placeholder">
+                <span>{item.title}</span>
+              </div>
+            )}
+
+            {/* Gradient fade at the bottom of the image into the content area */}
+            <div class="project-overlay-hero-fade" />
+
+            <button
+              type="button"
+              data-overlay-close
+              class="project-overlay-close"
+              aria-label={i18n.common.closeOverlay}
+            >
+              <Icon name="x" size={14} />
+            </button>
+
+            <div class="project-overlay-hero-title-bar">
+              <h2 id="project-overlay-title" class="project-overlay-hero-title">
+                {item.title}
+              </h2>
+              {item.link && (
+                <a
+                  href={item.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="project-overlay-glass-link"
+                  aria-label={i18n.common.learnMore}
+                >
+                  <Icon name="arrow-up-right" size={18} strokeWidth={2.5} />
+                </a>
+              )}
+            </div>
+          </div>
+
+          <div class="project-overlay-info">
+            {item.description && (
+              <p id="project-overlay-description" class="project-overlay-description">
+                {item.description}
+              </p>
+            )}
+
+            <div class="project-overlay-info-grid">
+              {item.features.length > 0 && (
+                <div class="project-overlay-section">
+                  <h3 class="project-overlay-section-title">{i18n.overlay.features}</h3>
+                  <ul class="project-overlay-features">
+                    {item.features.map((feature) => (
+                      <li class="project-overlay-feature-item">
+                        <span class="project-overlay-feature-bullet">›</span>
+                        {cleanFeature(feature)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {item.techStack.length > 0 && (
+                <div class="project-overlay-section">
+                  <h3 class="project-overlay-section-title">{i18n.overlay.techStack}</h3>
+                  <div class="project-overlay-tags">
+                    {item.techStack.map((tech) => (
+                      <span class="project-overlay-tag">{techLabel(tech)}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </template>
+    );
+  })
+}
+
+<script>
+  import { initProjectOverlay } from "../scripts/project-overlay";
+
+  const dialog = document.querySelector<HTMLElement>("[data-project-overlay]");
+  if (dialog) initProjectOverlay(dialog);
+</script>

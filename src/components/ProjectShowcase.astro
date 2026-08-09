@@ -1,0 +1,77 @@
+---
+import type { ProjectView } from "../lib/projects";
+import ProjectCarousel from "./ProjectCarousel.astro";
+import ProjectIndex from "./ProjectIndex.astro";
+
+interface Props {
+  items: ProjectView[];
+}
+
+const { items } = Astro.props;
+
+/**
+ * Ties the carousel and the index together. In React this component owned the
+ * two pieces of state they had to agree on — which slide is showing, and which
+ * project the overlay has open. Both now travel as events, so this is markup
+ * plus the small script below.
+ */
+---
+
+<div class="space-y-6" data-project-showcase>
+  <ProjectCarousel items={items} />
+  <ProjectIndex items={items} />
+</div>
+
+<script>
+  import { initSmartCarousel } from "../scripts/smart-carousel";
+  import { bindOverlayTriggers, CHANGE_EVENT } from "../scripts/project-overlay";
+
+  const showcase = document.querySelector<HTMLElement>("[data-project-showcase]");
+  const carousel = showcase?.querySelector<HTMLElement>(".smart-carousel");
+  const slides = showcase?.querySelector<HTMLElement>("[data-project-slides]");
+  const index = showcase?.querySelector<HTMLElement>("[data-project-index]");
+
+  if (showcase && carousel && slides && index) {
+    const controller = initSmartCarousel(carousel);
+    const rows = Array.from(index.querySelectorAll<HTMLElement>("[data-row-slug]"));
+    const slideEls = Array.from(slides.querySelectorAll<HTMLElement>("[data-slide-slug]"));
+
+    const setActive = (slug: string | undefined) => {
+      for (const row of rows) row.dataset.active = String(row.dataset.rowSlug === slug);
+      for (const slide of slideEls) {
+        if (slide.dataset.slideSlug === slug) slide.setAttribute("aria-current", "true");
+        else slide.removeAttribute("aria-current");
+      }
+    };
+
+    carousel.addEventListener("carousel:select", (event) => {
+      const { index: i } = (event as CustomEvent<{ index: number }>).detail;
+      setActive(slideEls[i]?.dataset.slideSlug);
+    });
+    setActive(slideEls[0]?.dataset.slideSlug);
+
+    bindOverlayTriggers(showcase);
+
+    // The carousel pauses on its own hover, but the index below is driven by
+    // the slide position too — advancing while someone reads it moves the
+    // highlight out from under them. An open overlay pauses it as well.
+    let pointerWithin = false;
+    let overlayOpen = false;
+    const sync = () => controller.setPaused(pointerWithin || overlayOpen);
+
+    showcase.addEventListener("pointerenter", (event) => {
+      if (event.pointerType === "touch") return;
+      pointerWithin = true;
+      sync();
+    });
+    showcase.addEventListener("pointerleave", (event) => {
+      if (event.pointerType === "touch") return;
+      pointerWithin = false;
+      sync();
+    });
+    window.addEventListener(CHANGE_EVENT, (event) => {
+      overlayOpen = Boolean((event as CustomEvent<{ slug: string | null }>).detail?.slug);
+      sync();
+    });
+  }
+</script>

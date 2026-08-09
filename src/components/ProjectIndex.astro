@@ -1,0 +1,67 @@
+---
+import type { ProjectView } from "../lib/projects";
+import Icon from "./Icon.astro";
+
+interface Props {
+  items: ProjectView[];
+}
+
+const { items } = Astro.props;
+
+/**
+ * Text-first project index for the home page — tight title / one-liner rows
+ * with a ↗ link to the live site. The carousel above carries the imagery,
+ * while this list stays focused on scanning and opening details.
+ *
+ * The "which row is the carousel showing" highlight is applied by the showcase
+ * script through data-active, rather than being re-rendered.
+ */
+---
+
+<div class="divide-border divide-y" data-project-index>
+  {
+    items.map((item) => (
+      <div
+        class="group grid grid-cols-1 grid-rows-1 py-3 first:pt-0 last:pb-0 sm:flex sm:items-baseline sm:gap-4"
+        data-row-slug={item.slug}
+      >
+        <button
+          type="button"
+          data-open-project={item.slug}
+          aria-haspopup="dialog"
+          aria-controls="project-overlay-dialog"
+          aria-expanded="false"
+          class="col-start-1 row-start-1 flex min-w-0 flex-1 cursor-pointer flex-col gap-1 text-left sm:flex-row sm:items-baseline sm:gap-4"
+        >
+          <span class="sr-only">Open details for </span>
+          <span
+            class="group-hover:text-foreground text-foreground/80 shrink-0 pr-6 text-sm font-medium transition-colors group-hover:underline group-data-[active=true]:text-foreground group-data-[active=true]:font-semibold group-data-[active=true]:underline group-data-[active=true]:decoration-1 group-data-[active=true]:underline-offset-4 sm:w-36 sm:pr-0"
+          >
+            {item.title}
+          </span>
+          {item.description && (
+            <span class="group-hover:text-foreground/80 text-muted-foreground line-clamp-2 min-w-0 flex-1 text-xs transition-colors group-data-[active=true]:text-foreground/80 sm:line-clamp-1">
+              {item.description}
+            </span>
+          )}
+        </button>
+        {item.link && (
+          <a
+            href={item.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Visit ${item.title}`}
+            class="hover:text-foreground group-hover:text-foreground text-muted-foreground group-data-[active=true]:text-foreground col-start-1 row-start-1 flex size-6 shrink-0 items-center justify-center justify-self-end self-start text-xs transition-colors sm:ml-auto sm:self-center"
+          >
+            {/* size-6 is the WCAG 2.5.8 floor, not a visual choice: the glyph
+                is 1em of text-xs, so the link measured 14.4x24px and failed
+                target-size. The box grows around the same 1em glyph rather
+                than scaling it, and the button's mobile pr-6 already reserves
+                exactly this much room. */}
+            <Icon name="arrow-up-right" size={16} strokeWidth={2.5} class="size-[1em]" />
+          </a>
+        )}
+      </div>
+    ))
+  }
+</div>

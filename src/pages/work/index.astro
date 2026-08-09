@@ -1,0 +1,109 @@
+---
+import { getProjects, getWorkItems } from "@/lib/content";
+import { i18n } from "@/lib/i18n";
+import { firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import ExperienceSection from "../../components/ExperienceSection.astro";
+import Icon, { type IconName } from "../../components/Icon.astro";
+import ProjectGrid from "../../components/ProjectGrid.astro";
+import ProjectOverlay from "../../components/ProjectOverlay.astro";
+import Base from "../../layouts/Base.astro";
+import { toProjectView } from "../../lib/projects";
+
+const description =
+  "Professional experience, projects, and achievements of Swapnoneel Saha — Software Engineer specializing in Agentic AI and full-stack development.";
+
+const workItems = await getWorkItems();
+const projectEntries = await getProjects();
+const projects = projectEntries.map(toProjectView);
+
+const achievements: { text: string; icon: IconName }[] = [
+  { text: i18n.work.achievements[0], icon: "trophy" },
+  { text: i18n.work.achievements[1], icon: "award" },
+  { text: i18n.work.achievements[2], icon: "award" },
+  { text: i18n.work.achievements[3], icon: "trophy" },
+  { text: i18n.work.achievements[4], icon: "git-branch" },
+  { text: i18n.work.achievements[5], icon: "users" },
+  { text: i18n.work.achievements[6], icon: "chart-line" },
+];
+
+const SITE = "https://www.swapnoneel.site";
+---
+
+<Base
+  title="Work"
+  description={description}
+  ogImage={{
+    url: ogImageUrl("Work", description),
+    width: 1200,
+    height: 630,
+    alt: "Work",
+  }}
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Experience",
+      itemListElement: workItems.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: firstLink(item.data.link) || `${SITE}/work/${item.id}`,
+        name: item.data.title,
+      })),
+    })}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Projects",
+      itemListElement: projects.map((project, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${SITE}/work/${project.slug}`,
+        name: project.title,
+      })),
+    })}
+  />
+
+  <div class="space-y-10 pb-16">
+    <ExperienceSection items={workItems} variant="prominent" />
+
+    <section>
+      <h2 class="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
+        {i18n.work.sections.projects}
+      </h2>
+      <ProjectGrid items={projects} />
+    </section>
+
+    <hr class="border-border" />
+
+    <section>
+      <h2 class="text-muted-foreground mb-5 text-sm font-semibold tracking-widest uppercase">
+        {i18n.work.sections.achievements}
+      </h2>
+      <div class="space-y-4">
+        {
+          achievements.map((achievement) => (
+            <div class="group flex items-center gap-4">
+              <div class="bg-secondary/50 text-muted-foreground group-hover:text-primary rounded-md p-1.5 transition-colors">
+                <Icon name={achievement.icon} size={16} />
+              </div>
+              <div class="flex-1 space-y-1">
+                <p class="text-foreground/90 group-hover:text-foreground text-sm leading-relaxed transition-colors">
+                  {achievement.text}
+                </p>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+
+  <ProjectOverlay items={projects} />
+</Base>

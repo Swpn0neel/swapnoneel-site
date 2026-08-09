@@ -1,0 +1,78 @@
+---
+import paletteMap from "@/lib/palette-map.json";
+import { i18n } from "@/lib/i18n";
+import type { ProjectView } from "../lib/projects";
+import { resolveAsset } from "../lib/images";
+import ProjectWindow from "./ProjectWindow.astro";
+import SmartCarousel from "./SmartCarousel.astro";
+
+interface Props {
+  items: ProjectView[];
+}
+
+const { items } = Astro.props;
+const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
+---
+
+<div class="w-full">
+  <SmartCarousel
+    ariaLabel={i18n.common.projectsCarousel}
+    autoInit={false}
+    align="center"
+    dragFree={false}
+    autoplayDelay={5000}
+    class="w-full [--carousel-slide-width:82%] sm:[--carousel-slide-width:76%]"
+  >
+    {/* Slide width lives in a variable because global.css derives the
+        fallback's centring offset from it — see .smart-carousel__slide.
+        autoplayDelay is two beats of SmartCarousel's shared clock, so the
+        projects strip steps together with every second step of the socials
+        strip. autoInit is off because the showcase script owns this one: it
+        has to pause it while the overlay is open. */}
+    <ul class="smart-carousel__container flex" data-project-slides>
+      {
+        items.map((item, i) => {
+          const palette = item.cover ? palettes[item.cover] : undefined;
+          const asset = resolveAsset(item.cover);
+          return (
+            <li
+              class="smart-carousel__slide mr-4 w-[var(--carousel-slide-width)] shrink-0"
+              aria-label={`Slide ${i + 1} of ${items.length}: ${item.title}`}
+              data-slide-slug={item.slug}
+            >
+              <button
+                type="button"
+                data-open-project={item.slug}
+                aria-haspopup="dialog"
+                aria-controls="project-overlay-dialog"
+                aria-expanded="false"
+                class="group border-border block h-full w-full overflow-hidden rounded-md border"
+              >
+                {/* The cover renders with an empty alt, so the button has no
+                    other text to name it. */}
+                <span class="sr-only">Open details for {item.title}</span>
+                {asset ? (
+                  <span
+                    class="project-cover relative block aspect-video w-full overflow-hidden"
+                    style={`--pc-h1:${palette?.h1 ?? 220};--pc-h2:${palette?.h2 ?? 200}`}
+                  >
+                    <ProjectWindow
+                      src={asset}
+                      alt=""
+                      sizes="(min-width: 640px) 580px, 82vw"
+                      priority={i === 0}
+                    />
+                  </span>
+                ) : (
+                  <span class="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
+                    {item.title}
+                  </span>
+                )}
+              </button>
+            </li>
+          );
+        })
+      }
+    </ul>
+  </SmartCarousel>
+</div>

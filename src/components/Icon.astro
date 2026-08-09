@@ -1,14 +1,26 @@
 ---
 /**
- * The five lucide icons the chrome uses, inlined.
+ * The lucide icons the site uses, inlined.
  *
  * lucide-react shipped these as React components, which meant a framework
- * runtime on every page to render nine static <path> elements. The geometry
- * below is copied verbatim from lucide-react 1.8.0 (ISC) so the icons are
- * pixel-identical to what the site renders today — same 24x24 viewBox, same
- * round caps and joins, same stroke width.
+ * runtime on every page to render a handful of static <path> elements. The
+ * geometry below is copied verbatim from lucide-react 1.8.0 (ISC) so the icons
+ * are pixel-identical to what the site renders today — same 24x24 viewBox,
+ * same round caps and joins, same stroke width.
  */
-export type IconName = "sun" | "moon" | "menu" | "x" | "arrow-up";
+export type IconName =
+  | "sun"
+  | "moon"
+  | "menu"
+  | "x"
+  | "arrow-up"
+  | "arrow-up-right"
+  | "calendar"
+  | "trophy"
+  | "award"
+  | "git-branch"
+  | "users"
+  | "chart-line";
 
 interface Props {
   name: IconName;
@@ -19,6 +31,7 @@ interface Props {
 
 const { name, size = 24, strokeWidth = 2, class: className = "" } = Astro.props;
 
+/** Path data only; the few icons with circles or rects are handled below. */
 const PATHS: Record<IconName, string[]> = {
   sun: [
     "M12 2v2",
@@ -36,6 +49,27 @@ const PATHS: Record<IconName, string[]> = {
   menu: ["M4 5h16", "M4 12h16", "M4 19h16"],
   x: ["M18 6 6 18", "m6 6 12 12"],
   "arrow-up": ["m5 12 7-7 7 7", "M12 19V5"],
+  // Not a lucide icon: the tilted arrow the project index and overlay share.
+  "arrow-up-right": ["M7 7h10v10", "M7 17 17 7"],
+  calendar: ["M8 2v4", "M16 2v4", "M3 10h18"],
+  trophy: [
+    "M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978",
+    "M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978",
+    "M18 9h1.5a1 1 0 0 0 0-5H18",
+    "M4 22h16",
+    "M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z",
+    "M6 9H4.5a1 1 0 0 1 0-5H6",
+  ],
+  award: [
+    "m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526",
+  ],
+  "git-branch": ["M15 6a9 9 0 0 0-9 9V3"],
+  users: [
+    "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2",
+    "M16 3.128a4 4 0 0 1 0 7.744",
+    "M22 21v-2a4 4 0 0 0-3-3.87",
+  ],
+  "chart-line": ["M3 3v16a2 2 0 0 0 2 2h16", "m19 9-5 5-4-4-3 3"],
 };
 ---
 
@@ -52,7 +86,17 @@ const PATHS: Record<IconName, string[]> = {
   class={`lucide ${className}`}
   aria-hidden="true"
 >
-  {/* Only the sun carries a non-path element. */}
   {name === "sun" && <circle cx="12" cy="12" r="4" />}
+  {name === "calendar" && <rect width="18" height="18" x="3" y="4" rx="2" />}
+  {name === "award" && <circle cx="12" cy="8" r="6" />}
+  {
+    name === "git-branch" && (
+      <Fragment>
+        <circle cx="18" cy="6" r="3" />
+        <circle cx="6" cy="18" r="3" />
+      </Fragment>
+    )
+  }
+  {name === "users" && <circle cx="9" cy="7" r="4" />}
   {PATHS[name].map((d) => <path d={d} />)}
 </svg>

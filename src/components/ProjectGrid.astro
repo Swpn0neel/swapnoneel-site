@@ -1,0 +1,40 @@
+---
+import type { ProjectView } from "../lib/projects";
+import ProjectCard from "./ProjectCard.astro";
+
+interface Props {
+  items: ProjectView[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-2" data-project-grid>
+  {
+    items.map((item) => (
+      <button
+        type="button"
+        data-open-project={item.slug}
+        aria-haspopup="dialog"
+        aria-controls="project-overlay-dialog"
+        aria-expanded="false"
+        class="block cursor-pointer text-left"
+      >
+        <span class="sr-only">Open details for </span>
+        <ProjectCard
+          title={item.title}
+          description={item.description}
+          cover={item.cover}
+          sizes="(max-width: 640px) calc(100vw - 2rem), 380px"
+        />
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  import { bindOverlayTriggers } from "../scripts/project-overlay";
+
+  const grid = document.querySelector<HTMLElement>("[data-project-grid]");
+  if (grid) bindOverlayTriggers(grid);
+</script>

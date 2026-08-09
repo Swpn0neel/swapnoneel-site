@@ -1,0 +1,37 @@
+---
+import { i18n } from "@/lib/i18n";
+import Icon from "./Icon.astro";
+
+interface Props {
+  /** Renders as inline link text instead of the standalone button. */
+  customText?: string;
+  class?: string;
+}
+
+const { customText, class: className } = Astro.props;
+---
+
+{
+  customText ? (
+    <button type="button" data-cal-booking class={className}>
+      {customText}
+    </button>
+  ) : (
+    <button
+      type="button"
+      data-cal-booking
+      class="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-9 w-full items-center justify-center gap-2 rounded-sm px-4 text-sm leading-none font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none sm:w-auto"
+    >
+      <Icon name="calendar" class="size-[1em] shrink-0" />
+      {i18n.calendar.defaultButton}
+    </button>
+  )
+}
+
+<script>
+  import { initCalBooking } from "../scripts/cal-booking";
+
+  for (const button of document.querySelectorAll<HTMLElement>("[data-cal-booking]")) {
+    initCalBooking(button);
+  }
+</script>
