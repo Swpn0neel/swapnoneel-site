@@ -2169,3 +2169,32 @@ html {
   rotate: 0deg;
   opacity: 1;
 }
+/* ─── Blog image load-in ───
+   The frame takes its height from the image (see src/plugins/rehype-blog-image.ts
+   for why it must not impose an aspect-ratio), so the shimmer sits behind the
+   space the image has already reserved and fades out as the image fades in. */
+.blog-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0;
+  transition: opacity 300ms ease-out;
+}
+
+.blog-img[data-loaded="true"] {
+  opacity: 1;
+}
+
+.image-shimmer {
+  transition: opacity 300ms ease-out;
+}
+
+.image-shimmer[data-shimmer-active="false"] {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blog-img {
+    transition: none;
+  }
+}

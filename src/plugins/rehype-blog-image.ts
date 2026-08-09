@@ -2,19 +2,18 @@ import type { Element, Root } from "hast";
 import { classList, h, visitElements } from "./hast";
 
 /**
- * Replaces components/blog-image.tsx and components/smooth-image.tsx.
+ * Frames each markdown image: bordered box, shimmer while it loads, caption
+ * from the alt text.
  *
- * Astro has already turned each markdown `![alt](path)` into an optimised
- * <img> with a srcset by the time this runs — the images live in
- * src/assets/blog-img now, so the build owns them. What is left is the framing
- * the React component added: the bordered box, the aspect ratio, the caption,
- * and the `sizes` string.
- *
- * Gone with it: the retry-and-fallback machinery in SmoothImage, which existed
- * because the sources were third-party URLs that could 404 mid-read, and the
- * fade-in, which existed because the browser could not know an image's size in
- * advance. Neither is true of a hashed local asset with intrinsic dimensions
- * baked into the tag.
+ * A note on the frame's height, because the obvious approach is wrong here.
+ * This plugin used to read `width`/`height` off the <img> and set an explicit
+ * `aspect-ratio` on the wrapper. Astro injects those attributes *after* the
+ * rehype phase, so they were always absent and every image silently fell back
+ * to 16/9 — 158 of 203 images were boxed at the wrong ratio and cropped by
+ * object-cover. The frame now takes its height from the image instead: the
+ * <img> sits in normal flow at `width:100%; height:auto`, and the browser
+ * reserves the right box from the width/height attributes it ends up with. No
+ * ratio to guess, no crop, and still no layout shift.
  */
 
 /**
@@ -44,28 +43,23 @@ export function rehypeBlogImage() {
       if (node.tagName !== "img") return;
       if (
         parent.type === "element" &&
-        classList(parent).includes("blog-figure")
+        classList(parent).includes("image-frame")
       ) {
         return;
       }
 
       const props = node.properties as Record<string, unknown>;
       const alt = typeof props.alt === "string" ? props.alt : "";
-      const width = Number(props.width) || 0;
-      const height = Number(props.height) || 0;
-      const ratio = width && height ? `${width} / ${height}` : "16 / 9";
 
       props.sizes = IMAGE_SIZES;
       props.decoding = "async";
-      props.className = ["absolute", "inset-0", "size-full", "object-cover"];
+      props.className = ["blog-img"];
+      props["data-blog-img"] = "";
 
       seen += 1;
       if (seen <= EAGER_IMAGE_COUNT) {
-        // Next emitted a <link rel=preload> for eager images as well as
-        // priority ones, so a post with two lead images preloaded three at
-        // equal priority and let the below-the-fold pair compete with the
-        // cover. Nothing preloads here, but the split is kept: lead images skip
-        // lazy loading and still yield to the cover.
+        // Lead images skip lazy loading so the request starts with the page,
+        // but still yield to the cover, which is the LCP candidate.
         props.loading = "eager";
         props.fetchpriority = "low";
       } else {
@@ -76,10 +70,16 @@ export function rehypeBlogImage() {
         "span",
         {
           className:
-            "border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border",
-          style: `aspect-ratio:${ratio}`,
+            "image-frame border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border",
         },
-        [node]
+        [
+          h("span", {
+            className: "image-shimmer absolute inset-0",
+            "data-shimmer-active": "true",
+            "aria-hidden": "true",
+          }),
+          node,
+        ]
       );
 
       const children: Element[] = [frame];

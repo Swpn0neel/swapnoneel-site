@@ -12,7 +12,8 @@ export const RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 export const BASE_WPM = 170;
 export const WAVEFORM_VIEWBOX_WIDTH = 640;
 export const WAVEFORM_EDGE_INSET = 5;
-export const WAVEFORM_BAR_SPAN = WAVEFORM_VIEWBOX_WIDTH - WAVEFORM_EDGE_INSET * 2;
+export const WAVEFORM_BAR_SPAN =
+  WAVEFORM_VIEWBOX_WIDTH - WAVEFORM_EDGE_INSET * 2;
 export const BAR_COUNT = 64;
 export const VIEWPORT_RETURN_IDLE_MS = 6000;
 
@@ -92,7 +93,8 @@ export interface NarrationData {
   starts: number[];
 }
 
-export const normWord = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
+export const normWord = (s: string) =>
+  s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
 
 // Returns a start time (ms) for every DOM word. Two-pointer walk: a TTS token
 // may cover part of a DOM word (hyphenated words split by the service), several

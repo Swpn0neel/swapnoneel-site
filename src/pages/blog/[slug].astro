@@ -126,11 +126,14 @@ const coverUrl = new URL(post.cover.src, SITE).href;
       /* Cover. The title sits directly above it, so a caption would just repeat
         the heading — hence the empty alt. */
     }
-    <span class="my-6 block" data-no-narrate>
+    <span class="blog-figure my-6 block" data-no-narrate>
       <span
-        class="border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border"
-        style={`aspect-ratio:${post.cover.width} / ${post.cover.height}`}
+        class="image-frame border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border"
       >
+        <span
+          class="image-shimmer absolute inset-0"
+          data-shimmer-active="true"
+          aria-hidden="true"></span>
         <Image
           src={post.cover}
           alt=""
@@ -138,7 +141,8 @@ const coverUrl = new URL(post.cover.src, SITE).href;
           loading="eager"
           fetchpriority="high"
           decoding="async"
-          class="absolute inset-0 size-full object-cover"
+          class="blog-img"
+          data-blog-img
         />
       </span>
     </span>
@@ -239,5 +243,8 @@ const coverUrl = new URL(post.cover.src, SITE).href;
 
 <script>
   import { initCopyCode } from "../../scripts/copy-code";
+  import { initImageLoad } from "../../scripts/image-load";
+
   initCopyCode();
+  initImageLoad();
 </script>

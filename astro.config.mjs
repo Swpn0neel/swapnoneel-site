@@ -22,6 +22,22 @@ export default defineConfig({
   output: "static",
   adapter: vercel(),
 
+  /**
+   * Next's App Router prefetched every in-viewport link and navigated on the
+   * client, so a click felt instant. Plain MPA navigation does not, and the
+   * difference was the single loudest regression after the migration.
+   *
+   * Prefetching every internal link on hover puts the HTML in cache before the
+   * click lands, which recovers most of that without the complexity of
+   * client-side routing. `hover` rather than `viewport`: viewport prefetching
+   * on the blog index would pull 45 documents on first paint, which is what
+   * the Next version's own prefetch comments were fighting.
+   */
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
+
   // react() is here for exactly one component: src/islands/BlogNarrator.tsx.
   // Every other island on this site is vanilla TS. Because it is hydrated with
   // client:visible on the blog post route only, the renderer is fetched by that
@@ -75,13 +91,20 @@ export default defineConfig({
             weight: "100 900",
             style: "normal",
             src: ["./assets/fonts/inter-latin-variable.woff2"],
-            // The only value with no bad failure mode here. `swap` reflows the
-            // hero block by 27.3px when the face lands, which measured a real
-            // 0.027 CLS in the field; `block` risks FCP. `optional` never
-            // swaps: resolved in time it paints Inter from the first paint,
-            // and if not, that pageview keeps the metric-matched fallback.
-            // Either way the layout is decided once and never shifts.
-            display: "optional",
+            /*
+             * `optional` was right under Next, where client-side routing meant
+             * the face was fetched once and every later view already had it in
+             * memory. Under MPA navigation each page is a new document that
+             * re-runs the decision, and `optional` gives the browser almost no
+             * window — so the font visibly failed to apply on some views. That
+             * is the "fonts don't load sometimes" report.
+             *
+             * `swap` always applies it. The reflow that ruled swap out before
+             * was measured against a hand-written fallback face; astro:fonts
+             * generates a metric-matched one from the real font's own metrics,
+             * which is what makes the swap cheap enough to take.
+             */
+            display: "swap",
           },
         ],
       },
