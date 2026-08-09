@@ -1,7 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { useState } from "react";
 
 interface ExperienceLogoProps {
   alt: string;
@@ -32,8 +29,6 @@ export function ExperienceLogo({
   lowPriority = true,
   className = "",
 }: ExperienceLogoProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
-
   if (!src) {
     return (
       <div
@@ -52,9 +47,7 @@ export function ExperienceLogo({
     >
       <span
         aria-hidden="true"
-        className={`bg-secondary/55 pointer-events-none absolute inset-0 rounded-md transition-opacity duration-200 ${
-          isLoaded ? "opacity-0" : "opacity-100"
-        }`}
+        className="bg-secondary/55 pointer-events-none absolute inset-0 z-0 rounded-md"
       />
       <Image
         src={src}
@@ -73,8 +66,7 @@ export function ExperienceLogo({
         loading="eager"
         fetchPriority={lowPriority ? "low" : "auto"}
         decoding="async"
-        onLoad={() => setIsLoaded(true)}
-        className={`relative rounded-md object-cover ${
+        className={`relative z-10 rounded-md object-cover ${
           adaptsToTheme ? "dark:brightness-200 dark:invert" : ""
         }`}
         style={{ width: size, height: size }}

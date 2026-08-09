@@ -1,7 +1,4 @@
-"use client";
-
 import { ChevronDown } from "lucide-react";
-import { useState } from "react";
 
 interface HeadingItem {
   text: string;
@@ -14,8 +11,6 @@ interface TableOfContentsProps {
 }
 
 export function TableOfContents({ headings }: TableOfContentsProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
   if (headings.length === 0) return null;
 
   // Calculate the sorted unique levels present in these headings
@@ -24,28 +19,15 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   );
 
   return (
-    <div className="border-border bg-secondary/15 relative mb-6 rounded-md border transition-all duration-300">
+    <details className="group/toc details-animated border-border bg-secondary/15 relative mb-6 rounded-md border transition-all duration-300">
       {/* Clickable Minimal Header Row */}
-      <button
-        onClick={() => setIsExpanded(!isExpanded)}
-        className="text-muted-foreground hover:text-foreground group text-2xs flex w-full cursor-pointer items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none focus:outline-none md:p-5"
-      >
+      <summary className="group/head text-muted-foreground hover:text-foreground text-2xs flex w-full cursor-pointer list-none items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none focus:outline-none md:p-5 [&::-webkit-details-marker]:hidden">
         <span>Table of Contents</span>
-        <ChevronDown
-          className={`h-4 w-4 transition-all duration-300 ${
-            isExpanded
-              ? "text-foreground rotate-180"
-              : "text-faint-foreground group-hover:text-foreground"
-          }`}
-        />
-      </button>
+        <ChevronDown className="text-faint-foreground group-hover/head:text-foreground group-open/toc:text-foreground h-4 w-4 transition-all duration-300 group-open/toc:rotate-180" />
+      </summary>
 
       {/* Dynamic Collapsible Heading Navigation */}
-      <div
-        className={`overflow-hidden px-4 transition-all duration-500 ease-in-out md:px-5 ${
-          isExpanded ? "max-h-[1200px] pb-5 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
+      <div className="px-4 pb-5 md:px-5">
         <nav className="border-border/30 space-y-2 border-t pt-4">
           {headings.map((item, idx) => {
             const depth = uniqueLevels.indexOf(item.level);
@@ -94,6 +76,6 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
           })}
         </nav>
       </div>
-    </div>
+    </details>
   );
 }
