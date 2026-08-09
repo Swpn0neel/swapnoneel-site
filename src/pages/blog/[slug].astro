@@ -9,6 +9,7 @@ import FontSizeToggle from "../../components/FontSizeToggle.astro";
 import RelatedPosts from "../../components/RelatedPosts.astro";
 import TableOfContents from "../../components/TableOfContents.astro";
 import Base from "../../layouts/Base.astro";
+import { BlogNarrator } from "../../islands/BlogNarrator";
 import { getRelatedPosts } from "../../lib/related-posts";
 
 export async function getStaticPaths() {
@@ -133,6 +134,16 @@ const coverUrl = new URL(post.cover.src, SITE).href;
     </span>
 
     <TableOfContents headings={headings} />
+
+    {/* Read-along narration. The only React on the site, and client:visible so
+        the renderer is fetched when the player scrolls into range rather than
+        on load — a reader who never reaches it never pays for it. */}
+    <BlogNarrator
+      client:visible
+      articleId="blog-prose"
+      slug={post.slug}
+      year={post.publishedAt.getFullYear()}
+    />
 
     <div id="blog-prose" class="prose prose-sm max-w-none [&>*:first-child]:mt-0">
       <Content />

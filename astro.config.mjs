@@ -1,5 +1,6 @@
 // @ts-check
 import { unified } from "@astrojs/markdown-remark";
+import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
@@ -22,11 +23,13 @@ export default defineConfig({
   output: "static",
   adapter: vercel(),
 
-  // No react() yet, deliberately. Registering the integration emits its 191 KB
-  // client renderer into dist/_astro even when no island uses it — dead weight
-  // in the deploy. It comes back in Phase 4, when blog-narrator (the one React
-  // holdout) actually needs it, and goes again for good once that is rewritten.
-  integrations: [sitemap()],
+  // react() is here for exactly one component: src/islands/BlogNarrator.tsx.
+  // Every other island on this site is vanilla TS. Because it is hydrated with
+  // client:visible on the blog post route only, the renderer is fetched by that
+  // route and no other — the home page, /work and /resume carry none of it.
+  // When the narrator is rewritten (the final migration phase) this integration
+  // and react/react-dom come out and the site ships zero framework JavaScript.
+  integrations: [react(), sitemap()],
 
   vite: {
     plugins: [tailwindcss()],

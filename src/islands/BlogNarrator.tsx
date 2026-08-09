@@ -1,4 +1,15 @@
-"use client";
+/**
+ * The one React island left on the site.
+ *
+ * Moved here verbatim from components/blog-narrator.tsx — not a line of its
+ * logic changed, only the "use client" pragma dropped (Astro decides hydration
+ * at the call site with a client: directive instead).
+ *
+ * It is the last thing standing between this project and a zero-framework
+ * build. The rewrite is deliberately the final phase of the migration: the
+ * word-timing sync against the pre-generated Edge TTS manifests is the highest
+ * risk piece in the codebase, and it was not worth blocking everything else on.
+ */
 
 import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 import { Check, ChevronDown, Pause, Play, RotateCcw } from "lucide-react";

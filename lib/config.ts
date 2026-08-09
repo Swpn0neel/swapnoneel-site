@@ -59,13 +59,7 @@ export const siteConfig = {
     namespaceDark: "dark-booking",
     namespaceLight: "light-booking",
     link: "swapnoneel/30min",
-  },
-  hashnode: {
-    host: "swapnoneel.hashnode.dev",
-    graphQlEndpoint:
-      process.env.HASHNODE_GQL_ENDPOINT || "https://gql.hashnode.com/",
-    rssUrl: "https://swapnoneel.hashnode.dev/rss.xml",
-  },
+  },
   repository: {
     sourceUrl: "https://github.com/Swpn0neel/swapnoneel-site",
   },
