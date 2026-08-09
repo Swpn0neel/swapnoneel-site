@@ -1,14 +1,13 @@
 import { siteConfig } from "@/lib/config";
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
+export const OG_IMAGE_SIZE = { width: 1200, height: 630 };
+export const OG_IMAGE_CONTENT_TYPE = "image/png";
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url);
-  const title = searchParams.get("title") || siteConfig.person.fullName;
-  const description =
-    searchParams.get("description") || siteConfig.metadata.description;
-
+// Shared renderer for route-local metadata files. Keeping this markup identical
+// to the old /api/og response preserves every card while moving its rendering
+// from crawler requests to the build.
+export function renderOgImage(title: string, description?: string) {
   return new ImageResponse(
     <div
       style={{
@@ -67,9 +66,6 @@ export async function GET(request: Request) {
         </div>
       </div>
     </div>,
-    {
-      width: 1200,
-      height: 630,
-    }
+    OG_IMAGE_SIZE
   );
 }

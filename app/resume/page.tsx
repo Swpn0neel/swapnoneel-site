@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { siteConfig, skills, socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
-import { firstLink, ogImageUrl } from "@/lib/utils";
+import { firstLink } from "@/lib/utils";
 import {
   Briefcase,
   Code2,
@@ -63,22 +63,11 @@ export const metadata = {
     description: i18n.resume.summaryContent,
     url: "https://www.swapnoneel.site/resume",
     type: "profile",
-    images: [
-      {
-        url: ogImageUrl(siteConfig.person.fullName, i18n.resume.summaryContent),
-        width: 1200,
-        height: 630,
-        alt: i18n.resume.pageTitle,
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: `${i18n.resume.pageTitle} | ${siteConfig.person.fullName}`,
     description: i18n.resume.summaryContent,
-    images: [
-      ogImageUrl(siteConfig.person.fullName, i18n.resume.summaryContent),
-    ],
   },
 };
 

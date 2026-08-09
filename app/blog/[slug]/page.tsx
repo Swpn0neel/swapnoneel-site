@@ -11,7 +11,7 @@ import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
 import { getRawText } from "@/lib/mdx-text";
 import { getRelatedPosts } from "@/lib/related-posts";
-import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { breadcrumbJsonLd, safeJsonLd } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
@@ -40,12 +40,7 @@ export async function generateMetadata({
         url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
         alt: post.title,
       }
-    : {
-        url: ogImageUrl(post.title, post.brief),
-        width: 1200,
-        height: 630,
-        alt: post.title,
-      };
+    : null;
   return {
     title: post.title,
     description: post.brief,
@@ -58,13 +53,13 @@ export async function generateMetadata({
       url,
       type: "article",
       publishedTime: post.publishedAt,
-      images: [ogImage],
+      ...(ogImage ? { images: [ogImage] } : {}),
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.brief,
-      images: [ogImage.url],
+      ...(ogImage ? { images: [ogImage.url] } : {}),
     },
   };
 }
@@ -196,8 +191,7 @@ export default async function BlogPostPage({
             headline: post.title,
             description: post.brief,
             image:
-              post.cover ||
-              `https://www.swapnoneel.site${ogImageUrl(post.title, post.brief)}`,
+              post.cover || "https://www.swapnoneel.site/blog/opengraph-image",
             datePublished: post.publishedAt,
             ...(post.updatedAt ? { dateModified: post.updatedAt } : {}),
             author: {

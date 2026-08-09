@@ -3,12 +3,7 @@ import { CopyButtonListener } from "@/components/copy-button-listener";
 import { WorkBackLink } from "@/components/work-back-link";
 import { siteConfig } from "@/lib/config";
 import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
-import {
-  breadcrumbJsonLd,
-  firstLink,
-  ogImageUrl,
-  safeJsonLd,
-} from "@/lib/utils";
+import { breadcrumbJsonLd, firstLink, safeJsonLd } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
 import rehypeHighlight from "rehype-highlight";
@@ -41,7 +36,7 @@ export async function generateMetadata({
   const item = getWorkItem(slug);
   if (!item) return {};
   const url = `https://www.swapnoneel.site/work/${slug}`;
-  const ogImage = ogImageUrl(item.meta.title, item.meta.description);
+  const ogImage = "/work/opengraph-image";
   return {
     title: item.meta.title,
     description: item.meta.description,
@@ -53,9 +48,7 @@ export async function generateMetadata({
       description: item.meta.description,
       url,
       type: "article",
-      images: [
-        { url: ogImage, width: 1200, height: 630, alt: item.meta.title },
-      ],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: "Work" }],
     },
     twitter: {
       card: "summary_large_image",

@@ -2,38 +2,27 @@ import { ExperienceSection } from "@/components/experience-section";
 import { ProjectGrid } from "@/components/project-grid";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
+import { WORK_DESCRIPTION } from "@/lib/page-metadata";
 import { buildProjectOverlayData } from "@/lib/project-overlay-data";
-import { firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { firstLink, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
-
-const workDescription =
-  "Professional experience, projects, and achievements of Swapnoneel Saha — Software Engineer specializing in Agentic AI and full-stack development.";
 
 export const metadata = {
   title: "Work",
-  description: workDescription,
+  description: WORK_DESCRIPTION,
   alternates: {
     canonical: "/work",
   },
   openGraph: {
     title: "Work",
-    description: workDescription,
+    description: WORK_DESCRIPTION,
     url: "https://www.swapnoneel.site/work",
     type: "website",
-    images: [
-      {
-        url: ogImageUrl("Work", workDescription),
-        width: 1200,
-        height: 630,
-        alt: "Work",
-      },
-    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Work",
-    description: workDescription,
-    images: [ogImageUrl("Work", workDescription)],
+    description: WORK_DESCRIPTION,
   },
 };
 
@@ -145,4 +134,3 @@ export default function WorkPage() {
     </div>
   );
 }
-
