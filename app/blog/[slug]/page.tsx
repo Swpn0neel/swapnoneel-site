@@ -1,5 +1,5 @@
 import { BlogImage } from "@/components/blog-image";
-import { BlogNarrator } from "@/components/blog-narrator";
+import { BlogNarratorSlot } from "@/components/blog-narrator-slot";
 import { CodeBlock } from "@/components/code-block";
 import { FontSizeToggle } from "@/components/font-size-toggle";
 import { RelatedPosts } from "@/components/related-posts";
@@ -257,7 +257,11 @@ export default async function BlogPostPage({
       <TableOfContents headings={headings} />
 
       {/* Read-along narration player */}
-      <BlogNarrator articleId="blog-prose" slug={slug} year={d.getFullYear()} />
+      <BlogNarratorSlot
+        articleId="blog-prose"
+        slug={slug}
+        year={d.getFullYear()}
+      />
 
       {/* Main Content */}
       <div
