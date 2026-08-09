@@ -1,6 +1,7 @@
 import { BlogImage } from "@/components/blog-image";
 import { BlogNarratorSlot } from "@/components/blog-narrator-slot";
 import { CodeBlock } from "@/components/code-block";
+import { CopyButtonListener } from "@/components/copy-button-listener";
 import { FontSizeToggle } from "@/components/font-size-toggle";
 import { RelatedPosts } from "@/components/related-posts";
 import { TableOfContents } from "@/components/table-of-contents";
@@ -37,15 +38,15 @@ export async function generateMetadata({
   const url = `https://www.swapnoneel.site/blog/${slug}`;
   const ogImage = post.cover
     ? {
-      url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
-      alt: post.title,
-    }
+        url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
+        alt: post.title,
+      }
     : {
-      url: ogImageUrl(post.title, post.brief),
-      width: 1200,
-      height: 630,
-      alt: post.title,
-    };
+        url: ogImageUrl(post.title, post.brief),
+        width: 1200,
+        height: 630,
+        alt: post.title,
+      };
   return {
     title: post.title,
     description: post.brief,
@@ -151,10 +152,10 @@ export default async function BlogPostPage({
   const updatedStr =
     updated && !Number.isNaN(updated.getTime())
       ? updated.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      })
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })
       : null;
 
   function getCrossPost(url: string) {
@@ -268,6 +269,7 @@ export default async function BlogPostPage({
         id="blog-prose"
         className="prose prose-sm max-w-none [&>*:first-child]:mt-0"
       >
+        <CopyButtonListener articleId="blog-prose" />
         <MDXRemote
           source={cleanMarkdown}
           options={{
@@ -389,8 +391,9 @@ export default async function BlogPostPage({
               )}
               {updatedStr && (
                 <p
-                  className={`text-muted-foreground blog-scaled-text ${crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
-                    }`}
+                  className={`text-muted-foreground blog-scaled-text ${
+                    crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
+                  }`}
                 >
                   {i18n.blog.lastUpdatedOn}: {updatedStr}
                 </p>

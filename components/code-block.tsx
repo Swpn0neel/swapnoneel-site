@@ -25,6 +25,7 @@ export function CodeBlock(props: ComponentPropsWithoutRef<"pre">) {
 
   return (
     <div
+      data-code={code}
       className={
         isSingleLine ? "code-block code-block--one-line" : "code-block"
       }
@@ -35,7 +36,7 @@ export function CodeBlock(props: ComponentPropsWithoutRef<"pre">) {
             {language}
           </span>
         )}
-        <CopyButton text={code} />
+        <CopyButton />
       </div>
       <pre {...props} />
     </div>

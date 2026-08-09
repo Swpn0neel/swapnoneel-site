@@ -1,4 +1,5 @@
 import { CodeBlock } from "@/components/code-block";
+import { CopyButtonListener } from "@/components/copy-button-listener";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
@@ -129,7 +130,8 @@ export default async function WorkItemPage({
         </h1>
         <p className="text-muted-foreground text-xs">{item.meta.date}</p>
       </div>
-      <div className="prose prose-sm max-w-none">
+      <div id="work-prose" className="prose prose-sm max-w-none">
+        <CopyButtonListener articleId="work-prose" />
         <MDXRemote
           source={item.content}
           options={{
