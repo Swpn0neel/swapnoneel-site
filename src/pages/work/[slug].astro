@@ -2,7 +2,9 @@
 import { getCollection, render } from "astro:content";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
-import { breadcrumbJsonLd, firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { breadcrumbJsonLd, firstLink, safeJsonLd } from "@/lib/utils";
+import { ogImagePath } from "../../lib/og";
+import { OG_KEYS } from "../../lib/og-cards";
 import Base from "../../layouts/Base.astro";
 
 export async function getStaticPaths() {
@@ -30,7 +32,7 @@ const { Content } = await render(entry);
 const { title, description, date } = entry.data;
 const link = firstLink((entry.data as { link?: string | string[] }).link);
 const url = `https://www.swapnoneel.site/work/${entry.id}`;
-const ogImage = ogImageUrl(title, description);
+const ogImage = ogImagePath(OG_KEYS.detail(entry.id));
 
 /* The back link depends on `?from=`, which a static page cannot read at build
    time — same treatment as /work/others: render the /work answer and let two

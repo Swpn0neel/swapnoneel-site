@@ -1,7 +1,6 @@
 // @ts-check
 import { unified } from "@astrojs/markdown-remark";
 import react from "@astrojs/react";
-import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
@@ -29,7 +28,7 @@ export default defineConfig({
   // route and no other — the home page, /work and /resume carry none of it.
   // When the narrator is rewritten (the final migration phase) this integration
   // and react/react-dom come out and the site ships zero framework JavaScript.
-  integrations: [react(), sitemap()],
+  integrations: [react()],
 
   vite: {
     plugins: [tailwindcss()],

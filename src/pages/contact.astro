@@ -1,6 +1,7 @@
 ---
 import { i18n } from "@/lib/i18n";
-import { ogImageUrl } from "@/lib/utils";
+import { ogImagePath } from "../lib/og";
+import { OG_KEYS } from "../lib/og-cards";
 import CalBooking from "../components/CalBooking.astro";
 import Icon from "../components/Icon.astro";
 import Base from "../layouts/Base.astro";
@@ -17,7 +18,7 @@ const field =
   title={c.title}
   description={c.intro}
   ogImage={{
-    url: ogImageUrl(c.title, c.intro),
+    url: ogImagePath(OG_KEYS.contact),
     width: 1200,
     height: 630,
     alt: c.title,

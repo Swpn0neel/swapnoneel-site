@@ -16,12 +16,6 @@ export function safeJsonLd(data: unknown): string {
     .replace(/\u2029/g, "\\u2029");
 }
 
-export function ogImageUrl(title: string, description?: string): string {
-  const params = new URLSearchParams({ title });
-  if (description) params.set("description", description);
-  return `/api/og?${params.toString()}`;
-}
-
 export function breadcrumbJsonLd(items: { name: string; url: string }[]) {
   return {
     "@context": "https://schema.org",

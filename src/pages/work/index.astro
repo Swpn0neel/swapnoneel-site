@@ -1,16 +1,18 @@
 ---
 import { getProjects, getWorkItems } from "@/lib/content";
 import { i18n } from "@/lib/i18n";
-import { firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { firstLink, safeJsonLd } from "@/lib/utils";
 import ExperienceSection from "../../components/ExperienceSection.astro";
 import Icon, { type IconName } from "../../components/Icon.astro";
 import ProjectGrid from "../../components/ProjectGrid.astro";
 import ProjectOverlay from "../../components/ProjectOverlay.astro";
 import Base from "../../layouts/Base.astro";
 import { toProjectView } from "../../lib/projects";
+import { ogImagePath } from "../../lib/og";
+import { OG_KEYS, WORK_DESCRIPTION } from "../../lib/og-cards";
 
-const description =
-  "Professional experience, projects, and achievements of Swapnoneel Saha — Software Engineer specializing in Agentic AI and full-stack development.";
+// Shared with the OG card registry so the page and its card cannot drift.
+const description = WORK_DESCRIPTION;
 
 const workItems = await getWorkItems();
 const projectEntries = await getProjects();
@@ -33,7 +35,7 @@ const SITE = "https://www.swapnoneel.site";
   title="Work"
   description={description}
   ogImage={{
-    url: ogImageUrl("Work", description),
+    url: ogImagePath(OG_KEYS.work),
     width: 1200,
     height: 630,
     alt: "Work",

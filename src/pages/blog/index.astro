@@ -1,7 +1,9 @@
 ---
 import { getBlogPosts } from "@/lib/content";
 import { i18n } from "@/lib/i18n";
-import { ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { safeJsonLd } from "@/lib/utils";
+import { ogImagePath } from "../../lib/og";
+import { OG_KEYS } from "../../lib/og-cards";
 import BlogList from "../../components/BlogList.astro";
 import Base from "../../layouts/Base.astro";
 
@@ -14,7 +16,7 @@ const SITE = "https://www.swapnoneel.site";
   description={i18n.blog.description}
   canonical="/blog"
   ogImage={{
-    url: ogImageUrl(i18n.blog.title, i18n.blog.description),
+    url: ogImagePath(OG_KEYS.blog),
     width: 1200,
     height: 630,
     alt: i18n.blog.title,

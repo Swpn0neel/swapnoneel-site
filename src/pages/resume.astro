@@ -2,7 +2,8 @@
 import { getProjects, getWorkItems } from "@/lib/content";
 import { siteConfig, skills, socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
-import { ogImageUrl } from "@/lib/utils";
+import { ogImagePath } from "../lib/og";
+import { OG_KEYS } from "../lib/og-cards";
 import Icon from "../components/Icon.astro";
 import Base from "../layouts/Base.astro";
 
@@ -34,7 +35,7 @@ const skillGroupHeading =
   canonical="/resume"
   ogType="website"
   ogImage={{
-    url: ogImageUrl(siteConfig.person.fullName, i18n.resume.summaryContent),
+    url: ogImagePath(OG_KEYS.resume),
     width: 1200,
     height: 630,
     alt: i18n.resume.pageTitle,

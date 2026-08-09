@@ -8,6 +8,8 @@ import BackToTop from "../components/BackToTop.astro";
 import Navbar from "../components/Navbar.astro";
 import SiteFooterLinks from "../components/SiteFooterLinks.astro";
 import { resolveAsset } from "../lib/images";
+import { ogImagePath } from "../lib/og";
+import { OG_KEYS } from "../lib/og-cards";
 import "../styles/global.css";
 
 interface Props {
@@ -20,11 +22,22 @@ interface Props {
   publishedTime?: string;
 }
 
+/**
+ * The home card is the default for any page that does not name its own.
+ * app/opengraph-image.tsx was picked up by the App Router as the fallback for
+ * every route; Astro has no such convention, so without this /404 and
+ * /work/others would have shipped with no og:image at all.
+ */
 const {
   title,
   description = siteConfig.metadata.description,
   canonical,
-  ogImage,
+  ogImage = {
+    url: ogImagePath(OG_KEYS.home),
+    width: 1200,
+    height: 630,
+    alt: siteConfig.person.fullName,
+  },
   ogType = "website",
   publishedTime,
 } = Astro.props;
@@ -80,7 +93,7 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="icon" href={siteConfig.images.icon} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href="/sitemap.xml" />
     <link
       rel="alternate"
       type="application/rss+xml"
@@ -155,5 +168,18 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
         </p>
       </footer>
     </div>
+    {/* Vercel Web Analytics and Speed Insights. Served by Vercel's own edge
+        when the features are enabled on the project, so there is no package to
+        bundle and nothing to import — which is also why they are gated on PROD:
+        both paths 404 on localhost. This is the piece the @astrojs/vercel
+        adapter is carried for. */}
+    {
+      import.meta.env.PROD && (
+        <Fragment>
+          <script is:inline defer src="/_vercel/insights/script.js" />
+          <script is:inline defer src="/_vercel/speed-insights/script.js" />
+        </Fragment>
+      )
+    }
   </body>
 </html>
