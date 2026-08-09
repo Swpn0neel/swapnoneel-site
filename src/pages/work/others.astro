@@ -1,0 +1,51 @@
+---
+import { i18n } from "@/lib/i18n";
+import Base from "../../layouts/Base.astro";
+
+const o = i18n.work.otherExperience;
+
+/**
+ * The back link depends on `?from=`, which a static page cannot read at build
+ * time. It renders pointing at /work — the answer for every entry point except
+ * one — and the inline script below rewrites it when the query says the reader
+ * came from the home page. Two lines of script for an affordance that would
+ * otherwise need the whole route rendered on demand.
+ */
+---
+
+<Base title={o.title}>
+  <article class="pb-16">
+    <div class="mb-8">
+      <a
+        href="/work"
+        data-back-link
+        class="text-muted-foreground hover:text-foreground text-xs transition-colors"
+      >
+        ← <span data-back-label>{o.backLink}</span>
+      </a>
+      <h1 class="mt-4 mb-1 text-xl font-semibold">{o.role}</h1>
+      <p class="text-muted-foreground text-xs">{o.date}</p>
+      <p class="mt-2 text-sm font-medium">{o.subtitle}</p>
+    </div>
+
+    <div class="prose prose-sm max-w-none">
+      <p>{o.intro}</p>
+      <ul>
+        <li><strong>{o.bulletTitles.growth}</strong> {o.bullets.growth}</li>
+        <li><strong>{o.bulletTitles.design}</strong> {o.bullets.design}</li>
+        <li><strong>{o.bulletTitles.python}</strong> {o.bullets.python}</li>
+        <li><strong>{o.bulletTitles.web}</strong> {o.bullets.web}</li>
+        <li><strong>{o.bulletTitles.content}</strong> {o.bullets.content}</li>
+      </ul>
+    </div>
+  </article>
+</Base>
+
+<script is:inline>
+  if (new URLSearchParams(location.search).get("from") === "home") {
+    const link = document.querySelector("[data-back-link]");
+    const label = document.querySelector("[data-back-label]");
+    if (link) link.setAttribute("href", "/");
+    if (label) label.textContent = "home";
+  }
+</script>

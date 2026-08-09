@@ -1,0 +1,126 @@
+---
+import { i18n } from "@/lib/i18n";
+import { LIVES } from "@/lib/breakout-engine";
+
+/**
+ * The 404 headline, which can be knocked down.
+ *
+ * Idle it is ordinary text — server-rendered, real, and identical to what the
+ * page shows if the script never runs. Only on a deliberate press does it
+ * become a Breakout wall.
+ *
+ * components/four-oh-four-game-slot.tsx does not survive the migration. It
+ * existed because app/not-found.tsx sat in the root layout's boundary tree, so
+ * anything it imported statically landed in the eagerly-loaded script set of
+ * *every* route — the canvas code was being downloaded on the home page, every
+ * blog post and every project page. An Astro page's script belongs to that page
+ * alone, so the workaround has nothing left to work around.
+ *
+ * Every HUD state is in the markup from the start and revealed by data-phase,
+ * rather than being conditionally rendered.
+ */
+---
+
+<div class="group/game flex flex-col items-center" data-breakout data-phase="idle">
+  <div
+    data-game-wrap
+    class="group relative mx-auto w-full max-w-[460px] overflow-hidden motion-safe:transition-[height] motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)]"
+  >
+    {/* Warms one step towards full strength while the numeral is hovered,
+        which is the only thing telling a mouse that the biggest object on the
+        page is also a button. Only ever visible at rest: in play this is at
+        zero opacity, so the group is free to match the pointer sitting on the
+        canvas the whole time. */}
+    <p
+      data-game-text
+      class="text-muted-foreground group-hover:text-body-foreground pointer-events-none absolute inset-x-0 top-0 m-0 text-center text-[clamp(4rem,34vw,10rem)] leading-none font-bold transition-[color,opacity] duration-300"
+    >
+      404
+    </p>
+
+    <canvas
+      tabindex="-1"
+      role="img"
+      aria-hidden="true"
+      aria-label={i18n.notFound.game.canvasLabel}
+      class="text-muted-foreground focus-visible:ring-ring absolute inset-x-0 top-0 block w-full rounded-sm transition-opacity duration-300 select-none focus-visible:ring-1 focus-visible:outline-none"
+      style="opacity:0;cursor:pointer;-webkit-touch-callout:none"></canvas>
+  </div>
+
+  {/* Sized for the tallest state — every state is two centred lines — so
+      nothing below moves as the game changes. `min-h` rather than `h` because a
+      fixed height would clip instead of grow if a reader's font scale pushed
+      the result onto a second line. */}
+  <div class="mt-5 flex min-h-11 flex-col items-center justify-center">
+    {/* One region, always in the document, holding whatever is worth saying out
+        loud — announcements only work if the live region was already present
+        when its text changed. */}
+    <span class="sr-only" role="status" aria-live="polite" data-game-live></span>
+
+    <button
+      type="button"
+      data-game-start
+      data-game-block="idle"
+      class="text-muted-foreground hover:text-foreground focus-visible:ring-ring text-2xs relative hidden cursor-pointer rounded-sm font-mono tracking-wide underline-offset-4 transition-colors before:absolute before:-inset-x-4 before:-inset-y-3 before:content-[''] hover:underline focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:outline-none group-data-[phase=idle]/game:block"
+    >
+      {/* The reachable area is grown with a pseudo-element rather than padding:
+          ten-pixel mono type is a fourteen-pixel-tall target, which is a
+          thumb's-width miss on a phone, but padding would drag the focus ring
+          out into a loose box around two small words. */}
+      {i18n.notFound.game.idle}
+    </button>
+
+    <div
+      data-game-block="playing"
+      class="text-muted-foreground text-2xs hidden flex-col items-center gap-1.5 font-mono tracking-wide group-data-[phase=playing]/game:flex"
+    >
+      {/* State on top: what it is costing and how much is left. Lives read
+          faster as marks than as a number, and three is small enough that
+          precision costs nothing. */}
+      <span class="flex items-center gap-2.5">
+        <span class="flex items-center gap-1" role="img" data-game-lives>
+          {
+            Array.from({ length: LIVES }, () => (
+              <span
+                data-life
+                data-on="true"
+                class="size-1.5 rounded-full transition-all duration-300 data-[on=true]:bg-muted-foreground data-[on=true]:scale-100 data-[on=false]:bg-border data-[on=false]:scale-75"
+              />
+            ))
+          }
+        </span>
+        <span class="tabular-nums" data-game-bricks></span>
+      </span>
+
+      {/* The instruction tracks the ball rather than standing still: how to
+          serve while it is parked, how to aim once it is away. */}
+      <span class="text-faint-foreground" data-game-hint></span>
+    </div>
+
+    {/* Result above, action below: the outcome is the sentence and the restart
+        is the footnote, which side by side they were not. */}
+    <div
+      data-game-block="won lost"
+      class="hidden flex-col items-center gap-1.5 group-data-[phase=won]/game:flex group-data-[phase=lost]/game:flex"
+    >
+      <span class="text-foreground text-sm" data-game-result></span>
+      <button
+        type="button"
+        data-game-start
+        class="text-muted-foreground hover:text-foreground focus-visible:ring-ring text-2xs relative cursor-pointer rounded-sm font-mono tracking-wide underline underline-offset-4 transition-colors before:absolute before:-inset-x-4 before:-inset-y-3 before:content-[''] focus-visible:ring-1 focus-visible:ring-offset-2 focus-visible:outline-none"
+      >
+        {/* Same enlarged target as the idle button. It reaches up over the gap
+            into the result line, which is only text, so the whole bottom of
+            this block restarts the game. */}
+        {i18n.notFound.game.again}
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { initBreakout } from "../scripts/breakout";
+
+  const root = document.querySelector<HTMLElement>("[data-breakout]");
+  if (root) initBreakout(root);
+</script>

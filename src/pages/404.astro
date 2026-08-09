@@ -1,0 +1,44 @@
+---
+import { i18n } from "@/lib/i18n";
+import Breakout from "../components/Breakout.astro";
+import Base from "../layouts/Base.astro";
+
+/**
+ * The 404, which is the game and one sentence.
+ *
+ * This page used to end with a suggested-reading block — the standard 404 move,
+ * offering something to salvage the trip. The salvage here is the game, and a
+ * list of posts underneath it was a second, quieter offer competing with the
+ * loud one for the same attention. The navbar above already carries
+ * home/work/blog/contact for anyone who just wants out.
+ */
+---
+
+<Base title="404">
+  {/* Centred in a bounded band rather than stacked under the masthead. Left
+      top-aligned, the game hung above a screenful of nothing once the posts
+      below it went — 640px of it on a tall window.
+
+      The figure wanted here is "whatever the navbar and footer leave", and it
+      is not reachable in CSS: <main> measures it as flex-1, so a percentage
+      height on this element resolves against nothing. 55svh is under that
+      leftover at every size the site is used at, so it can only ever centre —
+      never introduce a scrollbar on a page that fits — and svh rather than vh
+      so a phone's collapsing URL bar cannot resize the band mid-scroll. min-
+      rather than fixed: past that height the block grows. */}
+  <div class="flex min-h-[55svh] flex-col justify-center py-12 sm:py-16">
+    <Breakout />
+
+    {/* Held to the game's own 460px measure. The container runs to 768px, and
+        centred copy set that wide has no left edge for the eye to return to. */}
+    <div class="mx-auto mt-6 max-w-[460px] text-center">
+      {/* The page's only heading. The 404 above is a <p> on purpose — it is a
+          toy, and it becomes a canvas the moment anyone plays with it — so
+          heading navigation would otherwise find nothing here. */}
+      <h1 class="text-foreground text-xl font-semibold tracking-tight">
+        {i18n.notFound.lead}
+      </h1>
+      <p class="text-muted-foreground mt-2 text-sm">{i18n.notFound.sub}</p>
+    </div>
+  </div>
+</Base>
