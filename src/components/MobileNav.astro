@@ -45,6 +45,7 @@ const pathname = Astro.url.pathname;
         return (
           <a
             data-nav-link
+            data-astro-prefetch="viewport"
             data-active={String(active)}
             href={item.href}
             class="hover:text-foreground focus-visible:ring-ring text-muted-foreground data-[active=true]:text-foreground/80 w-full rounded-md py-2 text-center text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"

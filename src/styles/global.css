@@ -2201,3 +2201,32 @@ html {
 .image-shimmer[data-shimmer-active="false"] {
   opacity: 0;
 }
+/* ─── Navigation progress ───
+   Only visible while ClientRouter is fetching the next document. Sits above
+   everything, ignores pointer events, and animates on transform alone so it
+   never costs a layout. */
+.nav-progress {
+  position: fixed;
+  inset-block-start: 0;
+  inset-inline: 0;
+  z-index: 200;
+  height: 2px;
+  background-color: hsl(var(--foreground));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 180ms ease-out,
+    opacity 200ms ease-out;
+}
+
+.nav-progress[data-active="true"] {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-progress {
+    transition: opacity 200ms ease-out;
+  }
+}

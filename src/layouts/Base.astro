@@ -172,6 +172,19 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
   >
     <script is:inline set:html={PROSE_SCALE_INIT} />
 
+    {
+      /* Navigation progress. transition:persist because it has to outlive the
+        swap it is reporting on. */
+    }
+    <div
+      class="nav-progress"
+      data-nav-progress
+      data-active="false"
+      aria-hidden="true"
+      transition:persist="nav-progress"
+    >
+    </div>
+
     <a href="#main-content" class="skip-to-content"
       >{i18n.common.skipToContent}</a
     >
@@ -233,6 +246,9 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
     <script>
       import { onPageLoad } from "../scripts/page-lifecycle";
       import { initImageLoad } from "../scripts/image-load";
+      import { initNavProgress } from "../scripts/nav-progress";
+
+      initNavProgress();
 
       // Every route has images worth fading in — post figures, project covers,
       // the profile card — so this lives in the layout rather than per page.
