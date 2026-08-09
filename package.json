@@ -3,9 +3,9 @@
   "description": "personal site (swapnoneel)",
   "version": "1.0.0",
   "scripts": {
-    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
+    "predev": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/generate-project-images.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "dev": "next dev --turbopack",
-    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
+    "prebuild": "node scripts/update-blog-dates.mjs && node scripts/generate-blur.mjs && node scripts/generate-palette.mjs && node scripts/generate-project-images.mjs && node scripts/mirror-blog-images.mjs && node scripts/generate-llms-full.mjs && node scripts/generate-narrations.mjs",
     "build": "next build",
     "update-blog-dates": "node scripts/update-blog-dates.mjs",
     "generate-font-subset": "node scripts/generate-font-subset.mjs",
