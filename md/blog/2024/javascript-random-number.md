@@ -1,8 +1,10 @@
 ---
-title: "How to Generate Random Numbers in JavaScript"
+title: How to Generate Random Numbers in JavaScript
 date: "2024-11-01T01:20:01.000Z"
 description: >-
-  Use Math.random() for everyday variation, then build ranges, integers, booleans, choices, and shuffles around it. Use the Web Crypto API when randomness protects an identifier or secret.
+  Use Math.random() for everyday variation, then build ranges, integers,
+  booleans, choices, and shuffles around it. Use the Web Crypto API when
+  randomness protects an identifier or secret.
 cover: >-
   https://wp.keploy.io/wp-content/uploads/2024/11/ae22594e-c87c-49a5-8748-e3a26131.webp
 link: "https://keploy.io/blog/community/javascript-random-number"
@@ -11,7 +13,7 @@ tags:
   - math
   - webdev
   - frontend
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T21:03:04.071Z"
 ---
 
 When you need a surprise in a game, a quiz, or a sample from a list, JavaScript gives you a starting point: `Math.random()`. It returns a decimal from 0 (included) up to 1 (not included). The number is pseudo-random, so it works for everyday variation but is not a security feature.
@@ -62,7 +64,9 @@ For a whole number, place `Math.floor()` around the scaled value. The `+ 1` matt
 ```javascript
 function getRandomIntInRange(min, max) {
   if (!Number.isInteger(min) || !Number.isInteger(max) || min > max) {
-    throw new Error("min and max must be integers, with min less than or equal to max");
+    throw new Error(
+      "min and max must be integers, with min less than or equal to max"
+    );
   }
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -143,9 +147,9 @@ The existing screenshot shows the output from the older generator:
 
 ```javascript
 function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }

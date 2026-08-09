@@ -1,17 +1,19 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676570291151/466fa74a-d06c-4241-83c6-7ac394ae1242.png?w=1200&auto=compress,format&format=webp&fm=png
-title: "Introduction to OOPs in Python"
+title: Introduction to OOPs in Python
 date: "Thu, 16 Feb 2023 17:58:21 GMT"
 description: >-
-  Object-oriented programming groups data and behavior into classes and objects. This Python guide explains abstraction, encapsulation, inheritance, and polymorphism without treating OOP as a rule.
+  Object-oriented programming groups data and behavior into classes and objects.
+  This Python guide explains abstraction, encapsulation, inheritance, and
+  polymorphism without treating OOP as a rule.
 link: "https://swapnoneel.hashnode.dev/introduction-to-oops"
 tags:
   - python
   - oop
   - software-design
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T21:03:04.071Z"
 ---
 
 ## What object-oriented programming tries to solve
@@ -22,7 +24,7 @@ Object-oriented programming, or OOP, gives related state and behavior a home. A 
 
 Start with a class that keeps a person's data beside an operation that uses it:
 
-~~~python
+```python
 class Person:
     def __init__(self, name):
         self.name = name
@@ -36,14 +38,14 @@ second = Person("Mina")
 
 print(first.greet())
 print(second.greet())
-~~~
+```
 
 Person is the class. first and second are objects, also called instances. The class supplies the greet method, while each object stores its own name. The output is:
 
-~~~text
+```text
 Hello, I am Ryan.
 Hello, I am Mina.
-~~~
+```
 
 That relationship is the foundation. The four words usually connected with OOP describe different ways of using it.
 
@@ -59,7 +61,7 @@ Good abstraction has a limit. If the method name is vague, or if it secretly ope
 
 Encapsulation means putting state and the operations that protect it in the same place. Python does not enforce private fields in the same way as some languages. A leading underscore is a convention, not a locked door, but it tells readers which attribute the class owns internally.
 
-~~~python
+```python
 class Wallet:
     def __init__(self, amount=0):
         if amount < 0:
@@ -85,9 +87,9 @@ wallet = Wallet(20)
 wallet.deposit(5)
 wallet.spend(8)
 print(wallet.balance)
-~~~
+```
 
-The output is 17. The class owns the rules for changing the balance, so callers do not have to remember every check. Someone can still write wallet._balance = -100, because Python trusts convention, but ordinary code has a clear public path.
+The output is 17. The class owns the rules for changing the balance, so callers do not have to remember every check. Someone can still write wallet.\_balance = -100, because Python trusts convention, but ordinary code has a clear public path.
 
 This is where encapsulation pays off. If the storage changes from a number to another representation later, the deposit, spend, and balance interface can stay the same.
 
@@ -95,7 +97,7 @@ This is where encapsulation pays off. If the storage changes from a number to an
 
 Inheritance lets a new class reuse or replace behavior from an existing class:
 
-~~~python
+```python
 class Animal:
     def __init__(self, name):
         self.name = name
@@ -112,7 +114,7 @@ class Dog(Animal):
 dog = Dog("Max")
 print(dog.name)
 print(dog.speak())
-~~~
+```
 
 Dog gets the name setup from Animal and supplies a more specific speak method. This is a reasonable relationship because a dog is an animal. A Dog has a Collar, though, so a collar would usually be stored as another object rather than added as a parent class.
 
@@ -122,7 +124,7 @@ Inheritance is useful when code genuinely expects the parent type. It becomes aw
 
 Polymorphism means different objects can respond to the same operation in their own way. Python often handles this through duck typing: the function asks for behavior instead of checking a long list of class names.
 
-~~~python
+```python
 class Dog:
     def speak(self):
         return "Bark"
@@ -139,11 +141,11 @@ def announce(animal):
 
 announce(Dog())
 announce(Cat())
-~~~
+```
 
 announce does not need separate branches for Dog and Cat. It only needs an object with a speak method. Pass an object without speak and Python raises AttributeError at the call, which is a useful, direct failure. If you need a friendlier error, validate the interface before doing work, but do not add type checks just to make the code look formal.
 
-Python's built-in types use the same idea all over the place. Anything with a __len__ method can work with len(), and anything iterable can work in a for loop. The class name matters less than the behavior the operation requires.
+Python's built-in types use the same idea all over the place. Anything with a **len** method can work with len(), and anything iterable can work in a for loop. The class name matters less than the behavior the operation requires.
 
 ## OOP is a tool, not a rule
 

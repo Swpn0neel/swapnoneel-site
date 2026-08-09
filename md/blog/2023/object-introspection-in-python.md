@@ -1,16 +1,19 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png"
-title: "Object Introspection in Python Explained"
+cover: >-
+  https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png
+title: Object Introspection in Python Explained
 date: "2023-02-07T15:48:04.393Z"
 description: >-
-  Python's dir(), __dict__, id(), and help() let you inspect objects while code runs. Use them to understand attributes, identity, and documentation during debugging.
+  Python's dir(), __dict__, id(), and help() let you inspect objects while code
+  runs. Use them to understand attributes, identity, and documentation during
+  debugging.
 link: "https://swapnoneel.hashnode.dev/object-introspection-in-python"
 tags:
   - python
   - introspection
   - debugging
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T21:03:04.071Z"
 ---
 
 ## What introspection means
@@ -41,7 +44,7 @@ Use `dir()` when you know roughly what you are searching for. Reading the entire
 
 The presence of a name does not prove that it is safe to call. A property may run code when read, and a method may need arguments. Treat `dir()` as a menu of possibilities, then inspect the signature or documentation before using an unfamiliar entry.
 
-## The __dict__ attribute shows stored attributes
+## The **dict** attribute shows stored attributes
 
 Many Python objects keep their instance attributes in a dictionary called `__dict__`. It is an attribute, not a function, so write `person.__dict__`, not `person.__dict__()`.
 

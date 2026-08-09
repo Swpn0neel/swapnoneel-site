@@ -58,7 +58,9 @@ export function ProgressiveImage({
         className="image-shimmer progressive-image__shimmer absolute inset-0 transition-opacity duration-300 ease-out"
       />
       {sourceSets?.length ? (
-        <picture>
+        <picture
+          className={imageProps.fill ? "relative block size-full" : undefined}
+        >
           {sourceSets.map((source) => (
             <source key={source.type} {...source} />
           ))}

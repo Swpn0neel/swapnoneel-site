@@ -1,6 +1,6 @@
 ---
-title: 'Deep Diving Into Bifrost: Virtual Keys, MCP and Skills'
-date: '2026-07-31T00:00:00.000Z'
+title: "Deep Diving Into Bifrost: Virtual Keys, MCP and Skills"
+date: "2026-07-31T00:00:00.000Z"
 description: >-
   Going further into the Bifrost dashboard: virtual keys and rate limits, the
   MCP gateway, prompt and skill repositories, and custom log headers.
@@ -8,7 +8,7 @@ slug: deep-dive-into-bifrost
 link:
   - https://dev.to/swapnoneel123/deep-diving-into-bifrost-virtual-keys-mcp-and-skills-30i4
   - https://swapnoneel.medium.com/deep-diving-into-bifrost-virtual-keys-mcp-and-skills-ea1237b58a88
-canonical: 'https://www.swapnoneel.site/blog/deep-dive-into-bifrost'
+canonical: "https://www.swapnoneel.site/blog/deep-dive-into-bifrost"
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yxaj337vywpb3o2aygoa.png
 brand: maxim
@@ -17,7 +17,7 @@ tags:
   - webdev
   - ai
   - opensource
-updated: '2026-08-07T17:37:25.207Z'
+updated: "2026-08-07T17:37:25.207Z"
 ---
 
 In my previous blog, I mentioned how I got tired of switching providers every time I hit a rate limit, and how I finally found Bifrost, which actually solves that. If you haven't read it, [please do check it out from here!](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)

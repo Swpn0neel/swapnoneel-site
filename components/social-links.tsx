@@ -71,7 +71,14 @@ function SocialIcon({
             </text>
           </mask>
         </defs>
-        <rect x="0" y="0" width="24" height="24" rx="4.5" mask="url(#medium-mask)" />
+        <rect
+          x="0"
+          y="0"
+          width="24"
+          height="24"
+          rx="4.5"
+          mask="url(#medium-mask)"
+        />
       </>
     ),
     substack: (

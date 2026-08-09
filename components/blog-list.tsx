@@ -85,8 +85,8 @@ export function BlogList({ posts }: BlogListProps) {
                         style={
                           post.accent
                             ? ({
-                              "--post-accent": post.accent,
-                            } as CSSProperties)
+                                "--post-accent": post.accent,
+                              } as CSSProperties)
                             : undefined
                         }
                       >

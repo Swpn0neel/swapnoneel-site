@@ -35,6 +35,7 @@ Performance is treated as a first-class citizen. Every asset, script, and stylin
 ![Lighthouse & PageSpeed Performance Score](./public/img/pagespeed.webp)
 
 ### Performance Engineering Optimizations
+
 - **Strict Asset Budgeting**: Favicon resources downscaled from massive 130KB images to hyper-optimized 96px WebP assets (~3KB), eliminating main-thread network congestion.
 - **Automated Blur Placeholders**: Pre-build script (`generate-blur.mjs`) generates crisp base64 image placeholders via Sharp to guarantee zero Cumulative Layout Shift (CLS).
 - **Dynamic Color Palettes**: Pre-computes harmonious background and UI theme accents (`generate-palette.mjs`) tailored directly to featured project visuals.
@@ -45,16 +46,16 @@ Performance is treated as a first-class citizen. Every asset, script, and stylin
 
 ## Technology Stack
 
-| Architecture Layer      | Core Technologies |
-| :---------------------- | :---------------- |
+| Architecture Layer      | Core Technologies                                                               |
+| :---------------------- | :------------------------------------------------------------------------------ |
 | **Framework & Engine**  | [Next.js 16](https://nextjs.org/) (App Router) + [React 19](https://react.dev/) |
-| **Styling & Animation** | [Tailwind CSS v4](https://tailwindcss.com/) + Motion + CSS Transitions |
-| **Component System**    | [shadcn/ui](https://ui.shadcn.com/) + Lucide Icons |
-| **Content & Parser**    | Markdown + `gray-matter` + `next-mdx-remote` + Rehype Highlight |
-| **Image & Build Tools** | [Sharp](https://sharp.pixelplumbing.com/) + Node.js Custom Pipeline Scripts |
-| **Speech Synthesis**    | `msedge-tts` automated narration engine |
-| **Code Quality**        | TypeScript 6, ESLint 9, Prettier with import and Tailwind class sorting |
-| **Package Management**  | [pnpm](https://pnpm.io/) + Simple Git Hooks |
+| **Styling & Animation** | [Tailwind CSS v4](https://tailwindcss.com/) + Motion + CSS Transitions          |
+| **Component System**    | [shadcn/ui](https://ui.shadcn.com/) + Lucide Icons                              |
+| **Content & Parser**    | Markdown + `gray-matter` + `next-mdx-remote` + Rehype Highlight                 |
+| **Image & Build Tools** | [Sharp](https://sharp.pixelplumbing.com/) + Node.js Custom Pipeline Scripts     |
+| **Speech Synthesis**    | `msedge-tts` automated narration engine                                         |
+| **Code Quality**        | TypeScript 6, ESLint 9, Prettier with import and Tailwind class sorting         |
+| **Package Management**  | [pnpm](https://pnpm.io/) + Simple Git Hooks                                     |
 
 ---
 
@@ -85,22 +86,26 @@ swapnoneel-site/
 ## Getting Started
 
 ### Prerequisites
+
 - [Node.js](https://nodejs.org/) (v18.0 or higher recommended)
 - [pnpm](https://pnpm.io/) package manager (`npm install -g pnpm`)
 
 ### Local Development
 
 1. **Clone the repository:**
+
    ```bash
    git clone https://github.com/Swpn0neel/swapnoneel-site.git
    cd swapnoneel-site
    ```
 
 2. **Install dependencies:**
+
    ```bash
    pnpm install
    ```
-   *(This automatically attaches simple-git-hooks for automated narration build hooks prior to commits).*
+
+   _(This automatically attaches simple-git-hooks for automated narration build hooks prior to commits)._
 
 3. **Start the development server with Turbopack:**
    ```bash
@@ -114,15 +119,16 @@ swapnoneel-site/
 
 ### Available NPM Scripts
 
-| Command | Description |
-| :--- | :--- |
-| `pnpm dev` | Starts Next.js dev server with Turbopack and runs predev asset generation |
-| `pnpm build` | Builds a production bundle with complete optimization pipeline |
-| `pnpm start` | Launches the built production server |
-| `pnpm format` | Formats all files with Prettier (auto-sorts Tailwind classes and imports) |
-| `pnpm lint:fix` | Runs ESLint and automatically repairs linting warnings |
+| Command         | Description                                                               |
+| :-------------- | :------------------------------------------------------------------------ |
+| `pnpm dev`      | Starts Next.js dev server with Turbopack and runs predev asset generation |
+| `pnpm build`    | Builds a production bundle with complete optimization pipeline            |
+| `pnpm start`    | Launches the built production server                                      |
+| `pnpm format`   | Formats all files with Prettier (auto-sorts Tailwind classes and imports) |
+| `pnpm lint:fix` | Runs ESLint and automatically repairs linting warnings                    |
 
 ### Content & Configuration
+
 - **Site Metadata**: Easily update name, bio, social links, Cal.com parameters, and email configuration directly in `lib/config.ts`.
 - **Adding Content**: Simply drop a new `.md` file into `md/blog/`, `md/projects/`, or `md/work/`. Frontmatter metadata is automatically extracted and styled.
 

@@ -42,5 +42,6 @@ next-env.d.ts
 /public/narration/**/*.mp3
 
 #others
-.seo/
+/.astro
+/dist
 .env*

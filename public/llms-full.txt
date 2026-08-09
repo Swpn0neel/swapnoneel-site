@@ -384,6 +384,115 @@ A high-fidelity design conceptualized for the Smart India Hackathon 2023, focuse
 
 # Blog Posts
 
+## Bifrost for Enterprises: Adaptive Routing, Guardrails and much more
+URL: https://www.swapnoneel.site/blog/bifrost-for-enterprises
+Date: 2026-08-09T15:41:05.000Z
+Summary: I explored the enterprise features of Bifrost, including Audit Logs, MCP Tool Groups, Adaptive Routing, and custom Guardrails, and provided an honest verdict.
+
+As you all might have seen, in the past two blogs, I wrote about how I explored the different features of Bifrost, and how each one of them improved my workflow, and how I interact with different harnesses through one common gateway. If you haven’t read them yet, go check them out from [here](https://www.swapnoneel.site/blog). So after exploring all the free features, I was getting the urge to try the Enterprise version as well (for my personal use, though). So, I contacted the [Bifrost](https://github.com/maximhq/bifrost/) team, and thanks to them, they gave me limited access to try out their paid features for free!! So, in this blog, I will be exploring the most prominent paid features, and would give an honest verdict on whether it’s great for personal use or not, or whether you should even give it a try for your enterprise use case.
+
+## Transparency through Audit Logs
+
+So, before creating any new Enterprise configuration, I wanted to see whether Bifrost could actually tell me what was happening behind the scenes. Audit Logs tell you exactly that. It’s different from the regular LLM logs because they show the requests going through the gateway, while Audit Logs focus on changes and administrative activity inside Bifrost. So if someone creates a virtual key, changes a routing rule, updates a guardrail, or modifies the cluster configuration, this is where we should be able to find it.
+
+![Bifrost Audit Logs screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/cgnv1ejfcvkgmrohejyj.png)
+
+It is not the most exciting feature on its own, and for personal use, this might not be that useful, but in an enterprise setting, it is probably one of the most important ones to have, when you are working with a large group of people, and you have to keep tabs on everything that’s going on.
+
+## What are MCP Tool Groups?
+
+In my [previous blog](https://www.swapnoneel.site/blog/deep-dive-into-bifrost), I already mentioned how I connected the MCP Gateway to OpenCode using the Virtual Key, which enabled Bifrost to expose all of my configured MCP tools through that one endpoint.
+
+But that also raised a question: do I really want every harness to have access to every tool? So, this time I decided to try MCP Tool Groups.
+
+The idea is pretty simple. We can create a group of selected MCP tools and attach that group to a virtual key. OpenCode already uses my dedicated Enterprise virtual key, so I can control the tools available to it without changing the rest of my MCP setup.
+
+In the previous blog, you might have seen that I’ve used the Context7 MCP server. It provided access to two tools:
+
+- `resolve-library-id`
+- `query-docs`
+
+So, while creating the tool group, I decided to drop the `query-docs` and kept only the `resolve-library-id` activated.
+
+![Bifrost MCP Tool Groups screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/re84bfyifr07hwij3hl5.png)
+
+Then, under Associations, I attached the group only to my opencode-enterprise virtual key. I didn't attach it to any teams, customers, providers, or other keys.
+
+The OpenCode MCP configuration itself didn't need much change. It was already pointing to Bifrost's remote MCP endpoint:
+
+```json
+{
+  "mcp": {
+    "bifrost": {
+      "type": "remote",
+      "url": "https://bifrost-enterprise.agitracker.io/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {file:./bifrost-virtual-key}"
+      }
+    }
+  }
+}
+```
+
+I kept the virtual key inside a separate local file, so it never had to be pasted into the configuration or committed to Git.
+
+After restarting OpenCode, I used a deliberately small prompt,
+
+`Use the Context7 MCP to resolve the React library. Reply with only the returned library ID.`
+
+![OpenCode MCP request screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/fncld2oo6svgypq11g2t.png)
+
+The request executed successfully, as you can see in the above screenshot.
+
+So, is this feature useful? The idea is excellent, especially when different coding harnesses should have access to different MCP tools. And, it gives you a central place to manage tool access instead of duplicating MCP configuration across every client.
+
+## What is Adaptive routing?
+
+The next feature I wanted to try was Adaptive Routing. The idea behind it is quite useful, especially if you are running several models, providers, or API keys through the same Bifrost gateway.
+
+Normally, requests are distributed using fixed weights. For example, if two Gemini keys have the same weight, Bifrost can send roughly half of the traffic to each one. The problem is that fixed weights do not know whether one key has become slower, started returning errors, or hit a rate limit.
+
+Adaptive Routing tries to solve that automatically.
+
+Bifrost monitors the latency, error rate, success rate, and utilization of each available route. It then recalculates their weights every few seconds. And, a healthy and faster route receives more traffic, while a failing or slow route receives less. Bifrost still sends a small amount of traffic to recovering routes so it can detect when they become healthy again.
+
+The routing happens at two levels:
+
+1. Bifrost can select which provider should handle a model request.
+2. After selecting the provider, it can choose the best API key configured for that provider.
+
+This makes the feature more useful for companies that maintain multiple provider accounts or keys. Instead of manually changing weights whenever a provider starts acting up, Bifrost can react to the recent performance data on its own.
+
+## How to set Guardrails?
+
+Every model has a set of their own guardrails by default, but while working on them you might need to put your own custom guardrails as well. And the best place to do that is to integrate it directly into your AI gateway!
+
+This feature is meant to protect both the prompts sent to a model and the responses coming back from it. Bifrost separates the feature into two parts: rules decide when a check should run, while profiles define what kind of check should be performed. For this test, I wanted to avoid adding another external API key, so I chose Bifrost's built-in Custom Regex provider. According to the [Guardrails documentation](https://docs.getbifrost.ai/enterprise/guardrails), Custom Regex runs locally and can be used for deterministic pattern checks.
+
+So, I created two guardrail rules. One for the input, and the other one for the output.
+
+![Bifrost Guardrails configuration screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/5hko4nft3m5do9q2uxxm.png)
+
+So, now if I send a request like `Reply with exactly: BIFROST_GUARDRAIL_TEST`, I get a `regex pattern matched` error. That’s where the guardrail is actually doing its job.
+
+It is as simple as that. No fancy setup needed for a working guardrail.
+
+## Final thoughts
+
+When I started exploring Bifrost Enterprise, I expected the paid version to feel like the open-source gateway with a few extra switches. That wasn’t true.
+
+The core experience stayed familiar, and I could continue using OpenCode through one Bifrost endpoint while the gateway handled the provider connection underneath. That part was convenient. I did not need to change my workflow every time I switched between OpenAI and Gemini.
+
+The enterprise features that made the most sense to me were Audit Logs and MCP Tool Groups. Audit Logs give teams a central record of what happened, while MCP Tool Groups make it easier to control which tools a client can access.
+
+Would I use Bifrost Enterprise for my personal setup? Probably not if I only had one provider, one API key, and a handful of requests. The extra governance and operational features would be more machinery than I need.
+
+For a team running several models, provider keys, MCP clients, and internal users, the situation is different. A shared gateway, centralized logs, access controls, guardrails, and tool restrictions can remove a lot of repeated setup from individual applications. And if you think you are the right candidate, you can always [book a demo](https://www.getmaxim.ai/bifrost/book-a-demo)!
+
+![Thank you](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8caibv8q641pm9okuo0d.png)
+
 ## Deep Diving Into Bifrost: Virtual Keys, MCP and Skills
 URL: https://www.swapnoneel.site/blog/deep-dive-into-bifrost
 Date: 2026-07-31T00:00:00.000Z
@@ -2528,15 +2637,15 @@ Automation does require maintenance. Selectors change, test data expires, and pr
 
 Selenium automates browser interactions, so it is useful for web application flows that a user completes through a browser.
 
-  ![Selenium web automation platform logo](https://wp.keploy.io/wp-content/uploads/2024/11/selenium-2-1024x304.webp)
+![Selenium web automation platform logo](https://wp.keploy.io/wp-content/uploads/2024/11/selenium-2-1024x304.webp)
 
 Keploy can generate functional and regression cases from real application interactions. It captures requests and responses and turns those interactions into tests, which can help when manually describing every API case would take too long.
 
-  ![Keploy test automation platform overview](https://wp.keploy.io/wp-content/uploads/2024/11/keploy_coverimg-1024x615.webp)
+![Keploy test automation platform overview](https://wp.keploy.io/wp-content/uploads/2024/11/keploy_coverimg-1024x615.webp)
 
 Appium is used for mobile applications on Android and iOS. It supports native, hybrid, and [mobile web applications](https://keploy.io/blog/community/essential-functional-testing-tools-for-mobile-development "mobile web applications"), so the same testing idea can cover more than a desktop browser.
 
-  ![Appium mobile testing framework logo](https://wp.keploy.io/wp-content/uploads/2024/11/appium_coverimg-1024x394.webp)
+![Appium mobile testing framework logo](https://wp.keploy.io/wp-content/uploads/2024/11/appium_coverimg-1024x394.webp)
 
 Pick the tool from the boundary you need to test. A browser driver is not the best answer for a service contract, and an API test cannot tell you whether a button is confusing to use.
 
@@ -2631,7 +2740,9 @@ For a whole number, place `Math.floor()` around the scaled value. The `+ 1` matt
 ```javascript
 function getRandomIntInRange(min, max) {
   if (!Number.isInteger(min) || !Number.isInteger(max) || min > max) {
-    throw new Error("min and max must be integers, with min less than or equal to max");
+    throw new Error(
+      "min and max must be integers, with min less than or equal to max"
+    );
   }
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -2712,9 +2823,9 @@ The existing screenshot shows the output from the older generator:
 
 ```javascript
 function generateUUID() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
-    const v = c === 'x' ? r : (r & 0x3 | 0x8);
+  return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === "x" ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
 }
@@ -3515,8 +3626,8 @@ const cup = {
   },
 };
 
-console.log(cup.material);  // glass
-console.log(cup.describe());  // black glass cup
+console.log(cup.material); // glass
+console.log(cup.describe()); // black glass cup
 ```
 
 The object exists inside the JavaScript runtime. You can read a property, call a method, add a property, or remove one. Its syntax is part of the JavaScript language.
@@ -3541,8 +3652,8 @@ JSON supports strings, numbers, booleans, `null`, arrays, and objects made from 
     "zipCode": "12345"
   },
   "phoneNumbers": [
-    {"type": "home", "number": "212 555-1234"},
-    {"type": "office", "number": "646 555-5678"}
+    { "type": "home", "number": "212 555-1234" },
+    { "type": "office", "number": "646 555-5678" }
   ]
 }
 ```
@@ -3560,7 +3671,7 @@ const user = {
 };
 
 const body = JSON.stringify(user);
-console.log(body);  // {"name":"Asha","active":true}
+console.log(body); // {"name":"Asha","active":true}
 ```
 
 The result of `JSON.stringify()` is a string, not an object. You can send that string as a request body or save it in a file.
@@ -3571,7 +3682,7 @@ When JSON comes back from a server, parse it before using it as an object.
 const responseText = '{"name":"Asha","active":true}';
 const parsedUser = JSON.parse(responseText);
 
-console.log(parsedUser.name);  // Asha
+console.log(parsedUser.name); // Asha
 ```
 
 `JSON.parse()` can throw a `SyntaxError` if the text is not valid JSON. If the text comes from an unreliable source, handle that failure instead of assuming the response is well formed.
@@ -3590,7 +3701,7 @@ const account = {
   },
 };
 
-console.log(JSON.stringify(account));  // {"name":"Asha"}
+console.log(JSON.stringify(account)); // {"name":"Asha"}
 ```
 
 ### Syntax
@@ -3607,13 +3718,13 @@ Objects help your JavaScript code organize and manipulate live data. JSON helps 
 
 ## A small comparison
 
-| JavaScript object | JSON |
-| --- | --- |
-| A runtime value in JavaScript | Text that follows a data format |
-| Can contain methods | Cannot contain functions |
-| Property names may be unquoted in an object literal | Property names must use double quotes |
-| Can use JavaScript-only values | Supports a smaller set of data types |
-| Read directly by JavaScript code | Parsed with `JSON.parse()` before normal object access |
+| JavaScript object                                   | JSON                                                   |
+| --------------------------------------------------- | ------------------------------------------------------ |
+| A runtime value in JavaScript                       | Text that follows a data format                        |
+| Can contain methods                                 | Cannot contain functions                               |
+| Property names may be unquoted in an object literal | Property names must use double quotes                  |
+| Can use JavaScript-only values                      | Supports a smaller set of data types                   |
+| Read directly by JavaScript code                    | Parsed with `JSON.parse()` before normal object access |
 
 ## Which one should you use
 
@@ -4202,7 +4313,7 @@ Summary: Python inheritance lets a class reuse or replace behavior from a parent
 
 Inheritance lets one class begin with behavior from another class. The new class is the child or subclass, and the existing class is the parent or base class.
 
-~~~python
+```python
 class Animal:
     def eat(self):
         print("eating")
@@ -4214,7 +4325,7 @@ class Dog(Animal):
 
 dog = Dog()
 dog.eat()
-~~~
+```
 
 Dog gets eat from Animal, so the last line prints eating even though Dog has no method of its own. Python looks in Dog first, then follows the class's method resolution order until it finds the requested name.
 
@@ -4228,7 +4339,7 @@ Single inheritance gives a class one direct parent. It is the easiest form to re
 
 Here, Dog reuses the name setup from Animal and replaces the generic sound:
 
-~~~python
+```python
 class Animal:
     def __init__(self, name):
         self.name = name
@@ -4245,14 +4356,14 @@ class Dog(Animal):
 dog = Dog("Max")
 print(dog.name)
 dog.make_sound()
-~~~
+```
 
-Dog does not define __init__, so Python finds Animal.__init__ and uses it. Dog does define make_sound, so its method wins over the parent version. The output is:
+Dog does not define **init**, so Python finds Animal.**init** and uses it. Dog does define make_sound, so its method wins over the parent version. The output is:
 
-~~~text
+```text
 Max
 Bark!
-~~~
+```
 
 Override a method when the child has a genuinely more specific version of the same behavior. If the child merely needs to add a little work, call the parent implementation with super() rather than copying its body.
 
@@ -4262,7 +4373,7 @@ Multiple inheritance gives one class more than one direct parent. Small mixins a
 
 ![Multiple inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144424/multiple-inheritance1.png)
 
-~~~python
+```python
 class Swimmer:
     def swim(self):
         print("Swimming")
@@ -4281,11 +4392,11 @@ athlete = Triathlete()
 athlete.swim()
 athlete.run()
 print(Triathlete.__mro__)
-~~~
+```
 
 The class gets swim from Swimmer and run from Runner. The final print shows the order Python searches, ending with object. If both parents define the same method, Swimmer wins in this example because it appears first in the class definition.
 
-That does not mean you should pick a parent order at random. The method resolution order is part of the behavior. Also, parent initializers need care. Calling ParentA.__init__ and ParentB.__init__ manually can work, but it becomes fragile when a third class enters the hierarchy. Cooperative classes use super() and accept compatible arguments so Python can walk the whole MRO once.
+That does not mean you should pick a parent order at random. The method resolution order is part of the behavior. Also, parent initializers need care. Calling ParentA.**init** and ParentB.**init** manually can work, but it becomes fragile when a third class enters the hierarchy. Cooperative classes use super() and accept compatible arguments so Python can walk the whole MRO once.
 
 ## Multilevel inheritance
 
@@ -4293,7 +4404,7 @@ Multilevel inheritance creates a chain. One class extends a parent, and another 
 
 ![Multilevel inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144705/Multilevel-inheritance1.png)
 
-~~~python
+```python
 class Animal:
     def __init__(self, name):
         self.name = name
@@ -4324,15 +4435,15 @@ class GoldenRetriever(Dog):
 
 dog = GoldenRetriever("Max", "Golden")
 dog.show_details()
-~~~
+```
 
 The call to GoldenRetriever.show_details travels through all three implementations because each method does its own work and then calls super(). The output is:
 
-~~~text
+```text
 Name: Max
 Breed: Golden Retriever
 Color: Golden
-~~~
+```
 
 Notice that super() does not mean "call my immediate parent by name" in a simple fixed sense. It follows the MRO from the current class. That detail becomes valuable in cooperative multiple inheritance, and it is also why direct calls such as Animal.show_details(self) can make a hierarchy harder to extend.
 
@@ -4342,7 +4453,7 @@ Hybrid inheritance combines shapes. A common example has two branches that share
 
 ![Hybrid inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/Hybrid-Inheritance.png)
 
-~~~python
+```python
 class Person:
     def __init__(self, name):
         self.name = name
@@ -4366,13 +4477,13 @@ person = StudentAthlete("Mina")
 person.study()
 person.train()
 print(StudentAthlete.__mro__)
-~~~
+```
 
 StudentAthlete can use study and train, and the inherited Person initializer supplies name. The MRO prevents Person from being visited twice in the diamond-shaped path. That is the part you need to understand before adding parent initializers or methods with the same name.
 
 If each branch has its own setup, make the constructors cooperate:
 
-~~~python
+```python
 class Person:
     def __init__(self, name, **kwargs):
         super().__init__(**kwargs)
@@ -4394,7 +4505,7 @@ class Athlete(Person):
 class StudentAthlete(Student, Athlete):
     def __init__(self, name, subject, sport):
         super().__init__(name=name, subject=subject, sport=sport)
-~~~
+```
 
 This pattern is more work than the earlier example, but each initializer passes the remaining keyword arguments along. A mismatch in the signatures will raise TypeError, which is much easier to fix than silently skipping half of an object's state.
 
@@ -4404,7 +4515,7 @@ Hierarchical inheritance has several children sharing one parent. The parent hol
 
 ![Hierarchical inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144949/Hierarchical-inheritance1.png)
 
-~~~python
+```python
 class Animal:
     def __init__(self, name):
         self.name = name
@@ -4435,7 +4546,7 @@ class Cat(Animal):
 
 Dog("Max", "Golden Retriever").show_details()
 Cat("Luna", "Black").show_details()
-~~~
+```
 
 Dog and Cat both inherit the name handling, but they do not need to share their breed and color fields. This shape is often cleaner than making one large Animal class full of conditionals about which species is currently active.
 
@@ -4460,7 +4571,7 @@ You usually do not call these methods directly. You write the method that matche
 
 The useful way to learn them is to start with the syntax you want your object to support. If `print(playlist)` should be readable, look at `__str__`. If `len(playlist)` should mean something, look at `__len__`. You do not need to memorise a catalogue of every dunder method before writing a class.
 
-## __init__ sets the initial state
+## **init** sets the initial state
 
 Python calls `__init__` after it creates a new instance. Put the initial instance attributes there.
 
@@ -4476,7 +4587,7 @@ print(playlist.songs)
 
 The `list(songs)` call makes a new list for the object. The initializer prepares the object; it does not return the object itself.
 
-## __str__ and __repr__ describe an object
+## **str** and **repr** describe an object
 
 `str(value)` and `print(value)` prefer `__str__`, which should be readable to a person. `repr(value)` is meant for debugging and should contain enough detail to identify the value clearly.
 
@@ -4499,7 +4610,7 @@ print(repr(playlist))
 
 The readable form is `Intro, Signal`. The representation is `Playlist(['Intro', 'Signal'])`. A `__repr__` result does not have to be executable, but showing the important state makes debugging much less frustrating.
 
-## __len__ supports len()
+## **len** supports len()
 
 Define `__len__` when your object has a meaningful size. Python expects the method to return a non-negative integer.
 
@@ -4536,7 +4647,7 @@ print(Song("Signal") == Song("Signal"))
 
 Without `__eq__`, two separate `Song` objects compare by identity, even when their attributes match. Returning `NotImplemented` for an unrelated type lets Python handle that comparison instead of pretending every object is comparable to a `Song`.
 
-## __call__ makes an object callable
+## **call** makes an object callable
 
 Functions are objects too. A regular object can act like a function when its class defines `__call__`.
 
@@ -4696,7 +4807,7 @@ An instance method needs one particular object, so Python gives it that object a
 
 Here is a small class with one method that belongs to an object and another that belongs to the class:
 
-~~~python
+```python
 class User:
     def __init__(self, name, role):
         self.name = name
@@ -4712,13 +4823,13 @@ class User:
 
 user = User.guest()
 print(user.describe())
-~~~
+```
 
 describe() cannot do anything useful until a User exists, because it reads self.name and self.role. guest() has no existing user to inspect. It is a recipe for making one, so Python calls it with User as cls. The output is:
 
-~~~text
+```text
 Guest is a reader.
-~~~
+```
 
 That is why User.guest() works before you have an instance. The decorator changes how the function is bound when you access it through the class.
 
@@ -4728,7 +4839,7 @@ Without @classmethod, this method is an ordinary function sitting in the class b
 
 You can see the practical difference by trying to use an instance method as a factory:
 
-~~~python
+```python
 class Ticket:
     def __init__(self, number):
         self.number = number
@@ -4740,11 +4851,11 @@ class Ticket:
 # Ticket.from_text("42")  # TypeError: self is missing
 ticket = Ticket(1)
 print(ticket.from_text("42").number)
-~~~
+```
 
 The commented call fails because from_text expects self. You have to create a meaningless Ticket(1) before you can use it. The class method version expresses the intent directly:
 
-~~~python
+```python
 class Ticket:
     def __init__(self, number):
         self.number = number
@@ -4756,15 +4867,15 @@ class Ticket:
 
 ticket = Ticket.from_text("42")
 print(ticket.number)
-~~~
+```
 
 Now parsing and construction have a name of their own, and callers do not need to know how the text is converted.
 
 ## Alternative constructors are the sweet spot
 
-The usual reason to write a class method is that one type can arrive in several input formats. Keep the normal __init__ for the canonical arguments, then add named entry points for other formats.
+The usual reason to write a class method is that one type can arrive in several input formats. Keep the normal **init** for the canonical arguments, then add named entry points for other formats.
 
-~~~python
+```python
 class Person:
     def __init__(self, name, age):
         self.name = name
@@ -4782,20 +4893,20 @@ class Person:
 
 print(Person.from_string("John Doe, 30").age)
 print(Person.child("Mina").name)
-~~~
+```
 
-The constructor still owns the actual object setup. The class methods only translate input into the arguments that the constructor expects. If you later add validation in __init__, both alternate paths get it automatically.
+The constructor still owns the actual object setup. The class methods only translate input into the arguments that the constructor expects. If you later add validation in **init**, both alternate paths get it automatically.
 
 There is one detail here that is easy to miss. Use cls(...), not Person(...), inside a class method:
 
-~~~python
+```python
 class Employee(Person):
     pass
 
 
 employee = Employee.from_string("Ravi, 28")
 print(type(employee).__name__)
-~~~
+```
 
 The output is Employee. Python passes the class used for the call as cls, so the method stays friendly to subclasses. Hard-code Person(...) and you quietly throw that behavior away.
 
@@ -4805,7 +4916,7 @@ Bad input still fails. A string without a comma raises ValueError during unpacki
 
 A static method is useful when a function is conceptually grouped with a class but does not need either the object or the class:
 
-~~~python
+```python
 class Person:
     @staticmethod
     def valid_age(age):
@@ -4813,7 +4924,7 @@ class Person:
 
 
 print(Person.valid_age(30))
-~~~
+```
 
 This could be a module-level function too. Keeping it on Person is reasonable if the rule is meaningful only in that small namespace. A class method is the better choice when the class itself matters, especially for factories that must preserve subclasses. A regular method is the right choice when the answer depends on one object's state.
 
@@ -4834,9 +4945,9 @@ The value has not been copied into each object, though. An instance variable is 
 
 ## Instance variables describe one object
 
-Put per-object state on self, usually in __init__. Each call to a class creates a separate object, and each object gets its own attribute dictionary.
+Put per-object state on self, usually in **init**. Each call to a class creates a separate object, and each object gets its own attribute dictionary.
 
-~~~python
+```python
 class User:
     def __init__(self, name, points):
         self.name = name
@@ -4852,31 +4963,31 @@ second = User("Jane", 7)
 first.points += 5
 print(first.summary())
 print(second.summary())
-~~~
+```
 
 The output is:
 
-~~~text
+```text
 John: 17 points
 Jane: 7 points
-~~~
+```
 
 first.points += 5 changes the attribute on first. It has no route to second.points. Both objects share the summary method through the class, but their data is separate.
 
 You can inspect that storage directly while learning:
 
-~~~python
+```python
 print(first.__dict__)
 print(second.__dict__)
-~~~
+```
 
-Each dictionary contains its own name and points. This is a useful debugging trick, but do not build a design around __dict__; some Python objects use __slots__ and do not have one.
+Each dictionary contains its own name and points. This is a useful debugging trick, but do not build a design around **dict**; some Python objects use **slots** and do not have one.
 
 ## Class variables describe the class
 
 Put shared data in the class body. A count is a good example because there should be one count for all User objects.
 
-~~~python
+```python
 class User:
     total_users = 0
 
@@ -4891,7 +5002,7 @@ second = User("Jane")
 print(User.total_users)
 print(first.total_users)
 print(second.total_users)
-~~~
+```
 
 All three prints show 2. The first lookup finds total_users on User. The other two lookups fail to find it on the individual objects, then find it on the class.
 
@@ -4903,7 +5014,7 @@ Also, prefer User.total_users when reading class-owned data. first.total_users i
 
 This is the part that catches people:
 
-~~~python
+```python
 class User:
     role = "reader"
 
@@ -4915,22 +5026,22 @@ first.role = "admin"
 print(first.role)
 print(second.role)
 print(User.role)
-~~~
+```
 
 The output is:
 
-~~~text
+```text
 admin
 reader
 reader
-~~~
+```
 
 The assignment did not update User.role. It created a new role attribute on first, so that one object now shadows the class value. Delete first.role and lookup falls back to User.role again:
 
-~~~python
+```python
 del first.role
 print(first.role)
-~~~
+```
 
 This is why class attributes are fine for defaults that instances may override, but they are a poor substitute for a shared setting that callers can casually shadow.
 
@@ -4938,7 +5049,7 @@ This is why class attributes are fine for defaults that instances may override, 
 
 Numbers make sharing look harmless. Lists expose the trap immediately:
 
-~~~python
+```python
 class Team:
     members = []
 
@@ -4952,18 +5063,18 @@ red.add_member("Asha")
 
 print(red.members)
 print(blue.members)
-~~~
+```
 
-Both lines print ['Asha'] because red.members and blue.members found the same list on Team, and append() mutated that list in place. If each team needs its own collection, create it in __init__:
+Both lines print ['Asha'] because red.members and blue.members found the same list on Team, and append() mutated that list in place. If each team needs its own collection, create it in **init**:
 
-~~~python
+```python
 class Team:
     def __init__(self):
         self.members = []
 
     def add_member(self, name):
         self.members.append(name)
-~~~
+```
 
 The class-level list is not always wrong. A shared immutable default, or a deliberately shared registry, can be exactly what you need. The failure comes from forgetting that a mutable value is one shared object until you create separate copies.
 
@@ -4990,7 +5101,7 @@ A property keeps the pleasant attribute syntax while running Python code on read
 
 The property decorator turns a method into an attribute-like read:
 
-~~~python
+```python
 class Person:
     def __init__(self, age):
         self._age = age
@@ -5002,15 +5113,15 @@ class Person:
 
 person = Person(30)
 print(person.age)
-~~~
+```
 
-The output is 30. Python sees person.age, calls the age method, and returns the value from _age. The leading underscore is a convention that says the storage is for internal use. It does not stop someone from writing person._age = -4.
+The output is 30. Python sees person.age, calls the age method, and returns the value from \_age. The leading underscore is a convention that says the storage is for internal use. It does not stop someone from writing person.\_age = -4.
 
 Because the property has no setter yet, this works:
 
-~~~python
+```python
 print(person.age)
-~~~
+```
 
 But person.age = 31 raises AttributeError. A read-only property is useful for a value that the object calculates or exposes without allowing outside code to replace it.
 
@@ -5018,7 +5129,7 @@ But person.age = 31 raises AttributeError. A read-only property is useful for a 
 
 Decorate a second method with age.setter. The method receives the value on the right side of the assignment:
 
-~~~python
+```python
 class Person:
     def __init__(self, age):
         self.age = age
@@ -5039,13 +5150,13 @@ class Person:
 person = Person(30)
 person.age = 31
 print(person.age)
-~~~
+```
 
-The initializer assigns to self.age instead of self._age on purpose. That sends the first value through the same validation as every later assignment. Person(-1) raises ValueError, and Person("thirty") raises TypeError before an invalid object can escape.
+The initializer assigns to self.age instead of self.\_age on purpose. That sends the first value through the same validation as every later assignment. Person(-1) raises ValueError, and Person("thirty") raises TypeError before an invalid object can escape.
 
 The setter does not have to store the value unchanged. It can normalize it, convert units, or reject a value that violates the class's rules:
 
-~~~python
+```python
 class Temperature:
     def __init__(self, celsius):
         self.celsius = celsius
@@ -5067,15 +5178,15 @@ class Temperature:
 
 temperature = Temperature(20)
 print(temperature.fahrenheit)
-~~~
+```
 
 fahrenheit is computed from celsius, so there is no second piece of state to keep in sync. If you stored both values, every update would create another chance for them to disagree.
 
 ## The recursion trap
 
-Inside a property getter, return the backing attribute, not the property itself. Inside the setter, assign to _age, not age:
+Inside a property getter, return the backing attribute, not the property itself. Inside the setter, assign to \_age, not age:
 
-~~~python
+```python
 class BrokenPerson:
     @property
     def age(self):
@@ -5084,7 +5195,7 @@ class BrokenPerson:
     @age.setter
     def age(self, value):
         self.age = value
-~~~
+```
 
 Reading age calls the getter, which reads age again, which calls the getter again until Python raises RecursionError. Assigning to age creates the same loop in the setter. The private-looking backing name prevents that accidental self-call.
 
@@ -5107,11 +5218,11 @@ Summary: Python creates an object before __init__ initializes it, while decorato
 
 When you write Details("Crab", "Crustaceans"), Python does more than run a normal function. It creates an object, then initializes that object with the arguments you passed.
 
-The method that creates the object is __new__. The method that prepares its attributes is __init__. People often call __init__ the constructor, and that shorthand is fine for everyday work, but the distinction matters when you need to control object creation itself.
+The method that creates the object is **new**. The method that prepares its attributes is **init**. People often call **init** the constructor, and that shorthand is fine for everyday work, but the distinction matters when you need to control object creation itself.
 
-For most classes, you only write __init__:
+For most classes, you only write **init**:
 
-~~~python
+```python
 class Details:
     def __init__(self, animal, group):
         self.animal = animal
@@ -5120,17 +5231,17 @@ class Details:
 
 details = Details("Crab", "Crustaceans")
 print(details.animal, "belongs to the", details.group, "group.")
-~~~
+```
 
 self is the newly created object. The assignments attach animal and group to that object, so another Details instance can store different values. The output is:
 
-~~~text
+```text
 Crab belongs to the Crustaceans group.
-~~~
+```
 
-If you leave out __init__, Python can still create instances when no setup is required. Add an initializer when the object needs a known starting state:
+If you leave out **init**, Python can still create instances when no setup is required. Add an initializer when the object needs a known starting state:
 
-~~~python
+```python
 class Counter:
     def __init__(self):
         self.value = 0
@@ -5142,17 +5253,17 @@ class Counter:
 counter = Counter()
 counter.increment()
 print(counter.value)
-~~~
+```
 
-The output is 1. A common mistake is returning a value from __init__. It must return None; its job is to configure self, not replace it. return self and return 5 both raise TypeError when Python calls the class.
+The output is 1. A common mistake is returning a value from **init**. It must return None; its job is to configure self, not replace it. return self and return 5 both raise TypeError when Python calls the class.
 
 ## When new matters
 
-You can define __new__ when object creation needs special rules, such as returning an existing object or creating an immutable value. That is advanced territory. If all you need is to copy arguments into attributes, __init__ is the right place.
+You can define **new** when object creation needs special rules, such as returning an existing object or creating an immutable value. That is advanced territory. If all you need is to copy arguments into attributes, **init** is the right place.
 
 This version makes the order visible:
 
-~~~python
+```python
 class Example:
     def __new__(cls, value):
         print("creating")
@@ -5165,15 +5276,15 @@ class Example:
 
 example = Example(10)
 print(example.value)
-~~~
+```
 
-The lines print creating, initializing, and 10, in that order. If __new__ returns an object that is not an instance of cls, Python will not continue with the usual __init__ call. That is one reason not to override it casually.
+The lines print creating, initializing, and 10, in that order. If **new** returns an object that is not an instance of cls, Python will not continue with the usual **init** call. That is one reason not to override it casually.
 
 ## A decorator replaces the name with a callable result
 
 Now switch from objects to functions. A decorator is a callable that receives a function and returns something that will be used in its place. The @ syntax is just a readable spelling of that assignment.
 
-~~~python
+```python
 def show_call(func):
     def wrapper():
         print("before")
@@ -5191,18 +5302,18 @@ def greet():
 
 
 print(greet())
-~~~
+```
 
 Python reads the decoration roughly like this:
 
-~~~python
+```python
 def greet():
     print("hello")
     return 42
 
 
 greet = show_call(greet)
-~~~
+```
 
 After that assignment, the name greet refers to wrapper. Calling greet() prints before, then hello, then after, and finally 42. The original function still runs because the wrapper calls func().
 
@@ -5210,9 +5321,9 @@ The final return result is easy to forget. If you remove it, the log still appea
 
 ## A decorator that accepts real arguments
 
-A wrapper with no parameters only works for a function with no arguments. In normal code, use *args and **kwargs so the wrapper can pass along positional and keyword arguments.
+A wrapper with no parameters only works for a function with no arguments. In normal code, use \*args and \*\*kwargs so the wrapper can pass along positional and keyword arguments.
 
-~~~python
+```python
 from functools import wraps
 
 
@@ -5233,15 +5344,15 @@ def add(first, second):
 
 
 print(add(2, second=3))
-~~~
+```
 
-wraps is worth keeping. Without it, add.__name__ would be wrapper, and tools that inspect the function would see the wrapper's metadata instead of add's. This is not just cosmetic when a framework uses names, signatures, or docstrings.
+wraps is worth keeping. Without it, add.**name** would be wrapper, and tools that inspect the function would see the wrapper's metadata instead of add's. This is not just cosmetic when a framework uses names, signatures, or docstrings.
 
 Exceptions travel through the wrapper too. If add("2", 3) runs, the addition raises TypeError, the second log line is skipped, and the error reaches the caller. Add a try and finally only when you have a real reason to log failures or clean up resources.
 
 ## Where each tool earns its place
 
-Use __init__ for ordinary object setup. Use __new__ only when the act of creating the object needs custom behavior. Use a decorator when the same surrounding behavior belongs around several functions, such as logging or permission checks.
+Use **init** for ordinary object setup. Use **new** only when the act of creating the object needs custom behavior. Use a decorator when the same surrounding behavior belongs around several functions, such as logging or permission checks.
 
 My caveat is that decorators hide a call. A tiny @ line can change arguments, errors, metadata, and return values while leaving the function body untouched. When a decorated function behaves oddly, inspect the decorator before blaming the function. I like decorators, but I trust them only when the wrapper is short enough to read in one sitting.
 
@@ -5260,7 +5371,7 @@ Object-oriented programming, or OOP, gives related state and behavior a home. A 
 
 Start with a class that keeps a person's data beside an operation that uses it:
 
-~~~python
+```python
 class Person:
     def __init__(self, name):
         self.name = name
@@ -5274,14 +5385,14 @@ second = Person("Mina")
 
 print(first.greet())
 print(second.greet())
-~~~
+```
 
 Person is the class. first and second are objects, also called instances. The class supplies the greet method, while each object stores its own name. The output is:
 
-~~~text
+```text
 Hello, I am Ryan.
 Hello, I am Mina.
-~~~
+```
 
 That relationship is the foundation. The four words usually connected with OOP describe different ways of using it.
 
@@ -5297,7 +5408,7 @@ Good abstraction has a limit. If the method name is vague, or if it secretly ope
 
 Encapsulation means putting state and the operations that protect it in the same place. Python does not enforce private fields in the same way as some languages. A leading underscore is a convention, not a locked door, but it tells readers which attribute the class owns internally.
 
-~~~python
+```python
 class Wallet:
     def __init__(self, amount=0):
         if amount < 0:
@@ -5323,9 +5434,9 @@ wallet = Wallet(20)
 wallet.deposit(5)
 wallet.spend(8)
 print(wallet.balance)
-~~~
+```
 
-The output is 17. The class owns the rules for changing the balance, so callers do not have to remember every check. Someone can still write wallet._balance = -100, because Python trusts convention, but ordinary code has a clear public path.
+The output is 17. The class owns the rules for changing the balance, so callers do not have to remember every check. Someone can still write wallet.\_balance = -100, because Python trusts convention, but ordinary code has a clear public path.
 
 This is where encapsulation pays off. If the storage changes from a number to another representation later, the deposit, spend, and balance interface can stay the same.
 
@@ -5333,7 +5444,7 @@ This is where encapsulation pays off. If the storage changes from a number to an
 
 Inheritance lets a new class reuse or replace behavior from an existing class:
 
-~~~python
+```python
 class Animal:
     def __init__(self, name):
         self.name = name
@@ -5350,7 +5461,7 @@ class Dog(Animal):
 dog = Dog("Max")
 print(dog.name)
 print(dog.speak())
-~~~
+```
 
 Dog gets the name setup from Animal and supplies a more specific speak method. This is a reasonable relationship because a dog is an animal. A Dog has a Collar, though, so a collar would usually be stored as another object rather than added as a parent class.
 
@@ -5360,7 +5471,7 @@ Inheritance is useful when code genuinely expects the parent type. It becomes aw
 
 Polymorphism means different objects can respond to the same operation in their own way. Python often handles this through duck typing: the function asks for behavior instead of checking a long list of class names.
 
-~~~python
+```python
 class Dog:
     def speak(self):
         return "Bark"
@@ -5377,11 +5488,11 @@ def announce(animal):
 
 announce(Dog())
 announce(Cat())
-~~~
+```
 
 announce does not need separate branches for Dog and Cat. It only needs an object with a speak method. Pass an object without speak and Python raises AttributeError at the call, which is a useful, direct failure. If you need a friendlier error, validate the interface before doing work, but do not add type checks just to make the code look formal.
 
-Python's built-in types use the same idea all over the place. Anything with a __len__ method can work with len(), and anything iterable can work in a for loop. The class name matters less than the behavior the operation requires.
+Python's built-in types use the same idea all over the place. Anything with a **len** method can work with len(), and anything iterable can work in a for loop. The class name matters less than the behavior the operation requires.
 
 ## OOP is a tool, not a rule
 
@@ -5828,7 +5939,7 @@ Use `dir()` when you know roughly what you are searching for. Reading the entire
 
 The presence of a name does not prove that it is safe to call. A property may run code when read, and a method may need arguments. Treat `dir()` as a menu of possibilities, then inspect the signature or documentation before using an unfamiliar entry.
 
-## The __dict__ attribute shows stored attributes
+## The **dict** attribute shows stored attributes
 
 Many Python objects keep their instance attributes in a dictionary called `__dict__`. It is an attribute, not a function, so write `person.__dict__`, not `person.__dict__()`.
 
@@ -6196,11 +6307,11 @@ Summary: Python stores a docstring on __doc__, where tools and people can read i
 
 ## The string Python remembers
 
-A docstring is a string literal placed immediately after the definition of a module, class, function, or method. Python stores that string on the object's __doc__ attribute. That is the difference between a docstring and an ordinary explanatory sentence in a comment: programs can read the docstring later.
+A docstring is a string literal placed immediately after the definition of a module, class, function, or method. Python stores that string on the object's **doc** attribute. That is the difference between a docstring and an ordinary explanatory sentence in a comment: programs can read the docstring later.
 
 Start with the smallest useful example:
 
-~~~python
+```python
 def square(number):
     """Return the square of number."""
     return number ** 2
@@ -6208,14 +6319,14 @@ def square(number):
 
 print(square(5))
 print(square.__doc__)
-~~~
+```
 
 The output is:
 
-~~~text
+```text
 25
 Return the square of number.
-~~~
+```
 
 The string does not print when square runs. It becomes metadata attached to square, and the second print asks for that metadata directly. You can inspect it in a Python shell without opening the function's source file.
 
@@ -6223,7 +6334,7 @@ The string does not print when square runs. It becomes metadata attached to squa
 
 Python only treats the first string expression in a definition as its docstring. Put an assignment or another statement first, and the string remains an unused literal:
 
-~~~python
+```python
 def wrong_order():
     value = 10
     """This text is not the function docstring."""
@@ -6231,13 +6342,13 @@ def wrong_order():
 
 
 print(wrong_order.__doc__)
-~~~
+```
 
 The output is None. The string is valid Python, but it is no longer in the position Python reserves for documentation. This is a small rule, and it is easy to break when adding setup code above a docstring.
 
 The same pattern works for classes and modules:
 
-~~~python
+```python
 class Notebook:
     """Store notes in memory."""
 
@@ -6246,7 +6357,7 @@ class Notebook:
 
 
 print(Notebook.__doc__)
-~~~
+```
 
 Here the docstring describes the class as a callable object type. A module docstring follows the module's opening comments and appears before other statements in the file.
 
@@ -6254,7 +6365,7 @@ Here the docstring describes the class as a callable object type. A module docst
 
 Use a comment to explain a line, a workaround, or a decision inside the implementation. Python does not attach comments to the function object. Use a docstring for the public behavior that a caller needs to understand.
 
-~~~python
+```python
 def divide(total, count):
     """Return total divided by count.
 
@@ -6264,7 +6375,7 @@ def divide(total, count):
     if count == 0:
         raise ZeroDivisionError("count cannot be zero")
     return total / count
-~~~
+```
 
 The comment explains why the check exists. The docstring explains what divide returns and what can go wrong for someone calling it. If the function is part of a package, that distinction becomes more useful because a reader may see the docstring in an editor or generated reference page without reading the source.
 
@@ -6272,7 +6383,7 @@ The comment explains why the check exists. The docstring explains what divide re
 
 A useful docstring answers the questions that the function signature does not. What does the value mean? Does the function mutate an argument? Which errors should the caller handle? Does an empty input have a special result?
 
-~~~python
+```python
 def average(values):
     """Return the arithmetic mean of a non-empty sequence of numbers.
 
@@ -6284,7 +6395,7 @@ def average(values):
 
 
 print(average([2, 4, 6]))
-~~~
+```
 
 The first sentence is enough for a quick read. The second tells a caller why an empty list fails. You do not need to document every obvious line, and you should not turn every short function into a wall of labels that says less than one good sentence.
 
@@ -6294,11 +6405,11 @@ For a public library, a longer format can be useful when the parameters and exam
 
 The built-in help function reads docstrings:
 
-~~~python
+```python
 help(average)
-~~~
+```
 
-In an interactive shell, the result may open in a pager. Press q to leave the pager when you are done. You can also use __doc__ when you want the raw string, or inspect the class and method that owns the documentation.
+In an interactive shell, the result may open in a pager. Press q to leave the pager when you are done. You can also use **doc** when you want the raw string, or inspect the class and method that owns the documentation.
 
 One warning: inherited or decorated functions can make the source of a docstring less obvious. A decorator that does not preserve metadata may replace the original docstring with None or with the wrapper's text. functools.wraps helps when you write decorators, but the practical fix is still to check what help() shows for the callable a user actually receives.
 

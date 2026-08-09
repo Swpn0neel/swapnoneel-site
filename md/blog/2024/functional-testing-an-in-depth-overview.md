@@ -2,7 +2,9 @@
 title: "Functional Testing: An in-depth overview"
 date: "2024-11-05T00:05:40.000Z"
 description: >-
-  Functional testing checks whether an application does what its requirements say. Learn a practical workflow, common types, tool choices, and the habits that keep tests useful.
+  Functional testing checks whether an application does what its requirements
+  say. Learn a practical workflow, common types, tool choices, and the habits
+  that keep tests useful.
 cover: "https://wp.keploy.io/wp-content/uploads/2024/11/Functional-Testing.webp"
 link: "https://keploy.io/blog/community/functional-testing-an-in-depth-overview"
 tags:
@@ -10,7 +12,7 @@ tags:
   - qa
   - functional-testing
   - software-quality
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T21:03:04.071Z"
 ---
 
 Functional testing asks whether a feature gives the right result when you use it. You provide an input, perform an action, and compare what the application does with what the requirements say it should do.
@@ -91,15 +93,15 @@ Automation does require maintenance. Selectors change, test data expires, and pr
 
 Selenium automates browser interactions, so it is useful for web application flows that a user completes through a browser.
 
-  ![Selenium web automation platform logo](https://wp.keploy.io/wp-content/uploads/2024/11/selenium-2-1024x304.webp)
+![Selenium web automation platform logo](https://wp.keploy.io/wp-content/uploads/2024/11/selenium-2-1024x304.webp)
 
 Keploy can generate functional and regression cases from real application interactions. It captures requests and responses and turns those interactions into tests, which can help when manually describing every API case would take too long.
 
-  ![Keploy test automation platform overview](https://wp.keploy.io/wp-content/uploads/2024/11/keploy_coverimg-1024x615.webp)
+![Keploy test automation platform overview](https://wp.keploy.io/wp-content/uploads/2024/11/keploy_coverimg-1024x615.webp)
 
 Appium is used for mobile applications on Android and iOS. It supports native, hybrid, and [mobile web applications](https://keploy.io/blog/community/essential-functional-testing-tools-for-mobile-development "mobile web applications"), so the same testing idea can cover more than a desktop browser.
 
-  ![Appium mobile testing framework logo](https://wp.keploy.io/wp-content/uploads/2024/11/appium_coverimg-1024x394.webp)
+![Appium mobile testing framework logo](https://wp.keploy.io/wp-content/uploads/2024/11/appium_coverimg-1024x394.webp)
 
 Pick the tool from the boundary you need to test. A browser driver is not the best answer for a service contract, and an API test cannot tell you whether a button is confusing to use.
 

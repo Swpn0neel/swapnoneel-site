@@ -1,17 +1,19 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676806711688/0c46e75c-e465-45b9-880c-be4cff7fdb14.png?w=1200&auto=compress,format&format=webp&fm=png
-title: "Class Variables vs Instance Variables in Python"
+title: Class Variables vs Instance Variables in Python
 date: "Sun, 19 Feb 2023 11:38:55 GMT"
 description: >-
-  Class variables live on the class and are shared by default, while instance variables belong to one object. Learn how lookup and mutable defaults affect Python classes.
+  Class variables live on the class and are shared by default, while instance
+  variables belong to one object. Learn how lookup and mutable defaults affect
+  Python classes.
 link: "https://swapnoneel.hashnode.dev/class-variables-vs-instance-variables"
 tags:
   - python
   - oop
   - variables
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T21:03:04.071Z"
 ---
 
 ## The lookup happens in two places
@@ -22,9 +24,9 @@ The value has not been copied into each object, though. An instance variable is 
 
 ## Instance variables describe one object
 
-Put per-object state on self, usually in __init__. Each call to a class creates a separate object, and each object gets its own attribute dictionary.
+Put per-object state on self, usually in **init**. Each call to a class creates a separate object, and each object gets its own attribute dictionary.
 
-~~~python
+```python
 class User:
     def __init__(self, name, points):
         self.name = name
@@ -40,31 +42,31 @@ second = User("Jane", 7)
 first.points += 5
 print(first.summary())
 print(second.summary())
-~~~
+```
 
 The output is:
 
-~~~text
+```text
 John: 17 points
 Jane: 7 points
-~~~
+```
 
 first.points += 5 changes the attribute on first. It has no route to second.points. Both objects share the summary method through the class, but their data is separate.
 
 You can inspect that storage directly while learning:
 
-~~~python
+```python
 print(first.__dict__)
 print(second.__dict__)
-~~~
+```
 
-Each dictionary contains its own name and points. This is a useful debugging trick, but do not build a design around __dict__; some Python objects use __slots__ and do not have one.
+Each dictionary contains its own name and points. This is a useful debugging trick, but do not build a design around **dict**; some Python objects use **slots** and do not have one.
 
 ## Class variables describe the class
 
 Put shared data in the class body. A count is a good example because there should be one count for all User objects.
 
-~~~python
+```python
 class User:
     total_users = 0
 
@@ -79,7 +81,7 @@ second = User("Jane")
 print(User.total_users)
 print(first.total_users)
 print(second.total_users)
-~~~
+```
 
 All three prints show 2. The first lookup finds total_users on User. The other two lookups fail to find it on the individual objects, then find it on the class.
 
@@ -91,7 +93,7 @@ Also, prefer User.total_users when reading class-owned data. first.total_users i
 
 This is the part that catches people:
 
-~~~python
+```python
 class User:
     role = "reader"
 
@@ -103,22 +105,22 @@ first.role = "admin"
 print(first.role)
 print(second.role)
 print(User.role)
-~~~
+```
 
 The output is:
 
-~~~text
+```text
 admin
 reader
 reader
-~~~
+```
 
 The assignment did not update User.role. It created a new role attribute on first, so that one object now shadows the class value. Delete first.role and lookup falls back to User.role again:
 
-~~~python
+```python
 del first.role
 print(first.role)
-~~~
+```
 
 This is why class attributes are fine for defaults that instances may override, but they are a poor substitute for a shared setting that callers can casually shadow.
 
@@ -126,7 +128,7 @@ This is why class attributes are fine for defaults that instances may override, 
 
 Numbers make sharing look harmless. Lists expose the trap immediately:
 
-~~~python
+```python
 class Team:
     members = []
 
@@ -140,18 +142,18 @@ red.add_member("Asha")
 
 print(red.members)
 print(blue.members)
-~~~
+```
 
-Both lines print ['Asha'] because red.members and blue.members found the same list on Team, and append() mutated that list in place. If each team needs its own collection, create it in __init__:
+Both lines print ['Asha'] because red.members and blue.members found the same list on Team, and append() mutated that list in place. If each team needs its own collection, create it in **init**:
 
-~~~python
+```python
 class Team:
     def __init__(self):
         self.members = []
 
     def add_member(self, name):
         self.members.append(name)
-~~~
+```
 
 The class-level list is not always wrong. A shared immutable default, or a deliberately shared registry, can be exactly what you need. The failure comes from forgetting that a mutable value is one shared object until you create separate copies.
 

@@ -18,6 +18,8 @@ const eslintConfig = [
       "dist/**",
       "out/**",
       "coverage/**",
+      ".vercel/**",
+      ".astro/**",
     ],
   },
   {

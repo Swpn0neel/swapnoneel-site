@@ -118,7 +118,8 @@ export function SmartCarousel({
     if (!canAutoplay()) return;
 
     const now = performance.now();
-    const nextTickAt = nextSyncedTick(now, autoplayDelay) ?? now + autoplayDelay;
+    const nextTickAt =
+      nextSyncedTick(now, autoplayDelay) ?? now + autoplayDelay;
 
     autoplayTimerRef.current = window.setTimeout(
       () => {

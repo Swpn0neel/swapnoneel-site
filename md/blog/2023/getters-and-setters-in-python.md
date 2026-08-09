@@ -1,17 +1,18 @@
 ---
 cover: >-
   https://cdn.hashnode.com/res/hashnode/image/upload/v1676665768059/5c47a278-9f02-4928-a098-0aee8b08d448.png?w=1200&auto=compress,format&format=webp&fm=png
-title: "Getters and Setters in Python Explained"
+title: Getters and Setters in Python Explained
 date: "Sat, 18 Feb 2023 13:32:09 GMT"
 description: >-
-  Python property() lets a class validate or compute an attribute without making callers use explicit getter and setter methods.
+  Python property() lets a class validate or compute an attribute without making
+  callers use explicit getter and setter methods.
 link: "https://swapnoneel.hashnode.dev/getters-and-setters-in-python"
 tags:
   - python
   - oop
   - encapsulation
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T21:03:04.071Z"
 ---
 
 ## Keep the public name simple
@@ -24,7 +25,7 @@ A property keeps the pleasant attribute syntax while running Python code on read
 
 The property decorator turns a method into an attribute-like read:
 
-~~~python
+```python
 class Person:
     def __init__(self, age):
         self._age = age
@@ -36,15 +37,15 @@ class Person:
 
 person = Person(30)
 print(person.age)
-~~~
+```
 
-The output is 30. Python sees person.age, calls the age method, and returns the value from _age. The leading underscore is a convention that says the storage is for internal use. It does not stop someone from writing person._age = -4.
+The output is 30. Python sees person.age, calls the age method, and returns the value from \_age. The leading underscore is a convention that says the storage is for internal use. It does not stop someone from writing person.\_age = -4.
 
 Because the property has no setter yet, this works:
 
-~~~python
+```python
 print(person.age)
-~~~
+```
 
 But person.age = 31 raises AttributeError. A read-only property is useful for a value that the object calculates or exposes without allowing outside code to replace it.
 
@@ -52,7 +53,7 @@ But person.age = 31 raises AttributeError. A read-only property is useful for a 
 
 Decorate a second method with age.setter. The method receives the value on the right side of the assignment:
 
-~~~python
+```python
 class Person:
     def __init__(self, age):
         self.age = age
@@ -73,13 +74,13 @@ class Person:
 person = Person(30)
 person.age = 31
 print(person.age)
-~~~
+```
 
-The initializer assigns to self.age instead of self._age on purpose. That sends the first value through the same validation as every later assignment. Person(-1) raises ValueError, and Person("thirty") raises TypeError before an invalid object can escape.
+The initializer assigns to self.age instead of self.\_age on purpose. That sends the first value through the same validation as every later assignment. Person(-1) raises ValueError, and Person("thirty") raises TypeError before an invalid object can escape.
 
 The setter does not have to store the value unchanged. It can normalize it, convert units, or reject a value that violates the class's rules:
 
-~~~python
+```python
 class Temperature:
     def __init__(self, celsius):
         self.celsius = celsius
@@ -101,15 +102,15 @@ class Temperature:
 
 temperature = Temperature(20)
 print(temperature.fahrenheit)
-~~~
+```
 
 fahrenheit is computed from celsius, so there is no second piece of state to keep in sync. If you stored both values, every update would create another chance for them to disagree.
 
 ## The recursion trap
 
-Inside a property getter, return the backing attribute, not the property itself. Inside the setter, assign to _age, not age:
+Inside a property getter, return the backing attribute, not the property itself. Inside the setter, assign to \_age, not age:
 
-~~~python
+```python
 class BrokenPerson:
     @property
     def age(self):
@@ -118,7 +119,7 @@ class BrokenPerson:
     @age.setter
     def age(self, value):
         self.age = value
-~~~
+```
 
 Reading age calls the getter, which reads age again, which calls the getter again until Python raises RecursionError. Assigning to age creates the same loop in the setter. The private-looking backing name prevents that accidental self-call.
 
