@@ -1,5 +1,4 @@
-import { SmoothImage } from "@/components/smooth-image";
-import blurMap from "@/lib/blur-map.json";
+import { ProgressiveImage } from "@/components/progressive-image";
 
 interface ProjectWindowProps {
   src: string;
@@ -30,15 +29,13 @@ export function ProjectWindow({
       </div>
       <div className="project-window-shot">
         <div className="project-window-shot-crop">
-          <SmoothImage
+          <ProgressiveImage
             src={src}
             alt={alt}
             fill
             className="object-cover object-top"
             sizes={sizes}
             priority={priority}
-            showSkeleton
-            blurDataURL={(blurMap as Record<string, string>)[src]}
           />
         </div>
       </div>

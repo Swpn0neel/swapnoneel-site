@@ -1,6 +1,8 @@
+import { ProgressiveImage } from "@/components/progressive-image";
 import { SmoothImage } from "@/components/smooth-image";
 import { renditionsFor } from "@/lib/blog-image-loader";
 import { mirroredAspectRatio, mirroredSrc } from "@/lib/blog-image-map";
+import { pickRendition } from "@/lib/blog-rendition";
 
 interface BlogImageProps {
   src?: string;
@@ -62,6 +64,36 @@ export function BlogImage({
   // Mirrored images have build-time AVIF siblings and skip the optimizer.
   // Anything that failed to mirror keeps the old /_next/image path.
   const renditions = renditionsFor(resolvedSrc);
+  const avifSrcSet = renditions
+    ?.map(
+      (width) => `${pickRendition(resolvedSrc, renditions, width)} ${width}w`
+    )
+    .join(", ");
+  const imageProps = {
+    src: resolvedSrc,
+    alt,
+    fill: true as const,
+    loading: !priority && eager ? ("eager" as const) : undefined,
+    // Next emits a <link rel=preload> for eager images as well as
+    // priority ones, so a post with two lead images was preloading three
+    // at equal priority and letting the below-the-fold pair compete with
+    // the cover — which is the LCP element. The hints split them: the
+    // cover is the one thing worth the bandwidth up front (Lighthouse
+    // was flagging its preload as missing fetchpriority), the lead
+    // images still skip lazy loading but yield to it.
+    fetchPriority: priority
+      ? ("high" as const)
+      : eager
+        ? ("low" as const)
+        : undefined,
+    className: "object-cover",
+    sizes: IMAGE_SIZES,
+    // The static path is already AVIF and bypasses the optimizer. This is
+    // still needed for images that fall back to the optimizer: it opts out of
+    // Next's default 75, which arrives at the AVIF encoder as q55. Must be
+    // listed in images.qualities in next.config.ts.
+    quality: 90,
+  };
 
   return (
     // data-no-narrate: the blog narrator skips this subtree (image + caption)
@@ -70,32 +102,45 @@ export function BlogImage({
         className="border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border"
         style={{ aspectRatio: mirroredAspectRatio(src) }}
       >
-        <SmoothImage
-          src={resolvedSrc}
-          alt={alt}
-          fill
-          as="span"
-          priority={priority}
-          loading={!priority && eager ? "eager" : undefined}
-          // Next emits a <link rel=preload> for eager images as well as
-          // priority ones, so a post with two lead images was preloading three
-          // at equal priority and letting the below-the-fold pair compete with
-          // the cover — which is the LCP element. The hints split them: the
-          // cover is the one thing worth the bandwidth up front (Lighthouse
-          // was flagging its preload as missing fetchpriority), the lead
-          // images still skip lazy loading but yield to it.
-          fetchPriority={priority ? "high" : eager ? "low" : undefined}
-          className="object-cover"
-          sizes={IMAGE_SIZES}
-          // Ignored on the static path (the loader picks a pre-encoded file),
-          // and still needed for images that fall back to the optimizer: it
-          // opts out of Next's default 75, which arrives at the AVIF encoder as
-          // q55. Must be listed in images.qualities in next.config.ts.
-          quality={90}
-          renditions={renditions}
-          showSkeleton
-          unoptimized={!renditions && !isOptimizedHost(resolvedSrc)}
-        />
+        {priority && renditions && avifSrcSet && (
+          <link
+            rel="preload"
+            as="image"
+            type="image/avif"
+            href={pickRendition(
+              resolvedSrc,
+              renditions,
+              renditions[renditions.length - 1]
+            )}
+            imageSrcSet={avifSrcSet}
+            imageSizes={IMAGE_SIZES}
+            fetchPriority="high"
+          />
+        )}
+        {renditions ? (
+          <ProgressiveImage
+            {...imageProps}
+            as="span"
+            critical={priority}
+            loading={priority ? "eager" : imageProps.loading}
+            unoptimized
+            sourceSets={[
+              {
+                type: "image/avif",
+                srcSet: avifSrcSet!,
+                sizes: IMAGE_SIZES,
+              },
+            ]}
+          />
+        ) : (
+          <SmoothImage
+            {...imageProps}
+            as="span"
+            priority={priority}
+            showSkeleton
+            unoptimized={!isOptimizedHost(resolvedSrc)}
+          />
+        )}
       </span>
       {alt && !hideCaption && (
         // Scales with the reader's A-/A/A+ choice (--prose-scale, set in

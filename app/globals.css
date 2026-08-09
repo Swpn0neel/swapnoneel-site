@@ -837,6 +837,32 @@ textarea {
   animation: shimmer-transform 1.5s ease-in-out infinite;
 }
 
+/* Server-rendered images are opaque by default. The single delegated image
+   listener opts only incomplete, non-priority images into the fade, so a
+   disabled or failed client runtime can never make the picture disappear. */
+.progressive-image__shimmer {
+  z-index: 0;
+}
+
+.progressive-image__image {
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 300ms ease-out;
+}
+
+.progressive-image[data-image-enhanced="true"][data-image-state="loading"]:not(
+    [data-progressive-priority="true"]
+  )
+  .progressive-image__image {
+  opacity: 0;
+}
+
+.progressive-image[data-image-state="loaded"] .progressive-image__shimmer,
+.progressive-image[data-image-state="error"] .progressive-image__shimmer {
+  pointer-events: none;
+  opacity: 0;
+}
+
 .deferred-render {
   content-visibility: auto;
   contain-intrinsic-block-size: auto 26rem;
