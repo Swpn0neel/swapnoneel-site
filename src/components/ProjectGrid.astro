@@ -33,8 +33,11 @@ const { items } = Astro.props;
 </div>
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { bindOverlayTriggers } from "../scripts/project-overlay";
 
-  const grid = document.querySelector<HTMLElement>("[data-project-grid]");
-  if (grid) bindOverlayTriggers(grid);
+  onPageLoad(() => {
+    const grid = document.querySelector<HTMLElement>("[data-project-grid]");
+    if (grid) bindOverlayTriggers(grid);
+  });
 </script>

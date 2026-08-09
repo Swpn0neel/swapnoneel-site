@@ -151,8 +151,11 @@ const field =
 </Base>
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initContactForm } from "../scripts/contact-form";
 
-  const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
-  if (form) initContactForm(form);
+  onPageLoad(() => {
+    const form = document.querySelector<HTMLFormElement>("[data-contact-form]");
+    if (form) initContactForm(form);
+  });
 </script>

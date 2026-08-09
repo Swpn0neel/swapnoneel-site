@@ -27,13 +27,15 @@ import Icon from "./Icon.astro";
 </button>
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initThemeToggle } from "../scripts/theme-toggle";
   import { startThemeSync } from "../scripts/theme-store";
 
   startThemeSync();
-
-  const button = document.querySelector<HTMLButtonElement>(
-    "[data-theme-toggle]"
-  );
-  if (button) initThemeToggle(button);
+  onPageLoad(() => {
+    const button = document.querySelector<HTMLButtonElement>(
+      "[data-theme-toggle]"
+    );
+    if (button) initThemeToggle(button);
+  });
 </script>

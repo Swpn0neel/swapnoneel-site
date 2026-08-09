@@ -14,9 +14,12 @@ import Icon from "./Icon.astro";
 </button>
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initBackToTop } from "../scripts/back-to-top";
 
-  const button =
-    document.querySelector<HTMLButtonElement>("[data-back-to-top]");
-  if (button) initBackToTop(button);
+  onPageLoad(() => {
+    const button =
+      document.querySelector<HTMLButtonElement>("[data-back-to-top]");
+    if (button) initBackToTop(button);
+  });
 </script>

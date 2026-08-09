@@ -1,3 +1,5 @@
+import { claim } from "./page-lifecycle";
+
 /**
  * Vanilla port of components/mobile-nav.tsx.
  *
@@ -8,6 +10,9 @@
  * behaviour, so the workaround has nothing left to work around.
  */
 export function initMobileNav(root: HTMLElement): void {
+  // Persisted with the navbar — wire once. See src/layouts/Base.astro.
+  if (!claim(root, "nav-wired")) return;
+
   const button = root.querySelector<HTMLButtonElement>("[data-menu-button]");
   const panel = root.querySelector<HTMLElement>("#mobile-menu");
   const overlay = root.querySelector<HTMLElement>("#mobile-menu-overlay");

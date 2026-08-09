@@ -1,3 +1,5 @@
+import { claim, once } from "./page-lifecycle";
+
 /**
  * Vanilla port of components/project-overlay.tsx.
  *
@@ -19,6 +21,10 @@ export const OPEN_EVENT = "project-overlay:open";
 export const CHANGE_EVENT = "project-overlay:change";
 
 export function initProjectOverlay(dialog: HTMLElement): void {
+  // The dialog markup is per-page, but its window listeners are not: bound
+  // again on every navigation, one Escape would close it twice over.
+  if (!claim(dialog, "overlay-wired")) return;
+
   let openSlug: string | null = null;
   let closeTimer: number | null = null;
   let returnFocus: HTMLElement | null = null;
@@ -163,16 +169,19 @@ export function bindOverlayTriggers(root: ParentNode = document): void {
   }
 
   // aria-expanded has to track the shared overlay, not each trigger's own
-  // state — several triggers can point at the same project.
-  window.addEventListener(CHANGE_EVENT, (event) => {
-    const open = (event as CustomEvent<{ slug: string | null }>).detail?.slug;
-    for (const trigger of root.querySelectorAll<HTMLElement>(
-      "[data-open-project]"
-    )) {
-      trigger.setAttribute(
-        "aria-expanded",
-        String(trigger.dataset.openProject === open)
-      );
-    }
-  });
+  // state — several triggers can point at the same project. Bound once: the
+  // handler re-queries the DOM, so it keeps working for pages swapped in later.
+  once("overlay-aria", () =>
+    window.addEventListener(CHANGE_EVENT, (event) => {
+      const open = (event as CustomEvent<{ slug: string | null }>).detail?.slug;
+      for (const trigger of root.querySelectorAll<HTMLElement>(
+        "[data-open-project]"
+      )) {
+        trigger.setAttribute(
+          "aria-expanded",
+          String(trigger.dataset.openProject === open)
+        );
+      }
+    })
+  );
 }

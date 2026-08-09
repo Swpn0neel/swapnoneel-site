@@ -144,8 +144,13 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 }
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initProjectOverlay } from "../scripts/project-overlay";
 
-  const dialog = document.querySelector<HTMLElement>("[data-project-overlay]");
-  if (dialog) initProjectOverlay(dialog);
+  onPageLoad(() => {
+    const dialog = document.querySelector<HTMLElement>(
+      "[data-project-overlay]"
+    );
+    if (dialog) initProjectOverlay(dialog);
+  });
 </script>

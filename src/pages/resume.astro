@@ -298,7 +298,11 @@ const skillGroupHeading =
 </Base>
 
 <script>
-  document
-    .querySelector("[data-print]")
-    ?.addEventListener("click", () => window.print());
+  import { onPageLoad } from "../scripts/page-lifecycle";
+
+  onPageLoad(() => {
+    document
+      .querySelector("[data-print]")
+      ?.addEventListener("click", () => window.print());
+  });
 </script>

@@ -1,4 +1,5 @@
 ---
+import { ClientRouter } from "astro:transitions";
 import { Font } from "astro:assets";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
@@ -105,6 +106,15 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
 
     <Font cssVariable="--font-inter" preload />
 
+    {
+      /* Client-side routing. Prefetch alone made the HTML arrive early but the
+        browser still tore the document down and rebuilt it on every click,
+        which is what read as slow — and what made the font re-run its
+        display decision each time, so it sometimes rendered in the fallback.
+        With the document persisting, the face is fetched once and stays. */
+    }
+    <ClientRouter />
+
     <meta property="og:title" content={title ?? siteConfig.person.fullName} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
@@ -174,7 +184,7 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
           of main/article/section), which is what makes it map to the banner
           role. */
       }
-      <header class="print:hidden">
+      <header class="print:hidden" transition:persist="site-header">
         <Navbar />
       </header>
 
@@ -193,7 +203,7 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
         <slot />
       </main>
 
-      <div class="print:hidden">
+      <div class="print:hidden" transition:persist="back-to-top">
         <BackToTop />
       </div>
 
@@ -220,5 +230,13 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
         </Fragment>
       )
     }
+    <script>
+      import { onPageLoad } from "../scripts/page-lifecycle";
+      import { initImageLoad } from "../scripts/image-load";
+
+      // Every route has images worth fading in — post figures, project covers,
+      // the profile card — so this lives in the layout rather than per page.
+      onPageLoad(initImageLoad);
+    </script>
   </body>
 </html>

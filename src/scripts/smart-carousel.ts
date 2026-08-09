@@ -281,6 +281,8 @@ export function initSmartCarousel(root: HTMLElement): CarouselController {
   );
   visibilityObserver.observe(root);
 
+  // Bound per carousel but torn down with it; the controller's destroy()
+  // removes it, and a swapped-away carousel is destroyed by its page.
   const onVisibilityChange = () => scheduleAutoplay();
   document.addEventListener("visibilitychange", onVisibilityChange);
 

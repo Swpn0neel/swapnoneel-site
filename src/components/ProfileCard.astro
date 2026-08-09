@@ -70,8 +70,11 @@ const back = resolveAsset(siteConfig.images.avatarHover);
 </button>
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initPfpSpin } from "../scripts/pfp-spin";
 
-  const button = document.querySelector<HTMLButtonElement>("[data-pfp-spin]");
-  if (button) initPfpSpin(button);
+  onPageLoad(() => {
+    const button = document.querySelector<HTMLButtonElement>("[data-pfp-spin]");
+    if (button) initPfpSpin(button);
+  });
 </script>

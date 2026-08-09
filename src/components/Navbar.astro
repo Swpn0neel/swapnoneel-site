@@ -30,8 +30,10 @@ const pathname = Astro.url.pathname;
           const active = isActivePath(pathname, item.href);
           return (
             <a
+              data-nav-link
+              data-active={String(active)}
               href={item.href}
-              class={`hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${active ? "text-foreground/90" : "text-muted-foreground"}`}
+              class="hover:text-foreground focus-visible:ring-ring text-muted-foreground data-[active=true]:text-foreground/90 rounded-sm text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
               aria-current={active ? "page" : undefined}
             >
               {i18n.nav[item.key]}
@@ -46,3 +48,29 @@ const pathname = Astro.url.pathname;
     </div>
   </div>
 </nav>
+
+<script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
+  import { isActivePath } from "../lib/nav";
+
+  /**
+   * The header is transition:persist'd, so it is never re-rendered and its
+   * server-computed aria-current would stay pinned to whichever page was
+   * loaded first. Re-marking it here is the cost of keeping the node — worth
+   * paying, because persisting is also what keeps the theme toggle's and mobile
+   * nav's listeners valid across navigations.
+   */
+  onPageLoad(() => {
+    const path = window.location.pathname;
+    for (const link of document.querySelectorAll<HTMLAnchorElement>(
+      "[data-nav-link]"
+    )) {
+      const href = link.getAttribute("href");
+      if (!href) continue;
+      const active = isActivePath(path, href);
+      if (active) link.setAttribute("aria-current", "page");
+      else link.removeAttribute("aria-current");
+      link.dataset.active = String(active);
+    }
+  });
+</script>

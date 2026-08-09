@@ -1,4 +1,5 @@
 import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
+import { claim } from "./page-lifecycle";
 
 // Stay hidden until the reader has scrolled meaningfully away from the top.
 // Crossing this line on the way down fades the button in; coming back up past
@@ -6,6 +7,10 @@ import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 const SHOW_THRESHOLD = 400;
 
 export function initBackToTop(button: HTMLButtonElement): void {
+  // Persisted across navigations, so the scroll listener and the body-overflow
+  // observer below must only ever be attached once.
+  if (!claim(button, "btt-wired")) return;
+
   let visible = false;
   let blocked = false;
 

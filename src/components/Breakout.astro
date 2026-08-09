@@ -140,8 +140,11 @@ import { LIVES } from "@/lib/breakout-engine";
 </div>
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initBreakout } from "../scripts/breakout";
 
-  const root = document.querySelector<HTMLElement>("[data-breakout]");
-  if (root) initBreakout(root);
+  onPageLoad(() => {
+    const root = document.querySelector<HTMLElement>("[data-breakout]");
+    if (root) initBreakout(root);
+  });
 </script>

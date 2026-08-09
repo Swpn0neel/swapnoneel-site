@@ -54,7 +54,6 @@ export function rehypeBlogImage() {
       props.sizes = IMAGE_SIZES;
       props.decoding = "async";
       props.className = ["blog-img"];
-      props["data-blog-img"] = "";
 
       seen += 1;
       if (seen <= EAGER_IMAGE_COUNT) {

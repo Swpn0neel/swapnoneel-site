@@ -1,4 +1,5 @@
 import { getRenderedTheme, type ResolvedTheme } from "@/lib/theme";
+import { claim } from "./page-lifecycle";
 import { applyResolvedTheme, persistTheme } from "./theme-store";
 
 /**
@@ -89,6 +90,10 @@ function circleAt(radius: number, record: ActiveTransition): string {
 }
 
 export function initThemeToggle(button: HTMLButtonElement): void {
+  // The navbar is transition:persist'd, so this node survives navigations and
+  // would otherwise gain a second set of listeners on every one.
+  if (!claim(button, "toggle-wired")) return;
+
   let timer: ReturnType<typeof setTimeout> | null = null;
   let sequence = 0;
   let active: ActiveTransition | null = null;

@@ -29,11 +29,14 @@ const { customText, class: className } = Astro.props;
 }
 
 <script>
+  import { onPageLoad } from "../scripts/page-lifecycle";
   import { initCalBooking } from "../scripts/cal-booking";
 
-  for (const button of document.querySelectorAll<HTMLElement>(
-    "[data-cal-booking]"
-  )) {
-    initCalBooking(button);
-  }
+  onPageLoad(() => {
+    for (const button of document.querySelectorAll<HTMLElement>(
+      "[data-cal-booking]"
+    )) {
+      initCalBooking(button);
+    }
+  });
 </script>

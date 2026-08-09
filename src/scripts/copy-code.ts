@@ -1,3 +1,5 @@
+import { once } from "./page-lifecycle";
+
 /**
  * One delegated listener for every code block on the page.
  *
@@ -59,6 +61,11 @@ function settle(button: HTMLElement, status: Status) {
 }
 
 export function initCopyCode(root: ParentNode = document): void {
+  // Delegated at the document and therefore shared by every page: bind once.
+  once("copy-code", () => bind(root));
+}
+
+function bind(root: ParentNode): void {
   root.addEventListener("click", async (event) => {
     const button = (event.target as HTMLElement | null)?.closest<HTMLElement>(
       "[data-copy-code]"

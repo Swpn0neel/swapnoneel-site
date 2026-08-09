@@ -142,7 +142,6 @@ const coverUrl = new URL(post.cover.src, SITE).href;
           fetchpriority="high"
           decoding="async"
           class="blog-img"
-          data-blog-img
         />
       </span>
     </span>
@@ -243,8 +242,7 @@ const coverUrl = new URL(post.cover.src, SITE).href;
 
 <script>
   import { initCopyCode } from "../../scripts/copy-code";
-  import { initImageLoad } from "../../scripts/image-load";
 
+  // Delegated at the document, so it survives navigations on its own.
   initCopyCode();
-  initImageLoad();
 </script>

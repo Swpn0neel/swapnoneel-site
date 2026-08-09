@@ -2173,28 +2173,31 @@ html {
    The frame takes its height from the image (see src/plugins/rehype-blog-image.ts
    for why it must not impose an aspect-ratio), so the shimmer sits behind the
    space the image has already reserved and fades out as the image fades in. */
+/* Layout, for markdown images only — the frame takes its height from this. */
 .blog-img {
   display: block;
   width: 100%;
   height: auto;
-  opacity: 0;
-  transition: opacity 300ms ease-out;
 }
 
-.blog-img[data-loaded="true"] {
-  opacity: 1;
+/* The image is never hidden.
+   An earlier version faded it in from opacity:0, which meant a picture was
+   invisible until script unhid it — so a failed module, a slow chunk or a
+   reader with JS off got a blank frame instead of a photo. The shimmer sits
+   behind instead: an image that has not decoded yet is transparent and reveals
+   it, and one that has paints straight over the top. Script only stops the
+   animation afterwards, and if it never runs the shimmer simply idles behind
+   an opaque image where nobody can see it. */
+.image-frame img {
+  position: relative;
+  z-index: 1;
 }
 
 .image-shimmer {
+  z-index: 0;
   transition: opacity 300ms ease-out;
 }
 
 .image-shimmer[data-shimmer-active="false"] {
   opacity: 0;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .blog-img {
-    transition: none;
-  }
 }
