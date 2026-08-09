@@ -191,17 +191,19 @@ export function BlogNarrator({
   articleId,
   slug,
   year,
+  initialWordCount = 0,
 }: {
   articleId: string;
   slug: string;
   year: number | string;
+  initialWordCount?: number;
 }) {
   const [supported, setSupported] = useState(true);
   const [ready, setReady] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [rateIdx, setRateIdx] = useState(2); // 1x
   const [wordIdx, setWordIdx] = useState(0);
-  const [totalWords, setTotalWords] = useState(0);
+  const [totalWords, setTotalWords] = useState(initialWordCount);
   const [dragging, setDragging] = useState(false);
   const [speedOpen, setSpeedOpen] = useState(false);
   const speedMenuRef = useRef<HTMLDivElement>(null);
@@ -1194,38 +1196,19 @@ export function BlogNarrator({
 
   if (!supported) return null;
 
-  // `ready` can only be decided on the client — it means "the article scan
-  // found words to read" — so returning null until then left a ~108px hole
-  // that filled after hydration and shoved the whole article down. That was
-  // the 0.022 CLS every post carried. Reserving the box keeps the layout
-  // decided once.
-  //
-  // Deliberately the player's own wrapper, with a spacer the height of the
-  // waveform track (h-11) that actually sets the row height, rather than a
-  // hardcoded pixel value the real player could silently drift away from.
-  if (!ready) {
-    return (
-      <div
-        aria-hidden="true"
-        className="border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3"
-      >
-        <div className="h-11" />
-      </div>
-    );
-  }
-
   return (
     <div className="border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3">
       <div className="flex items-center gap-1.5 sm:gap-2">
         <button
           onClick={playing ? pause : play}
+          disabled={!ready}
           aria-label={playing ? "Pause narration" : "Play narration"}
           // Full strength, not the /80 it used to sit at. This is the primary
           // control in the component; dimming it at rest put it below the
           // played waveform beside it in the visual order. Hover feedback
           // comes from the background wash and the active press, which is
           // enough without also holding the icon back.
-          className="text-foreground hover:bg-foreground/6 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:rounded-full! active:scale-95 motion-reduce:transition-none"
+          className="text-foreground hover:bg-foreground/6 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:rounded-full! active:scale-95 disabled:cursor-wait motion-reduce:transition-none"
         >
           {playing ? (
             <Pause className="h-4.5 w-4.5 fill-current" />
@@ -1241,18 +1224,19 @@ export function BlogNarrator({
         {/* Waveform progress track */}
         <div
           ref={trackRef}
-          onPointerDown={onTrackPointerDown}
+          onPointerDown={ready ? onTrackPointerDown : undefined}
           role="slider"
           aria-label="Narration progress"
+          aria-disabled={!ready}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(progress * 100)}
           aria-valuetext={`${formatTime(elapsedSec)} of ${formatTime(durationSec)}`}
-          tabIndex={0}
+          tabIndex={ready ? 0 : -1}
           onKeyDown={onTrackKeyDown}
-          className={`group relative flex h-11 min-w-0 flex-1 cursor-pointer touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${
-            dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"
-          }`}
+          className={`group relative flex h-11 min-w-0 flex-1 touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${
+            ready ? "cursor-pointer" : "cursor-wait"
+          } ${dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"}`}
         >
           <div
             ref={visualTrackRef}
@@ -1343,6 +1327,7 @@ export function BlogNarrator({
         <div ref={speedMenuRef} className="relative shrink-0">
           <button
             onClick={() => setSpeedOpen((o) => !o)}
+            disabled={!ready}
             // The rate has to appear in the accessible name, not just in the
             // visible text: a bare "Narration speed" label overrode the "1x"
             // on screen, so a voice-control user saying the label they can see
@@ -1350,7 +1335,7 @@ export function BlogNarrator({
             aria-label={`Narration speed: ${rate}x`}
             aria-expanded={speedOpen}
             aria-haspopup="listbox"
-            className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground text-2xs flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono font-bold transition-colors duration-200"
+            className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground text-2xs flex h-8 min-w-10 cursor-pointer items-center justify-center gap-0.5 rounded-md px-1 font-mono font-bold transition-colors duration-200 disabled:cursor-wait"
           >
             {rate}x
             <ChevronDown
@@ -1387,8 +1372,9 @@ export function BlogNarrator({
 
         <button
           onClick={restart}
+          disabled={!ready}
           aria-label="Restart narration"
-          className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 focus-visible:rounded-full!"
+          className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 focus-visible:rounded-full! disabled:cursor-wait"
         >
           <RotateCcw className="h-3.5 w-3.5" />
         </button>

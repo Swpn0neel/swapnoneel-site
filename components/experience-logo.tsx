@@ -45,10 +45,6 @@ export function ExperienceLogo({
       className={`relative block shrink-0 overflow-hidden rounded-md ${className}`}
       style={{ width: size, height: size }}
     >
-      <span
-        aria-hidden="true"
-        className="bg-secondary/55 pointer-events-none absolute inset-0 z-0 rounded-md"
-      />
       <Image
         src={src}
         alt={alt}
@@ -66,7 +62,7 @@ export function ExperienceLogo({
         loading="eager"
         fetchPriority={lowPriority ? "low" : "auto"}
         decoding="async"
-        className={`relative z-10 rounded-md object-cover ${
+        className={`relative rounded-md object-cover ${
           adaptsToTheme ? "dark:brightness-200 dark:invert" : ""
         }`}
         style={{ width: size, height: size }}
