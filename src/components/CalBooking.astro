@@ -31,7 +31,9 @@ const { customText, class: className } = Astro.props;
 <script>
   import { initCalBooking } from "../scripts/cal-booking";
 
-  for (const button of document.querySelectorAll<HTMLElement>("[data-cal-booking]")) {
+  for (const button of document.querySelectorAll<HTMLElement>(
+    "[data-cal-booking]"
+  )) {
     initCalBooking(button);
   }
 </script>

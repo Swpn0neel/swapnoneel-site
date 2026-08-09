@@ -1,6 +1,6 @@
-import { getCollection } from "astro:content";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
+import { getCollection } from "astro:content";
 
 /**
  * Every Open Graph card the site advertises, in one place.

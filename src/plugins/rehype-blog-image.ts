@@ -42,7 +42,10 @@ export function rehypeBlogImage() {
 
     visitElements(tree, (node, index, parent) => {
       if (node.tagName !== "img") return;
-      if (parent.type === "element" && classList(parent).includes("blog-figure")) {
+      if (
+        parent.type === "element" &&
+        classList(parent).includes("blog-figure")
+      ) {
         return;
       }
 

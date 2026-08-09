@@ -20,9 +20,9 @@
 //      Writes are line-level now: only the `updated:` line is touched, and the
 //      rest of the file is returned byte for byte.
 
+import matter from "gray-matter";
 import { execSync } from "node:child_process";
 import fs from "node:fs";
-import matter from "gray-matter";
 
 const BLOG_DIR = "src/content/blog";
 
@@ -53,7 +53,12 @@ function stableStringify(value) {
  */
 function headBlobHashes() {
   const out = git("git ls-tree -r HEAD --format=%(objectname)");
-  return new Set(out.split("\n").map((l) => l.trim()).filter(Boolean));
+  return new Set(
+    out
+      .split("\n")
+      .map((l) => l.trim())
+      .filter(Boolean)
+  );
 }
 
 function blobHash(file) {
@@ -97,14 +102,18 @@ function editFrontmatterLine(raw, key, value) {
   if (end === -1) return null;
 
   const keyPattern = new RegExp(`^${key}\\s*:`);
-  const index = lines.findIndex((l, i) => i > 0 && i < end && keyPattern.test(l));
+  const index = lines.findIndex(
+    (l, i) => i > 0 && i < end && keyPattern.test(l)
+  );
 
   if (value === null) {
     if (index === -1) return raw;
     lines.splice(index, 1);
   } else if (index === -1) {
     // New key goes directly under `date:`, where a reader expects to find it.
-    const dateIndex = lines.findIndex((l, i) => i > 0 && i < end && /^date\s*:/.test(l));
+    const dateIndex = lines.findIndex(
+      (l, i) => i > 0 && i < end && /^date\s*:/.test(l)
+    );
     lines.splice(dateIndex === -1 ? 1 : dateIndex + 1, 0, `${key}: "${value}"`);
   } else {
     // Keep whichever quote style the file already uses on this line.
@@ -143,7 +152,9 @@ try {
     try {
       current = matter(raw);
     } catch (error) {
-      console.warn(`[Warning] Unparseable frontmatter in ${file}: ${error.message}`);
+      console.warn(
+        `[Warning] Unparseable frontmatter in ${file}: ${error.message}`
+      );
       continue;
     }
 
@@ -177,7 +188,9 @@ try {
 
     const published = new Date(current.data.date);
     if (!current.data.date || Number.isNaN(published.getTime())) {
-      console.warn(`[Warning] Missing or invalid 'date' in frontmatter for: ${file}`);
+      console.warn(
+        `[Warning] Missing or invalid 'date' in frontmatter for: ${file}`
+      );
       continue;
     }
 
@@ -192,9 +205,12 @@ try {
       continue;
     }
 
-    const existing = current.data.updated ? new Date(current.data.updated) : null;
+    const existing = current.data.updated
+      ? new Date(current.data.updated)
+      : null;
     const alreadyToday =
-      existing && !Number.isNaN(existing.getTime()) &&
+      existing &&
+      !Number.isNaN(existing.getTime()) &&
       existing.toISOString().slice(0, 10) === todayString;
     if (alreadyToday) continue;
 
@@ -205,11 +221,14 @@ try {
     }
     fs.writeFileSync(file, next, "utf8");
     stamped++;
-    console.log(`[Updated] Set 'updated' to ${today.toISOString()} for: ${file}`);
+    console.log(
+      `[Updated] Set 'updated' to ${today.toISOString()} for: ${file}`
+    );
   }
 
   const parts = [`${stamped} stamped`, `${cleared} cleared`];
-  if (skippedAsMoved) parts.push(`${skippedAsMoved} unchanged (moved, not edited)`);
+  if (skippedAsMoved)
+    parts.push(`${skippedAsMoved} unchanged (moved, not edited)`);
   console.log(`Blog dates: ${parts.join(", ")}.`);
 } catch (error) {
   console.error("Error executing update-blog-dates script:", error);

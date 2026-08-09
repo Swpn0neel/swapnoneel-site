@@ -5,8 +5,6 @@
    there, and is what keeps the LCP paragraph from repainting when the face
    lands (that repaint made LCP swing between 1.9s and 2.8s on Slow 4G). */
 
-@plugin "tailwindcss-animate";
-
 /* Two arms, because there are two ways to be dark. THEME_INIT writes the
    resolved value to data-theme before <body> exists, so the attribute arm is
    what every visitor running JavaScript hits. The media arm exists for the one

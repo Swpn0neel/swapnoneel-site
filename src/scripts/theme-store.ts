@@ -53,7 +53,9 @@ function writePreference(preference: ThemePreference): void {
 }
 
 function syncThemeColor(theme: ResolvedTheme): void {
-  let meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+  let meta = document.querySelector<HTMLMetaElement>(
+    'meta[name="theme-color"]'
+  );
   if (!meta) {
     meta = document.createElement("meta");
     meta.name = "theme-color";

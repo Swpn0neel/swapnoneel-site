@@ -16,7 +16,9 @@ const projects = allProjects
   .filter((p) => selectedSlugs.includes(p.id))
   .sort((a, b) => selectedSlugs.indexOf(a.id) - selectedSlugs.indexOf(b.id));
 
-const socialByBrand = Object.fromEntries(socialLinks.map((s) => [s.brand, s.url]));
+const socialByBrand = Object.fromEntries(
+  socialLinks.map((s) => [s.brand, s.url])
+);
 const github = socialByBrand["github"];
 const linkedin = socialByBrand["linkedin"];
 
@@ -24,7 +26,8 @@ const contactRow =
   "hover:text-foreground -mx-2 flex min-h-9 min-w-0 items-center gap-1.5 rounded px-2 transition-colors min-[540px]:mx-0 min-[540px]:min-h-0 min-[540px]:gap-2 min-[540px]:px-0 print:mx-0 print:min-h-0 print:px-0";
 const sectionHeading =
   "text-muted-foreground border-border mb-5 flex items-center gap-2 border-b pb-2 text-xs font-bold tracking-widest uppercase sm:mb-6";
-const skillTag = "bg-secondary/40 text-foreground rounded px-2 py-0.5 text-xs lowercase";
+const skillTag =
+  "bg-secondary/40 text-foreground rounded px-2 py-0.5 text-xs lowercase";
 const skillGroupHeading =
   "text-muted-foreground border-border text-2xs border-b border-dashed pb-1 font-bold tracking-widest uppercase";
 ---
@@ -46,11 +49,13 @@ const skillGroupHeading =
       class="mb-4 flex flex-col items-start justify-between gap-4 sm:mb-8 sm:flex-row sm:items-center sm:gap-6 print:mb-6"
     >
       <div class="min-w-0">
-        {/* Positive tracking, not negative. Capitals are drawn on a wider
+        {
+          /* Positive tracking, not negative. Capitals are drawn on a wider
             sidebearing than lowercase and crowd each other at default spacing;
             this was at -0.03em, which tightened them further. Large display
             caps need only a little, hence 0.015em rather than the 0.05–0.1em
-            the small uppercase labels below carry. */}
+            the small uppercase labels below carry. */
+        }
         <h1
           class="text-[clamp(1.45rem,8.2vw,2.25rem)] leading-[1.05] font-bold tracking-[0.015em] text-balance uppercase print:text-3xl"
         >
@@ -84,7 +89,12 @@ const skillGroupHeading =
       </a>
       {
         linkedin && (
-          <a href={linkedin} target="_blank" rel="noopener noreferrer" class={contactRow}>
+          <a
+            href={linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={contactRow}
+          >
             <Icon name="linkedin-outline" size={14} class="shrink-0" />
             <span class="wrap-anywhere">linkedin.com/in/swapnoneel</span>
           </a>
@@ -92,7 +102,12 @@ const skillGroupHeading =
       }
       {
         github && (
-          <a href={github} target="_blank" rel="noopener noreferrer" class={contactRow}>
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class={contactRow}
+          >
             <Icon name="github-outline" size={14} class="shrink-0" />
             <span class="wrap-anywhere">github.com/Swpn0neel</span>
           </a>
@@ -125,7 +140,9 @@ const skillGroupHeading =
         <Icon name="code-xml" size={14} />
         {i18n.resume.skillsHeading}
       </h2>
-      <div class="grid grid-cols-1 gap-6 min-[560px]:grid-cols-3 min-[560px]:gap-5 print:gap-4">
+      <div
+        class="grid grid-cols-1 gap-6 min-[560px]:grid-cols-3 min-[560px]:gap-5 print:gap-4"
+      >
         {
           (
             [
@@ -147,7 +164,9 @@ const skillGroupHeading =
       </div>
     </section>
 
-    <div class="grid min-w-0 grid-cols-1 gap-10 md:grid-cols-3 print:grid-cols-3 print:gap-6">
+    <div
+      class="grid min-w-0 grid-cols-1 gap-10 md:grid-cols-3 print:grid-cols-3 print:gap-6"
+    >
       <div class="space-y-10 md:col-span-2 print:col-span-2 print:space-y-6">
         <section>
           <h2 class={sectionHeading}>
@@ -184,7 +203,9 @@ const skillGroupHeading =
             <Icon name="code-xml" size={14} />
             {i18n.resume.projectsHeading}
           </h2>
-          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 print:gap-4">
+          <div
+            class="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 print:gap-4"
+          >
             {
               projects.map((project) => {
                 const href = project.data.link;
@@ -197,7 +218,9 @@ const skillGroupHeading =
                     class={`group border-border bg-secondary/10 hover:bg-secondary/20 block min-w-0 rounded-md border p-4 transition-colors ${href ? "cursor-pointer" : ""}`}
                   >
                     <h3 class="mb-1 flex min-w-0 items-start justify-between gap-3 text-sm leading-snug font-semibold tracking-wider uppercase">
-                      <span class="min-w-0 wrap-anywhere">{project.data.title}</span>
+                      <span class="min-w-0 wrap-anywhere">
+                        {project.data.title}
+                      </span>
                       {href && (
                         <span class="text-muted-foreground group-hover:text-foreground mt-0.5 shrink-0 transition-colors">
                           <Icon name="external-link" size={12} />
@@ -261,7 +284,9 @@ const skillGroupHeading =
       </div>
     </div>
 
-    <footer class="border-border mt-16 border-t pt-8 text-center sm:mt-20 print:hidden">
+    <footer
+      class="border-border mt-16 border-t pt-8 text-center sm:mt-20 print:hidden"
+    >
       <a
         href="/contact"
         class="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-11 w-full items-center justify-center gap-2 rounded-md px-6 text-sm leading-none font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none min-[420px]:w-auto"

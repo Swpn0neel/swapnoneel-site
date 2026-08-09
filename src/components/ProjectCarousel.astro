@@ -23,12 +23,14 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
     autoplayDelay={5000}
     class="w-full [--carousel-slide-width:82%] sm:[--carousel-slide-width:76%]"
   >
-    {/* Slide width lives in a variable because global.css derives the
+    {
+      /* Slide width lives in a variable because global.css derives the
         fallback's centring offset from it — see .smart-carousel__slide.
         autoplayDelay is two beats of SmartCarousel's shared clock, so the
         projects strip steps together with every second step of the socials
         strip. autoInit is off because the showcase script owns this one: it
-        has to pause it while the overlay is open. */}
+        has to pause it while the overlay is open. */
+    }
     <ul class="smart-carousel__container flex" data-project-slides>
       {
         items.map((item, i) => {

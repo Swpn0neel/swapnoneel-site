@@ -84,8 +84,10 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    {/* Gives native controls and the browser canvas both supported schemes;
-        CSS narrows this to the active scheme from the first rendered frame. */}
+    {
+      /* Gives native controls and the browser canvas both supported schemes;
+        CSS narrows this to the active scheme from the first rendered frame. */
+    }
     <meta name="color-scheme" content="light dark" />
     <script is:inline set:html={THEME_INIT} />
 
@@ -109,45 +111,79 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
     <meta property="og:site_name" content={siteConfig.person.fullName} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_US" />
-    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
-    {ogImage && <meta property="og:image" content={new URL(ogImage.url, SITE).href} />}
-    {ogImage?.width && <meta property="og:image:width" content={String(ogImage.width)} />}
-    {ogImage?.height && <meta property="og:image:height" content={String(ogImage.height)} />}
+    {
+      publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )
+    }
+    {
+      ogImage && (
+        <meta property="og:image" content={new URL(ogImage.url, SITE).href} />
+      )
+    }
+    {
+      ogImage?.width && (
+        <meta property="og:image:width" content={String(ogImage.width)} />
+      )
+    }
+    {
+      ogImage?.height && (
+        <meta property="og:image:height" content={String(ogImage.height)} />
+      )
+    }
     {ogImage?.alt && <meta property="og:image:alt" content={ogImage.alt} />}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title ?? siteConfig.person.fullName} />
     <meta name="twitter:description" content={description} />
-    {ogImage && <meta name="twitter:image" content={new URL(ogImage.url, SITE).href} />}
+    {
+      ogImage && (
+        <meta name="twitter:image" content={new URL(ogImage.url, SITE).href} />
+      )
+    }
 
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
 
     <script
       type="application/ld+json"
       is:inline
-      set:html={safeJsonLd({ "@context": "https://schema.org", ...buildPersonSchema(personImage) })}
+      set:html={safeJsonLd({
+        "@context": "https://schema.org",
+        ...buildPersonSchema(personImage),
+      })}
     />
   </head>
 
-  <body class="bg-background text-foreground min-h-screen font-sans antialiased">
+  <body
+    class="bg-background text-foreground min-h-screen font-sans antialiased"
+  >
     <script is:inline set:html={PROSE_SCALE_INIT} />
 
-    <a href="#main-content" class="skip-to-content">{i18n.common.skipToContent}</a>
+    <a href="#main-content" class="skip-to-content"
+      >{i18n.common.skipToContent}</a
+    >
 
     <div class="mx-auto flex min-h-screen max-w-2xl flex-col px-4">
-      {/* <header>, not a plain div: the page had nav/main/contentinfo
+      {
+        /* <header>, not a plain div: the page had nav/main/contentinfo
           landmarks but no banner, so landmark-based navigation skipped
           straight past the masthead. Direct child of the layout wrapper (not
           of main/article/section), which is what makes it map to the banner
-          role. */}
+          role. */
+      }
       <header class="print:hidden">
         <Navbar />
       </header>
 
-      {/* data-page-transition drives the entrance animation from global.css.
+      {
+        /* data-page-transition drives the entrance animation from global.css.
           It runs on first paint on every page, which is the whole point: the
           React version keyed it to a client-side route change, so a direct
-          link, a refresh or a new tab never animated at all. */}
+          link, a refresh or a new tab never animated at all. */
+      }
       <main
         id="main-content"
         tabindex="-1"
@@ -164,15 +200,18 @@ const PROSE_SCALE_INIT = `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStora
       <footer class="text-muted-foreground mt-8 py-12 text-xs print:hidden">
         <SiteFooterLinks />
         <p>
-          © {new Date().getFullYear()} {siteConfig.person.fullName}. {i18n.footer.rightsReserved}
+          © {new Date().getFullYear()}
+          {siteConfig.person.fullName}. {i18n.footer.rightsReserved}
         </p>
       </footer>
     </div>
-    {/* Vercel Web Analytics and Speed Insights. Served by Vercel's own edge
+    {
+      /* Vercel Web Analytics and Speed Insights. Served by Vercel's own edge
         when the features are enabled on the project, so there is no package to
         bundle and nothing to import — which is also why they are gated on PROD:
         both paths 404 on localhost. This is the piece the @astrojs/vercel
-        adapter is carried for. */}
+        adapter is carried for. */
+    }
     {
       import.meta.env.PROD && (
         <Fragment>

@@ -61,7 +61,10 @@ const years = [...grouped.keys()].sort((a, b) => Number(b) - Number(a));
 
             <div class="space-y-0 pt-2 pb-4">
               {items.map((post, i) => {
-                const accent = brandColor({ brand: post.brand, urls: post.urls });
+                const accent = brandColor({
+                  brand: post.brand,
+                  urls: post.urls,
+                });
                 const d = post.publishedAt;
                 const dateStr = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
                 return (

@@ -42,14 +42,12 @@ function styleFor(depth: number): string {
 
 {
   headings.length > 0 && (
-    <details
-      class="border-border bg-secondary/15 details-animated group/toc relative mb-6 rounded-md border transition-all duration-300"
-    >
-      <summary class="text-muted-foreground hover:text-foreground group/head text-2xs flex w-full cursor-pointer list-none items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none [&::-webkit-details-marker]:hidden md:p-5">
+    <details class="border-border bg-secondary/15 details-animated group/toc relative mb-6 rounded-md border transition-all duration-300">
+      <summary class="text-muted-foreground hover:text-foreground group/head text-2xs flex w-full cursor-pointer list-none items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none md:p-5 [&::-webkit-details-marker]:hidden">
         <span>Table of Contents</span>
         <Icon
           name="chevron-down"
-          class="text-faint-foreground group-hover/head:text-foreground h-4 w-4 transition-all duration-300 group-open/toc:text-foreground group-open/toc:rotate-180"
+          class="text-faint-foreground group-hover/head:text-foreground group-open/toc:text-foreground h-4 w-4 transition-all duration-300 group-open/toc:rotate-180"
         />
       </summary>
 

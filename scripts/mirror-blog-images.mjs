@@ -43,26 +43,34 @@ async function walk(dir) {
  * colliding, and what makes re-running this a no-op.
  */
 function filenameFor(url) {
-  const base = path
-    .basename(new URL(url).pathname)
-    .replace(/\.[^.]+$/, "")
-    .replace(/[^a-z0-9-]+/gi, "-")
-    .replace(/^-+|-+$/g, "")
-    .toLowerCase()
-    .slice(0, 60) || "image";
+  const base =
+    path
+      .basename(new URL(url).pathname)
+      .replace(/\.[^.]+$/, "")
+      .replace(/[^a-z0-9-]+/gi, "-")
+      .replace(/^-+|-+$/g, "")
+      .toLowerCase()
+      .slice(0, 60) || "image";
   const hash = crypto.createHash("sha1").update(url).digest("hex").slice(0, 8);
   return `${base}-${hash}`;
 }
 
 async function download(url, destNoExt) {
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`);
+  if (!response.ok)
+    throw new Error(`${response.status} ${response.statusText}`);
   const type = response.headers.get("content-type") ?? "";
   const ext =
-    { "image/webp": ".webp", "image/avif": ".avif", "image/png": ".png",
-      "image/jpeg": ".jpg", "image/gif": ".gif", "image/svg+xml": ".svg" }[
-      type.split(";")[0].trim()
-    ] ?? path.extname(new URL(url).pathname) ?? ".jpg";
+    {
+      "image/webp": ".webp",
+      "image/avif": ".avif",
+      "image/png": ".png",
+      "image/jpeg": ".jpg",
+      "image/gif": ".gif",
+      "image/svg+xml": ".svg",
+    }[type.split(";")[0].trim()] ??
+    path.extname(new URL(url).pathname) ??
+    ".jpg";
 
   const dest = `${destNoExt}${ext}`;
   await fs.mkdir(path.dirname(dest), { recursive: true });
@@ -87,8 +95,8 @@ for (const post of await walk(BLOG_DIR)) {
     // Already pulled on an earlier run?
     const dir = path.dirname(destNoExt);
     const existing = await fs.readdir(dir).catch(() => []);
-    const match = existing.find(
-      (name) => name.startsWith(path.basename(destNoExt) + ".")
+    const match = existing.find((name) =>
+      name.startsWith(path.basename(destNoExt) + ".")
     );
     const file = match
       ? path.join(dir, match)

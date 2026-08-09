@@ -55,7 +55,8 @@ export interface CarouselController {
 export function initSmartCarousel(root: HTMLElement): CarouselController {
   const align = (root.dataset.carouselAlign as "start" | "center") ?? "start";
   const dragFree = root.dataset.carouselDragFree !== "false";
-  const autoplayDelay = Number(root.dataset.carouselDelay) || DEFAULT_AUTOPLAY_DELAY_MS;
+  const autoplayDelay =
+    Number(root.dataset.carouselDelay) || DEFAULT_AUTOPLAY_DELAY_MS;
 
   let api: EmblaCarouselType | null = null;
   let autoplayTimer: number | null = null;
@@ -83,13 +84,13 @@ export function initSmartCarousel(root: HTMLElement): CarouselController {
 
     return Boolean(
       api &&
-        visible &&
-        !paused &&
-        !document.hidden &&
-        !hovered &&
-        !focused &&
-        !interacting &&
-        !reducedMotion
+      visible &&
+      !paused &&
+      !document.hidden &&
+      !hovered &&
+      !focused &&
+      !interacting &&
+      !reducedMotion
     );
   };
 
@@ -98,7 +99,8 @@ export function initSmartCarousel(root: HTMLElement): CarouselController {
     if (!canAutoplay()) return;
 
     const now = performance.now();
-    const nextTickAt = nextSyncedTick(now, autoplayDelay) ?? now + autoplayDelay;
+    const nextTickAt =
+      nextSyncedTick(now, autoplayDelay) ?? now + autoplayDelay;
 
     autoplayTimer = window.setTimeout(
       () => {

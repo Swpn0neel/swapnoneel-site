@@ -115,7 +115,8 @@ export function initProjectOverlay(dialog: HTMLElement): void {
 
   dialog.addEventListener("click", (event) => {
     if (event.target === dialog) close();
-    else if ((event.target as HTMLElement).closest("[data-overlay-close]")) close();
+    else if ((event.target as HTMLElement).closest("[data-overlay-close]"))
+      close();
   });
 
   window.addEventListener("keydown", (event) => {
@@ -150,7 +151,9 @@ export function initProjectOverlay(dialog: HTMLElement): void {
 
 /** Wires every `[data-open-project]` trigger on the page to the overlay. */
 export function bindOverlayTriggers(root: ParentNode = document): void {
-  for (const trigger of root.querySelectorAll<HTMLElement>("[data-open-project]")) {
+  for (const trigger of root.querySelectorAll<HTMLElement>(
+    "[data-open-project]"
+  )) {
     trigger.addEventListener("click", () => {
       const slug = trigger.dataset.openProject;
       if (slug) {
@@ -163,7 +166,9 @@ export function bindOverlayTriggers(root: ParentNode = document): void {
   // state — several triggers can point at the same project.
   window.addEventListener(CHANGE_EVENT, (event) => {
     const open = (event as CustomEvent<{ slug: string | null }>).detail?.slug;
-    for (const trigger of root.querySelectorAll<HTMLElement>("[data-open-project]")) {
+    for (const trigger of root.querySelectorAll<HTMLElement>(
+      "[data-open-project]"
+    )) {
       trigger.setAttribute(
         "aria-expanded",
         String(trigger.dataset.openProject === open)

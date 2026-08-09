@@ -14,7 +14,9 @@ const { href, label } = Astro.props;
     href={href}
     class="text-muted-foreground hover:text-foreground group/more flex items-center gap-1 text-xs transition-colors"
   >
-    <span class="group-hover/more:underline">{label || i18n.common.viewMore}</span>
+    <span class="group-hover/more:underline"
+      >{label || i18n.common.viewMore}</span
+    >
     <span class="text-2xs">→</span>
   </a>
 </div>

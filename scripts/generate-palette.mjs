@@ -50,11 +50,7 @@ async function extractHues(filePath) {
     const min = Math.min(r, g, b);
     const value = max / 255;
     const saturation = max === 0 ? 0 : (max - min) / max;
-    if (
-      saturation < MIN_SATURATION ||
-      value < MIN_VALUE ||
-      value > MAX_VALUE
-    ) {
+    if (saturation < MIN_SATURATION || value < MIN_VALUE || value > MAX_VALUE) {
       continue;
     }
     const hue = rgbToHue(r, g, b);

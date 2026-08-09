@@ -8,8 +8,10 @@ const pathname = Astro.url.pathname;
 ---
 
 <div class="group/nav md:hidden" data-open="false" data-mobile-nav>
-  {/* Catches clicks outside the panel. Hidden while closed so it cannot
-      swallow pointer events from the page underneath. */}
+  {
+    /* Catches clicks outside the panel. Hidden while closed so it cannot
+      swallow pointer events from the page underneath. */
+  }
   <div id="mobile-menu-overlay" class="fixed inset-0 z-40" hidden></div>
 
   <button

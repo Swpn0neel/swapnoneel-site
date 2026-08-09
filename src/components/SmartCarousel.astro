@@ -40,7 +40,9 @@ const {
   // Instances that need to be driven by sibling UI (the project showcase) opt
   // out with autoInit={false} and are constructed by their own script, which
   // keeps the controller handle.
-  for (const root of document.querySelectorAll<HTMLElement>("[data-smart-carousel]")) {
+  for (const root of document.querySelectorAll<HTMLElement>(
+    "[data-smart-carousel]"
+  )) {
     initSmartCarousel(root);
   }
 </script>

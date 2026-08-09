@@ -38,7 +38,10 @@ export function initBackToTop(button: HTMLButtonElement): void {
     blocked = next;
     render();
   });
-  observer.observe(document.body, { attributes: true, attributeFilter: ["style"] });
+  observer.observe(document.body, {
+    attributes: true,
+    attributeFilter: ["style"],
+  });
 
   button.addEventListener("click", () => {
     // Narration normally keeps the current word in view. Treat this explicit

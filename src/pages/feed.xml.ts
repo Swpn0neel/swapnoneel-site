@@ -1,7 +1,7 @@
+import { siteConfig } from "@/lib/config";
+import { getBlogPosts } from "@/lib/content";
 import rss from "@astrojs/rss";
 import type { APIRoute } from "astro";
-import { getBlogPosts } from "@/lib/content";
-import { siteConfig } from "@/lib/config";
 
 /**
  * The path stays /feed.xml. It is in the sitemap, it is advertised from a

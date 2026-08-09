@@ -26,7 +26,7 @@ const STEPS = [
         data-scale={String(step.scale)}
         aria-pressed={step.id === "md" ? "true" : "false"}
         title={i18n.blog.textSizeTitles[step.id]}
-        class="text-muted-foreground hover:bg-secondary/50 hover:text-foreground flex w-8 cursor-pointer items-center justify-center py-1 text-xs leading-none font-medium transition-colors aria-pressed:bg-secondary aria-pressed:text-foreground"
+        class="text-muted-foreground hover:bg-secondary/50 hover:text-foreground aria-pressed:bg-secondary aria-pressed:text-foreground flex w-8 cursor-pointer items-center justify-center py-1 text-xs leading-none font-medium transition-colors"
       >
         {step.label}
       </button>
@@ -39,7 +39,9 @@ const STEPS = [
   const group = document.querySelector<HTMLElement>("[data-prose-scale]");
 
   if (group) {
-    const buttons = [...group.querySelectorAll<HTMLButtonElement>("[data-step]")];
+    const buttons = [
+      ...group.querySelectorAll<HTMLButtonElement>("[data-step]"),
+    ];
 
     const mark = (id: string) => {
       for (const button of buttons) {
@@ -52,7 +54,8 @@ const STEPS = [
     // already put the right size on screen; this only catches the highlight up.
     try {
       const stored = localStorage.getItem(KEY);
-      if (stored && buttons.some((b) => b.dataset.step === stored)) mark(stored);
+      if (stored && buttons.some((b) => b.dataset.step === stored))
+        mark(stored);
     } catch {
       /* private mode — stay on the default */
     }

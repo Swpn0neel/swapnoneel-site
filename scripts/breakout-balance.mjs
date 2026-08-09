@@ -40,7 +40,9 @@ for (let run = 0; run < RUNS; run++) {
     // A competent but human player: tracks the ball, never perfectly. A perfect
     // tracker centres every bounce and hides the stuck-ball bug entirely.
     const aim = engine.ball.x + (Math.random() - 0.5) * 14;
-    engine.movePaddleTo(Math.max(PADDLE_W / 2, Math.min(W - PADDLE_W / 2, aim)));
+    engine.movePaddleTo(
+      Math.max(PADDLE_W / 2, Math.min(W - PADDLE_W / 2, aim))
+    );
     engine.tick(STEP);
     if (engine.ball.vx === 0 && engine.ball.vy === 0) engine.launch();
     t += STEP;
@@ -56,7 +58,9 @@ const median = times.length ? times[Math.floor(times.length / 2)] : NaN;
 const worst = times[times.length - 1];
 
 for (const r of results) {
-  console.log(`  ${r.phase.padEnd(8)} ${r.seconds.toFixed(1)}s  ${r.left} left`);
+  console.log(
+    `  ${r.phase.padEnd(8)} ${r.seconds.toFixed(1)}s  ${r.left} left`
+  );
 }
 console.log(
   `\ncleared ${cleared.length}/${RUNS} · median ${median.toFixed(1)}s · ` +
@@ -64,13 +68,18 @@ console.log(
 );
 
 const problems = [];
-if (everStalled) problems.push(`a run never finished inside ${CAP_S}s (stuck ball?)`);
-if (cleared.length < RUNS) problems.push(`${RUNS - cleared.length} run(s) did not clear`);
-if (median > 90) problems.push(`median ${median.toFixed(1)}s is too long for an error page`);
-if (median < 20) problems.push(`median ${median.toFixed(1)}s is over before it starts`);
+if (everStalled)
+  problems.push(`a run never finished inside ${CAP_S}s (stuck ball?)`);
+if (cleared.length < RUNS)
+  problems.push(`${RUNS - cleared.length} run(s) did not clear`);
+if (median > 90)
+  problems.push(`median ${median.toFixed(1)}s is too long for an error page`);
+if (median < 20)
+  problems.push(`median ${median.toFixed(1)}s is over before it starts`);
 // The tail is what actually ruins this: one player in ten grinding out the last
 // brick for two minutes is worse than everyone taking slightly longer.
-if (worst > 120) problems.push(`slowest run ${worst.toFixed(1)}s — endgame drags`);
+if (worst > 120)
+  problems.push(`slowest run ${worst.toFixed(1)}s — endgame drags`);
 
 if (problems.length) {
   console.error("\nFAIL: " + problems.join("; "));

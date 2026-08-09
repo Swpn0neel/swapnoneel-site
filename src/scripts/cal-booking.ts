@@ -1,6 +1,6 @@
-import EmbedSnippet from "@calcom/embed-snippet";
 import { siteConfig } from "@/lib/config";
 import { getRenderedTheme } from "@/lib/theme";
+import EmbedSnippet from "@calcom/embed-snippet";
 
 /**
  * Vanilla port of components/cal-booking.tsx.

@@ -15,7 +15,8 @@ import Base from "../layouts/Base.astro";
 ---
 
 <Base title="404">
-  {/* Centred in a bounded band rather than stacked under the masthead. Left
+  {
+    /* Centred in a bounded band rather than stacked under the masthead. Left
       top-aligned, the game hung above a screenful of nothing once the posts
       below it went — 640px of it on a tall window.
 
@@ -25,16 +26,21 @@ import Base from "../layouts/Base.astro";
       leftover at every size the site is used at, so it can only ever centre —
       never introduce a scrollbar on a page that fits — and svh rather than vh
       so a phone's collapsing URL bar cannot resize the band mid-scroll. min-
-      rather than fixed: past that height the block grows. */}
+      rather than fixed: past that height the block grows. */
+  }
   <div class="flex min-h-[55svh] flex-col justify-center py-12 sm:py-16">
     <Breakout />
 
-    {/* Held to the game's own 460px measure. The container runs to 768px, and
-        centred copy set that wide has no left edge for the eye to return to. */}
+    {
+      /* Held to the game's own 460px measure. The container runs to 768px, and
+        centred copy set that wide has no left edge for the eye to return to. */
+    }
     <div class="mx-auto mt-6 max-w-[460px] text-center">
-      {/* The page's only heading. The 404 above is a <p> on purpose — it is a
+      {
+        /* The page's only heading. The 404 above is a <p> on purpose — it is a
           toy, and it becomes a canvas the moment anyone plays with it — so
-          heading navigation would otherwise find nothing here. */}
+          heading navigation would otherwise find nothing here. */
+      }
       <h1 class="text-foreground text-xl font-semibold tracking-tight">
         {i18n.notFound.lead}
       </h1>

@@ -24,22 +24,33 @@ const { items } = Astro.props;
 
 <script>
   import { initSmartCarousel } from "../scripts/smart-carousel";
-  import { bindOverlayTriggers, CHANGE_EVENT } from "../scripts/project-overlay";
+  import {
+    bindOverlayTriggers,
+    CHANGE_EVENT,
+  } from "../scripts/project-overlay";
 
-  const showcase = document.querySelector<HTMLElement>("[data-project-showcase]");
+  const showcase = document.querySelector<HTMLElement>(
+    "[data-project-showcase]"
+  );
   const carousel = showcase?.querySelector<HTMLElement>(".smart-carousel");
   const slides = showcase?.querySelector<HTMLElement>("[data-project-slides]");
   const index = showcase?.querySelector<HTMLElement>("[data-project-index]");
 
   if (showcase && carousel && slides && index) {
     const controller = initSmartCarousel(carousel);
-    const rows = Array.from(index.querySelectorAll<HTMLElement>("[data-row-slug]"));
-    const slideEls = Array.from(slides.querySelectorAll<HTMLElement>("[data-slide-slug]"));
+    const rows = Array.from(
+      index.querySelectorAll<HTMLElement>("[data-row-slug]")
+    );
+    const slideEls = Array.from(
+      slides.querySelectorAll<HTMLElement>("[data-slide-slug]")
+    );
 
     const setActive = (slug: string | undefined) => {
-      for (const row of rows) row.dataset.active = String(row.dataset.rowSlug === slug);
+      for (const row of rows)
+        row.dataset.active = String(row.dataset.rowSlug === slug);
       for (const slide of slideEls) {
-        if (slide.dataset.slideSlug === slug) slide.setAttribute("aria-current", "true");
+        if (slide.dataset.slideSlug === slug)
+          slide.setAttribute("aria-current", "true");
         else slide.removeAttribute("aria-current");
       }
     };
@@ -70,7 +81,9 @@ const { items } = Astro.props;
       sync();
     });
     window.addEventListener(CHANGE_EVENT, (event) => {
-      overlayOpen = Boolean((event as CustomEvent<{ slug: string | null }>).detail?.slug);
+      overlayOpen = Boolean(
+        (event as CustomEvent<{ slug: string | null }>).detail?.slug
+      );
       sync();
     });
   }

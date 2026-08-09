@@ -7,7 +7,7 @@ import Icon from "./Icon.astro";
   data-back-to-top
   data-hidden="true"
   inert
-  class="border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-100 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 data-[hidden=true]:pointer-events-none data-[hidden=true]:translate-y-4 data-[hidden=true]:opacity-0 data-[hidden=false]:translate-y-0 data-[hidden=false]:opacity-100"
+  class="border-border bg-background/80 text-muted-foreground hover:border-foreground/20 hover:text-foreground fixed right-8 bottom-8 z-100 flex h-10 w-10 items-center justify-center rounded-full border backdrop-blur-md transition-all duration-300 hover:shadow-sm active:scale-95 data-[hidden=false]:translate-y-0 data-[hidden=false]:opacity-100 data-[hidden=true]:pointer-events-none data-[hidden=true]:translate-y-4 data-[hidden=true]:opacity-0"
   aria-label="Back to top"
 >
   <Icon name="arrow-up" size={18} strokeWidth={1.5} />
@@ -16,6 +16,7 @@ import Icon from "./Icon.astro";
 <script>
   import { initBackToTop } from "../scripts/back-to-top";
 
-  const button = document.querySelector<HTMLButtonElement>("[data-back-to-top]");
+  const button =
+    document.querySelector<HTMLButtonElement>("[data-back-to-top]");
   if (button) initBackToTop(button);
 </script>

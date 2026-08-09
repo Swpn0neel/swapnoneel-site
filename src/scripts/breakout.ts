@@ -54,7 +54,16 @@ export function initBreakout(root: HTMLElement): void {
   const hudHint = root.querySelector<HTMLElement>("[data-game-hint]");
   const hudResult = root.querySelector<HTMLElement>("[data-game-result]");
   const live = root.querySelector<HTMLElement>("[data-game-live]");
-  if (!wrap || !text || !canvas || !hudLives || !hudBricks || !hudHint || !hudResult || !live) {
+  if (
+    !wrap ||
+    !text ||
+    !canvas ||
+    !hudLives ||
+    !hudBricks ||
+    !hudHint ||
+    !hudResult ||
+    !live
+  ) {
     return;
   }
 
@@ -127,7 +136,9 @@ export function initBreakout(root: HTMLElement): void {
     hudLives!.setAttribute("aria-label", i18n.notFound.game.livesLabel(lives));
     hudBricks!.textContent = `${bricks} ${i18n.notFound.game.left}`;
 
-    const hints = coarse ? i18n.notFound.game.hintTouch : i18n.notFound.game.hint;
+    const hints = coarse
+      ? i18n.notFound.game.hintTouch
+      : i18n.notFound.game.hint;
     hudHint!.textContent = stuck ? hints.serve : hints.aim;
     // The instruction tracks the ball rather than standing still. React
     // replaced the element via `key`, which replayed the entrance animation; a
@@ -534,7 +545,9 @@ export function initBreakout(root: HTMLElement): void {
     syncSteer();
   });
 
-  for (const button of root.querySelectorAll<HTMLButtonElement>("[data-game-start]")) {
+  for (const button of root.querySelectorAll<HTMLButtonElement>(
+    "[data-game-start]"
+  )) {
     button.addEventListener("click", () => start());
   }
 

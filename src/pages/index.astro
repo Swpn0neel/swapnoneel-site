@@ -47,9 +47,11 @@ const personImage = avatar
         <p class="text-muted-foreground mb-4 text-sm leading-relaxed lowercase">
           {i18n.home.hero.tagline}
         </p>
-        {/* The bio is the page's subject, not supporting text, so it reads at
+        {
+          /* The bio is the page's subject, not supporting text, so it reads at
             body strength while the tagline above it — a subtitle — keeps the
-            muted tone. Same reasoning as .prose p in global.css. */}
+            muted tone. Same reasoning as .prose p in global.css. */
+        }
         {
           i18n.home.hero.paragraphs.map((paragraph, index) => (
             <p
@@ -85,7 +87,9 @@ const personImage = avatar
 
     <section class="deferred-render">
       <div class="mb-5 flex items-center justify-between">
-        <h2 class="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+        <h2
+          class="text-muted-foreground text-sm font-semibold tracking-widest uppercase"
+        >
           {i18n.home.sections.projects}
         </h2>
         <a
@@ -101,7 +105,9 @@ const personImage = avatar
     <hr class="border-border" />
 
     <section>
-      <h2 class="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase">
+      <h2
+        class="text-muted-foreground mb-3 text-sm font-semibold tracking-widest uppercase"
+      >
         {i18n.home.sections.contact}
       </h2>
       <p class="text-body-foreground text-sm">

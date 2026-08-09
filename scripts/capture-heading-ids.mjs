@@ -22,7 +22,9 @@ import fs from "node:fs";
 import path from "node:path";
 
 const BASE = "https://www.swapnoneel.site";
-const CONTENT = fs.existsSync("src/content/blog") ? "src/content/blog" : "md/blog";
+const CONTENT = fs.existsSync("src/content/blog")
+  ? "src/content/blog"
+  : "md/blog";
 const OUT = "scripts/heading-ids.fixture.json";
 
 const slugs = fs
@@ -47,14 +49,18 @@ for (const slug of slugs) {
     continue;
   }
   const html = await res.text();
-  out[slug] = [...html.matchAll(/<h[1-6][^>]*\sid="([^"]+)"/g)].map((m) => m[1]);
+  out[slug] = [...html.matchAll(/<h[1-6][^>]*\sid="([^"]+)"/g)].map(
+    (m) => m[1]
+  );
   ok++;
   process.stderr.write(`\r  fetched ${ok}/${slugs.length}`);
 }
 process.stderr.write("\n");
 
 if (failed.length) {
-  console.error(`refusing to write a partial fixture; failed: ${failed.join(", ")}`);
+  console.error(
+    `refusing to write a partial fixture; failed: ${failed.join(", ")}`
+  );
   process.exit(1);
 }
 

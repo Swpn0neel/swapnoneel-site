@@ -47,8 +47,12 @@ const rowClass = prominent
 ---
 
 <section class={className}>
-  <div class={`flex items-center justify-between ${prominent ? "mb-9" : "mb-5"}`}>
-    <h2 class="text-muted-foreground text-sm font-semibold tracking-widest uppercase">
+  <div
+    class={`flex items-center justify-between ${prominent ? "mb-9" : "mb-5"}`}
+  >
+    <h2
+      class="text-muted-foreground text-sm font-semibold tracking-widest uppercase"
+    >
       {i18n.home.sections.experience}
     </h2>
     {
@@ -66,7 +70,9 @@ const rowClass = prominent
   <div class={prominent ? "space-y-4" : "space-y-4 sm:space-y-3"}>
     {
       items.map((item, i) => {
-        const external = firstLink(item.data.link as string | string[] | undefined);
+        const external = firstLink(
+          item.data.link as string | string[] | undefined
+        );
         const href = external ?? `/work/${item.id}${query}`;
         const isExternal = Boolean(external);
         return (
@@ -82,7 +88,9 @@ const rowClass = prominent
                 alt={item.data.title}
                 size={logoSize}
                 lowPriority={!prominent}
-                class={prominent ? "float-left mr-4 mb-1 sm:float-none sm:mr-0" : ""}
+                class={
+                  prominent ? "float-left mr-4 mb-1 sm:float-none sm:mr-0" : ""
+                }
               />
               <div class="flex-1">
                 {/* While the logo is floated, the title/date pair is shorter
@@ -94,11 +102,17 @@ const rowClass = prominent
                     reader can scale the root font, and the two would drift. */}
                 <div
                   class={`flex flex-col md:flex-row md:items-center md:justify-between ${
-                    prominent ? "max-sm:min-h-[var(--exp-logo-height)] max-sm:justify-center" : ""
+                    prominent
+                      ? "max-sm:min-h-[var(--exp-logo-height)] max-sm:justify-center"
+                      : ""
                   }`}
-                  style={prominent ? `--exp-logo-height:${logoSize}px` : undefined}
+                  style={
+                    prominent ? `--exp-logo-height:${logoSize}px` : undefined
+                  }
                 >
-                  <p class="text-sm font-medium group-hover:underline">{item.data.title}</p>
+                  <p class="text-sm font-medium group-hover:underline">
+                    {item.data.title}
+                  </p>
                   <p class="text-muted-foreground mt-0.5 text-xs whitespace-nowrap md:mt-0">
                     {item.data.date}
                   </p>
@@ -110,14 +124,14 @@ const rowClass = prominent
                     screens so every line starts at the row's left edge. */}
                 {prominent &&
                   (item.data.description ? (
-                    <p class="text-muted-foreground mt-1.5 clear-left text-xs leading-relaxed sm:clear-none">
+                    <p class="text-muted-foreground clear-left mt-1.5 text-xs leading-relaxed sm:clear-none">
                       {item.data.description}{" "}
                       <span class="text-foreground cursor-pointer font-medium whitespace-nowrap">
                         {i18n.common.readMore}.
                       </span>
                     </p>
                   ) : (
-                    <p class="mt-2 clear-left text-xs sm:clear-none">
+                    <p class="clear-left mt-2 text-xs sm:clear-none">
                       <span class="text-foreground cursor-pointer font-medium whitespace-nowrap">
                         {i18n.common.readMore}.
                       </span>
@@ -126,7 +140,9 @@ const rowClass = prominent
               </div>
             </a>
             {i < items.length - 1 && (
-              <hr class={`border-border ${prominent ? "mt-4" : "mt-4 sm:mt-3"}`} />
+              <hr
+                class={`border-border ${prominent ? "mt-4" : "mt-4 sm:mt-3"}`}
+              />
             )}
           </div>
         );

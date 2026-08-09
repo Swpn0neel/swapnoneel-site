@@ -1,5 +1,5 @@
-import type { APIRoute } from "astro";
 import { getBlogPosts, getProjects, getWorkItems } from "@/lib/content";
+import type { APIRoute } from "astro";
 
 /**
  * Hand-rolled rather than @astrojs/sitemap, for one reason: that integration
@@ -35,7 +35,12 @@ export const GET: APIRoute = async () => {
     { path: "/", lastmod: now, changefreq: "weekly", priority: 1 },
     { path: "/blog", lastmod: now, changefreq: "weekly", priority: 0.9 },
     { path: "/work", lastmod: now, changefreq: "weekly", priority: 0.9 },
-    { path: "/work/others", lastmod: now, changefreq: "monthly", priority: 0.6 },
+    {
+      path: "/work/others",
+      lastmod: now,
+      changefreq: "monthly",
+      priority: 0.6,
+    },
     { path: "/contact", lastmod: now, changefreq: "monthly", priority: 0.5 },
     { path: "/resume", lastmod: now, changefreq: "monthly", priority: 0.6 },
     { path: "/feed.xml", lastmod: now, changefreq: "weekly", priority: 0.3 },

@@ -1,5 +1,5 @@
-import { getCollection, type CollectionEntry } from "astro:content";
 import type { ImageMetadata } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -84,7 +84,9 @@ export function summarise(entry: BlogEntry): BlogSummary {
     urls: data.link ? (Array.isArray(data.link) ? data.link : [data.link]) : [],
     wordCount: countWords(body ?? ""),
     readingTime:
-      durationMs === null ? undefined : Math.max(1, Math.round(durationMs / 60000)),
+      durationMs === null
+        ? undefined
+        : Math.max(1, Math.round(durationMs / 60000)),
   };
 }
 
@@ -112,7 +114,9 @@ function rangeStart(value: string): number {
 /** Newest first, by the start of each range. */
 export async function getWorkItems(): Promise<WorkEntry[]> {
   const items = await getCollection("work");
-  return items.sort((a, b) => rangeStart(b.data.date) - rangeStart(a.data.date));
+  return items.sort(
+    (a, b) => rangeStart(b.data.date) - rangeStart(a.data.date)
+  );
 }
 
 /** Newest first, excluding hidden entries. */
@@ -131,5 +135,7 @@ const FEATURED_FALLBACK_COUNT = 5;
 export async function getFeaturedProjects(): Promise<ProjectEntry[]> {
   const projects = await getProjects();
   const featured = projects.filter((p) => p.data.featured);
-  return featured.length > 0 ? featured : projects.slice(0, FEATURED_FALLBACK_COUNT);
+  return featured.length > 0
+    ? featured
+    : projects.slice(0, FEATURED_FALLBACK_COUNT);
 }

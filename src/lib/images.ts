@@ -33,7 +33,9 @@ for (const [filePath, module] of Object.entries(modules)) {
  * and because they are filtered out of every listing it has never shown. The
  * callers fall back to a titled placeholder rather than failing the build.
  */
-export function resolveAsset(path: string | undefined): ImageMetadata | undefined {
+export function resolveAsset(
+  path: string | undefined
+): ImageMetadata | undefined {
   if (!path) return undefined;
   return BY_PUBLIC_PATH.get(path);
 }

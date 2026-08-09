@@ -1,27 +1,33 @@
 import tseslint from "@typescript-eslint/eslint-plugin";
 import tsParser from "@typescript-eslint/parser";
-import nextVitals from "eslint-config-next/core-web-vitals";
-import nextTypescript from "eslint-config-next/typescript";
 import eslintConfigPrettier from "eslint-config-prettier";
+import astro from "eslint-plugin-astro";
 import unusedImports from "eslint-plugin-unused-imports";
 
-const projectFiles = ["**/*.{js,jsx,ts,tsx}"];
-
+/**
+ * The Next presets are gone with Next. eslint-plugin-astro replaces them: it
+ * brings the .astro parser plus the accessibility rules that
+ * eslint-config-next/core-web-vitals was contributing, which are the ones that
+ * were actually earning their keep here.
+ *
+ * The project's own rules — naming conventions, no-explicit-any, unused imports
+ * — carry over unchanged.
+ */
 const eslintConfig = [
-  ...nextVitals,
-  ...nextTypescript,
+  ...astro.configs.recommended,
+  ...astro.configs["jsx-a11y-recommended"],
   eslintConfigPrettier,
   {
     ignores: [
-      ".next/**",
       "node_modules/**",
       "dist/**",
-      "out/**",
+      ".astro/**",
+      ".vercel/**",
       "coverage/**",
     ],
   },
   {
-    files: projectFiles,
+    files: ["**/*.{js,mjs,jsx,ts,tsx}"],
     plugins: {
       "@typescript-eslint": tseslint,
       "unused-imports": unusedImports,
@@ -33,10 +39,7 @@ const eslintConfig = [
       "@typescript-eslint/no-explicit-any": "error",
       "@typescript-eslint/no-unused-vars": [
         "error",
-        {
-          argsIgnorePattern: "^_",
-          varsIgnorePattern: "^_",
-        },
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
       ],
       "@typescript-eslint/naming-convention": [
         "error",
@@ -46,22 +49,14 @@ const eslintConfig = [
           leadingUnderscore: "allow",
           trailingUnderscore: "allow",
         },
-        {
-          selector: "function",
-          format: ["camelCase", "PascalCase"],
-        },
+        { selector: "function", format: ["camelCase", "PascalCase"] },
         {
           selector: "parameter",
           format: ["camelCase", "PascalCase"],
           leadingUnderscore: "allow",
         },
-        {
-          selector: "typeLike",
-          format: ["PascalCase"],
-        },
+        { selector: "typeLike", format: ["PascalCase"] },
       ],
-      "@next/next/no-img-element": "off",
-      "react-hooks/set-state-in-effect": "off",
       "unused-imports/no-unused-imports": "error",
     },
   },

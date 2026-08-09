@@ -69,7 +69,9 @@ function languageOf(pre: Element): string | null {
     .find(Boolean);
   if (!match) return null;
   const token = match[1].toLowerCase();
-  return LANGUAGE_NAMES[token] ?? token.charAt(0).toUpperCase() + token.slice(1);
+  return (
+    LANGUAGE_NAMES[token] ?? token.charAt(0).toUpperCase() + token.slice(1)
+  );
 }
 
 /**
@@ -85,7 +87,8 @@ export function rehypeCodeBlock() {
     visitElements(tree, (node, index, parent) => {
       if (node.tagName !== "pre") return;
       // Already wrapped on a previous pass.
-      if (parent.type === "element" && classList(parent).includes("code-block")) return;
+      if (parent.type === "element" && classList(parent).includes("code-block"))
+        return;
 
       const language = languageOf(node);
       const code = codeText(node);
@@ -128,7 +131,14 @@ export function rehypeCodeBlock() {
               },
               [
                 icon(COPY_PATHS, `${ICON_BASE} copy-icon-idle`, [
-                  h("rect", { width: 14, height: 14, x: 8, y: 8, rx: 2, ry: 2 }),
+                  h("rect", {
+                    width: 14,
+                    height: 14,
+                    x: 8,
+                    y: 8,
+                    rx: 2,
+                    ry: 2,
+                  }),
                 ]),
                 icon(
                   CHECK_PATHS,

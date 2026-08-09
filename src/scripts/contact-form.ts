@@ -36,15 +36,19 @@ type Failure = { error: ContactError; suggestion?: string };
 
 /** First failing rule wins, in the order a reader would meet the fields. */
 function validate(fields: Fields): Failure | null {
-  if (Object.values(fields).some((value) => !value)) return { error: "emptyFields" };
+  if (Object.values(fields).some((value) => !value))
+    return { error: "emptyFields" };
   if (fields.name.length > LIMITS.name) return { error: "nameTooLong" };
 
   const email = checkEmail(fields.email);
   if (email?.kind === "malformed") return { error: "invalidEmail" };
-  if (email?.kind === "typo") return { error: "emailTypo", suggestion: email.suggestion };
+  if (email?.kind === "typo")
+    return { error: "emailTypo", suggestion: email.suggestion };
 
-  if (fields.subject.length > LIMITS.subject) return { error: "subjectTooLong" };
-  if (fields.message.length > LIMITS.message) return { error: "messageTooLong" };
+  if (fields.subject.length > LIMITS.subject)
+    return { error: "subjectTooLong" };
+  if (fields.message.length > LIMITS.message)
+    return { error: "messageTooLong" };
   return null;
 }
 
@@ -76,7 +80,8 @@ function present(state: FormState): {
 function describe(error: unknown): string {
   if (typeof error === "object" && error !== null) {
     if ("text" in error && typeof error.text === "string") return error.text;
-    if ("message" in error && typeof error.message === "string") return error.message;
+    if ("message" in error && typeof error.message === "string")
+      return error.message;
     return JSON.stringify(error);
   }
   return String(error);
@@ -90,8 +95,10 @@ export function initContactForm(form: HTMLFormElement): void {
 
   const icons: Record<Status, string> = {
     idle: iconTemplates.querySelector('[data-icon="idle"]')?.innerHTML ?? "",
-    pending: iconTemplates.querySelector('[data-icon="pending"]')?.innerHTML ?? "",
-    success: iconTemplates.querySelector('[data-icon="success"]')?.innerHTML ?? "",
+    pending:
+      iconTemplates.querySelector('[data-icon="pending"]')?.innerHTML ?? "",
+    success:
+      iconTemplates.querySelector('[data-icon="success"]')?.innerHTML ?? "",
     error: iconTemplates.querySelector('[data-icon="error"]')?.innerHTML ?? "",
   };
 

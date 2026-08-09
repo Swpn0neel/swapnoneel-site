@@ -10,5 +10,7 @@
 export function isActivePath(pathname: string, href: string): boolean {
   const current = pathname !== "/" ? pathname.replace(/\/+$/, "") : "/";
   const target = href !== "/" ? href.replace(/\/+$/, "") : "/";
-  return current === target || (target !== "/" && current.startsWith(`${target}/`));
+  return (
+    current === target || (target !== "/" && current.startsWith(`${target}/`))
+  );
 }

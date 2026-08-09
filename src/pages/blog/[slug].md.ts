@@ -14,7 +14,10 @@ import fs from "node:fs/promises";
  */
 export const getStaticPaths: GetStaticPaths = async () => {
   const posts = await getCollection("blog");
-  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+  return posts.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 };
 
 export const GET: APIRoute = async ({ props }) => {

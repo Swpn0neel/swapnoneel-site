@@ -32,6 +32,8 @@ import Icon from "./Icon.astro";
 
   startThemeSync();
 
-  const button = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const button = document.querySelector<HTMLButtonElement>(
+    "[data-theme-toggle]"
+  );
   if (button) initThemeToggle(button);
 </script>

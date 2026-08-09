@@ -59,7 +59,8 @@ export const siteConfig = {
     namespaceDark: "dark-booking",
     namespaceLight: "light-booking",
     link: "swapnoneel/30min",
-  },
+  },
+
   repository: {
     sourceUrl: "https://github.com/Swpn0neel/swapnoneel-site",
   },

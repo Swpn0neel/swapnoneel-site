@@ -1,8 +1,8 @@
+import { siteConfig } from "@/lib/config";
 import { Resvg } from "@resvg/resvg-js";
-import satori, { type SatoriOptions } from "satori";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { siteConfig } from "@/lib/config";
+import satori, { type SatoriOptions } from "satori";
 
 /**
  * Open Graph cards, rendered at build time.
@@ -45,8 +45,18 @@ function loadFonts(): Promise<SatoriOptions["fonts"]> {
       fs.readFile(path.join(dir, "Inter-SemiBold.ttf")),
     ]);
     return [
-      { name: "Inter", data: regular, weight: 400 as const, style: "normal" as const },
-      { name: "Inter", data: semibold, weight: 600 as const, style: "normal" as const },
+      {
+        name: "Inter",
+        data: regular,
+        weight: 400 as const,
+        style: "normal" as const,
+      },
+      {
+        name: "Inter",
+        data: semibold,
+        weight: 600 as const,
+        style: "normal" as const,
+      },
     ];
   })();
   return fontsPromise;
@@ -110,41 +120,69 @@ async function homeCard(): Promise<Node> {
       ...backdrop(),
       el(
         "div",
-        { style: { display: "flex", alignItems: "center", justifyContent: "space-between" } },
+        {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          },
+        },
         [
           el(
             "div",
-            { style: { display: "flex", alignItems: "center", gap: 16, color: "#a3a3a3", fontSize: 28 } },
+            {
+              style: {
+                display: "flex",
+                alignItems: "center",
+                gap: 16,
+                color: "#a3a3a3",
+                fontSize: 28,
+              },
+            },
             "www.swapnoneel.site"
           ),
           el("img", {
             src: avatar,
             width: 140,
             height: 140,
-            style: { borderRadius: "50%", border: "3px solid rgba(255,255,255,0.15)" },
+            style: {
+              borderRadius: "50%",
+              border: "3px solid rgba(255,255,255,0.15)",
+            },
           }),
         ]
       ),
-      el("div", { style: { display: "flex", flexDirection: "column", gap: 20 } }, [
-        el(
-          "div",
-          {
-            style: {
-              fontSize: 88,
-              fontWeight: 600,
-              color: "#fafafa",
-              letterSpacing: "-3px",
-              lineHeight: 1,
+      el(
+        "div",
+        { style: { display: "flex", flexDirection: "column", gap: 20 } },
+        [
+          el(
+            "div",
+            {
+              style: {
+                fontSize: 88,
+                fontWeight: 600,
+                color: "#fafafa",
+                letterSpacing: "-3px",
+                lineHeight: 1,
+              },
             },
-          },
-          siteConfig.person.displayName
-        ),
-        el(
-          "div",
-          { style: { fontSize: 34, color: "#a3a3a3", lineHeight: 1.4, maxWidth: 900 } },
-          "software engineer — building scalable systems, writing about code, and shipping things on the internet."
-        ),
-      ]),
+            siteConfig.person.displayName
+          ),
+          el(
+            "div",
+            {
+              style: {
+                fontSize: 34,
+                color: "#a3a3a3",
+                lineHeight: 1.4,
+                maxWidth: 900,
+              },
+            },
+            "software engineer — building scalable systems, writing about code, and shipping things on the internet."
+          ),
+        ]
+      ),
     ]
   );
 }
@@ -197,7 +235,14 @@ function pageCard(title: string, description: string): Node {
           ),
           el(
             "div",
-            { style: { fontSize: 28, color: "#a1a1aa", lineHeight: 1.5, maxWidth: "80%" } },
+            {
+              style: {
+                fontSize: 28,
+                color: "#a1a1aa",
+                lineHeight: 1.5,
+                maxWidth: "80%",
+              },
+            },
             description
           ),
           el(
@@ -219,9 +264,14 @@ function pageCard(title: string, description: string): Node {
 }
 
 export async function renderOgCard(
-  card: { variant: "home" } | { variant: "page"; title: string; description: string }
+  card:
+    | { variant: "home" }
+    | { variant: "page"; title: string; description: string }
 ): Promise<Uint8Array> {
-  const tree = card.variant === "home" ? await homeCard() : pageCard(card.title, card.description);
+  const tree =
+    card.variant === "home"
+      ? await homeCard()
+      : pageCard(card.title, card.description);
   const svg = await satori(tree as never, {
     width: WIDTH,
     height: HEIGHT,

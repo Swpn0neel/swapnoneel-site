@@ -45,7 +45,9 @@ const { posts } = Astro.props;
                       below brightening. */}
                   <span
                     class={`text-foreground blog-related-title min-w-0 font-medium transition-colors ${post.accent ? "group-hover/row:text-(--post-accent)" : ""}`}
-                    style={post.accent ? `--post-accent:${post.accent}` : undefined}
+                    style={
+                      post.accent ? `--post-accent:${post.accent}` : undefined
+                    }
                   >
                     {post.title}
                   </span>

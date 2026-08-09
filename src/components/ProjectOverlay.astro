@@ -48,7 +48,11 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
         <div class="project-overlay-panel">
           <div
             class={`project-overlay-hero ${asset ? "project-cover" : ""}`}
-            style={asset ? `--pc-h1:${palette?.h1 ?? 220};--pc-h2:${palette?.h2 ?? 200}` : undefined}
+            style={
+              asset
+                ? `--pc-h1:${palette?.h1 ?? 220};--pc-h2:${palette?.h2 ?? 200}`
+                : undefined
+            }
           >
             {asset ? (
               <ProjectWindow
@@ -94,7 +98,10 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
           <div class="project-overlay-info">
             {item.description && (
-              <p id="project-overlay-description" class="project-overlay-description">
+              <p
+                id="project-overlay-description"
+                class="project-overlay-description"
+              >
                 {item.description}
               </p>
             )}
@@ -102,7 +109,9 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
             <div class="project-overlay-info-grid">
               {item.features.length > 0 && (
                 <div class="project-overlay-section">
-                  <h3 class="project-overlay-section-title">{i18n.overlay.features}</h3>
+                  <h3 class="project-overlay-section-title">
+                    {i18n.overlay.features}
+                  </h3>
                   <ul class="project-overlay-features">
                     {item.features.map((feature) => (
                       <li class="project-overlay-feature-item">
@@ -116,7 +125,9 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
               {item.techStack.length > 0 && (
                 <div class="project-overlay-section">
-                  <h3 class="project-overlay-section-title">{i18n.overlay.techStack}</h3>
+                  <h3 class="project-overlay-section-title">
+                    {i18n.overlay.techStack}
+                  </h3>
                   <div class="project-overlay-tags">
                     {item.techStack.map((tech) => (
                       <span class="project-overlay-tag">{techLabel(tech)}</span>
