@@ -34,6 +34,12 @@ export function ProgressiveImage({
 
   return (
     <Wrapper
+      // The delegated listener owns the runtime data-image-* attributes. The
+      // root listener can hydrate before a streamed page subtree, so those
+      // attributes may already describe the real image state when React
+      // reaches this server markup. Limit the exemption to this exact node;
+      // the rest of the image subtree is still checked normally.
+      suppressHydrationWarning
       data-progressive-image
       data-progressive-priority={
         critical || imageProps.priority ? "true" : undefined
@@ -44,6 +50,9 @@ export function ProgressiveImage({
     >
       <span
         aria-hidden="true"
+        // data-shimmer-active is updated by the same delegated listener and
+        // can legitimately differ by the time this streamed node hydrates.
+        suppressHydrationWarning
         data-image-shimmer
         data-shimmer-active="false"
         className="image-shimmer progressive-image__shimmer absolute inset-0 transition-opacity duration-300 ease-out"
