@@ -4,6 +4,9 @@ import sitemap from "@astrojs/sitemap";
 import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
+import rehypeHighlight from "rehype-highlight";
+import { rehypeCodeBlock } from "./src/plugins/rehype-code-block.ts";
+import { rehypeExternalLinks } from "./src/plugins/rehype-external-links.ts";
 
 export default defineConfig({
   site: "https://www.swapnoneel.site",
@@ -87,7 +90,16 @@ export default defineConfig({
     // remark/rehype pipeline is opted into here because the transforms this
     // site needs — external-link rel, code-block copy buttons, the <picture>
     // rewrite for blog images — are being written against that ecosystem.
-    processor: unified({}),
+    processor: unified({
+      rehypePlugins: [
+        // Order matters: rehype-highlight tags the tokens and leaves the
+        // `language-*` class on the inner <code>, which rehypeCodeBlock then
+        // reads to label each block. Reversing them loses the label.
+        rehypeHighlight,
+        rehypeCodeBlock,
+        rehypeExternalLinks,
+      ],
+    }),
     // Astro's built-in Shiki is off, and rehype-highlight is kept instead.
     //
     // This reverses what the migration plan said, on the evidence. Shiki would

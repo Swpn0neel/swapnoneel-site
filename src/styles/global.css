@@ -2141,3 +2141,33 @@ html {
     animation-duration: 1ms;
   }
 }
+/* ─── Code-block copy button ───
+   Three icons stacked in one 12px box; which one shows is driven by
+   data-copy-state on the button rather than by re-rendering the tree. Mirrors
+   what components/copy-button.tsx expressed as conditional classes. */
+.copy-icon-copied,
+.copy-icon-error {
+  scale: 0;
+  rotate: -90deg;
+  opacity: 0;
+}
+
+.copy-icon-idle {
+  scale: 1;
+  rotate: 0deg;
+  opacity: 1;
+}
+
+[data-copy-state="copied"] .copy-icon-idle,
+[data-copy-state="error"] .copy-icon-idle {
+  scale: 0;
+  rotate: 90deg;
+  opacity: 0;
+}
+
+[data-copy-state="copied"] .copy-icon-copied,
+[data-copy-state="error"] .copy-icon-error {
+  scale: 1;
+  rotate: 0deg;
+  opacity: 1;
+}

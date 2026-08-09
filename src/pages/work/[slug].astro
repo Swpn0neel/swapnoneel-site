@@ -1,0 +1,109 @@
+---
+import { getCollection, render } from "astro:content";
+import { siteConfig } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
+import { breadcrumbJsonLd, firstLink, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import Base from "../../layouts/Base.astro";
+
+export async function getStaticPaths() {
+  // Work entries and projects share the /work/<slug> namespace. Hidden projects
+  // are deliberately included: they are dropped from every listing, but their
+  // page still resolves for anyone holding the link.
+  const [work, projects] = await Promise.all([
+    getCollection("work"),
+    getCollection("projects"),
+  ]);
+
+  const seen = new Set<string>();
+  const entries = [...work, ...projects].filter((entry) => {
+    if (seen.has(entry.id)) return false;
+    seen.add(entry.id);
+    return true;
+  });
+
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const { title, description, date } = entry.data;
+const link = firstLink((entry.data as { link?: string | string[] }).link);
+const url = `https://www.swapnoneel.site/work/${entry.id}`;
+const ogImage = ogImageUrl(title, description);
+
+/* The back link depends on `?from=`, which a static page cannot read at build
+   time — same treatment as /work/others: render the /work answer and let two
+   lines of inline script correct it. */
+---
+
+<Base
+  title={title}
+  description={description}
+  canonical={`/work/${entry.id}`}
+  ogType="article"
+  ogImage={{ url: ogImage, width: 1200, height: 630, alt: title }}
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "CreativeWork",
+      name: title,
+      description,
+      url,
+      ...(link ? { sameAs: link } : {}),
+      author: {
+        "@type": "Person",
+        name: siteConfig.person.fullName,
+        url: "https://www.swapnoneel.site",
+      },
+    })}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd(
+      breadcrumbJsonLd([
+        { name: "Home", url: "https://www.swapnoneel.site" },
+        { name: "Work", url: "https://www.swapnoneel.site/work" },
+        { name: title, url },
+      ])
+    )}
+  />
+
+  <article class="pb-16">
+    <div class="mb-8">
+      <a
+        href="/work"
+        data-back-link
+        class="text-muted-foreground hover:text-foreground text-xs transition-colors"
+      >
+        ← <span data-back-label>{i18n.work.otherExperience.backLink}</span>
+      </a>
+      <h1 class="mt-4 mb-1 text-xl font-semibold text-balance">{title}</h1>
+      <p class="text-muted-foreground text-xs">
+        {date instanceof Date ? date.toISOString().slice(0, 10) : date}
+      </p>
+    </div>
+
+    <div class="prose prose-sm max-w-none">
+      <Content />
+    </div>
+  </article>
+</Base>
+
+<script is:inline>
+  if (new URLSearchParams(location.search).get("from") === "home") {
+    const link = document.querySelector("[data-back-link]");
+    const label = document.querySelector("[data-back-label]");
+    if (link) link.setAttribute("href", "/");
+    if (label) label.textContent = "home";
+  }
+</script>
+
+<script>
+  import { initCopyCode } from "../../scripts/copy-code";
+  initCopyCode();
+</script>
