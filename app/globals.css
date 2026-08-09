@@ -837,6 +837,18 @@ textarea {
   animation: shimmer-transform 1.5s ease-in-out infinite;
 }
 
+.work-back-link--home {
+  display: none;
+}
+
+.work-back-link--home:target {
+  display: inline;
+}
+
+.work-back-link--home:target + .work-back-link--work {
+  display: none;
+}
+
 /* Server-rendered images are opaque by default. The single delegated image
    listener opts only incomplete, non-priority images into the fade, so a
    disabled or failed client runtime can never make the picture disappear. */

@@ -1,7 +1,7 @@
 import { CodeBlock } from "@/components/code-block";
 import { CopyButtonListener } from "@/components/copy-button-listener";
+import { WorkBackLink } from "@/components/work-back-link";
 import { siteConfig } from "@/lib/config";
-import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
 import {
   breadcrumbJsonLd,
@@ -10,13 +10,11 @@ import {
   safeJsonLd,
 } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 export const dynamicParams = false;
-export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const work = getAllWorkItems();
@@ -70,19 +68,12 @@ export async function generateMetadata({
 
 export default async function WorkItemPage({
   params,
-  searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ from?: string }>;
 }) {
   const { slug } = await params;
-  const { from } = await searchParams;
   const item = getWorkItem(slug);
   if (!item) notFound();
-
-  const backHref = from === "home" ? "/" : "/work";
-  const backLabel =
-    from === "home" ? "home" : i18n.work.otherExperience.backLink;
 
   const url = `https://www.swapnoneel.site/work/${slug}`;
 
@@ -119,12 +110,7 @@ export default async function WorkItemPage({
         }}
       />
       <div className="mb-8">
-        <Link
-          href={backHref}
-          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
-        >
-          ← {backLabel}
-        </Link>
+        <WorkBackLink />
         <h1 className="mt-4 mb-1 text-xl font-semibold text-balance">
           {item.meta.title}
         </h1>

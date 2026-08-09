@@ -12,7 +12,8 @@ interface ExperienceSectionProps {
   seeAllHref?: string;
   /**
    * Appended as `?from=` to the internal links so the detail pages know which
-   * page to send the reader back to.
+   * page to send the reader back to. Home also gets a #from-home target so the
+   * static detail page can select its return link without reading searchParams.
    */
   from?: string;
   /**
@@ -32,7 +33,9 @@ export function ExperienceSection({
   variant = "compact",
   className,
 }: ExperienceSectionProps) {
-  const query = from ? `?from=${from}` : "";
+  const returnLocation = from
+    ? `?from=${from}${from === "home" ? "#from-home" : ""}`
+    : "";
   const prominent = variant === "prominent";
   const logoSize = prominent ? 60 : 40;
   // Prominent rows are multi-line, so the logo tracks the title rather than
@@ -82,7 +85,7 @@ export function ExperienceSection({
               </a>
             ) : (
               <Link
-                href={`/work/${item.meta.slug}${query}`}
+                href={`/work/${item.meta.slug}${returnLocation}`}
                 prefetch={false}
                 className={rowClass}
               >
@@ -104,7 +107,7 @@ export function ExperienceSection({
       </div>
       <div className={prominent ? "mt-6" : "mt-4 sm:mt-3"}>
         <hr className="border-border" />
-        <ViewMore href={`/work/others${query}`} />
+        <ViewMore href={`/work/others${returnLocation}`} />
         <hr className="border-border" />
       </div>
     </section>
@@ -141,7 +144,9 @@ function ExperienceRow({
           alt={item.meta.title}
           size={logoSize}
           lowPriority={logoLowPriority}
-          className={detailed ? "float-left mr-4 mb-1 sm:float-none sm:mr-0" : ""}
+          className={
+            detailed ? "float-left mr-4 mb-1 sm:float-none sm:mr-0" : ""
+          }
         />
       )}
       <div className="flex-1">
@@ -179,12 +184,11 @@ function ExperienceRow({
             indenting the first one or two around it. */}
         {detailed &&
           (item.meta.description ? (
-            <p className="text-muted-foreground mt-1.5 clear-left text-xs leading-relaxed sm:clear-none">
-              {item.meta.description}{" "}
-              <ReadMore />
+            <p className="text-muted-foreground clear-left mt-1.5 text-xs leading-relaxed sm:clear-none">
+              {item.meta.description} <ReadMore />
             </p>
           ) : (
-            <p className="mt-2 clear-left text-xs sm:clear-none">
+            <p className="clear-left mt-2 text-xs sm:clear-none">
               <ReadMore />
             </p>
           ))}

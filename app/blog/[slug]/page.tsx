@@ -20,7 +20,6 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 
 export const dynamicParams = false;
-export const revalidate = 3600;
 
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();

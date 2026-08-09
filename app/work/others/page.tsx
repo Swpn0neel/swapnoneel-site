@@ -1,27 +1,15 @@
+import { WorkBackLink } from "@/components/work-back-link";
 import { i18n } from "@/lib/i18n";
-import Link from "next/link";
 
 export const metadata = {
   title: i18n.work.otherExperience.title,
 };
 
-export default async function OthersPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ from?: string }>;
-}) {
-  const { from } = await searchParams;
-  const isHome = from === "home";
-
+export default function OthersPage() {
   return (
     <article className="pb-16">
       <div className="mb-8">
-        <Link
-          href={isHome ? "/" : "/work"}
-          className="text-muted-foreground hover:text-foreground text-xs transition-colors"
-        >
-          ← {isHome ? "home" : i18n.work.otherExperience.backLink}
-        </Link>
+        <WorkBackLink />
         <h1 className="mt-4 mb-1 text-xl font-semibold">
           {i18n.work.otherExperience.role}
         </h1>
