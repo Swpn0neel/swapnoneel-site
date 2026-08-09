@@ -22,14 +22,20 @@ const blog = defineCollection({
     base: "./src/content/blog",
     generateId: filenameId,
   }),
-  schema: z.object({
+  schema: ({ image }) => z.object({
     title: z.string(),
     // Every post's date is a full ISO timestamp, so coercion is safe here.
     // `work` is the collection where it is not — see below.
     date: z.coerce.date(),
     updated: z.coerce.date().optional(),
     description: z.string(),
-    cover: z.string(),
+    /**
+     * A path relative to the post, resolved by Astro into ImageMetadata so the
+     * cover is optimised and carries its real dimensions. These used to be
+     * remote URLs mapped through lib/blog-images.json at render time; the
+     * images now live in src/assets/blog-img and the mapping is gone.
+     */
+    cover: image(),
     /** Cross-post URLs. A string for one, an array once a post is syndicated twice. */
     link: z.union([z.string(), z.array(z.string())]).optional(),
     tags: z.array(z.string()).default([]),

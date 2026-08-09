@@ -3,15 +3,14 @@ title: "How to Generate Random Numbers in JavaScript"
 date: "2024-11-01T01:20:01.000Z"
 description: >-
   Use Math.random() for everyday variation, then build ranges, integers, booleans, choices, and shuffles around it. Use the Web Crypto API when randomness protects an identifier or secret.
-cover: >-
-  https://wp.keploy.io/wp-content/uploads/2024/11/ae22594e-c87c-49a5-8748-e3a26131.webp
+cover: ../../../assets/blog-img/2024/javascript-random-number/ae22594e-c87c-49a5-8748-e3a26131-780f0ec5.webp
 link: "https://keploy.io/blog/community/javascript-random-number"
 tags:
   - javascript
   - math
   - webdev
   - frontend
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 When you need a surprise in a game, a quiz, or a sample from a list, JavaScript gives you a starting point: `Math.random()`. It returns a decimal from 0 (included) up to 1 (not included). The number is pseudo-random, so it works for everyday variation but is not a security feature.
@@ -29,7 +28,7 @@ console.log(randomNum); // A decimal greater than or equal to 0 and less than 1
 
 You should see a different-looking decimal on most runs:
 
-![Console output of Math.random() generating floating-point number](https://wp.keploy.io/wp-content/uploads/2024/11/a8b9e0ce-0d09-4adb-ad38-f0e667c9-1.webp)
+![Console output of Math.random() generating floating-point number](../../../assets/blog-img/2024/javascript-random-number/a8b9e0ce-0d09-4adb-ad38-f0e667c9-1-cba9fc46.webp)
 
 That decimal is rarely the final shape you want. To create a value in another range, multiply it by the size of the range and then shift it by the minimum.
 
@@ -53,7 +52,7 @@ The expression `(max - min)` gives you the range width. Multiplying by `Math.ran
 
 Here is the kind of output you might see:
 
-![Console output of getRandomInRange function](https://wp.keploy.io/wp-content/uploads/2024/11/31462bb9-e5ae-48b7-bb57-3eb5495e-1.webp)
+![Console output of getRandomInRange function](../../../assets/blog-img/2024/javascript-random-number/31462bb9-e5ae-48b7-bb57-3eb5495e-1-75cb5fbc.webp)
 
 ## Generate an integer in an inclusive range
 
@@ -75,7 +74,7 @@ console.log(getRandomIntInRange(1, 100)); // An integer from 1 through 100
 
 The output will look similar to this:
 
-![Console output of getRandomIntInRange generating random integer](https://wp.keploy.io/wp-content/uploads/2024/11/run-code-output.webp)
+![Console output of getRandomIntInRange generating random integer](../../../assets/blog-img/2024/javascript-random-number/run-code-output-6ac4fcb6.webp)
 
 ## Generate a random boolean
 
@@ -91,7 +90,7 @@ console.log(getRandomBoolean()); // true or false
 
 You might see an output like this:
 
-![Console output of getRandomBoolean function](https://wp.keploy.io/wp-content/uploads/2024/11/ed23a257-5fc0-4ed9-b5dd-a80ce6cd-1.webp)
+![Console output of getRandomBoolean function](../../../assets/blog-img/2024/javascript-random-number/ed23a257-5fc0-4ed9-b5dd-a80ce6cd-1-7910a52e.webp)
 
 ## Pick a random array element
 
@@ -105,7 +104,7 @@ console.log(randomColor); // A color from the array
 
 Here is an example of the resulting output:
 
-![Console output selecting random element from array](https://wp.keploy.io/wp-content/uploads/2024/11/random-element.webp)
+![Console output selecting random element from array](../../../assets/blog-img/2024/javascript-random-number/random-element-cc65ad2e.webp)
 
 ## Shuffle an array
 
@@ -128,7 +127,7 @@ This function changes the original array and returns it. If you need to keep the
 
 The console output could look like this:
 
-![Console output of Fisher-Yates array shuffle algorithm](https://wp.keploy.io/wp-content/uploads/2024/11/shuffled-array-output.webp)
+![Console output of Fisher-Yates array shuffle algorithm](../../../assets/blog-img/2024/javascript-random-number/shuffled-array-output-c9ccb958.webp)
 
 ## Do not build secure identifiers with Math.random()
 
@@ -155,7 +154,7 @@ console.log(generateUUID()); // Outputs a random UUID
 
 It can print a UUID-shaped string, but the shape alone does not make it safe for authentication tokens, password reset links, or other sensitive values.
 
-![Console output of generateUUID function](https://wp.keploy.io/wp-content/uploads/2024/11/run-code-output2.webp)
+![Console output of generateUUID function](../../../assets/blog-img/2024/javascript-random-number/run-code-output2-6bd19928.webp)
 
 ## Use the Web Crypto API for security
 

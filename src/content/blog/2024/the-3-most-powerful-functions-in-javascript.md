@@ -3,15 +3,14 @@ title: "The 3 Most Powerful Functions in JavaScript"
 date: "2024-03-10T12:14:24.268Z"
 description: >-
   map(), filter(), and reduce() cover three common array tasks: transforming values, keeping matches, and combining items into one result.
-cover: >-
-  https://web.archive.org/web/20240522113721/https://cdn.hashnode.com/res/hashnode/image/upload/v1710072792777/b19a2577-a9ac-47e3-b8f0-a7f7821ab6f8.png
+cover: ../../../assets/blog-img/2024/the-3-most-powerful-functions-in-javascript/b19a2577-a9ac-47e3-b8f0-a7f7821ab6f8-afe8692e.webp
 link: "https://swapnoneel.hashnode.dev/the-3-most-powerful-functions-in-javascript"
 tags:
   - javascript
   - functional-programming
   - es6
   - webdev
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 An array is useful because it keeps related values together. The awkward part begins when you need to change every value, keep only some values, or combine all of them into one result.
@@ -48,7 +47,7 @@ console.log(squaredNums); // [1, 4, 9, 16, 25]
 
 The browser console shows the transformed array:
 
-![Browser console output of JavaScript map() function](https://cdn.hashnode.com/res/hashnode/image/upload/v1710071277175/f965ca2a-4cbb-4009-900e-22673b31f60f.png)
+![Browser console output of JavaScript map() function](../../../assets/blog-img/2024/the-3-most-powerful-functions-in-javascript/f965ca2a-4cbb-4009-900e-22673b31f60f-a73d1683.webp)
 
 If your callback does not return a value, the new array contains `undefined` for those positions. That small mistake is common when a block-bodied arrow function uses braces but forgets `return`.
 
@@ -80,7 +79,7 @@ console.log(positiveNums); // [1, 3, 4, 5]
 
 Here is the corresponding browser output:
 
-![Browser console output of JavaScript filter() function](https://cdn.hashnode.com/res/hashnode/image/upload/v1710071131323/f9ec94cf-bdde-4df3-a116-85267d8b26aa.png)
+![Browser console output of JavaScript filter() function](../../../assets/blog-img/2024/the-3-most-powerful-functions-in-javascript/f9ec94cf-bdde-4df3-a116-85267d8b26aa-05533519.webp)
 
 An empty result is not an error. It simply means that no item passed the test. That makes `filter()` useful for searches, permission checks, and lists where the visible items depend on a condition.
 
@@ -115,7 +114,7 @@ console.log(product); // 120
 
 The browser console shows the final value:
 
-![Browser console output of JavaScript reduce() function](https://cdn.hashnode.com/res/hashnode/image/upload/v1710072423789/a7c51e1d-1d4a-4fa9-b9ea-07f90564ecaf.png)
+![Browser console output of JavaScript reduce() function](../../../assets/blog-img/2024/the-3-most-powerful-functions-in-javascript/a7c51e1d-1d4a-4fa9-b9ea-07f90564ecaf-43706c89.webp)
 
 When the accumulator is an object or an array, return that same accumulator after updating it. Also, do not use `reduce()` just because you can. A short `map()` or `filter()` chain often tells the reader more about your intent.
 
@@ -127,4 +126,4 @@ You can combine them when the steps are genuinely separate. For example, `orders
 
 My caveat is that `reduce()` is not automatically the most advanced choice. I would rather read two obvious passes than decode one clever accumulator, especially when another person has to debug it later.
 
-![Thank you graphic for JavaScript higher order functions blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1710072584207/88548bcf-0b8a-42e6-a3e1-b81c1042b7b6.png)
+![Thank you graphic for JavaScript higher order functions blog](../../../assets/blog-img/2024/the-3-most-powerful-functions-in-javascript/88548bcf-0b8a-42e6-a3e1-b81c1042b7b6-8b43470a.webp)

@@ -1,6 +1,7 @@
 ---
 title: Kimi K3 and the Rise of Open Weight Frontier Models
 date: "2026-07-23T00:00:00.000Z"
+updated: "2026-08-09T08:00:04.817Z"
 description: Kimi K3 just landed a 2.8T open weight model a hair behind GPT-5.6 Sol and Fable 5. Here's why open weight frontier models finally matter.
 slug: rise-of-open-weight-frontier-models-kimi-k3
 tags:
@@ -9,7 +10,7 @@ tags:
   - productivity
   - webdev
 link: "https://dev.to/swapnoneel123/kimi-k3-and-the-rise-of-open-weight-frontier-models-241h"
-cover: "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/wsouqrqbycj0330o3inq.png"
+cover: ../../../assets/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/wsouqrqbycj0330o3inq-4d1b2b24.webp
 ---
 
 Apparently everyone is talking about the launch of Kimi K3 right now. So I wanted to share my two cents on this, especially for those who consider this to be just a "cheap chinese model". Because honestly, that joke doesn't land well anymore.
@@ -22,7 +23,7 @@ For most of the last two years, the assumption was simple: if you want the smart
 
 But those walls started shaking when we got GLM 5.2 from Z.ai, just a few weeks ago. And then came Kimi K3, which is the moment that assumption stopped being obviously true. Not because it beats GPT-5.6 Sol and Fable 5 outright, it doesn't, but because the gap has gotten small enough that "just use the closed model" is no longer an automatic decision. According to Nathan Lambert's analysis on Interconnects, the gap between open and closed, and between US and Chinese labs, has shrunk from a debated 6 to 9 months down to something closer to 3 to 5 months ([interconnects.ai](https://www.interconnects.ai/p/kimi-k3-the-open-weights-escalation)).
 
-![Proprietary AI wall vs open-weight model accessibility](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/n2oyhuh4p1el7u73bhrn.png)
+![Proprietary AI wall vs open-weight model accessibility](../../../assets/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/n2oyhuh4p1el7u73bhrn-ede97372.webp)
 
 ## What's actually inside Kimi K3
 
@@ -30,7 +31,7 @@ The specs are genuinely wild. It's a mixture-of-experts model with 896 experts, 
 
 On raw benchmarks, K3 takes first place on Program Bench, SWE Marathon, BrowseComp, and Frontend Code Arena. Program Bench specifically jumped from 53.6 to 77.8 over its predecessor, a 45% jump ([wan27.org](https://wan27.org/blog/kimi-k3-benchmarks)). In blind developer testing on Arena, people preferred Kimi K3 over both Fable 5 and GPT-5.6 Sol for front-end coding specifically ([codersera.com](https://codersera.com/blog/kimi-k3-benchmarks-comparison-2026/)).
 
-![Kimi K3 MoE architecture with active expert routing](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8e30q00qh3ztb3x6cfzi.png)
+![Kimi K3 MoE architecture with active expert routing](../../../assets/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/8e30q00qh3ztb3x6cfzi-6fc04529.webp)
 
 ## Does that mean the closed labs are done?
 
@@ -38,7 +39,7 @@ Well, not entirely. GPT-5.6 Sol and Fable 5 still sit ahead on the general Intel
 
 And here's the honest catch on price too. K3 spends way more tokens in reasoning. So, Sol and Fable both tend to get to an answer in noticeably fewer tokens than K3 needs for the same task, so once you look at cost per task instead of cost per million tokens, the gap almost closes. The sticker price makes K3 look like a steal, the actual bill at the end of the month is a lot closer.
 
-![Cost per task comparison between proprietary and open-weight models](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/uinoqqnkifadoeg9a002.png)
+![Cost per task comparison between proprietary and open-weight models](../../../assets/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/uinoqqnkifadoeg9a002-d3e5ee25.webp)
 
 ## Why open weight frontier models actually matter to you
 
@@ -46,7 +47,7 @@ I ship AI products for a living, and most of my projects live and die by which m
 
 And there's a bigger reason than cost. A model whose weights you hold cannot be shut off by someone else's pricing decision, rate limit, or policy change. That's the sovereignty argument people keep making about open weight models, and it stops being theoretical the moment your product depends on an API you don't control.
 
-![API key dependence vs open-weight model ownership](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ttfanykfdtcz6ice3x64.png)
+![API key dependence vs open-weight model ownership](../../../assets/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/ttfanykfdtcz6ice3x64-d17cade3.webp)
 
 ## The verdict
 
@@ -54,6 +55,6 @@ Open weight models are no longer the consolation prize. Kimi K3 is proof that yo
 
 That's just me though, and your workflow might be different depending on what you're actually building.
 
-![Thank you graphic for open-weight AI blog](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/az7um68ztq915wabjbf0.png)
+![Thank you graphic for open-weight AI blog](../../../assets/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/az7um68ztq915wabjbf0-0bb00d64.webp)
 
 If you're experimenting with model choice for your own AI products, drop a comment with which model you've moved to since K3 landed.

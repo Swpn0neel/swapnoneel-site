@@ -1,0 +1,76 @@
+---
+import { i18n } from "@/lib/i18n";
+
+/** Steps the A-/A/A+ control moves between. The scale multiplies every rem
+ *  font-size inside `.prose` (see --prose-scale in global.css); "md" is 1,
+ *  i.e. exactly the sizes the site shipped with. Keep in step with the
+ *  PROSE_SCALE_INIT script in the layout. */
+const STEPS = [
+  { id: "sm", label: "A-", scale: 0.9 },
+  { id: "md", label: "A", scale: 1 },
+  { id: "lg", label: "A+", scale: 1.15 },
+] as const;
+---
+
+<div
+  role="group"
+  aria-label={i18n.blog.textSizeLabel}
+  data-prose-scale
+  class="border-border divide-border flex w-fit items-stretch divide-x overflow-hidden rounded-sm border"
+>
+  {
+    STEPS.map((step) => (
+      <button
+        type="button"
+        data-step={step.id}
+        data-scale={String(step.scale)}
+        aria-pressed={step.id === "md" ? "true" : "false"}
+        title={i18n.blog.textSizeTitles[step.id]}
+        class="text-muted-foreground hover:bg-secondary/50 hover:text-foreground flex w-8 cursor-pointer items-center justify-center py-1 text-xs leading-none font-medium transition-colors aria-pressed:bg-secondary aria-pressed:text-foreground"
+      >
+        {step.label}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const KEY = "prose-scale";
+  const group = document.querySelector<HTMLElement>("[data-prose-scale]");
+
+  if (group) {
+    const buttons = [...group.querySelectorAll<HTMLButtonElement>("[data-step]")];
+
+    const mark = (id: string) => {
+      for (const button of buttons) {
+        button.setAttribute("aria-pressed", String(button.dataset.step === id));
+      }
+    };
+
+    // The HTML is built once and cached, so it renders the default and the
+    // stored choice is applied here. The inline script in the layout has
+    // already put the right size on screen; this only catches the highlight up.
+    try {
+      const stored = localStorage.getItem(KEY);
+      if (stored && buttons.some((b) => b.dataset.step === stored)) mark(stored);
+    } catch {
+      /* private mode — stay on the default */
+    }
+
+    for (const button of buttons) {
+      button.addEventListener("click", () => {
+        const { step, scale } = button.dataset;
+        if (!step || !scale) return;
+        // Set on <html> rather than the article: the preference outlives this
+        // page, and only .prose reads the variable, so nothing else shifts.
+        document.documentElement.style.setProperty("--prose-scale", scale);
+        mark(step);
+        try {
+          localStorage.setItem(KEY, step);
+        } catch {
+          /* preference just won't persist */
+        }
+      });
+    }
+  }
+</script>

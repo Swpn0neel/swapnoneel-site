@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1678204146942/71c0a906-e83b-429b-bc73-5f4edef049ee.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/inheritance-in-python/71c0a906-e83b-429b-bc73-5f4edef049ee-9da2a067.webp
 title: "Inheritance in Python with Examples"
 date: "Tue, 07 Mar 2023 15:49:19 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - oop
   - inheritance
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## Start with the relationship
@@ -40,7 +39,7 @@ That sounds simple, and it is. The design question is harder: should Dog really 
 
 Single inheritance gives a class one direct parent. It is the easiest form to read because the lookup path has one branch.
 
-![Single inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108135809/inheritance11.png)
+![Single inheritance diagram](../../../assets/blog-img/2023/inheritance-in-python/inheritance11-e05bb667.webp)
 
 Here, Dog reuses the name setup from Animal and replaces the generic sound:
 
@@ -76,7 +75,7 @@ Override a method when the child has a genuinely more specific version of the sa
 
 Multiple inheritance gives one class more than one direct parent. Small mixins are the least surprising use case: each parent supplies a separate behavior, and the child combines them.
 
-![Multiple inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144424/multiple-inheritance1.png)
+![Multiple inheritance diagram](../../../assets/blog-img/2023/inheritance-in-python/multiple-inheritance1-a39c75f7.webp)
 
 ~~~python
 class Swimmer:
@@ -107,7 +106,7 @@ That does not mean you should pick a parent order at random. The method resoluti
 
 Multilevel inheritance creates a chain. One class extends a parent, and another class extends that child. It is useful when each level describes a real increase in specialization.
 
-![Multilevel inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144705/Multilevel-inheritance1.png)
+![Multilevel inheritance diagram](../../../assets/blog-img/2023/inheritance-in-python/multilevel-inheritance1-5f585046.webp)
 
 ~~~python
 class Animal:
@@ -156,7 +155,7 @@ Notice that super() does not mean "call my immediate parent by name" in a simple
 
 Hybrid inheritance combines shapes. A common example has two branches that share a base class, followed by a child that inherits from both branches:
 
-![Hybrid inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/Hybrid-Inheritance.png)
+![Hybrid inheritance diagram](../../../assets/blog-img/2023/inheritance-in-python/hybrid-inheritance-1deac5f9.webp)
 
 ~~~python
 class Person:
@@ -218,7 +217,7 @@ This pattern is more work than the earlier example, but each initializer passes 
 
 Hierarchical inheritance has several children sharing one parent. The parent holds the common setup, while each child adds or replaces the part that differs.
 
-![Hierarchical inheritance diagram](https://media.geeksforgeeks.org/wp-content/uploads/20200108144949/Hierarchical-inheritance1.png)
+![Hierarchical inheritance diagram](../../../assets/blog-img/2023/inheritance-in-python/hierarchical-inheritance1-6ef796a5.webp)
 
 ~~~python
 class Animal:
@@ -261,4 +260,4 @@ Inheritance is useful when the child can be passed to code that expects the pare
 
 My against-interest judgment is that inheritance feels cheap at first and expensive after several layers. A subclass can depend on a parent method, an attribute name, an initializer order, and an MRO detail without making those dependencies visible at the call site. I would rather repeat a small, clear function than force unrelated classes into the same family. Use inheritance for a real type relationship, then stop the hierarchy before it becomes archaeology.
 
-![Thank you lettering graphic](https://static.vecteezy.com/system/resources/previews/017/125/080/large_2x/thank-you-design-lettering-free-vector.jpg)
+![Thank you lettering graphic](../../../assets/blog-img/2023/inheritance-in-python/thank-you-design-lettering-free-vector-83431afa.webp)

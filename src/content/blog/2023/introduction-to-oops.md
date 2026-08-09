@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676570291151/466fa74a-d06c-4241-83c6-7ac394ae1242.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/introduction-to-oops/466fa74a-d06c-4241-83c6-7ac394ae1242-f3c407b3.webp
 title: "Introduction to OOPs in Python"
 date: "Thu, 16 Feb 2023 17:58:21 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - oop
   - software-design
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## What object-oriented programming tries to solve
@@ -151,4 +150,4 @@ Classes help when state and behavior belong together, when several objects share
 
 My honest view is that OOP is easiest to understand after you stop treating its four labels as a checklist. Start with the data and the operations. If they naturally belong together, make a class. If a class would only wrap one function and a couple of values, skip it. The design should make the next change easier, not earn points for containing more objects.
 
-![Thank you image](https://iag.me/assets/thank-you.jpg.webp)
+![Thank you image](../../../assets/blog-img/2023/introduction-to-oops/thank-you-jpg-41dafc6a.webp)

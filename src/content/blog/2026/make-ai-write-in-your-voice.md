@@ -4,9 +4,8 @@ date: "2026-07-06T00:00:00.000Z"
 description: "You can make AI write in your voice, but a prompt won't get you there..."
 slug: make-ai-write-in-your-voice
 link: "https://dev.to/swapnoneel123/how-i-made-an-ai-agent-write-in-my-voice-5dli"
-cover: >-
-  https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/i8fz76dcy7hsjskwcovi.png
-updated: "2026-07-23T13:07:48.942Z"
+cover: ../../../assets/blog-img/2026/make-ai-write-in-your-voice/i8fz76dcy7hsjskwcovi-7ebda806.webp
+updated: "2026-08-09T08:00:04.817Z"
 tags:
   - ai
   - agents
@@ -18,7 +17,7 @@ Let's be honest, AI-written blogs have a certain... vibe. You know it, I know it
 
 But here's my take: you can make AI write in your voice, just not with a "generic" prompt. What actually worked for me is an agent skill with three parts: a voice profile built from seven of my real writing samples, a kill list of AI phrases, and a feedback loop that turns my edits into permanent rules. And here comes the twist, the blog you are reading right now is the very first output of that system!
 
-![Generic AI prompt output vs personalized AI voice system](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/28o1zintr6j86wowkvn0.png)
+![Generic AI prompt output vs personalized AI voice system](../../../assets/blog-img/2026/make-ai-write-in-your-voice/28o1zintr6j86wowkvn0-6699323c.webp)
 
 So, let me walk you through exactly how I built it, and you can judge for yourself whether it sounds like a human or not.
 
@@ -36,7 +35,7 @@ I've written multiple technical blogs for different startups including Keploy, D
 
 Well, yes. But you have to show it, not describe it.
 
-![Extracting writing mechanics from real blog samples](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3s98sgz7952omd3ajmg3.png)
+![Extracting writing mechanics from real blog samples](../../../assets/blog-img/2026/make-ai-write-in-your-voice/3s98sgz7952omd3ajmg3-fc75555c.webp)
 
 "Write in a friendly, conversational tone" gives everyone on the internet the same friendly, conversational tone. What you need instead is a system that extracts the mechanics of your writing from real samples, and then enforces them like rules. Mine has three parts.
 
@@ -65,7 +64,7 @@ Now, the first two parts get you maybe 80% of the way. The remaining 20% is wher
 
 Here's my loop: the agent writes a draft, I edit it like I normally would, and then a second skill diffs my final version against the draft. Every meaningful change gets generalized into a rule. If I cut a long intro once, that's a hypothesis. If I do it twice, it gets promoted to a confirmed rule that every future draft must follow.
 
-![Human feedback loop creating reusable writing rules](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yv9s4xjb0kxh7d4tjhz7.png)
+![Human feedback loop creating reusable writing rules](../../../assets/blog-img/2026/make-ai-write-in-your-voice/yv9s4xjb0kxh7d4tjhz7-8d600ede.webp)
 
 And there's a hard cap of 30 active rules. Why? Because this whole system runs on a smaller, cheaper model, and a smaller model follows 30 rules well and drowns in 80. The intelligence lives in the files, not the model.
 
@@ -85,7 +84,7 @@ This post is literally draft number one. The feedback loop has learned exactly z
 
 And another honest admission: setting this up took me more effort than just writing 2-3 posts by hand (I literally wrote four new blogs as an assignment lol, so that the LLM can infer my writing style better). The payoff only makes sense because it compounds, every post I edit makes the next draft closer to me.
 
-![Fact verification guardrail blocking hallucinated AI claims](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/pivin0jtpppbxla1ajho.png)
+![Fact verification guardrail blocking hallucinated AI claims](../../../assets/blog-img/2026/make-ai-write-in-your-voice/pivin0jtpppbxla1ajho-69cc7de6.webp)
 
 But the direction feels right, and I'm clearly not alone in thinking this way. The dev community has moved past one-shot prompting: Peter Steinberger's viral post ("you shouldn't be prompting coding agents anymore, you should be designing loops that prompt your agents") pulled 6.5 million views in June 2026 and [set the timeline on fire for a week](https://explainx.ai/blog/loop-engineering-coding-agents-claude-code-guide-2026). And the [Hacker News discourse in 2026](https://www.developersdigest.tech/blog/what-hacker-news-gets-right-about-ai-coding-agents-2026) has shifted from shiny demos to making agents repeatable and trustworthy. A writing agent with a feedback loop is just that same idea, pointed at a blog.
 
@@ -119,6 +118,6 @@ And start smaller than I did: pick your five most representative pieces, extract
 
 I'll be sharing more about this system as the feedback loop matures, including the numbers on how many edits it actually takes before drafts start needing none. If you want to follow that experiment, you can find me on [X (swapnoneel123)](https://x.com/swapnoneel123) or check out my other works at [swapnoneel.site](https://www.swapnoneel.site).
 
-![Thank you graphic for AI writing voice blog](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/mnf69thhecu599edac1q.png)
+![Thank you graphic for AI writing voice blog](../../../assets/blog-img/2026/make-ai-write-in-your-voice/mnf69thhecu599edac1q-f624c866.webp)
 
 And that's a wrap! Have you tried making AI write like you? What worked, and what came out sounding like a LinkedIn bot? I would love to hear your experience. Thank you for reading, and have a nice day ahead!!

@@ -7,9 +7,8 @@ description: >-
 slug: vercel-frontend-deployment-default
 link: >-
   https://dev.to/swapnoneel123/why-vercel-is-still-my-default-for-shipping-frontend-projects-2dd6
-cover: >-
-  https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/aovia04alqss3g389xah.png
-updated: "2026-07-23T13:07:48.942Z"
+cover: ../../../assets/blog-img/2026/vercel-frontend-deployment-default/aovia04alqss3g389xah-8059eaea.webp
+updated: "2026-08-09T08:00:04.817Z"
 tags:
   - vercel
   - frontend
@@ -21,7 +20,7 @@ Last week, I was working on a client project with a fast approaching deadline. T
 
 That made me realise: Vercel has been my default choice for a long time, and it is not because I am completely locked into the platform. From time to time, I still reach for other services like Cloudflare, Netlify, and Railway as well, but for my personal projects and fast development cycles, I somehow always end up coming back to Vercel.
 
-![Vercel automatic frontend deployment workflow](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gcum98tsutf93kuwjt2v.png)
+![Vercel automatic frontend deployment workflow](../../../assets/blog-img/2026/vercel-frontend-deployment-default/gcum98tsutf93kuwjt2v-a565cd60.webp)
 
 I mostly use Next.js, so I know the tech nerds out there will assume that, it is the entire reason why I choose Vercel, and that's a fair assumption to make, because it's partly true. Vercel develops and maintains Next.js, so of course it provides the best hosting for Next.js, but that's just one side of the coin.
 
@@ -35,17 +34,17 @@ The funny thing is that I did not think twice about deploying most of these proj
 
 **First of all, Vercel's preview deployment workflow!** It makes my development cycle much smoother. By default, every non-production branch can receive its own preview URL, and I can share that URL before merging the branch. That's extremely useful for catching visual problems before they reach production. A pull request may look completely fine during code review, but you can never know when the actual interface breaks at a particular viewport width. This has happened to me a lot. Just a few days ago, I shipped the near-final version of a project to one of my clients without noticing that, in the mobile version, a heading was overlapping one of the image assets. Preview deployments let people test the thing instead of trying to imagine it from a diff.
 
-![Vercel preview deployment card sharing and visual QA](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/53o4fp681781ercsv3cd.png)
+![Vercel preview deployment card sharing and visual QA](../../../assets/blog-img/2026/vercel-frontend-deployment-default/53o4fp681781ercsv3cd-eca6c414.webp)
 
 For a solo developer and freelancer like me, this saves a lot of time because, as you can see in the below screenshot, Vercel adds a toolbar to preview deployments where collaborators can leave comments directly on the page. This was especially useful during hackathons, when we were short on time. And our team always communicated in that way, and my teammates would drop in and leave comments like "the link to this button is redirecting to the pricing page instead of the features page" or "the color is way too contrasty." The small catch is that they need a Vercel account to comment, and external collaboration has some plan-specific limits, so it is not entirely frictionless, but still, it is much easier than sending Loom videos, annotated screenshots, or five messages explaining which button or font your client or peers want. And they have an optional third-party integration as well that can convert a preview comment into a GitHub issue. This makes conversations with my clients and non-technical collaborators much easier!
 
-![Vercel preview toolbar with comments and collaboration controls](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8skbo3bygfl4pfwmfo0o.png)
+![Vercel preview toolbar with comments and collaboration controls](../../../assets/blog-img/2026/vercel-frontend-deployment-default/8skbo3bygfl4pfwmfo0o-4b3617d6.webp)
 
 **The Next.js experience is the other reason I keep using it.** Vercel develops the framework, so features such as Incremental Static Regeneration, Server Actions, React Server Components, route handlers, and streaming work with very little platform-specific configuration, and I don't have to spend an afternoon figuring out how a new Next.js feature maps onto the hosting environment. Vercel covers that part for me by default.
 
 Now, to be fair, other platforms have improved a lot, and Netlify currently supports the major Next.js features through its OpenNext adapter, including Server Components, Server Actions, streaming, ISR, and Partial Prerendering. Cloudflare can also run Next.js using its own OpenNext-based adapter. So the difference is no longer that Next.js features simply do not work elsewhere, because that would be an outdated argument. The difference is that Vercel remains the first-party deployment target, and that means there is one less compatibility layer to worry about. And this removes a pain point for me, especially when I am using a newer framework feature. And that's the edge I'm actually talking about. For a normal static React or Vite application, this advantage matters much less, but for a serious Next.js project, it becomes my go-to option.
 
-![Vercel Analytics dashboard showing visitor traffic and bounce rates](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/v8qp2p0klx6l09y43ly7.png)
+![Vercel Analytics dashboard showing visitor traffic and bounce rates](../../../assets/blog-img/2026/vercel-frontend-deployment-default/v8qp2p0klx6l09y43ly7-6e5f1640.webp)
 
 And then there's the DX at the dashboard level. These are minute things, but together, they make a big difference for me. For example, the environment variables are scoped per environment (local, preview, and production; all of them are isolated). Rolling back to any previous deployment takes two clicks. And the deployment logs actually tell you what failed, not just that it did, and because of that, they become much easier to fix if you are taking the “pasting it into Claude Code” route.
 
@@ -53,7 +52,7 @@ And then there's the DX at the dashboard level. These are minute things, but tog
 
 Well, when we are talking about the alternatives, **Cloudflare Pages** is the one that comes the closest. And we know how much tech Twitter is divided on this one, and how frequently we see their representatives fight each other on open threads regarding this (I enjoy watching those heated arguments, lol). And yeah, Cloudflare is genuinely fast, and [their edge network spans 300+ locations](https://www.cloudflare.com/network/), and for static content, the performance gap over Vercel is actually quite measurable. And what I appreciate most is that the pricing is much more predictable; because, first of all, there are no egress fees, and they also provide unlimited bandwidth on the free tier. And as a bonus, I have also seen them [helping start-ups from time to time as well](https://x.com/IanLandsman/status/2059289714264273337), which is a great initiative, in my opinion.
 
-![Infrastructure control vs fast shipping speed comparison](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/j0aqe0r43weglq9cpqb3.png)
+![Infrastructure control vs fast shipping speed comparison](../../../assets/blog-img/2026/vercel-frontend-deployment-default/j0aqe0r43weglq9cpqb3-bf787044.webp)
 
 I respect all of this, but the problem is that Cloudflare's Workers environment runs on V8 isolates, which is different from a standard Node.js runtime. And this is where I face the most problems. For purely static sites or projects that have lightweight edge functions, it's totally fine, but sometimes, with specific packages that exclusively require a Node.js runtime, you start to face error messages. And although `nodejs_compat` mode now supports a substantial portion of the Node API, the compatibility is still not perfect.
 
@@ -87,6 +86,6 @@ Vercel is still my default for frontend deployment and a part of my development 
 
 That said, if you're cost-conscious and don't mind the learning curve, then Cloudflare is still a great choice. And if you need a backend, pick Railway and point your Vercel frontend at it. And if you've moved away from Vercel for something specific, or if you have a setup that works better for you, I'd genuinely love to hear about it in the comments!
 
-![Thank you graphic for Vercel deployment blog](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tqs4v53py7hbpl3fdtgz.png)
+![Thank you graphic for Vercel deployment blog](../../../assets/blog-img/2026/vercel-frontend-deployment-default/tqs4v53py7hbpl3fdtgz-555563a8.webp)
 
 And if you want to see the kinds of projects I've actually shipped on Vercel, check them out at [my site](https://www.swapnoneel.site). Also, you can find me on [X](https://x.com/swapnoneel123) or [GitHub](https://github.com/Swpn0neel) if you want to talk or connect.

@@ -3,11 +3,10 @@ title: "The Impact of AI on Code Commenting and Software Documentation"
 date: "2024-11-15T00:21:42.000Z"
 description: >-
   AI can draft comments and documentation, but it cannot decide whether they explain the right behavior or the reason behind it. Use a review loop before committing generated text.
-cover: >-
-  https://wp.keploy.io/wp-content/uploads/2024/11/document-and-comment-code-with-ai.webp
+cover: ../../../assets/blog-img/2024/the-impact-of-ai-on-code-commenting-and-software-documentation/document-and-comment-code-with-ai-303ceaef.webp
 link: >-
   https://keploy.io/blog/community/the-impact-of-ai-on-code-commenting-and-software-documentation
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 tags:
   - ai
   - documentation
@@ -82,7 +81,7 @@ The same review rule applies to generated tests. A test is useful when it checks
 
 [Keploy](https://keploy.io) is mentioned here because it can generate test cases and stubs or mocks for unit and integration testing from API interactions. If you use a tool like that, inspect the captured inputs, remove sensitive values, and confirm that the expected response represents a real contract before keeping the test.
 
-![Keploy documentation logo](https://keploy.io/docs/img/keploy-logo-dark.svg)
+![Keploy documentation logo](../../../assets/blog-img/2024/the-impact-of-ai-on-code-commenting-and-software-documentation/keploy-logo-dark-caa357ae.webp)
 
 The image above belongs in the testing section because the connection is practical: documentation tells you what a boundary should do, and a test can check that the boundary keeps doing it. The tool can save typing, but you still own the test's meaning.
 
@@ -94,7 +93,7 @@ That is the useful division of labor. Let the tool handle the blank page and rep
 
 For more writing about software, follow me on [Twitter (swapnoneel123)](http://twitter.com/swapnoneel123). You can also browse my [GitHub (Swpn0neel)](https://github.com/Swpn0neel) projects.
 
-![Thank you graphic for AI code commenting blog](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for AI code commenting blog](../../../assets/blog-img/2024/ai-code/thank-you-58bb786b.webp)
 
 ---
 

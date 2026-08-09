@@ -1,5 +1,5 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1676971804561/522eb53e-7247-4c31-a43d-a85a1bd1ea1c.png"
+cover: ../../../assets/blog-img/2023/overriding-overloading-in-python/522eb53e-7247-4c31-a43d-a85a1bd1ea1c-ec2374fb.webp
 title: "Overriding and Overloading in Python Explained"
 date: "Tue, 21 Feb 2023 11:34:18 GMT"
 description: >-
@@ -10,7 +10,7 @@ tags:
   - oop
   - polymorphism
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Inheritance becomes useful when the calling code can ask different objects to do the same job. A `Circle` and a `Rectangle` can both answer `area()`, even though the calculation is different. The caller keeps one method name, while each class supplies the behavior that belongs to it.
@@ -112,4 +112,4 @@ There is one naming trap. Python does not support traditional method overloading
 
 So the judgment is fairly simple. Override a parent method when a child needs a different implementation of the same contract. Overload an operator when the resulting expression reads naturally and rejects unsupported types clearly. If the expression needs a paragraph of explanation before it makes sense, a named method is probably the better design.
 
-![Thank you banner graphic](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)
+![Thank you banner graphic](../../../assets/blog-img/2023/overriding-overloading-in-python/getty-469566889-105923-12ce25f4.webp)

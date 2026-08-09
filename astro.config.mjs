@@ -5,6 +5,7 @@ import vercel from "@astrojs/vercel";
 import tailwindcss from "@tailwindcss/vite";
 import { defineConfig, fontProviders } from "astro/config";
 import rehypeHighlight from "rehype-highlight";
+import { rehypeBlogImage } from "./src/plugins/rehype-blog-image.ts";
 import { rehypeCodeBlock } from "./src/plugins/rehype-code-block.ts";
 import { rehypeExternalLinks } from "./src/plugins/rehype-external-links.ts";
 
@@ -98,6 +99,9 @@ export default defineConfig({
         rehypeHighlight,
         rehypeCodeBlock,
         rehypeExternalLinks,
+        // After Astro has replaced each markdown image with an optimised <img>;
+        // this only adds the frame, the caption and the sizes string.
+        rehypeBlogImage,
       ],
     }),
     // Astro's built-in Shiki is off, and rehype-highlight is kept instead.

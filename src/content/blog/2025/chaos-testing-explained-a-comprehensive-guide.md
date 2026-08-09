@@ -7,14 +7,14 @@ description: >-
   and is a key part of modern resilience testing practices. Originating from
   Netflix’s famous Chaos Monkey tool, chaos testing has become a key practice in
   building robust distributed systems. In this [...]
-cover: "https://wp.keploy.io/wp-content/uploads/2025/01/Chaos-Testing.webp"
+cover: ../../../assets/blog-img/2025/chaos-testing-explained-a-comprehensive-guide/chaos-testing-1832159b.webp
 link: "https://keploy.io/blog/community/chaos-testing-explained-a-comprehensive-guide"
 tags:
   - chaos-engineering
   - testing
   - devops
   - resilience
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Chaos testing, also known as chaos engineering, is one of the most-used methodology to test the resilience and reliability of systems, and is a key part of modern [resilience testing](https://keploy.io/blog/community/why-apps-crash-and-how-resilience-testing-can-help "resilience testing") practices.  
@@ -32,7 +32,7 @@ Nowadays, modern systems are increasingly distributed, running on cloud infrastr
 2.  **Test in Production (With Safeguards):** Simulate real-world conditions to get accurate insights.
 3.  **Minimize Blast Radius:** Limit the scope of experiments to avoid widespread disruptions.
 
-![Core principles of chaos engineering diagram](https://wp.keploy.io/wp-content/uploads/2025/01/What-are-the-Core-Principles.webp)
+![Core principles of chaos engineering diagram](../../../assets/blog-img/2025/chaos-testing-explained-a-comprehensive-guide/what-are-the-core-principles-cf3b0bb0.webp)
 
 ### **How it differs from other types of testing?**
 
@@ -46,7 +46,7 @@ Unlike [load or functional testing](https://keploy.io/blog/community/all-about-l
 
 ## **The Chaos Testing Process**
 
-![Step-by-step chaos testing process diagram](https://wp.keploy.io/wp-content/uploads/2025/01/The-Chaos-Testing-Process.webp)
+![Step-by-step chaos testing process diagram](../../../assets/blog-img/2025/chaos-testing-explained-a-comprehensive-guide/the-chaos-testing-process-2ae1a1d0.webp)
 
 ### Step-by-Step Guide
 
@@ -138,4 +138,4 @@ Ethical chaos testing requires safeguards to minimize risks to users. Experiment
 ### **How do you integrate chaos testing into CI/CD pipelines?**
 
 Chaos experiments can be automated and added to CI/CD workflows using tools like Gremlin or LitmusChaos. By running these tests during staging or pre-deployment, teams can ensure that new updates or configurations won’t compromise system resilience.  
-![Thank you graphic for chaos testing guide](https://wp.keploy.io/wp-content/uploads/2024/11/Thank-you.webp)
+![Thank you graphic for chaos testing guide](../../../assets/blog-img/2024/ai-code/thank-you-58bb786b.webp)

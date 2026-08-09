@@ -1,0 +1,72 @@
+---
+import { i18n } from "@/lib/i18n";
+import type { RelatedPost } from "../lib/related-posts";
+
+interface Props {
+  posts: RelatedPost[];
+}
+
+const { posts } = Astro.props;
+
+/* No state, and the rows are the last thing on a long page, so there is
+   nothing to ship for them. */
+---
+
+{
+  posts.length > 0 && (
+    <nav
+      aria-labelledby="read-next-heading"
+      class="blog-footer-gap border-border/40 border-t pt-8"
+    >
+      {/* Same section heading as Experience / Projects on the home page —
+          muted, uppercase, wide tracking. The size comes from a scaled class
+          rather than text-sm so it tracks A-/A/A+ with the rows beneath it; at
+          the default setting the two resolve to the same 0.875rem. */}
+      <h2
+        id="read-next-heading"
+        class="text-muted-foreground blog-related-title mb-3 font-semibold tracking-widest uppercase"
+      >
+        {i18n.blog.readNext}
+      </h2>
+
+      <ul class="space-y-0">
+        {posts.map((post, i) => {
+          const d = post.publishedAt;
+          const dateStr = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getFullYear()).slice(-2)}`;
+          return (
+            <li>
+              <a href={`/blog/${post.slug}`} class="group/row block py-3.5">
+                <div class="flex items-baseline justify-between gap-4">
+                  {/* Titles start at full foreground, so the only colour move
+                      available on hover is downwards — which reads as the row
+                      going inactive under the cursor. Branded posts move
+                      sideways into their accent instead and the rest hold
+                      still; the hover feedback for those is the description
+                      below brightening. */}
+                  <span
+                    class={`text-foreground blog-related-title min-w-0 font-medium transition-colors ${post.accent ? "group-hover/row:text-(--post-accent)" : ""}`}
+                    style={post.accent ? `--post-accent:${post.accent}` : undefined}
+                  >
+                    {post.title}
+                  </span>
+                  {/* Hidden on phones: the column is narrow enough there that
+                      the date costs the title a line more often than it tells
+                      the reader anything. */}
+                  <span class="text-muted-foreground blog-related-meta hidden shrink-0 font-mono sm:inline">
+                    {dateStr}
+                  </span>
+                </div>
+                {post.brief && (
+                  <p class="text-muted-foreground group-hover/row:text-body-foreground blog-related-meta mt-1 line-clamp-2 transition-colors">
+                    {post.brief}
+                  </p>
+                )}
+              </a>
+              {i < posts.length - 1 && <hr class="border-border/40" />}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  )
+}

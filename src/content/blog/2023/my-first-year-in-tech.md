@@ -6,15 +6,14 @@ description: >-
   in Computer Science and Engineering. And it was then, I actually got
   introduced to the Tech world. Previously, I had some coding experience in both
   Java & Python and had a...
-cover: >-
-  https://web.archive.org/web/20240615140945/https://cdn.hashnode.com/res/hashnode/image/upload/v1698152080204/742cb9f7-5d96-4ddf-a22d-e80961f7edad.png
+cover: ../../../assets/blog-img/2023/my-first-year-in-tech/742cb9f7-5d96-4ddf-a22d-e80961f7edad-7d54fda5.webp
 link: "https://swapnoneel.hashnode.dev/my-first-year-in-tech"
 tags:
   - career
   - reflections
   - webdev
   - tech-journey
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Exactly one year back from now, I got into University for my Bachelor's degree in Computer Science and Engineering. And it was then, I actually got introduced to the Tech world. Previously, I had some coding experience in both Java & Python and had a proper knowledge of MySQL.
@@ -152,4 +151,4 @@ And lastly, I would continue mentoring my fellow juniors and would start focusin
 
 And that's a wrap!! But if you have any queries regarding my journey or any suggestions for my future, I would love to hear that from you in the comments. Also, as a closing note, I would like to share my resume which I have created recently based on my progress so far, you can check it out [here](https://docs.google.com/document/d/1c931FkeAugaefH0LcY2Irap0UOp4D9cLpyAgwjOt1ao/edit?usp=sharing). And if you want to stay connected with me, you can follow me here or on my other social handles. Thank You for reading about my journey, have a nice day ahead!!
 
-![First year in tech reflection banner](https://cdn.hashnode.com/res/hashnode/image/upload/v1698152151751/048427f8-d108-47e0-9f9d-79b1596fa335.png)
+![First year in tech reflection banner](../../../assets/blog-img/2023/my-first-year-in-tech/048427f8-d108-47e0-9f9d-79b1596fa335-399c2e6e.webp)

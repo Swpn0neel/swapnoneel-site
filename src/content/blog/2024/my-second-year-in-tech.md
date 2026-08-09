@@ -6,15 +6,14 @@ description: >-
   year of Tech journey. In that blog, I’ve mentioned about how I got started,
   and balanced both development and DSA, while maintaining a consistent 9+ CGPA
   throughout the semest...
-cover: >-
-  https://web.archive.org/web/20241202120007/https://cdn.hashnode.com/res/hashnode/image/upload/v1729861086308/c152433f-383b-4b26-9f86-87418d53ab86.png
+cover: ../../../assets/blog-img/2024/my-second-year-in-tech/c152433f-383b-4b26-9f86-87418d53ab86-08f32d3a.webp
 link: "https://swapnoneel.hashnode.dev/my-second-year-in-tech"
 tags:
   - career
   - reflections
   - tech-journey
   - lessons-learned
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Exactly one year back from now, I published a blog where I shared my First year of Tech journey. In that blog, I’ve mentioned about how I got started, and balanced both development and DSA, while maintaining a consistent 9+ CGPA throughout the semesters. Also, I shared how I got my breakthrough in freelancing and how I attended multiple hackathons and won all of them! If you haven’t read that blog, I would request you to [read it from here](https://swapnoneel.hashnode.dev/my-first-year-in-tech).
@@ -31,7 +30,7 @@ By the end of this month, I started participating in the Weekly Leetcode contest
 
 Alongside this, I was working on building a CRUD application called “Toile”, whose major purpose was to showcase my designing skill, alongside a functional backend.
 
-![Toile CRUD web application design and dashboard](https://cdn.hashnode.com/res/hashnode/image/upload/v1731092158245/7fe5e731-cb6b-460d-ba3c-02720382b475.png)
+![Toile CRUD web application design and dashboard](../../../assets/blog-img/2024/my-second-year-in-tech/7fe5e731-cb6b-460d-ba3c-02720382b475-d1da2cb4.webp)
 
 ### December, 2023
 
@@ -45,7 +44,7 @@ Also, I ended this month with an amazing event DevFest Kolkata ‘24, where I le
 
 Additionally, I designed a GitHub stats tracker, and as a part of that, I created a GitHub Wrap for myself!
 
-![GitHub Wrap 2023 stats tracker interface](https://cdn.hashnode.com/res/hashnode/image/upload/v1731092247608/b63799de-6846-4b8b-8d91-3017ec5b280d.png)
+![GitHub Wrap 2023 stats tracker interface](../../../assets/blog-img/2024/my-second-year-in-tech/b63799de-6846-4b8b-8d91-3017ec5b280d-a3b6325a.webp)
 
 ### January, 2024
 
@@ -59,7 +58,7 @@ The month started with a small contractual work for re-designing the UI of a sta
 
 Also, me and my friend [Sam Maji](https://github.com/sammaji) decided to created a small SaaS project called, **InPoster**([https://inposter.vercel.app](https://inposter.vercel.app)) which will generate you viral LinkedIn posts with hashtags and other decorations just by taking some keywords from you about the topic. We challenged ourselves to build the project within one night, and we successfully did that, but it took some more days to improve some of the features and fix the bugs!
 
-![InPoster viral LinkedIn post generator SaaS app](https://cdn.hashnode.com/res/hashnode/image/upload/v1731092318237/24a382a5-96bb-4d11-b7aa-108afad301e2.png)
+![InPoster viral LinkedIn post generator SaaS app](../../../assets/blog-img/2024/my-second-year-in-tech/24a382a5-96bb-4d11-b7aa-108afad301e2-e96d7641.webp)
 
 ### March, 2024
 
@@ -75,7 +74,7 @@ This was the month of my end-semester exams, so definitely I was invested in tha
 
 Also, I contributed a lot in [Keploy](https://github.com/keploy)’s Open-Source repositories this month, and created a sample app for them using Flask and MongoDB. Not only that, due to my excessive contribution to their projects, I was able to become one of the Top Contributors for the month!
 
-![Top Keploy contributors of April 2024 leaderboard](https://pbs.twimg.com/media/GMZozT9b0AE6tAh?format=jpg&name=4096x4096)
+![Top Keploy contributors of April 2024 leaderboard](../../../assets/blog-img/2024/my-second-year-in-tech/gmzozt9b0ae6tah-8e6354a2.webp)
 
 ### May, 2024
 
@@ -93,17 +92,17 @@ Started this month while making a `npm` package called [`get-response`](https://
 
 Delivered a python-based ML project for a research scholar, and as a part of it I had to explore Streamlit a bit, and while doing so, I made this app using Gemini’s API, that can convert your provided design into working HTML and CSS code. You can try it for yourself from here: [https://ui-to-code.streamlit.app](https://ui-to-code.streamlit.app)
 
-![UI to Code Streamlit app preview](https://pbs.twimg.com/media/GQEH-MfaIAAJRVG?format=jpg&name=large)
+![UI to Code Streamlit app preview](../../../assets/blog-img/2024/my-second-year-in-tech/gqeh-mfaiaajrvg-22d83598.webp)
 
 ### July, 2023
 
 In my previous blog, I mentioned that I attended Eastern India’s biggest hackathon “Hack 4 Bengal 2.0”, but sadly we had to return mid-way because of an unavoidable circumstance. So, it was the time to make it a success in their next iteration, “[Hack 4 Bengal 3.0](https://www.hack4bengal.tech)”. So at very end of last month, me along with my other two teammates [Tuhin Poddar](https://github.com/Tuhin114) and [Sam Maji](https://github.com/sammaji) attended the hackathon. We created a cloud-based AI powered terminal called “[Term AI](https://term-ai.vercel.app)”, that let’s you code from anywhere at anytime from whichever device you want, which frees you from the hassle of carrying a laptop or relying on a desktop while travelling. It was really fun to make this project, because at this point we are making something unique that can be used by folks in their day-to-day life!
 
-![Term AI cloud-based AI terminal interface](https://cdn.hashnode.com/res/hashnode/image/upload/v1731093334429/8cc5cee5-a976-4c33-a5dc-563e0ae4d62e.png)
+![Term AI cloud-based AI terminal interface](../../../assets/blog-img/2024/my-second-year-in-tech/8cc5cee5-a976-4c33-a5dc-563e0ae4d62e-60f425a7.webp)
 
 And, we ended up **winning the prize of second runner-up** among all of the 300+ participants. It was a really enjoyable moment for us, because from failing to stay throughout the hackathon in last year to winning it in this year, felt like a redemption arc for me! And it genuinely felt extremely good!
 
-![Hack 4 Bengal 3.0 second runner-up award achievement](https://cdn.hashnode.com/res/hashnode/image/upload/v1731167476958/0c89adf8-a6cf-4c66-844a-e23159b3efa2.png)
+![Hack 4 Bengal 3.0 second runner-up award achievement](../../../assets/blog-img/2024/my-second-year-in-tech/0c89adf8-a6cf-4c66-844a-e23159b3efa2-581f88c9.webp)
 
 Also, I organized an open-source bootcamp under the hood of Keploy, called the “**Keploy Rain of Code**”, which led to an massive upsurge of open-source contributors for Keploy, and it was an unique experience for me to guide and manage so many folks all at once, and giving each one of them equal attention! The program was a great success and we were able to get a lot of new quality contributors.
 
@@ -128,7 +127,7 @@ Other than this, I worked on delivering a couple of articles for a client and wo
 I have tried to mention most of the important stuff here. But I want to mention/clarify some things that weren't mentioned in the timeline or haven’t got reflected enough:
 
 - Solving DSA problems was a integral part of my journey, and almost everyday I practiced problems on Leetcode, starting from November, last year. And I’ve been highly consistent in doing that!
-  ![LeetCode problem solving streak and statistics chart](https://cdn.hashnode.com/res/hashnode/image/upload/v1731097936631/9892cf9a-b21c-4b9d-9787-749937c80916.png)
+  ![LeetCode problem solving streak and statistics chart](../../../assets/blog-img/2024/my-second-year-in-tech/9892cf9a-b21c-4b9d-9787-749937c80916-ca0758f1.webp)
 - I’ve mentioned about only the important or substantial freelancing works that have influenced my journey and have taken quite a few days or weeks to finish. Other than the mentioned ones, I’ve done a lot of other works in the freelancing space, which aren’t that worthwhile to mention.
 - In few places, I’ve mentioned about what I’ve done while working within Keploy. But please take note that these were just a few things that I really loved working on, or was worthy of mentioning here. Being a DevRel is a lot more than this!
 - I invested majority of my freelancing money in stocks or spent them in buying assets. And also, I gifted myself a Nothing Phone (2a) this year, and also built a completely new work-setup for me in our house! Other than these, I paid the semester fees this year, all by myself; and also have taken care of my closed ones.
@@ -163,4 +162,4 @@ Other than these, I want to face more challenges and learn new stuffs that will 
 
 And that's a wrap!! But if you have any queries regarding my journey or any suggestions for my future, I would love to hear that from you in the comments. And if you want to stay connected with me, you can follow me here or on my other social handles. Thank You for reading about my journey, have a nice day ahead!!
 
-![Thank you graphic for second year in tech blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1716652301849/8327a90c-373e-4837-9102-e67bb38def0c.png?auto=compress,format&format=webp)
+![Thank you graphic for second year in tech blog](../../../assets/blog-img/2024/my-second-year-in-tech/8327a90c-373e-4837-9102-e67bb38def0c-9ffd9022.webp)

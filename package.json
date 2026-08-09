@@ -15,7 +15,8 @@
     "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",
     "lint:fix": "eslint . --fix",
-    "postinstall": "simple-git-hooks"
+    "postinstall": "simple-git-hooks",
+    "postbuild": "node scripts/verify-heading-ids.mjs"
   },
   "simple-git-hooks": {
     "pre-commit": "node scripts/generate-narrations.mjs && git add -A -- public/narration"

@@ -3,15 +3,14 @@ title: "Designing Machine Learning Workflows in Python"
 date: "2024-02-02T16:07:14.579Z"
 description: >-
   A machine-learning workflow turns data into features, trains and evaluates a model, and saves the result. Build that process in Python with Fashion MNIST and IMDb examples.
-cover: >-
-  https://web.archive.org/web/20240417063106/https://cdn.hashnode.com/res/hashnode/image/upload/v1706889691867/9b2f329b-3ac3-47e5-a748-c9a1eadee06a.png
+cover: ../../../assets/blog-img/2024/designing-machine-learning-workflows-in-python/9b2f329b-3ac3-47e5-a748-c9a1eadee06a-c918a8e3.webp
 link: "https://swapnoneel.hashnode.dev/designing-machine-learning-workflows-in-python"
 tags:
   - python
   - machine-learning
   - data-science
   - workflows
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Machine learning code is rarely just a model. You also need data that the model can read, a repeatable way to turn that data into features, an evaluation that matches the problem, and a way to save the result for later.
@@ -207,7 +206,7 @@ The `Flatten` layer turns each image into one vector. The hidden dense layer lea
 
 The model trains with [model.fit](http://model.fit)() on the training images and checks the test images only after training. When the code is run through the terminal, the model is trained, evaluated, and the test loss and accuracy are printed, as shown below:
 
-![Terminal output of Fashion MNIST model training and evaluation](https://cdn.hashnode.com/res/hashnode/image/upload/v1706888496190/80a5fff8-8809-43d7-b8cc-8459949edd5c.png)
+![Terminal output of Fashion MNIST model training and evaluation](../../../assets/blog-img/2024/designing-machine-learning-workflows-in-python/80a5fff8-8809-43d7-b8cc-8459949edd5c-e7dee2cd.webp)
 
 ## Example with IMDb sentiment
 
@@ -254,7 +253,7 @@ The [model.fit](http://model.fit)() call learns the relationship between the tra
 
 When the code is run through the terminal, the model is trained, evaluated, and the accuracy is printed, as shown below:
 
-![Terminal output of sentiment analysis model training and accuracy](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889095784/94b6cb10-93a0-4b56-8e9d-0cd704d94764.png)
+![Terminal output of sentiment analysis model training and accuracy](../../../assets/blog-img/2024/designing-machine-learning-workflows-in-python/94b6cb10-93a0-4b56-8e9d-0cd704d94764-b5b05058.webp)
 
 ## Moving from a notebook to an application
 
@@ -272,4 +271,4 @@ The code is only one part of the job. The decisions around the code determine wh
 
 For more posts, you can follow me on [Twitter (swapnoneel123)](http://twitter.com/swapnoneel123). You can also check my [GitHub (Swpn0neel)](https://github.com/Swpn0neel) for projects.
 
-![Machine learning model evaluation matrix and performance metrics](https://cdn.hashnode.com/res/hashnode/image/upload/v1706889699251/e0331511-ab42-4e0c-997c-5cbe529b3888.png)
+![Machine learning model evaluation matrix and performance metrics](../../../assets/blog-img/2024/designing-machine-learning-workflows-in-python/e0331511-ab42-4e0c-997c-5cbe529b3888-7b127b0b.webp)

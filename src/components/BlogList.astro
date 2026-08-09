@@ -1,0 +1,98 @@
+---
+import { brandColor } from "@/lib/blog-brand";
+import type { BlogSummary } from "@/lib/content";
+import Icon from "./Icon.astro";
+
+interface Props {
+  posts: BlogSummary[];
+}
+
+const { posts } = Astro.props;
+
+const grouped = new Map<string, BlogSummary[]>();
+for (const post of posts) {
+  const year = String(post.publishedAt.getFullYear());
+  if (!grouped.has(year)) grouped.set(year, []);
+  grouped.get(year)!.push(post);
+}
+const years = [...grouped.keys()].sort((a, b) => Number(b) - Number(a));
+
+/**
+ * Zero JS. The only state this ever held was "is this year collapsed", and
+ * paying for it with `use client` meant all 45 rows were re-executed and
+ * reconciled on the client: 770ms TBT and 650ms of Style & Layout on /blog, the
+ * worst score on the site. A native <details> gets the same behaviour — see
+ * .details-animated in global.css for the open/close transition.
+ */
+---
+
+<div class="pb-12">
+  {
+    years.map((year) => {
+      const items = grouped.get(year)!;
+      return (
+        <div class="mb-6">
+          <details open class="peer details-animated group/year">
+            {/* list-none plus the webkit marker rule removes the UA disclosure
+                triangle; the chevron below is the affordance, rotated by the
+                parent's [open] state.
+
+                Three named groups are in play and none may be the anonymous
+                `group`: /year is the details (open state), /head is the summary
+                (hover state — an unnamed group here would make hovering any
+                post row light up the year heading), /row is each link. */}
+            <summary class="group/head flex w-full cursor-pointer list-none items-center justify-between py-2 select-none [&::-webkit-details-marker]:hidden">
+              <div class="flex items-center gap-2.5">
+                <h2 class="text-foreground group-hover/head:text-muted-foreground text-sm font-semibold transition-colors">
+                  {year}
+                </h2>
+                {/* Full-opacity muted-foreground, not /60: at 10px on
+                    secondary/65 the faded version was 3.29:1, below the 4.5:1
+                    WCAG AA floor for small text. */}
+                <span class="text-muted-foreground bg-secondary/65 text-2xs rounded-full px-2 py-0.5 font-mono leading-none font-medium">
+                  {items.length}
+                </span>
+              </div>
+              <Icon
+                name="chevron-down"
+                class="text-faint-foreground group-hover/head:text-foreground h-4 w-4 -rotate-90 transition-all duration-300 group-open/year:rotate-0"
+              />
+            </summary>
+
+            <div class="space-y-0 pt-2 pb-4">
+              {items.map((post, i) => {
+                const accent = brandColor({ brand: post.brand, urls: post.urls });
+                const d = post.publishedAt;
+                const dateStr = `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}`;
+                return (
+                  <div>
+                    <a
+                      href={`/blog/${post.slug}`}
+                      class="group/row flex items-center justify-between py-3"
+                    >
+                      <span
+                        class={`text-muted-foreground min-w-0 truncate text-sm transition-colors ${
+                          accent
+                            ? "group-hover/row:text-(--post-accent)"
+                            : "group-hover/row:text-foreground"
+                        }`}
+                        style={accent ? `--post-accent:${accent}` : undefined}
+                      >
+                        {post.title}
+                      </span>
+                      <span class="text-muted-foreground ml-4 shrink-0 font-mono text-xs">
+                        {dateStr}
+                      </span>
+                    </a>
+                    {i < items.length - 1 && <hr class="border-border/40" />}
+                  </div>
+                );
+              })}
+            </div>
+          </details>
+          <hr class="border-border/40 mt-6 peer-open:mt-1" />
+        </div>
+      );
+    })
+  }
+</div>

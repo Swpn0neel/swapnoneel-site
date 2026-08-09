@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676894340817/c0f1b8e2-f5dc-4950-82e9-dc74866f3c74.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/class-methods-in-python/c0f1b8e2-f5dc-4950-82e9-dc74866f3c74-5297b0be.webp
 title: "Class Methods in Python with Examples"
 date: "Mon, 20 Feb 2023 11:59:17 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - oop
   - backend
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## Start with the question of who owns the work
@@ -145,4 +144,4 @@ This could be a module-level function too. Keeping it on Person is reasonable if
 
 My against-interest judgment is that class methods are easy to overuse. If a function does not construct an object or work with class-wide state, putting @classmethod on it adds ceremony and makes the reader wonder what cls is for. Start from the data the method needs. The first argument usually tells you which kind of method you actually have.
 
-![Thank you label illustration](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2)
+![Thank you label illustration](../../../assets/blog-img/2023/class-methods-in-python/painted-thank-you-label-template-23-2148689616-3f36f359.webp)

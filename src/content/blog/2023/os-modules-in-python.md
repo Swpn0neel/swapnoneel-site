@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676210306432/63b57168-8c4b-4acc-9266-b8345e942e2e.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/os-modules-in-python/63b57168-8c4b-4acc-9266-b8345e942e2e-fde6c115.webp
 title: "OS Modules in Python with Examples"
 date: "2023-02-12T13:58:39.078Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - os-module
   - automation
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Python usually lets you forget that a program is running on top of an operating system. You call `open()`, read a string, and carry on. The `os` module is where that boundary becomes visible: folders have names, files have descriptors, processes have exit codes, and each operating system has its own path rules.
@@ -128,4 +127,4 @@ Do not build a shell command by joining untrusted user input into a string. Shel
 
 Start with Python's high-level file and path tools. Reach for `os.path`, `os.listdir()`, or `os.makedirs()` when you need to inspect the machine. Use `os.open()` and shell calls only when their lower-level behavior is the reason you are writing the code. That boundary keeps the module useful without turning every file operation into a permissions and cleanup puzzle.
 
-![Thank you placard concept illustration](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8)
+![Thank you placard concept illustration](../../../assets/blog-img/2023/object-introspection-in-python/thank-you-placard-concept-illustration-114360-13-6bc006f6.webp)

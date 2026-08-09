@@ -1,0 +1,39 @@
+---
+import { getBlogPosts } from "@/lib/content";
+import { i18n } from "@/lib/i18n";
+import { ogImageUrl, safeJsonLd } from "@/lib/utils";
+import BlogList from "../../components/BlogList.astro";
+import Base from "../../layouts/Base.astro";
+
+const posts = await getBlogPosts();
+const SITE = "https://www.swapnoneel.site";
+---
+
+<Base
+  title={i18n.blog.title}
+  description={i18n.blog.description}
+  canonical="/blog"
+  ogImage={{
+    url: ogImageUrl(i18n.blog.title, i18n.blog.description),
+    width: 1200,
+    height: 630,
+    alt: i18n.blog.title,
+  }}
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: "Blog Posts",
+      itemListElement: posts.map((post, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${SITE}/blog/${post.slug}`,
+        name: post.title,
+      })),
+    })}
+  />
+  <BlogList posts={posts} />
+</Base>

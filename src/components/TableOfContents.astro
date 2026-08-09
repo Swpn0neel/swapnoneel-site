@@ -1,0 +1,70 @@
+---
+import type { MarkdownHeading } from "astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+/**
+ * Headings come from render()'s `headings`, which is derived from the same AST
+ * that produced the HTML. The React version re-parsed the raw markdown with a
+ * line regex, which could not see headings written inside list items — on
+ * nodejs-npm-nvm that hid 7 of 15, and the ids it did produce were paired
+ * positionally with the rendered ones, so one entry pointed at the wrong
+ * anchor. Reading the real AST fixes both.
+ */
+const levels = [...new Set(headings.map((h) => h.depth))].sort((a, b) => a - b);
+
+/**
+ * Two sizes, not four. The old ramp ran 0.86 / 0.82 / 0.78 / 0.74 rem — 1.05x
+ * between levels, below the threshold at which a size difference is perceived
+ * at all, so the real depth signal was an opacity ladder whose lower rungs
+ * failed contrast. Depth is carried by indent first (the one cue that scales to
+ * any number of levels), then weight, then the four-step text ramp:
+ * foreground -> body -> muted -> faint. Sizes track --prose-scale so the panel
+ * stays proportional to what it navigates.
+ */
+function styleFor(depth: number): string {
+  const size =
+    depth <= 1
+      ? "text-[calc(0.875rem*var(--prose-scale,1))]"
+      : "text-[calc(0.75rem*var(--prose-scale,1))]";
+  if (depth === 0) return `${size} font-semibold text-foreground`;
+  if (depth === 1) return `${size} pl-4 font-medium text-body-foreground`;
+  if (depth === 2) return `${size} pl-8 text-muted-foreground`;
+  const pad = depth === 3 ? "pl-12" : depth === 4 ? "pl-16" : "pl-20";
+  return `${size} ${pad} text-faint-foreground`;
+}
+---
+
+{
+  headings.length > 0 && (
+    <details
+      class="border-border bg-secondary/15 details-animated group/toc relative mb-6 rounded-md border transition-all duration-300"
+    >
+      <summary class="text-muted-foreground hover:text-foreground group/head text-2xs flex w-full cursor-pointer list-none items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none [&::-webkit-details-marker]:hidden md:p-5">
+        <span>Table of Contents</span>
+        <Icon
+          name="chevron-down"
+          class="text-faint-foreground group-hover/head:text-foreground h-4 w-4 transition-all duration-300 group-open/toc:text-foreground group-open/toc:rotate-180"
+        />
+      </summary>
+
+      <div class="px-4 pb-5 md:px-5">
+        <nav class="border-border/30 space-y-2 border-t pt-4">
+          {headings.map((heading) => (
+            <a
+              href={`#${heading.slug}`}
+              class={`hover:text-foreground block transition-colors ${styleFor(levels.indexOf(heading.depth))}`}
+            >
+              {heading.text}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </details>
+  )
+}

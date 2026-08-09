@@ -1,5 +1,5 @@
 ---
-cover: "https://cdn.hashnode.com/res/hashnode/image/upload/v1675784844805/e2ca5f71-f017-457e-b09e-d811d53e0195.png"
+cover: ../../../assets/blog-img/2023/object-introspection-in-python/e2ca5f71-f017-457e-b09e-d811d53e0195-2e96f865.webp
 title: "Object Introspection in Python Explained"
 date: "2023-02-07T15:48:04.393Z"
 description: >-
@@ -10,7 +10,7 @@ tags:
   - introspection
   - debugging
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## What introspection means
@@ -122,4 +122,4 @@ When an unfamiliar object appears in your code, start with `type(value)` to iden
 
 My caveat is that introspection shows what Python exposes, not what the author intended. Treat the output as a clue, then read the class or docstring before changing code based on a guess. Printing an object's attributes can help you find a problem, but it is not a replacement for a documented interface or a test that explains the expected behavior.
 
-![Thank you placard concept illustration](https://img.freepik.com/free-vector/thank-you-placard-concept-illustration_114360-13436.jpg?w=1380&t=st=1675784022~exp=1675784622~hmac=b4748b9ac8dd94ff98a8232e0a56aa06102f42d9595f55a3b7cdc17121e72ea8)
+![Thank you placard concept illustration](../../../assets/blog-img/2023/object-introspection-in-python/thank-you-placard-concept-illustration-114360-13-6bc006f6.webp)

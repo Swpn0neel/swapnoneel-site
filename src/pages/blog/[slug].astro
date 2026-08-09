@@ -1,0 +1,205 @@
+---
+import { render } from "astro:content";
+import { getBlogPosts } from "@/lib/content";
+import { siteConfig } from "@/lib/config";
+import { i18n } from "@/lib/i18n";
+import { breadcrumbJsonLd, ogImageUrl, safeJsonLd } from "@/lib/utils";
+import { Image } from "astro:assets";
+import FontSizeToggle from "../../components/FontSizeToggle.astro";
+import RelatedPosts from "../../components/RelatedPosts.astro";
+import TableOfContents from "../../components/TableOfContents.astro";
+import Base from "../../layouts/Base.astro";
+import { getRelatedPosts } from "../../lib/related-posts";
+
+export async function getStaticPaths() {
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post, related: getRelatedPosts(posts, post.slug) },
+  }));
+}
+
+const { post, related } = Astro.props;
+const { Content, headings } = await render(post.entry);
+
+const SITE = "https://www.swapnoneel.site";
+const url = `${SITE}/blog/${post.slug}`;
+
+const dateStr = post.publishedAt.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+const updatedStr = post.updatedAt?.toLocaleDateString("en-US", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+
+function crossPost(link: string) {
+  if (link.includes("keploy")) return { label: "Keploy Blogs", color: "#F97316" };
+  if (link.includes("dev.to")) return { label: "DEV.to", color: "#3B49DF" };
+  if (link.includes("medium.com")) return { label: "Medium", color: "#02B875" };
+  if (link.includes("substack.com")) return { label: "Substack", color: "#FF6719" };
+  return { label: "Hashnode", color: "#2962FF" };
+}
+const crossPosts = post.urls.map((link) => ({ url: link, ...crossPost(link) }));
+
+const coverUrl = new URL(post.cover.src, SITE).href;
+---
+
+<Base
+  title={post.title}
+  description={post.description}
+  canonical={`/blog/${post.slug}`}
+  ogType="article"
+  publishedTime={post.publishedAt.toISOString()}
+  ogImage={{
+    url: post.cover.src,
+    width: post.cover.width,
+    height: post.cover.height,
+    alt: post.title,
+  }}
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd({
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: post.title,
+      description: post.description,
+      image: coverUrl,
+      datePublished: post.publishedAt.toISOString(),
+      ...(post.updatedAt ? { dateModified: post.updatedAt.toISOString() } : {}),
+      author: {
+        "@type": "Person",
+        name: siteConfig.person.fullName,
+        url: SITE,
+      },
+      mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    })}
+  />
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={safeJsonLd(
+      breadcrumbJsonLd([
+        { name: "Home", url: SITE },
+        { name: "Blog", url: `${SITE}/blog` },
+        { name: post.title, url },
+      ])
+    )}
+  />
+
+  <article class="pb-16">
+    <div class="mb-6 grid grid-cols-[1fr_auto] gap-x-4 [grid-template-areas:'back_toggle'_'title_title'_'meta_meta'] sm:[grid-template-areas:'back_back'_'title_title'_'meta_toggle']">
+      <a
+        href="/blog"
+        class="text-muted-foreground hover:text-foreground self-center text-xs transition-colors [grid-area:back]"
+      >
+        ← {i18n.blog.backLink}
+      </a>
+      <div class="self-center justify-self-end [grid-area:toggle]">
+        <FontSizeToggle />
+      </div>
+      <h1 class="blog-title text-foreground mt-4 mb-4 font-bold tracking-tight text-balance [grid-area:title]">
+        {post.title}
+      </h1>
+      <p class="text-muted-foreground blog-scaled-text self-center [grid-area:meta]">
+        {dateStr}
+        {` · ${post.wordCount} words`}
+        {post.readingTime !== undefined && ` · ${post.readingTime} min read`}
+      </p>
+    </div>
+
+    {/* Cover. The title sits directly above it, so a caption would just repeat
+        the heading — hence the empty alt. */}
+    <span class="my-6 block" data-no-narrate>
+      <span
+        class="border-border bg-secondary/30 relative block w-full overflow-hidden rounded-md border"
+        style={`aspect-ratio:${post.cover.width} / ${post.cover.height}`}
+      >
+        <Image
+          src={post.cover}
+          alt=""
+          sizes="(max-width: 810px) 100vw, 770px"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          class="absolute inset-0 size-full object-cover"
+        />
+      </span>
+    </span>
+
+    <TableOfContents headings={headings} />
+
+    <div id="blog-prose" class="prose prose-sm max-w-none [&>*:first-child]:mt-0">
+      <Content />
+    </div>
+
+    {
+      (post.tags.length > 0 || crossPosts.length > 0 || updatedStr) && (
+        <footer class="blog-footer-gap space-y-4">
+          {post.tags.length > 0 && (
+            <div class="flex flex-wrap items-center gap-2">
+              {post.tags.map((tag) => (
+                <span class="border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground bg-background blog-scaled-text rounded-sm border px-2.5 py-1 font-medium transition-colors">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+          {/* Syndication and the updated date read as one block, so they sit
+              tight together and take the tag row's breathing gap as a pair. */}
+          {(crossPosts.length > 0 || updatedStr) && (
+            <div class="blog-footer-gap">
+              {crossPosts.length > 0 && (
+                <p class="text-muted-foreground blog-scaled-text">
+                  {i18n.blog.alsoPublishedOn}{" "}
+                  {crossPosts.map((cp, i) => (
+                    <span>
+                      <a
+                        href={cp.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
+                        style={`color:${cp.color}`}
+                      >
+                        {cp.label}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide h-3 w-3" aria-hidden="true">
+                          <path d="M7 7h10v10" />
+                          <path d="M7 17 17 7" />
+                        </svg>
+                      </a>
+                      {i < crossPosts.length - 2 && (
+                        <span class="text-muted-foreground">, </span>
+                      )}
+                      {i === crossPosts.length - 2 && (
+                        <span class="text-muted-foreground"> and </span>
+                      )}
+                    </span>
+                  ))}
+                </p>
+              )}
+              {updatedStr && (
+                <p
+                  class={`text-muted-foreground blog-scaled-text ${crossPosts.length > 0 ? "blog-footer-gap-tight" : ""}`}
+                >
+                  {i18n.blog.lastUpdatedOn}: {updatedStr}
+                </p>
+              )}
+            </div>
+          )}
+        </footer>
+      )
+    }
+
+    <RelatedPosts posts={related} />
+  </article>
+</Base>
+
+<script>
+  import { initCopyCode } from "../../scripts/copy-code";
+  initCopyCode();
+</script>

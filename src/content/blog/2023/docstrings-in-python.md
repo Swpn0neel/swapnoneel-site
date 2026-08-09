@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921636996/6039154e-d731-486b-8d15-888cb8bba647.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/docstrings-in-python/6039154e-d731-486b-8d15-888cb8bba647-f3533d2b.webp
 title: "Docstrings in Python with Examples"
 date: "2023-01-25T14:42:32.056Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - documentation
   - clean-code
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## The string Python remembers
@@ -124,4 +123,4 @@ One warning: inherited or decorated functions can make the source of a docstring
 
 My caveat is that a docstring is part of the interface, not a comment dump. When the implementation changes, reread it as if you were a new caller. A short description that stays true is worth more than a detailed promise the function no longer keeps.
 
-![Thank you card in blue tones](https://img.freepik.com/free-vector/thank-you-card-blue-tones_23-2148665027.jpg?w=1380&t=st=1674657663~exp=1674658263~hmac=4b0703b3e652f76dd18a3a9e99932842361293d22d9096d3abafe7d2f2280837)
+![Thank you card in blue tones](../../../assets/blog-img/2023/docstrings-in-python/thank-you-card-blue-tones-23-2148665027-ecd51357.webp)

@@ -8,15 +8,14 @@ description: >-
   executes JavaScript code outside the web browser. And, npm stands for Node
   Package Manager and is the default package manager for Node.js and is also a
   platform for...
-cover: >-
-  https://web.archive.org/web/20240526000304/https://cdn.hashnode.com/res/hashnode/image/upload/v1716561929669/7be53812-2eb8-4dd7-84a4-3a0f8546086f.png
+cover: ../../../assets/blog-img/2024/nodejs-npm-nvm/7be53812-2eb8-4dd7-84a4-3a0f8546086f-7c99e89c.webp
 link: "https://swapnoneel.hashnode.dev/nodejs-npm-nvm"
 tags:
   - nodejs
   - npm
   - nvm
   - javascript
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## Introduction
@@ -27,7 +26,7 @@ We all know that, **Node.js** is the runtime environment for JavaScript that exe
 
 Based on the operating systems, the installation process is different and varied. That's why, I'm classifying them here so that you folks don't get confused between them.
 
-![Node.js architecture and runtime overview](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554172337/62142e92-545a-4b6b-9b5e-b018bcf9d0e8.png)
+![Node.js architecture and runtime overview](../../../assets/blog-img/2024/nodejs-npm-nvm/62142e92-545a-4b6b-9b5e-b018bcf9d0e8-06e7842c.webp)
 
 ### Windows
 
@@ -73,13 +72,13 @@ npm -v
 
 > _If you are on Windows, Powershell may cause some issues, so try to use Command Prompt in that case. It will work!!_
 
-![Terminal verification of node and npm versions](https://cdn.hashnode.com/res/hashnode/image/upload/v1716553688790/eaf89f25-9858-410e-9ebc-082022a6697e.png)
+![Terminal verification of node and npm versions](../../../assets/blog-img/2024/nodejs-npm-nvm/eaf89f25-9858-410e-9ebc-082022a6697e-9791d5b0.webp)
 
 ## Managing node versions using NVM
 
 NVM stands for Node Version Manager and it's a command-line tool that helps us to manage and switch different versions of Node.js with ease and convenience!!
 
-![NVM Node Version Manager overview banner](https://cdn.hashnode.com/res/hashnode/image/upload/v1716554276508/db2ae459-9cd3-41fe-837f-29c2ea3d8671.png)
+![NVM Node Version Manager overview banner](../../../assets/blog-img/2024/nodejs-npm-nvm/db2ae459-9cd3-41fe-837f-29c2ea3d8671-18cce5eb.webp)
 
 1. ### Check available node versions
 
@@ -91,7 +90,7 @@ nvm ls available
 
 After running this, you get something like this:
 
-![Terminal output of nvm ls available command](https://cdn.hashnode.com/res/hashnode/image/upload/v1716555882030/1d1e966c-c139-4c92-a68e-a64cbde6b661.png)
+![Terminal output of nvm ls available command](../../../assets/blog-img/2024/nodejs-npm-nvm/1d1e966c-c139-4c92-a68e-a64cbde6b661-a0612a44.webp)
 
 2. ### Installing the latest node version
 
@@ -147,7 +146,7 @@ nvm list
 
 And, you will see a response like this:
 
-![Terminal output of nvm list showing installed Node versions](https://cdn.hashnode.com/res/hashnode/image/upload/v1716560504142/21e3f56e-e0d9-415f-96e9-816e2ccb40da.png)
+![Terminal output of nvm list showing installed Node versions](../../../assets/blog-img/2024/nodejs-npm-nvm/21e3f56e-e0d9-415f-96e9-816e2ccb40da-6f9a68f9.webp)
 
 6. ### Switching Node versions
 
@@ -175,4 +174,4 @@ Replace the `<node_version_number>` with your desired and installed Node version
 
 Well, that's a wrap for now!! Hope you folks have enriched yourself today with lots of known or unknown concepts. I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![Thank you graphic for Node.js npm NVM guide](https://cdn.hashnode.com/res/hashnode/image/upload/v1716561409967/1916dd93-56c0-4df1-8be1-19b75342aad1.png)
+![Thank you graphic for Node.js npm NVM guide](../../../assets/blog-img/2024/nodejs-npm-nvm/1916dd93-56c0-4df1-8be1-19b75342aad1-233b6d1a.webp)

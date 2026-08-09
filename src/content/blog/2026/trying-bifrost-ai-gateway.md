@@ -11,15 +11,14 @@ link:
     https://swapnoneel.medium.com/trying-bifrost-an-ai-gateway-that-simplified-my-setup-2011a7be76b3
   - >-
     https://dev.to/swapnoneel123/trying-bifrost-an-ai-gateway-that-simplified-my-setup-5c62
-cover: >-
-  https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yf5e404oqqi9lk161aik.png
+cover: ../../../assets/blog-img/2026/trying-bifrost-ai-gateway/yf5e404oqqi9lk161aik-68a29920.webp
 brand: maxim
 tags:
   - productivity
   - webdev
   - ai
   - opensource
-updated: '2026-08-07T17:43:55.040Z'
+updated: '2026-08-09T08:00:04.817Z'
 ---
 
 I try a lot of models daily, and I kept ending up with a separate API key for every model provider I wanted to test with my desired harness. So I decided to try [Bifrost](https://www.getmaxim.ai/bifrost) on my local machine, to see if it would actually fix that.
@@ -58,7 +57,7 @@ Now it's time to grab your API keys, and connect it to Bifrost.
 
 As I've mentioned previously, I will be using Zen and Gemini. Both of these have generous free tiers, and getting the API keys doesn't require any credit card details.
 
-![Adding an OpenCode Zen key in Bifrost, with allowed and blocked models configurable per key.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ifxbew6g3hran2gduwhf.png)
+![Adding an OpenCode Zen key in Bifrost, with allowed and blocked models configurable per key.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/ifxbew6g3hran2gduwhf-de6548ac.webp)
 
 As you can see from the above screenshot, adding your keys is pretty simple. You just need to select your provider, assign a name to your key and you are good to go!
 
@@ -96,7 +95,7 @@ Now this will vary based on your selected model and provider. It is better if yo
 
 Now that we are connected, we can launch OpenCode from our terminal (or app), and in the model selector we will see something like this:
 
-![Both models now show up in OpenCode's model selector, routed through Bifrost Local.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/si2cvhaifiesppmkgg4m.png)
+![Both models now show up in OpenCode's model selector, routed through Bifrost Local.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/si2cvhaifiesppmkgg4m-3ce75234.webp)
 
 Now we can select this model and use it to do our task on OpenCode.
 
@@ -108,7 +107,7 @@ Bifrost gives us a clear understanding of how our models are performing, the amo
 
 In the screenshot below, you will be able to see how Bifrost does that:
 
-![Bifrost's live LLM logs: requests, success rate, latency, tokens, and cost, all in one dashboard.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/5gy16zixrg4t5slxic89.png)
+![Bifrost's live LLM logs: requests, success rate, latency, tokens, and cost, all in one dashboard.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/5gy16zixrg4t5slxic89-a08a432d.webp)
 
 We can see and check the detailed logs as well.
 
@@ -128,7 +127,7 @@ If models are available and we have a specific logic in mind, we can implement t
 
 So, for now, let's create a simple rule, such that: if Gemini models aren't available, we will route the traffic through Zen models instead.
 
-![The fallback rule: if Gemini's gemini-2.5-flash fails, route to OpenCode Zen's Big Pickle instead.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ug7deh69apmje8fb8h8m.png)
+![The fallback rule: if Gemini's gemini-2.5-flash fails, route to OpenCode Zen's Big Pickle instead.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/ug7deh69apmje8fb8h8m-fd67d584.webp)
 
 As you can see in the screenshot above, I have created a global rule with maximum priority, such that if the provider is `gemini` and the model is `gemini-2.5-flash`, and if the user is using that specifically, we will fall back to `opencode-zen/big-pickle` instead.
 
@@ -136,11 +135,11 @@ Now as the rule is set and applied, I will temporarily disable the gemini servic
 
 Let's come to OpenCode, and type a "hi", and let's see what happens.
 
-![Sent a quick "hi" from OpenCode with Gemini disabled, no visible interruption.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/y7rxucfli3ivtomvff6i.png)
+![Sent a quick "hi" from OpenCode with Gemini disabled, no visible interruption.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/y7rxucfli3ivtomvff6i-1c1e376d.webp)
 
 As you can see, the user didn't get any interruption at all. Let's check the logs to find out what actually happened here.
 
-![The logs confirm it: Gemini errored out, and Bifrost silently fell back to big-pickle.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3njozpqr6g3ytrb177ar.png)
+![The logs confirm it: Gemini errored out, and Bifrost silently fell back to big-pickle.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/3njozpqr6g3ytrb177ar-0ee2729c.webp)
 
 As we can see, the gemini model gave an error, and it automatically fell back to big-pickle, and gave me the response.
 
@@ -156,20 +155,20 @@ The idea is simple: divide the incoming requests into four tiers: simple, medium
 
 So I've configured my complexity routing profile, and you can easily do it as well based on your own requirement. Here's my profile:
 
-![My complexity routing profile: tier boundaries and keyword lists that decide simple, medium, complex, and reasoning requests.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/jn984noo2rlwqhqq6b3q.png)
+![My complexity routing profile: tier boundaries and keyword lists that decide simple, medium, complex, and reasoning requests.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/jn984noo2rlwqhqq6b3q-a1c12583.webp)
 
 For my simple and medium queries, I want the gemini model to handle that, and for complex and reasoning-based queries, I want them to go to big-pickle.
 
 Now, we need to create custom routing rules for that.
 
-![The two complexity routing rules: simple and medium traffic to Gemini, complex and reasoning traffic to Big Pickle.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/f0w7uf10mauqav9dopjv.png)
+![The two complexity routing rules: simple and medium traffic to Gemini, complex and reasoning traffic to Big Pickle.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/f0w7uf10mauqav9dopjv-1440f678.webp)
 
 Now that the rules have been created, let's test them, and check the LLM logs. I'll send two queries from OpenCode:
 
 - `Hello, briefly define REST API.` (expected to go to gemini)
 - `How to debug an async API authentication failure step by step, explain the root cause, and recommend an architecture fix.` (expected to go to big-pickle)
 
-![The simple query went to Gemini, the complex one to big-pickle, exactly as configured.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8axw0rg5qpcc7kx5dtwq.png)
+![The simple query went to Gemini, the complex one to big-pickle, exactly as configured.](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/8axw0rg5qpcc7kx5dtwq-35a73fef.webp)
 
 And we can see in the screenshot above that it worked exactly how we intended.
 
@@ -179,6 +178,6 @@ Model routing and the complexity router are the two features that got me the mos
 
 Honestly, I loved this. Setting it up took maybe fifteen minutes end to end, and it quietly fixed a problem I'd been living with for a while: juggling separate API keys and dashboards for every provider I wanted to test. The fallback and complexity routing worked exactly the way the docs said they would, no surprises, and that alone made this whole exercise worth it.
 
-![Please like, share and follow](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s436tk6aszvy9g079vjt.png)
+![Please like, share and follow](../../../assets/blog-img/2026/trying-bifrost-ai-gateway/s436tk6aszvy9g079vjt-cfad970a.webp)
 
 If you're juggling more than one model provider and keep swapping keys by hand, give Bifrost a shot. And if you've already tried it, let me know what you built with it, and also if the enterprise version intrigues you, you can [book a demo as well](https://www.getmaxim.ai/bifrost/book-a-demo).

@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676665768059/5c47a278-9f02-4928-a098-0aee8b08d448.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/getters-and-setters-in-python/5c47a278-9f02-4928-a098-0aee8b08d448-820bf27e.webp
 title: "Getters and Setters in Python Explained"
 date: "Sat, 18 Feb 2023 13:32:09 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - oop
   - encapsulation
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## Keep the public name simple
@@ -130,4 +129,4 @@ Do not create a getter and setter that only return and assign the same value for
 
 My caveat is to keep the public name stable and the property small. If a getter performs a database query or a setter triggers half the application, attribute syntax can hide a surprisingly expensive operation. For simple validation and computed values, property is a good fit. For larger actions, an explicit method tells the reader more honestly what a call will do.
 
-![Thank you banner graphic](https://etiquettejulie.com/wp-content/uploads/2017/01/thank-you-from-christian-vision-alliance.jpg)
+![Thank you banner graphic](../../../assets/blog-img/2023/getters-and-setters-in-python/thank-you-from-christian-vision-alliance-86caace5.webp)

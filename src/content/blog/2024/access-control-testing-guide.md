@@ -3,15 +3,14 @@ title: "Access Control Testing: Principles, Vulnerabilities & Tools"
 date: "2024-12-30T00:02:56.000Z"
 description: >-
   Access control testing checks whether a specific user can perform a specific action on a specific resource. Test ownership, roles, direct endpoints, uploads, and side effects.
-cover: >-
-  https://wp.keploy.io/wp-content/uploads/2024/12/acb16e68-ec02-4bc8-b79b-d24fbf98d6ff.png
+cover: ../../../assets/blog-img/2024/access-control-testing-guide/acb16e68-ec02-4bc8-b79b-d24fbf98d6ff-2477e68a.webp
 link: "https://keploy.io/blog/community/access-control-testing-guide"
 tags:
   - security
   - testing
   - authorization
   - webdev
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Authentication answers one question: "Who are you?" Access control, also called authorization, answers the next one: "What are you allowed to do?"

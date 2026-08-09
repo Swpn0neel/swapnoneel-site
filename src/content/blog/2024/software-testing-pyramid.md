@@ -1,12 +1,11 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1714393417843/65bd36e3-38a3-4300-9603-23c6950d351c.png
+cover: ../../../assets/blog-img/2024/software-testing-pyramid/65bd36e3-38a3-4300-9603-23c6950d351c-7a86a1a0.webp
 title: "Software Testing Pyramid"
 date: "Mon, 29 Apr 2024 12:25:01 GMT"
 description: >-
   The testing pyramid places many fast unit tests below fewer integration tests and a small number of end-to-end journeys. Use it as a feedback and maintenance guide, not a rigid law.
 link: "https://swapnoneel.hashnode.dev/software-testing-pyramid"
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 tags:
   - testing
   - unit-testing
@@ -20,7 +19,7 @@ The testing pyramid is a way to divide that evidence. You put many fast tests at
 
 ## The three layers
 
-![Software testing pyramid architecture diagram](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334533795/f1fd8287-3ef7-40d5-9c49-1f9b585f2235.png)
+![Software testing pyramid architecture diagram](../../../assets/blog-img/2024/software-testing-pyramid/f1fd8287-3ef7-40d5-9c49-1f9b585f2235-04552527.webp)
 
 Read the pyramid from the bottom upward. Each layer answers a different question, and each one catches failures that the others can miss.
 
@@ -76,4 +75,4 @@ Use the pyramid as a conversation about risk. Unit tests give you quick answers 
 
 There is no prize for drawing the most symmetrical pyramid. Put the tests where they can tell you something useful, keep the expensive journeys focused, and make the fast checks easy to run before you forget why the change was made.
 
-![Thank you graphic for software testing pyramid blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1714334190050/d203af69-a3d1-4e93-827b-1ecb696255b9.png)
+![Thank you graphic for software testing pyramid blog](../../../assets/blog-img/2024/software-testing-pyramid/d203af69-a3d1-4e93-827b-1ecb696255b9-3782cd93.webp)

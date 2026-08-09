@@ -9,15 +9,14 @@ description: >-
   social media handles, right at their terminal?
 
   Or maybe you have created some cool React ...
-cover: >-
-  https://web.archive.org/web/20240527171209/https://cdn.hashnode.com/res/hashnode/image/upload/v1716652494165/d4d1de8a-1201-411d-af7d-9b40fa4b6a21.png
+cover: ../../../assets/blog-img/2024/publish-your-own-npm-package/d4d1de8a-1201-411d-af7d-9b40fa4b6a21-0ea14c12.webp
 link: "https://swapnoneel.hashnode.dev/publish-your-own-npm-package"
 tags:
   - npm
   - javascript
   - nodejs
   - open-source
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## Introduction
@@ -84,7 +83,7 @@ Now, you will prompted to give some answers, I'm mentioning the utility of each 
 
 Once you provide all these information, a file will be created called `package.json` that will kinda look like this:
 
-![package.json file generated after running npm init](https://cdn.hashnode.com/res/hashnode/image/upload/v1716639984976/535670bf-65cd-4641-9b48-1be0daef046b.png)
+![package.json file generated after running npm init](../../../assets/blog-img/2024/publish-your-own-npm-package/535670bf-65cd-4641-9b48-1be0daef046b-f66070e7.webp)
 
 <div data-node-type="callout">
 <div data-node-type="callout-emoji">💡</div>
@@ -107,7 +106,7 @@ _Please add the following line at the start of the code because it tells the ope
 
 Now inside the `index.js` file, write the code for your package. Here, I will be creating a simple package called `test`. This package will print the string `"Reminder to follow Swapnoneel on Twitter at https://x.com/swapnoneel123"` in the terminal.
 
-![index.js code implementation printing reminder text](https://cdn.hashnode.com/res/hashnode/image/upload/v1716648802856/1df1543f-5bb4-43e6-affa-3f4461378f83.png)
+![index.js code implementation printing reminder text](../../../assets/blog-img/2024/publish-your-own-npm-package/1df1543f-5bb4-43e6-affa-3f4461378f83-c6e45b26.webp)
 
 ### Create an executable script
 
@@ -181,11 +180,11 @@ npm link <your_package_name>
 
 And, you'll see something like this:
 
-![Terminal output of npm link command testing package locally](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650345968/b8038b49-3ee6-4ce2-8e78-f61b04b60a84.png)
+![Terminal output of npm link command testing package locally](../../../assets/blog-img/2024/publish-your-own-npm-package/b8038b49-3ee6-4ce2-8e78-f61b04b60a84-f2b83cbe.webp)
 
 Now you can run your package, and it should work perfectly!!
 
-![Terminal output of running local package command](https://cdn.hashnode.com/res/hashnode/image/upload/v1716650425160/b8d12272-5801-4c13-87fa-243a88244d8f.png)
+![Terminal output of running local package command](../../../assets/blog-img/2024/publish-your-own-npm-package/b8d12272-5801-4c13-87fa-243a88244d8f-aadb2ac1.webp)
 
 ## _Publish Your NPM Package_
 
@@ -221,4 +220,4 @@ And finally, thank you for reading the blog! I hope you found it informative and
 
 I wish you a great day ahead and till then keep learning and keep exploring!!
 
-![Thank you graphic for npm publishing guide](https://cdn.hashnode.com/res/hashnode/image/upload/v1716652301849/8327a90c-373e-4837-9102-e67bb38def0c.png)
+![Thank you graphic for npm publishing guide](../../../assets/blog-img/2024/publish-your-own-npm-package/8327a90c-373e-4837-9102-e67bb38def0c-1866f9dc.webp)

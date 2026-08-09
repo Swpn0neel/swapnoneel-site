@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676362325400/bfe1526a-0cc1-40a8-9aa5-a931dcf8c69d.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/enumerate-function-in-python/bfe1526a-0cc1-40a8-9aa5-a931dcf8c69d-c51d3e2b.webp
 title: "Enumerate Function in Python with Examples"
 date: "2023-02-14T08:12:35.719Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - loops
   - functions
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Have you ever written `index = 0` above a loop, incremented it at the bottom, and then wondered what happens when the loop gets a `continue`? That counter works, but it gives you another piece of state to maintain.
@@ -148,4 +147,4 @@ There are two easy mistakes. First, `start=1` changes the number reported by `en
 
 For a normal read-only loop, `enumerate()` is the cleanest answer whenever you need an item and its position. It is small, readable, and removes the counter bug before you have to debug it.
 
-![Handwritten thank you typography](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2)
+![Handwritten thank you typography](../../../assets/blog-img/2023/class-methods-in-python/painted-thank-you-label-template-23-2148689616-3f36f359.webp)

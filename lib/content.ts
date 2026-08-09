@@ -1,4 +1,5 @@
 import { getCollection, type CollectionEntry } from "astro:content";
+import type { ImageMetadata } from "astro";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -56,7 +57,8 @@ export type BlogSummary = {
   description: string;
   publishedAt: Date;
   updatedAt?: Date;
-  cover: string;
+  /** Resolved by Astro's image() schema helper, so it carries real dimensions. */
+  cover: ImageMetadata;
   tags: string[];
   brand?: string;
   /** Cross-post URLs, normalised to an array. */

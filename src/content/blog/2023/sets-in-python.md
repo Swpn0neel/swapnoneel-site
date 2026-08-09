@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921373638/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/sets-in-python/0fdb5f78-bd54-4eff-8ec4-68ffafb9e30a-4a756fdc.webp
 title: "Sets in Python with Examples"
 date: "2023-01-25T18:09:15.443Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - data-structures
   - sets
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 You have a list of email addresses and want to know who has already signed up. You can scan the list every time, or you can put the addresses in a set and ask one direct question: `email in subscribers`.
@@ -188,4 +187,4 @@ You can also ask whether one set contains another with `issubset()` and `issuper
 
 My practical judgment is that sets are the right tool for membership and group comparison, and a bad tool for ordered output. If the order is part of the result, keep a list or convert the set to a sorted list at the boundary where you display it. The set should answer "does this belong?"; a list should answer "what comes next?".
 
-![Thank you banner graphic for Python sets blog](https://images.pexels.com/photos/2072165/pexels-photo-2072165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+![Thank you banner graphic for Python sets blog](../../../assets/blog-img/2023/sets-in-python/pexels-photo-2072165-8442d23b.webp)

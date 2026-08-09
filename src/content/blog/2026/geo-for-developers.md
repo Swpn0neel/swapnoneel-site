@@ -7,9 +7,8 @@ description: >-
 slug: geo-for-developers
 link: >-
   https://dev.to/swapnoneel123/geo-for-developers-get-cited-by-chatgpt-and-perplexity-34mf
-cover: >-
-  https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gx9dls1426tvj4bknw4l.png
-updated: "2026-07-23T13:07:48.942Z"
+cover: ../../../assets/blog-img/2026/geo-for-developers/gx9dls1426tvj4bknw4l-0e09ff4f.webp
+updated: "2026-08-09T08:00:04.817Z"
 tags:
   - seo
   - geo
@@ -23,7 +22,7 @@ Yeah, that's been happening to my blog too, and I finally sat down to fix it.
 
 So here's the real answer: GEO for developers doesn't need an agency or a 40-page audit. It just needs three simple things: a properly structured content so a model can lift one paragraph and have it make sense on its own, real evidence instead of vague claims, and let the right bots get into your `robots.txt`. That's genuinely most of it, and in this blog I'll walk you through exactly how!
 
-![AI search engines extracting content without source attribution](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a877ztvlh1in45i8vcxu.png)
+![AI search engines extracting content without source attribution](../../../assets/blog-img/2026/geo-for-developers/a877ztvlh1in45i8vcxu-2d3c354f.webp)
 
 ## What is GEO, actually?
 
@@ -59,7 +58,7 @@ The idea is simple: drop a markdown file at `/llms.txt` summarizing your site so
 
 So add one if you want, it costs you ten minutes and can't hurt. Just don't mistake it for the thing that's going to get you cited. That's the structure and the sourcing, not the file.
 
-![Comparing lightweight llms.txt against structured site evidence](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/gvsazrctmc8kc6t6lrub.png)
+![Comparing lightweight llms.txt against structured site evidence](../../../assets/blog-img/2026/geo-for-developers/gvsazrctmc8kc6t6lrub-f1f8212c.webp)
 
 ## What if you don't even own your blog?
 
@@ -67,7 +66,7 @@ If you cross-post to Hashnode or Dev.to like I do, you don't control the `robots
 
 What you can still control everywhere: the content structure itself, and your canonical URL. Always point the canonical tag back to your personal site, always write the answer-first paragraphs regardless of platform, and let the schema/`robots.txt` tactics apply fully only where you actually own the domain.
 
-![Structured data distribution across owned web properties](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/xobsofohyefwrq57pkq2.png)
+![Structured data distribution across owned web properties](../../../assets/blog-img/2026/geo-for-developers/xobsofohyefwrq57pkq2-45b45b9b.webp)
 
 ## Is GEO worth your time?
 
@@ -87,6 +86,6 @@ I don't have a clean number for this yet, since I only rebuilt my own process ar
 **Do I need schema markup if I only publish on Hashnode or Dev.to?**
 Not directly, since the platform controls that layer. Focus your energy on content structure and canonical URLs instead, those travel with you no matter where you publish.
 
-![Thank you graphic for GEO for Developers guide](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9xplxu74ikwfrltmxfi.png)
+![Thank you graphic for GEO for Developers guide](../../../assets/blog-img/2026/geo-for-developers/u9xplxu74ikwfrltmxfi-b4b4f8d4.webp)
 
 If you're building or rebuilding your own writing process around this, I'd genuinely love to hear what worked for you, drop it in the comments. You can also find me on [X (swapnoneel123)](https://x.com/swapnoneel123) or check out more of my work at [swapnoneel.site](https://www.swapnoneel.site).

@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921876373/d3ced512-3d06-4b0a-8b25-c81b0e8e626b.png
+cover: ../../../assets/blog-img/2023/string-formatting-in-python/d3ced512-3d06-4b0a-8b25-c81b0e8e626b-c887163b.webp
 title: "String Formatting in Python with Examples"
 date: "2023-01-25T07:50:52.768Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - strings
   - f-strings
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Printing a value is easy. Printing it in the exact shape a person expects takes a little more thought. A price may need two decimal places, a percentage may need a percent sign, and a report line may need every column to line up.
@@ -124,4 +123,4 @@ There is a safety boundary here. An f-string evaluates its Python expressions im
 
 My default is f-strings for local variables and calculations, `str.format()` for reusable templates, and neither one as a substitute for validation. Once you know whether you are changing the value or only changing its display, the syntax becomes much less mysterious.
 
-![Thank you graphic for Python string formatting blog](https://images.pexels.com/photos/2072165/pexels-photo-2072165.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)
+![Thank you graphic for Python string formatting blog](../../../assets/blog-img/2023/sets-in-python/pexels-photo-2072165-8442d23b.webp)

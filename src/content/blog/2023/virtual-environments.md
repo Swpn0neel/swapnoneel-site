@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1674921802429/dcfb12a5-0142-490a-a6c0-dd45f38dc8c5.png?w=1200&h=630&fit=crop&crop=entropy&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/virtual-environments/dcfb12a5-0142-490a-a6c0-dd45f38dc8c5-926ebc16.webp
 title: "Virtual Environments in Python Explained"
 date: "2023-01-27T16:11:48.129Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - virtualenv
   - dev-environment
   - tooling
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 Your Python installation is shared by default. That feels convenient until one project needs an older package and another project needs a newer one. Install both globally and you have made the interpreter responsible for an argument it cannot resolve cleanly.
@@ -104,4 +103,4 @@ Create the environment once, activate it whenever you work on the project, insta
 
 The routine is not glamorous, and it does not solve every deployment problem. It does solve the common mistake of installing a package into one interpreter and running the program with another. For Python projects, that is enough reason to make virtual environments your default.
 
-![Thank you banner image](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)
+![Thank you banner image](../../../assets/blog-img/2023/overriding-overloading-in-python/getty-469566889-105923-12ce25f4.webp)

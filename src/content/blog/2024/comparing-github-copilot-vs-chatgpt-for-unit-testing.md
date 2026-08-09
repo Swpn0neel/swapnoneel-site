@@ -3,11 +3,10 @@ title: "Comparing GitHub Copilot vs. ChatGPT for Unit Testing"
 date: "2024-12-06T00:13:24.000Z"
 description: >-
   GitHub Copilot works beside your code, while ChatGPT is better for conversation and reasoning around a test. Compare both on a real unit-testing task and see where each falls short.
-cover: >-
-  https://wp.keploy.io/wp-content/uploads/2024/12/ChatGPT-and-GitHub-Copilot.webp
+cover: ../../../assets/blog-img/2024/comparing-github-copilot-vs-chatgpt-for-unit-testing/chatgpt-and-github-copilot-c471ee09.webp
 link: >-
   https://keploy.io/blog/community/comparing-github-copilot-vs-chatgpt-for-unit-testing
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 tags:
   - ai
   - github-copilot
@@ -29,7 +28,7 @@ OpenAI releases newer models over time. The [impact of GPT-o3-mini on tech](http
 
 GitHub Copilot is an editor assistant. It uses the file around your cursor and other available project context to suggest code, complete a line, or draft a function. You stay in the editor, which makes it quick for small changes and repetitive test setup.
 
-![ChatGPT Plus vs GitHub Copilot comparison](https://cdn.mos.cms.futurecdn.net/9HNs2rcSFyJepccD2sx2uk.jpg)
+![ChatGPT Plus vs GitHub Copilot comparison](../../../assets/blog-img/2024/comparing-github-copilot-vs-chatgpt-for-unit-testing/9hns2rcsfyjepccd2sx2uk-2bf40774.webp)
 
 ## A unit-testing task worth comparing
 

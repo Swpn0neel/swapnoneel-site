@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676033181637/add6554b-9120-4a70-8dc3-e56bb2446aa7.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/the-3-most-powerful-functions-in-python/add6554b-9120-4a70-8dc3-e56bb2446aa7-54b83789.webp
 title: "map(), filter(), and reduce() in Python Explained"
 date: "2023-02-10T12:46:31.060Z"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - functional-programming
   - map-filter-reduce
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 The title calls these functions powerful, but the useful part is much less dramatic. `map()`, `filter()`, and `reduce()` each describe one shape of work over a collection. If you can name the shape, you can decide whether one of them makes the code clearer or whether a normal loop is the better answer.
@@ -149,4 +148,4 @@ My caveat is that nested reductions can make a small calculation harder to debug
 
 The judgment is straightforward: use `map()` to change every value, `filter()` to select values, and `reduce()` to collapse values into one result. But short syntax is not automatically readable syntax. If a loop explains the rule faster, write the loop.
 
-![Thank you banner image](https://www.incimages.com/uploaded_files/image/1920x1080/getty_469566889_105923.jpg)
+![Thank you banner image](../../../assets/blog-img/2023/overriding-overloading-in-python/getty-469566889-105923-12ce25f4.webp)

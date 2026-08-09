@@ -3,8 +3,7 @@ title: "Top 19 Must-Have VS Code Extensions for Developers in 2025"
 date: "2024-12-19T22:30:33.000Z"
 description: >-
   These 19 VS Code extensions cover testing, containers, Git history, formatting, HTTP requests, navigation, documentation, and AI assistance. Start with the problems you actually have.
-cover: >-
-  https://wp.keploy.io/wp-content/uploads/2024/12/Top-19-Must-Have-VS-Code-Extensions-for-Developers-in-2025.webp
+cover: ../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/top-19-must-have-vs-code-extensions-for-develope-39095cdf.webp
 link: >-
   https://keploy.io/blog/community/top-5-must-use-vs-code-extensions-for-developers-in-2025
 tags:
@@ -12,7 +11,7 @@ tags:
   - extensions
   - productivity
   - developer-tools
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 VS Code is useful on its own, but [VS Code](https://keploy.io/blog/community/how-to-run-tests-in-visual-studio-code-a-complete-guide) extensions let it meet you where you work. A frontend project needs a quick browser preview. A backend project may need HTTP requests and containers. A large repository needs better navigation and a way to see what changed.
@@ -23,7 +22,7 @@ That does not mean you should install every extension you find. Each one adds an
 
 [Keploy](https://keploy.io/) is the testing-focused choice in this list. It supports [unit](https://keploy.io/blog/community/what-is-unit-testing), integration, and API testing across languages such as Python, JavaScript, TypeScript, Java, PHP, and Go.
 
-![Keploy automated testing VS Code extension](https://wp.keploy.io/wp-content/uploads/2025/07/Keploys-Automated-Integration-Testing.webp)
+![Keploy automated testing VS Code extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/keploys-automated-integration-testing-9f690baf.webp)
 
 It can record and replay API requests, generate tests, and compare behavior across environments. That is useful when a service already has working traffic but not enough repeatable tests. If you are adding these checks to a [CI/CD](https://keploy.io/blog/community/how-cicd-is-changing-the-future-of-software-development) pipeline, keep the generated cases small enough to diagnose when they fail. Read them before keeping them, especially when captured requests contain private data.
 
@@ -31,7 +30,7 @@ It can record and replay API requests, generate tests, and compare behavior acro
 
 The Docker extension brings container tasks into the editor. You can inspect images, containers, and volumes without constantly switching to another window.
 
-![Docker extension for VS Code](https://wp.keploy.io/wp-content/uploads/2024/10/Docker-scaled-e1759610158689.png)
+![Docker extension for VS Code](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/docker-scaled-e1759610158689-429fb35c.webp)
 
 It becomes most useful when your application already runs in Docker and you need to check logs, rebuild an image, or debug inside a container. The related [Docker comparison](https://keploy.io/blog/community/podman-vs-docker) is useful if you are still deciding which container tool belongs in your workflow.
 
@@ -39,7 +38,7 @@ It becomes most useful when your application already runs in Docker and you need
 
 GitLens puts authorship, blame information, file history, and branch comparisons close to the code you are reading.
 
-![GitLens extension for Git blame and repository history](https://wp.keploy.io/wp-content/uploads/2024/12/gitlens.png)
+![GitLens extension for Git blame and repository history](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/gitlens-dc228ed8.webp)
 
 The best use is not looking up who wrote a line so you can complain about it. It is finding the change that introduced a strange condition and reading the surrounding commit. That context can prevent you from deleting a rule that looks unnecessary today.
 
@@ -47,7 +46,7 @@ The best use is not looking up who wrote a line so you can complain about it. It
 
 Prettier formats supported files according to a shared configuration. With format-on-save enabled, the editor applies the same layout each time you save.
 
-![Prettier code formatter extension](https://wp.keploy.io/wp-content/uploads/2024/12/prettier.png)
+![Prettier code formatter extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/prettier-37ada871.webp)
 
 Formatting does not make a bug disappear, but it keeps style debates out of many code reviews. Pair it with ESLint when you want formatting and code-quality checks to have separate jobs. Let the project configuration win over your personal preference.
 
@@ -55,7 +54,7 @@ Formatting does not make a bug disappear, but it keeps style debates out of many
 
 Live Server opens a local preview and reloads the page when you save a file. It is handy for small HTML, CSS, and JavaScript projects where setting up a full application server would be unnecessary.
 
-![Live Server local development preview extension](https://wp.keploy.io/wp-content/uploads/2024/12/live-server.png)
+![Live Server local development preview extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/live-server-07ff40a8.webp)
 
 It will not reproduce every detail of a production deployment, so treat it as a quick feedback loop rather than a complete test environment. That distinction matters when your page depends on a backend, build step, or special headers.
 
@@ -63,7 +62,7 @@ It will not reproduce every detail of a production deployment, so treat it as a 
 
 ESLint reads JavaScript and TypeScript files against rules chosen by your project. It can catch suspicious patterns while you are typing and can report the same problems in continuous integration.
 
-![ESLint static code analysis extension](https://wp.keploy.io/wp-content/uploads/2024/12/eslint.png)
+![ESLint static code analysis extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/eslint-f5900d95.webp)
 
 The extension is only as helpful as its configuration. Start with rules the team understands, then add stricter checks when the codebase is ready for them. If every line is covered by a warning nobody will fix, the warnings become wallpaper.
 
@@ -71,7 +70,7 @@ The extension is only as helpful as its configuration. Start with rules the team
 
 REST Client lets you keep HTTP requests in `.http` files and run them from the editor. You can inspect JSON or XML responses without copying the request into another application.
 
-![REST Client extension for HTTP requests](https://wp.keploy.io/wp-content/uploads/2024/12/restclient.jpg)
+![REST Client extension for HTTP requests](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/restclient-0b81df58.webp)
 
 This is useful for keeping a small, reviewable set of API examples beside the service code. Put test credentials in environment variables or a local secret store rather than committing them into the request file.
 
@@ -79,7 +78,7 @@ This is useful for keeping a small, reviewable set of API examples beside the se
 
 Path Intellisense suggests filenames and folders as you write import statements or HTML links.
 
-![Path Intellisense extension for file path autocompletion](https://wp.keploy.io/wp-content/uploads/2024/12/path-interllisense.png)
+![Path Intellisense extension for file path autocompletion](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/path-interllisense-3979a205.webp)
 
 The benefit shows up in repositories with deeply nested folders, where a path typo can take longer to find than to fix. It saves a few keystrokes, but those small savings add up when you move through a project all day.
 
@@ -87,7 +86,7 @@ The benefit shows up in repositories with deeply nested folders, where a path ty
 
 Markdown Preview Enhanced gives you a live view of Markdown while you edit it. The listed features include syntax highlighting, diagrams, LaTeX, charts, and export options.
 
-![Markdown All in One extension](https://wp.keploy.io/wp-content/uploads/2024/12/markdown-e1759613192640.jpg)
+![Markdown All in One extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/markdown-e1759613192640-09f1b704.webp)
 
 Use it when the rendered page matters as much as the source. A heading that looks fine in plain text can wrap badly, hide a broken link, or make a table hard to scan in the preview.
 
@@ -95,7 +94,7 @@ Use it when the rendered page matters as much as the source. A heading that look
 
 [GitHub Copilot](https://keploy.io/blog/community/cursor-vs-github-copilot) can suggest code and text from the context around your cursor.
 
-![GitHub Copilot AI code completion extension](https://wp.keploy.io/wp-content/uploads/2024/12/github-copilot.jpg)
+![GitHub Copilot AI code completion extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/github-copilot-f6e2fcfc.webp)
 
 It is most useful for repetitive code, test scaffolding, and drafts that you already know how to review. It can also produce a confident answer that is wrong, insecure, or out of date. Read every accepted suggestion and run the tests that matter; speed is not a substitute for checking the result.
 
@@ -103,7 +102,7 @@ It is most useful for repetitive code, test scaffolding, and drafts that you alr
 
 Bracket Pair Colorization uses matching colors to show which opening and closing brackets belong together.
 
-![Bracket Pair Colorization extension](https://wp.keploy.io/wp-content/uploads/2024/12/bracket.jpg)
+![Bracket Pair Colorization extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/bracket-9bd58d52.webp)
 
 It helps when a function contains several nested objects, arrays, or callback expressions. The extension does not fix structure for you, but it makes a missing or misplaced bracket easier to spot.
 
@@ -111,7 +110,7 @@ It helps when a function contains several nested objects, arrays, or callback ex
 
 IntelliCode changes the order and context of suggestions in IntelliSense. It is intended to help common patterns appear sooner while you type.
 
-![IntelliCode AI-assisted code completion extension](https://wp.keploy.io/wp-content/uploads/2024/12/intellicode-ai-powered.png)
+![IntelliCode AI-assisted code completion extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/intellicode-ai-powered-ccf314c9.webp)
 
 Treat the suggestions as a nudge, not as a decision. If you already use another completion assistant, compare the two before keeping both enabled. More suggestions can make the editor feel busier rather than faster.
 
@@ -119,7 +118,7 @@ Treat the suggestions as a nudge, not as a decision. If you already use another 
 
 Peacock changes the color of a VS Code workspace. That sounds cosmetic until you have several repositories open and nearly run a command in the wrong terminal.
 
-![Peacock workspace color customizer extension](https://wp.keploy.io/wp-content/uploads/2024/12/peacock.png)
+![Peacock workspace color customizer extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/peacock-3619f93e.webp)
 
 Assign a different color to projects that are open at the same time. The color becomes a quick visual warning about which folder you are editing.
 
@@ -127,7 +126,7 @@ Assign a different color to projects that are open at the same time. The color b
 
 Project Manager saves workspace entries so you can move between repositories without searching through folders each time.
 
-![Project Manager extension for switching projects](https://wp.keploy.io/wp-content/uploads/2024/12/project-manager.png)
+![Project Manager extension for switching projects](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/project-manager-459f95b3.webp)
 
 It is a good fit when your day involves several codebases. Give entries names you will recognize later, and remove old projects so the list does not become another place to search.
 
@@ -135,7 +134,7 @@ It is a good fit when your day involves several codebases. Give entries names yo
 
 TODO Highlight makes markers such as `TODO` and `FIXME` visible in the editor and lets you move between them.
 
-![TODO Highlight extension for code annotations](https://wp.keploy.io/wp-content/uploads/2024/12/todo-highlight.jpg)
+![TODO Highlight extension for code annotations](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/todo-highlight-c42e0dda.webp)
 
 Use it as a reminder system, not as a substitute for tracking work. A TODO that has no owner or issue link can sit in a file for years. When a marker represents real work, give it enough context that someone can act on it.
 
@@ -143,7 +142,7 @@ Use it as a reminder system, not as a substitute for tracking work. A TODO that 
 
 Import Cost displays the size associated with an imported package in JavaScript and TypeScript projects.
 
-![Import Cost extension for package bundle size](https://wp.keploy.io/wp-content/uploads/2024/12/cost-extension.jpg)
+![Import Cost extension for package bundle size](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/cost-extension-9fca4380.webp)
 
 The number is a prompt to investigate, not an automatic reason to remove a dependency. Check how the package is bundled and whether the import is on a user-facing path before making a change.
 
@@ -151,7 +150,7 @@ The number is a prompt to investigate, not an automatic reason to remove a depen
 
 Settings Sync keeps extensions, themes, and editor settings available across machines through a GitHub account.
 
-![Settings Sync extension for VS Code configurations](https://wp.keploy.io/wp-content/uploads/2024/12/settings-sync-scaled-e1759613437823.png)
+![Settings Sync extension for VS Code configurations](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/settings-sync-scaled-e1759613437823-5944b987.webp)
 
 Sync is convenient, but do not treat a personal settings bundle as a project requirement. Keep team rules in the repository, and check what is being synchronized before including tokens or machine-specific paths.
 
@@ -159,7 +158,7 @@ Sync is convenient, but do not treat a personal settings bundle as a project req
 
 Code Spell Checker catches likely spelling mistakes in identifiers, comments, and documentation.
 
-![Code Spell Checker extension](https://wp.keploy.io/wp-content/uploads/2024/12/Code-Spell-Checker.webp)
+![Code Spell Checker extension](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/code-spell-checker-f750d067.webp)
 
 It is especially helpful when a misspelled variable name has already spread across several files. Add project-specific words to its dictionary rather than ignoring every warning.
 
@@ -167,7 +166,7 @@ It is especially helpful when a misspelled variable name has already spread acro
 
 Code Time records coding activity and presents trends or goals. Some people like seeing how their working sessions change over time; others find the numbers distracting.
 
-![Code Time extension for developer productivity metrics](https://wp.keploy.io/wp-content/uploads/2024/12/code-time.png)
+![Code Time extension for developer productivity metrics](../../../assets/blog-img/2024/top-5-must-use-vs-code-extensions-for-developers-in-2025/code-time-8d75c66c.webp)
 
 My caveat is that time in the editor is not the same thing as useful work. Use these metrics as a personal signal if they help you notice a habit, but do not turn them into a scoreboard for yourself or a team.
 

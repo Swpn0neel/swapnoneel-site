@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676646935359/8a36f405-f26f-4a80-8636-2eb562b13eeb.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/constructors-and-decorators-in-python/8a36f405-f26f-4a80-8636-2eb562b13eeb-bedacc4d.webp
 title: "Constructors and Decorators in Python with Examples"
 date: "Fri, 17 Feb 2023 15:16:04 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - decorators
   - oop
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## A class call has two stages
@@ -156,4 +155,4 @@ Use __init__ for ordinary object setup. Use __new__ only when the act of creatin
 
 My caveat is that decorators hide a call. A tiny @ line can change arguments, errors, metadata, and return values while leaving the function body untouched. When a decorated function behaves oddly, inspect the decorator before blaming the function. I like decorators, but I trust them only when the wrapper is short enough to read in one sitting.
 
-![Thank you card maker graphic](https://cdn.pizap.com/pizapfiles/images/thank_you_card_maker_app01.jpg)
+![Thank you card maker graphic](../../../assets/blog-img/2023/constructors-and-decorators-in-python/thank-you-card-maker-app01-3a737696.webp)

@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1677076939156/3f57eaef-0577-4c41-ba36-a47eff63c664.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/magic-methods-in-python/3f57eaef-0577-4c41-ba36-a47eff63c664-5b10d487.webp
 title: "Magic Methods in Python Explained"
 date: "Wed, 22 Feb 2023 14:42:38 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - dunder-methods
   - oop
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## What magic methods do
@@ -137,4 +136,4 @@ These methods make an object fit a familiar Python protocol. That is the real be
 
 My caveat is to add a magic method only when normal syntax becomes clearer. A custom `__str__` often helps immediately. A pile of clever dunders can make a class feel like it is fighting Python instead of working with it. Keep return types and failure behavior unsurprising: `__len__` should return a non-negative integer, `__str__` should return a string, and an operator should reject unsupported values clearly.
 
-![Painted thank you label graphic](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1677075508~exp=1677076108~hmac=168e84f6c0a2f5c63b505e2ac25f9d6200ecf461d2fea92d9e8526809c011186)
+![Painted thank you label graphic](../../../assets/blog-img/2023/magic-methods-in-python/painted-thank-you-label-template-23-2148689616-f5096197.webp)

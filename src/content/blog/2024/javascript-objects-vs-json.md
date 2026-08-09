@@ -3,15 +3,14 @@ title: "JavaScript Objects vs JSON: Are they same?"
 date: "2024-03-02T11:23:51.872Z"
 description: >-
   JavaScript objects are live values your program can use; JSON is text for moving or storing data. Learn the syntax, type, behavior, and purpose differences.
-cover: >-
-  https://web.archive.org/web/20240522191415/https://cdn.hashnode.com/res/hashnode/image/upload/v1709378357760/447b3ef8-33ad-4fb4-be49-6d3204fb2356.png
+cover: ../../../assets/blog-img/2024/javascript-objects-vs-json/447b3ef8-33ad-4fb4-be49-6d3204fb2356-b593017f.webp
 link: "https://swapnoneel.hashnode.dev/javascript-objects-vs-json"
 tags:
   - javascript
   - json
   - webdev
   - frontend
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 JavaScript objects and JSON look similar because JSON borrowed much of its shape from JavaScript object literals. They are still different things.
@@ -22,7 +21,7 @@ An object is a value your JavaScript program can work with. JSON is text that fo
 
 An object groups related values under property names. Those values can be strings, numbers, booleans, arrays, other objects, or functions. A function stored on an object is usually called a method.
 
-![JavaScript object concept illustration](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377619396/b9dfbc39-cee3-4edc-9d95-ccb84b49a6fd.png)
+![JavaScript object concept illustration](../../../assets/blog-img/2024/javascript-objects-vs-json/b9dfbc39-cee3-4edc-9d95-ccb84b49a6fd-9e2b2b0d.webp)
 
 Think of a cup in a program. It can have a color, material, and weight, and it can have an action such as `wash()`. The object stores both the information and, when needed, the behavior associated with it.
 
@@ -47,7 +46,7 @@ The object exists inside the JavaScript runtime. You can read a property, call a
 
 JSON stands for JavaScript Object Notation, but you do not need JavaScript to read or write it. It is a text format used to represent data in a way that different languages can exchange.
 
-![JSON data format illustration](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377497454/4a07db50-35ce-476a-a183-5c8d82bdb8f1.png)
+![JSON data format illustration](../../../assets/blog-img/2024/javascript-objects-vs-json/4a07db50-35ce-476a-a183-5c8d82bdb8f1-c7cd2f67.webp)
 
 JSON supports strings, numbers, booleans, `null`, arrays, and objects made from those values. It does not support functions, comments, `undefined`, or JavaScript-specific objects such as `Date` directly.
 
@@ -145,4 +144,4 @@ Do not call `JSON.stringify()` just because a value looks like JSON. First check
 
 The sentence I keep coming back to is simple: an object is data your program can use, while JSON is text your program can exchange. Once you separate those two jobs, the similar-looking braces stop being confusing.
 
-![Thank you graphic for JavaScript Objects vs JSON blog](https://cdn.hashnode.com/res/hashnode/image/upload/v1709377456629/8e775196-cf5e-4e28-bdc1-8bf7d419813f.png)
+![Thank you graphic for JavaScript Objects vs JSON blog](../../../assets/blog-img/2024/javascript-objects-vs-json/8e775196-cf5e-4e28-bdc1-8bf7d419813f-516cf4cb.webp)

@@ -1,6 +1,5 @@
 ---
-cover: >-
-  https://cdn.hashnode.com/res/hashnode/image/upload/v1676806711688/0c46e75c-e465-45b9-880c-be4cff7fdb14.png?w=1200&auto=compress,format&format=webp&fm=png
+cover: ../../../assets/blog-img/2023/class-variables-vs-instance-variables/0c46e75c-e465-45b9-880c-be4cff7fdb14-9e7a584b.webp
 title: "Class Variables vs Instance Variables in Python"
 date: "Sun, 19 Feb 2023 11:38:55 GMT"
 description: >-
@@ -11,7 +10,7 @@ tags:
   - oop
   - variables
   - programming
-updated: "2026-07-23T13:07:48.942Z"
+updated: "2026-08-09T08:00:04.817Z"
 ---
 
 ## The lookup happens in two places
@@ -161,4 +160,4 @@ For ordinary application state, I choose instance variables first. They make own
 
 So the practical rule is simple: put per-object data on self, and make shared data visibly class-owned. Be extra suspicious of class-level lists and dictionaries. But that's just me, and your workflow might be different.
 
-![Thank you graphic for class vs instance variables blog](https://img.freepik.com/free-vector/painted-thank-you-label-template_23-2148689616.jpg?w=1380&t=st=1676893691~exp=1676894291~hmac=9f0960bb4730c2bbfdc9558840a6a8ed356377041f759a66392bdfff8f0612f2)
+![Thank you graphic for class vs instance variables blog](../../../assets/blog-img/2023/class-methods-in-python/painted-thank-you-label-template-23-2148689616-3f36f359.webp)
