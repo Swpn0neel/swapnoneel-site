@@ -12,8 +12,8 @@ interface ExperienceSectionProps {
   seeAllHref?: string;
   /**
    * Appended as `?from=` to the internal links so the detail pages know which
-   * page to send the reader back to. Home also gets a #from-home target so the
-   * static detail page can select its return link without reading searchParams.
+   * page to send the reader back to. Read by WorkBackLink on the client, which
+   * is what lets those pages stay prerendered.
    */
   from?: string;
   /**
@@ -33,9 +33,7 @@ export function ExperienceSection({
   variant = "compact",
   className,
 }: ExperienceSectionProps) {
-  const returnLocation = from
-    ? `?from=${from}${from === "home" ? "#from-home" : ""}`
-    : "";
+  const returnLocation = from ? `?from=${from}` : "";
   const prominent = variant === "prominent";
   const logoSize = prominent ? 60 : 40;
   // Prominent rows are multi-line, so the logo tracks the title rather than

@@ -22,7 +22,7 @@ As you all might have seen, in the past two blogs, I wrote about how I explored 
 
 So, before creating any new Enterprise configuration, I wanted to see whether Bifrost could actually tell me what was happening behind the scenes. Audit Logs tell you exactly that. It’s different from the regular LLM logs because they show the requests going through the gateway, while Audit Logs focus on changes and administrative activity inside Bifrost. So if someone creates a virtual key, changes a routing rule, updates a guardrail, or modifies the cluster configuration, this is where we should be able to find it.
 
-![Bifrost Audit Logs screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/cgnv1ejfcvkgmrohejyj.png)
+![Bifrost dashboard showing the Audit Logs interface.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/cgnv1ejfcvkgmrohejyj.png)
 
 It is not the most exciting feature on its own, and for personal use, this might not be that useful, but in an enterprise setting, it is probably one of the most important ones to have, when you are working with a large group of people, and you have to keep tabs on everything that’s going on.
 
@@ -41,7 +41,7 @@ In the previous blog, you might have seen that I’ve used the Context7 MCP serv
 
 So, while creating the tool group, I decided to drop the `query-docs` and kept only the `resolve-library-id` activated.
 
-![Bifrost MCP Tool Groups screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/re84bfyifr07hwij3hl5.png)
+![Bifrost dashboard showing the 'Edit Tool Group' panel](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/re84bfyifr07hwij3hl5.png)
 
 Then, under Associations, I attached the group only to my opencode-enterprise virtual key. I didn't attach it to any teams, customers, providers, or other keys.
 
@@ -69,7 +69,7 @@ After restarting OpenCode, I used a deliberately small prompt,
 
 `Use the Context7 MCP to resolve the React library. Reply with only the returned library ID.`
 
-![OpenCode MCP request screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/fncld2oo6svgypq11g2t.png)
+![Bifrost MCP logs dashboard showing metrics](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/fncld2oo6svgypq11g2t.png)
 
 The request executed successfully, as you can see in the above screenshot.
 
@@ -100,7 +100,7 @@ This feature is meant to protect both the prompts sent to a model and the respon
 
 So, I created two guardrail rules. One for the input, and the other one for the output.
 
-![Bifrost Guardrails configuration screenshot](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/5hko4nft3m5do9q2uxxm.png)
+![Bifrost dashboard showing the 'Edit Guardrail Rule' sidebar interface](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/5hko4nft3m5do9q2uxxm.png)
 
 So, now if I send a request like `Reply with exactly: BIFROST_GUARDRAIL_TEST`, I get a `regex pattern matched` error. That’s where the guardrail is actually doing its job.
 
@@ -118,4 +118,4 @@ Would I use Bifrost Enterprise for my personal setup? Probably not if I only had
 
 For a team running several models, provider keys, MCP clients, and internal users, the situation is different. A shared gateway, centralized logs, access controls, guardrails, and tool restrictions can remove a lot of repeated setup from individual applications. And if you think you are the right candidate, you can always [book a demo](https://www.getmaxim.ai/bifrost/book-a-demo)!
 
-![Thank you](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8caibv8q641pm9okuo0d.png)
+![Please like, follow and share!](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8caibv8q641pm9okuo0d.png)

@@ -696,6 +696,67 @@ body {
   }
 }
 
+/* ─── Route progress ─── */
+/* Only mounted once a navigation has already outlived 150ms (see
+   components/route-progress.tsx), so there is no entrance delay to build in
+   here — the bar is meant to be visible on its first frame.
+
+   The width ramp is deliberately decelerating and never reaches 100% on its
+   own: the bar is reporting "still working", not a real byte count, and a bar
+   that parks at the end would promise an arrival it cannot know about. The
+   `done` phase is what closes it out. */
+.route-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 60;
+  height: 2px;
+  pointer-events: none;
+}
+
+.route-progress-bar {
+  height: 100%;
+  width: 0;
+  background-color: hsl(var(--foreground));
+  /* Subtle by intent: at full strength a 2px rule across the viewport reads as
+     a layout element rather than a transient status. */
+  opacity: 0.55;
+  animation: route-progress-grow 8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+
+.route-progress[data-phase="done"] .route-progress-bar {
+  animation: none;
+  width: 100%;
+  opacity: 0;
+  transition:
+    width 120ms ease-out,
+    opacity 200ms ease-out 60ms;
+}
+
+@keyframes route-progress-grow {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: 92%;
+  }
+}
+
+/* The global reduce-motion rule near the end of this file collapses the ramp to
+   ~0ms, which `forwards` then holds at 92% — a static bar for the whole
+   navigation, which is the right degraded form. Restated here so that intent is
+   explicit rather than incidental. */
+@media (prefers-reduced-motion: reduce) {
+  .route-progress-bar {
+    width: 92%;
+  }
+
+  .route-progress[data-phase="done"] .route-progress-bar {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
 /* ─── Selection & Cursor ─── */
 ::selection {
   background-color: hsl(var(--foreground));
@@ -835,18 +896,6 @@ textarea {
 
 .image-shimmer[data-shimmer-active="true"]::before {
   animation: shimmer-transform 1.5s ease-in-out infinite;
-}
-
-.work-back-link--home {
-  display: none;
-}
-
-.work-back-link--home:target {
-  display: inline;
-}
-
-.work-back-link--home:target + .work-back-link--work {
-  display: none;
 }
 
 /* Server-rendered images are opaque by default. The single delegated image

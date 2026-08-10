@@ -1,0 +1,165 @@
+{
+  "pipeline": {
+    "version": 2,
+    "widths": [
+      640,
+      960,
+      1280,
+      1536
+    ],
+    "formats": {
+      "avif": {
+        "quality": 70,
+        "effort": 6
+      },
+      "webp": {
+        "quality": 82,
+        "effort": 6
+      }
+    },
+    "hashes": {
+      "anrl.jpg": "097471107b53095ec9d29355707857930b36422fa4871e082c0b91f895f12703",
+      "blame.jpg": "7e495911d7160b1750cf72b051fafeadd48f1d2d2f4c662a21d6b1f7ec2e8f23",
+      "folio.jpg": "4ff0e7059577daf69c4263405155807606987afedfcdbe156b880c222d29aaf5",
+      "get-response.jpg": "75480a9d2502d3be509110360d523c5283ab5295000187f38513d1c457d14c1e",
+      "mesh-hop.jpg": "45ebb7ab6bb584e4ce85582a2ed8598aeb27f5f280826952c1c116079f98cb36",
+      "omni-learner.jpg": "2fcb2baed66d12c2ea32dd6d02d93525c33ab859609862d7bb9710bb8753d92b",
+      "scholarian.jpg": "70b32ce62adfeb2ec76715ebb4b9878eaba9823df5ce323ac793c9c1755a3e70",
+      "term-chat.jpg": "d129ab818d13ef7d12a05831d562b7c04bc45ac7ad641f706b81abcc781cffaa",
+      "toile.jpg": "ac600da937352e737d5dfb048a20b07e835f506232a81e8a9b22412406572a60",
+      "ydub.jpg": "0263368395fe4f9b5b260bafd16deb185d13b2b5eabad2f06e91c61df75b474c"
+    }
+  },
+  "sources": {
+    "/project/anrl.jpg": {
+      "widest": "/project-img/anrl-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/anrl-640.avif 640w, /project-img/anrl-960.avif 960w, /project-img/anrl-1280.avif 1280w, /project-img/anrl-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/anrl-640.webp 640w, /project-img/anrl-960.webp 960w, /project-img/anrl-1280.webp 1280w, /project-img/anrl-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/blame.jpg": {
+      "widest": "/project-img/blame-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/blame-640.avif 640w, /project-img/blame-960.avif 960w, /project-img/blame-1280.avif 1280w, /project-img/blame-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/blame-640.webp 640w, /project-img/blame-960.webp 960w, /project-img/blame-1280.webp 1280w, /project-img/blame-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/folio.jpg": {
+      "widest": "/project-img/folio-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/folio-640.avif 640w, /project-img/folio-960.avif 960w, /project-img/folio-1280.avif 1280w, /project-img/folio-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/folio-640.webp 640w, /project-img/folio-960.webp 960w, /project-img/folio-1280.webp 1280w, /project-img/folio-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/get-response.jpg": {
+      "widest": "/project-img/get-response-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/get-response-640.avif 640w, /project-img/get-response-960.avif 960w, /project-img/get-response-1280.avif 1280w, /project-img/get-response-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/get-response-640.webp 640w, /project-img/get-response-960.webp 960w, /project-img/get-response-1280.webp 1280w, /project-img/get-response-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/mesh-hop.jpg": {
+      "widest": "/project-img/mesh-hop-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/mesh-hop-640.avif 640w, /project-img/mesh-hop-960.avif 960w, /project-img/mesh-hop-1280.avif 1280w, /project-img/mesh-hop-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/mesh-hop-640.webp 640w, /project-img/mesh-hop-960.webp 960w, /project-img/mesh-hop-1280.webp 1280w, /project-img/mesh-hop-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/omni-learner.jpg": {
+      "widest": "/project-img/omni-learner-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/omni-learner-640.avif 640w, /project-img/omni-learner-960.avif 960w, /project-img/omni-learner-1280.avif 1280w, /project-img/omni-learner-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/omni-learner-640.webp 640w, /project-img/omni-learner-960.webp 960w, /project-img/omni-learner-1280.webp 1280w, /project-img/omni-learner-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/scholarian.jpg": {
+      "widest": "/project-img/scholarian-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/scholarian-640.avif 640w, /project-img/scholarian-960.avif 960w, /project-img/scholarian-1280.avif 1280w, /project-img/scholarian-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/scholarian-640.webp 640w, /project-img/scholarian-960.webp 960w, /project-img/scholarian-1280.webp 1280w, /project-img/scholarian-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/term-chat.jpg": {
+      "widest": "/project-img/term-chat-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/term-chat-640.avif 640w, /project-img/term-chat-960.avif 960w, /project-img/term-chat-1280.avif 1280w, /project-img/term-chat-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/term-chat-640.webp 640w, /project-img/term-chat-960.webp 960w, /project-img/term-chat-1280.webp 1280w, /project-img/term-chat-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/toile.jpg": {
+      "widest": "/project-img/toile-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/toile-640.avif 640w, /project-img/toile-960.avif 960w, /project-img/toile-1280.avif 1280w, /project-img/toile-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/toile-640.webp 640w, /project-img/toile-960.webp 960w, /project-img/toile-1280.webp 1280w, /project-img/toile-1536.webp 1536w"
+        }
+      ]
+    },
+    "/project/ydub.jpg": {
+      "widest": "/project-img/ydub-1536.avif",
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/project-img/ydub-640.avif 640w, /project-img/ydub-960.avif 960w, /project-img/ydub-1280.avif 1280w, /project-img/ydub-1536.avif 1536w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/project-img/ydub-640.webp 640w, /project-img/ydub-960.webp 960w, /project-img/ydub-1280.webp 1280w, /project-img/ydub-1536.webp 1536w"
+        }
+      ]
+    }
+  }
+}

@@ -1,18 +1,11 @@
 import { ProgressiveImage } from "@/components/progressive-image";
+import { projectRenditions } from "@/lib/project-image-loader";
 
 interface ProjectWindowProps {
   src: string;
   alt: string;
   sizes: string;
   priority?: boolean;
-}
-
-const PROJECT_RENDITION_WIDTHS = [640, 960, 1280, 1536];
-
-function projectRendition(src: string, width: number) {
-  return src
-    .replace(/^\/project\//, "/project-img/")
-    .replace(/\.[^/.]+$/, `-${width}.avif`);
 }
 
 /**
@@ -26,9 +19,9 @@ export function ProjectWindow({
   sizes,
   priority = false,
 }: ProjectWindowProps) {
-  const avifSrcSet = PROJECT_RENDITION_WIDTHS.map(
-    (width) => `${projectRendition(src, width)} ${width}w`
-  ).join(", ");
+  // Pre-encoded by scripts/generate-project-images.mjs. A cover it has not seen
+  // falls through to the optimizer rather than to guessed filenames.
+  const renditions = projectRenditions(src);
 
   return (
     <div className="project-window">
@@ -50,19 +43,19 @@ export function ProjectWindow({
             critical={priority}
             loading={priority ? "eager" : undefined}
             fetchPriority={priority ? "high" : undefined}
-            unoptimized
-            sourceSets={[{ type: "image/avif", srcSet: avifSrcSet, sizes }]}
+            unoptimized={Boolean(renditions)}
+            sourceSets={renditions?.sources.map((source) => ({
+              ...source,
+              sizes,
+            }))}
           />
-          {priority && (
+          {priority && renditions && (
             <link
               rel="preload"
               as="image"
               type="image/avif"
-              href={projectRendition(
-                src,
-                PROJECT_RENDITION_WIDTHS[PROJECT_RENDITION_WIDTHS.length - 1]
-              )}
-              imageSrcSet={avifSrcSet}
+              href={renditions.widest}
+              imageSrcSet={renditions.sources[0].srcSet}
               imageSizes={sizes}
               fetchPriority="high"
             />

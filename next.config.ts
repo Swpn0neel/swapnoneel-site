@@ -32,6 +32,19 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        // Cards rendered on demand by /api/og?title=… until the route was
+        // replaced by build-time opengraph-image files. Links shared before that
+        // still carry the old URL, so send re-crawls to the site card rather
+        // than a 404.
+        source: "/api/og",
+        destination: "/opengraph-image",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {

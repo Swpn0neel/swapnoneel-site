@@ -2,6 +2,7 @@ import { BackToTop } from "@/components/back-to-top";
 import { Navbar } from "@/components/navbar";
 import { PageTransition } from "@/components/page-transition";
 import { ProgressiveImageListener } from "@/components/progressive-image-listener";
+import { RouteProgress } from "@/components/route-progress";
 import { SiteFooterLinks } from "@/components/site-footer-links";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/config";
@@ -112,6 +113,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         <ProgressiveImageListener />
+        <RouteProgress />
         {/* Blog prose size (A-/A/A+). Unlike the theme this is a lasting
             accessibility preference, so it lives in localStorage — and it has
             to be applied before first paint or the article visibly resizes

@@ -1,25 +1,18 @@
+import { BackLink } from "@/components/back-link";
+import { WorkBackLinkPicker } from "@/components/work-back-link-picker";
 import { i18n } from "@/lib/i18n";
-import Link from "next/link";
+import { Suspense } from "react";
 
-const LINK_CLASS =
-  "text-muted-foreground hover:text-foreground text-xs transition-colors";
-
-// Both destinations are static markup. Home-origin links include #from-home,
-// so the native :target state selects that return path without making every
-// local-markdown detail page depend on request-time searchParams.
+// /work/[slug] and /work/others are prerendered, so the return destination is
+// not knowable on the server. The picker resolves it from ?from= on the client;
+// Suspense is what keeps the route static, and its fallback is the /work link —
+// already correct for every entry point except the home page.
 export function WorkBackLink() {
+  const workLabel = i18n.work.otherExperience.backLink;
+
   return (
-    <div className="work-back-links">
-      <Link
-        id="from-home"
-        href="/"
-        className={`work-back-link--home ${LINK_CLASS}`}
-      >
-        ← home
-      </Link>
-      <Link href="/work" className={`work-back-link--work ${LINK_CLASS}`}>
-        ← {i18n.work.otherExperience.backLink}
-      </Link>
-    </div>
+    <Suspense fallback={<BackLink href="/work" label={workLabel} />}>
+      <WorkBackLinkPicker workLabel={workLabel} />
+    </Suspense>
   );
 }

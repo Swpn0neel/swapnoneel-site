@@ -36,7 +36,9 @@ export async function generateMetadata({
   const item = getWorkItem(slug);
   if (!item) return {};
   const url = `https://www.swapnoneel.site/work/${slug}`;
-  const ogImage = "/work/opengraph-image";
+  // No `images` here on purpose: opengraph-image.tsx in this segment supplies
+  // the card, and its URL carries the content hash that a hardcoded path would
+  // drop — an override here would only cost the cache-busting.
   return {
     title: item.meta.title,
     description: item.meta.description,
@@ -48,13 +50,11 @@ export async function generateMetadata({
       description: item.meta.description,
       url,
       type: "article",
-      images: [{ url: ogImage, width: 1200, height: 630, alt: "Work" }],
     },
     twitter: {
       card: "summary_large_image",
       title: item.meta.title,
       description: item.meta.description,
-      images: [ogImage],
     },
   };
 }
