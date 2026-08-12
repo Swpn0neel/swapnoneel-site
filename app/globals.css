@@ -591,9 +591,56 @@ body {
 }
 
 /* ─── Blog narration (read-along highlighting) ─── */
-/* While narrating, unread words sit dimmed. The current word and completed
-   words share one treatment so the read portion stays visually continuous.
-   Outside narration the spans are invisible no-ops. */
+/* The server-rendered shell owns its full block size before hydration. Loading
+   only changes opacity, so preparation can never move the article or footer. */
+.blog-narrator {
+  min-block-size: calc(4rem + 2px);
+}
+
+@media (min-width: 640px) {
+  .blog-narrator {
+    min-block-size: calc(4.25rem + 2px);
+  }
+}
+
+.blog-narrator .narrator-deferred-control,
+.blog-narrator .narrator-primary-control {
+  transition-property: color, background-color, opacity, transform;
+}
+
+.blog-narrator[data-narration-state="loading"] .narrator-deferred-control {
+  opacity: 0.52;
+}
+
+.blog-narrator[data-narration-state="loading"] .narrator-primary-control {
+  opacity: 0.78;
+}
+
+/* Modern browsers paint indexed Ranges without changing the article DOM. The
+   current and completed words keep their authored ink; only unread words are
+   mixed toward transparency, matching the incumbent 0.4-opacity treatment. */
+#blog-prose.narrating::highlight(narration-read),
+#blog-prose.narrating::highlight(narration-current) {
+  color: currentColor;
+}
+
+#blog-prose.narrating::highlight(narration-unread) {
+  color: color-mix(in srgb, currentColor 40%, transparent);
+}
+
+#blog-prose.narrating
+  :where(p, h1, h2, h3, h4, h5, h6, li, blockquote, td, dt, dd) {
+  cursor: pointer;
+}
+
+#blog-prose.narrating
+  :where(pre, code, table, img, figure, figcaption, [data-no-narrate]) {
+  cursor: auto;
+}
+
+/* Deferred old-browser fallback. While narrating, unread spans sit dimmed. The
+   current word and completed words share one treatment so the read portion
+   stays visually continuous. Outside narration the spans are invisible. */
 .narrating .nw {
   opacity: 0.4;
   /* At normal reading pace a word is only current for ~300–400ms, so keep

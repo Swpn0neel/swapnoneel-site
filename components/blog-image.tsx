@@ -73,14 +73,10 @@ export function BlogImage({
     src: resolvedSrc,
     alt,
     fill: true as const,
-    loading: !priority && eager ? ("eager" as const) : undefined,
-    // Next emits a <link rel=preload> for eager images as well as
-    // priority ones, so a post with two lead images was preloading three
-    // at equal priority and letting the below-the-fold pair compete with
-    // the cover — which is the LCP element. The hints split them: the
-    // cover is the one thing worth the bandwidth up front (Lighthouse
-    // was flagging its preload as missing fetchpriority), the lead
-    // images still skip lazy loading but yield to it.
+    loading: priority || eager ? ("eager" as const) : ("lazy" as const),
+    // The cover is the only preloaded/high-priority image. The first inline
+    // image still skips lazy loading but explicitly yields to the cover; later
+    // images use native lazy loading below.
     fetchPriority: priority
       ? ("high" as const)
       : eager
@@ -122,7 +118,6 @@ export function BlogImage({
             {...imageProps}
             as="span"
             critical={priority}
-            loading={priority ? "eager" : imageProps.loading}
             unoptimized
             sourceSets={[
               {
