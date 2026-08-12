@@ -616,18 +616,9 @@ body {
   opacity: 0.78;
 }
 
-/* Modern browsers paint indexed Ranges without changing the article DOM. The
-   current and completed words keep their authored ink; only unread words are
-   mixed toward transparency, matching the incumbent 0.4-opacity treatment. */
-#blog-prose.narrating::highlight(narration-read),
-#blog-prose.narrating::highlight(narration-current) {
-  color: currentColor;
-}
-
-#blog-prose.narrating::highlight(narration-unread) {
-  color: color-mix(in srgb, currentColor 40%, transparent);
-}
-
+/* Range highlight paint rules are installed after deferred preparation by
+   BlogNarrator. Keeping the custom-highlight pseudo rules out of compiled CSS
+   avoids build-parser warnings while ordinary cursor behavior stays static. */
 #blog-prose.narrating
   :where(p, h1, h2, h3, h4, h5, h6, li, blockquote, td, dt, dd) {
   cursor: pointer;

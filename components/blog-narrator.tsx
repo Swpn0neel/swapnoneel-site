@@ -200,13 +200,35 @@ function getHighlightSupport(): {
   HighlightCtor: HighlightConstructorLike;
   registry: HighlightRegistryLike;
 } | null {
-  if (typeof CSS === "undefined") return null;
+  if (typeof CSS === "undefined" || typeof CSS.escape !== "function") {
+    return null;
+  }
   const HighlightCtor = (
     window as typeof window & { Highlight?: HighlightConstructorLike }
   ).Highlight;
   const registry = (CSS as typeof CSS & { highlights?: HighlightRegistryLike })
     .highlights;
   return HighlightCtor && registry ? { HighlightCtor, registry } : null;
+}
+
+function installHighlightStyles(articleId: string) {
+  const articleSelector = `#${CSS.escape(articleId)}.narrating`;
+  const style = document.createElement("style");
+  style.dataset.narrationHighlightStyles = articleId;
+  // Keep syntax that Turbopack does not yet optimize out of the build-time CSS
+  // pipeline. This only reaches a browser after the Highlight API support check
+  // and deferred Range preparation, so it adds no initial render work.
+  style.textContent = `
+${articleSelector}::highlight(${NARRATION_READ_HIGHLIGHT}),
+${articleSelector}::highlight(${NARRATION_CURRENT_HIGHLIGHT}) {
+  color: currentColor;
+}
+
+${articleSelector}::highlight(${NARRATION_UNREAD_HIGHLIGHT}) {
+  color: color-mix(in srgb, currentColor 40%, transparent);
+}`;
+  document.head.appendChild(style);
+  return () => style.remove();
 }
 
 function abortIfNeeded(signal: AbortSignal) {
@@ -580,6 +602,7 @@ export function BlogNarrator({
     let idleId: number | null = null;
     let launchTimer: number | null = null;
     let autoPlayTimer: number | null = null;
+    let removeHighlightStyles: () => void = () => undefined;
 
     const findBlock = (node: Text) => {
       let block = node.parentElement;
@@ -825,6 +848,7 @@ export function BlogNarrator({
         chunksRef.current = chunks;
         highlightRuntimeRef.current = runtime;
         if (runtime) {
+          removeHighlightStyles = installHighlightStyles(articleId);
           runtime.registry.set(NARRATION_READ_HIGHLIGHT, runtime.read);
           runtime.registry.set(NARRATION_CURRENT_HIGHLIGHT, runtime.current);
           runtime.registry.set(NARRATION_UNREAD_HIGHLIGHT, runtime.unread);
@@ -967,6 +991,7 @@ export function BlogNarrator({
       highlightSupport?.registry.delete(NARRATION_READ_HIGHLIGHT);
       highlightSupport?.registry.delete(NARRATION_CURRENT_HIGHLIGHT);
       highlightSupport?.registry.delete(NARRATION_UNREAD_HIGHLIGHT);
+      removeHighlightStyles();
       if (speechSupported) window.speechSynthesis.cancel();
       if (keepAliveRef.current) {
         clearInterval(keepAliveRef.current);
