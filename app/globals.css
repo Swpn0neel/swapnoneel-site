@@ -551,76 +551,24 @@ body {
   }
 }
 
-/* Existing hover transitions must not interpolate the new snapshot while it is
-   captured. The simple universal rule benchmarks faster than a long scoped
-   selector list on this DOM and exists only for the active View Transition. */
-:root.theme-view-transition *,
-:root.theme-view-transition *::before,
-:root.theme-view-transition *::after {
-  transition: none !important;
+/* Crossfade degradation deliberately avoids root snapshots and descendant-wide
+   transition invalidation. A fixed layer in the previous canvas colour fades
+   away after the theme changes beneath it; this preserves feedback on reduced
+   motion, Save-Data, low-power, and unusually large documents without a wipe
+   or a hard cut. */
+:root.theme-transition::before {
+  position: fixed;
+  inset: 0;
+  z-index: 2147483647;
+  background: var(--theme-fade-color);
+  content: "";
+  opacity: 1;
+  pointer-events: none;
+  transition: opacity var(--theme-duration) var(--theme-ease);
 }
 
-/* Unsupported browsers get a bounded crossfade. The broad selector is active
-   only for the window the toggle holds .theme-transition open.
-
-   The list covers motion as well as colour because `transition-property` is
-   forced with !important, so anything left off it has its transition cancelled
-   mid-flight — a colour-only list snapped a card's 450ms hover lift to its end
-   state if the theme changed under it. Included, those keep running at this
-   duration for the length of the switch, which reads as a slight speed change
-   rather than a jump. */
-:root.theme-transition,
-:root.theme-transition *,
-:root.theme-transition *::before,
-:root.theme-transition *::after {
-  transition-property:
-    color, background-color, border-color, outline-color, box-shadow, fill,
-    stroke, opacity, filter, transform, translate, scale, rotate !important;
-  transition-duration: var(--theme-duration) !important;
-  transition-timing-function: var(--theme-ease) !important;
-}
-
-/* Elements whose theme-driven motion has a duration of its own worth keeping,
-   on the same fractions as the View Transitions path so the switch has one
-   shape whichever path runs.
-
-   The invariant: the toggle holds .theme-transition for THEME_TRANSITION_HOLD
-   ms, which must be >= every duration this class drives — including the
-   universal rule above, which is the longest at 1.0x. Removing a property from
-   transition-property cancels a transition that is still running on it, so
-   pulling the class early does not hand the element back to its own
-   declaration, it snaps it to the end value. Keep every fraction here <= 1. */
-:root.theme-transition .theme-toggle-icon {
-  transition:
-    scale var(--theme-icon-duration) var(--theme-ease),
-    rotate var(--theme-icon-duration) var(--theme-ease) !important;
-}
-
-:root.theme-transition .pfp-flip-card-inner {
-  transition: transform var(--theme-photo-duration) var(--theme-ease) !important;
-}
-
-/* Reduced motion still gets feedback, just no geometry. Skipping the switch
-   outright left these visitors with a hard cut between near-white and
-   near-black across the whole viewport, which is its own kind of harsh — the
-   guidance is to substitute a non-motion transition, not to remove one. So the
-   colour crossfade above runs, the wipe never starts (the toggle does not call
-   startViewTransition), and the two elements that would otherwise rotate are
-   pinned so they change state without travelling. */
-@media (prefers-reduced-motion: reduce) {
-  :root.theme-transition,
-  :root.theme-transition *,
-  :root.theme-transition *::before,
-  :root.theme-transition *::after {
-    transition-property:
-      color, background-color, border-color, outline-color, box-shadow, fill,
-      stroke !important;
-  }
-
-  :root.theme-transition .theme-toggle-icon,
-  :root.theme-transition .pfp-flip-card-inner {
-    transition: none !important;
-  }
+:root.theme-transition[data-theme-crossfade="active"]::before {
+  opacity: 0;
 }
 
 /* Article body used to justify at >=640px. Measured over 53 lines of a real

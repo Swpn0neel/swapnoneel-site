@@ -1,4 +1,8 @@
+"use client";
+
+import { registerProgressiveImage } from "@/components/progressive-image-listener";
 import Image, { type ImageProps } from "next/image";
+import { useCallback, useEffect, useRef } from "react";
 
 interface ProgressiveImageProps extends Omit<
   ImageProps,
@@ -10,11 +14,9 @@ interface ProgressiveImageProps extends Omit<
 }
 
 /**
- * Server-rendered image markup. Images are deliberately opaque in the HTML;
- * the single listener in ProgressiveImageListener only hides an incomplete,
- * non-priority image after its JS has mounted, then fades it back on load.
- * That ordering keeps images visible when JavaScript is disabled or the
- * enhancer chunk fails.
+ * Server-first image markup. Its own hydrated shell registers with the shared
+ * observer, so the normal path does not depend on a document-wide DOM scan.
+ * Images remain opaque until that client code runs, preserving no-JS visibility.
  */
 export function ProgressiveImage({
   alt,
@@ -24,6 +26,19 @@ export function ProgressiveImage({
   sourceSets,
   ...imageProps
 }: ProgressiveImageProps) {
+  const shellRef = useRef<HTMLElement>(null);
+  const setShellRef = useCallback(
+    (node: HTMLDivElement | HTMLSpanElement | null) => {
+      shellRef.current = node;
+    },
+    []
+  );
+
+  useEffect(() => {
+    if (!shellRef.current) return;
+    return registerProgressiveImage(shellRef.current);
+  }, []);
+
   const image = (
     <Image
       {...imageProps}
@@ -34,6 +49,7 @@ export function ProgressiveImage({
 
   return (
     <Wrapper
+      ref={setShellRef}
       // The delegated listener owns the runtime data-image-* attributes. The
       // root listener can hydrate before a streamed page subtree, so those
       // attributes may already describe the real image state when React
