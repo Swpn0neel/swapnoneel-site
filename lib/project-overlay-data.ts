@@ -2,39 +2,29 @@ export interface ProjectMeta {
   slug: string;
   cover?: string;
   title: string;
-  date?: string;
   description?: string;
   link?: string | string[];
 }
 
-export interface ProjectOverlayData {
+export interface ProjectCardData {
   meta: ProjectMeta;
+}
+
+export interface ProjectOverlayContent {
   features: string[];
   techStack: string[];
 }
 
-function parseSection(content: string, heading: string): string[] {
-  const regex = new RegExp(
-    `###\\s+${heading}[\\s\\S]*?\\n([\\s\\S]*?)(?=###|$)`,
-    "i"
-  );
-  const match = content.match(regex);
-  if (!match) return [];
-
-  return match[1]
-    .split("\n")
-    .filter((line) => line.trim().startsWith("-"))
-    .map((line) => line.replace(/^-\s*/, "").trim())
-    .filter(Boolean);
-}
-
-export function buildProjectOverlayData(project: {
+export function toProjectCardData(project: {
   meta: ProjectMeta;
-  content: string;
-}): ProjectOverlayData {
+}): ProjectCardData {
   return {
-    meta: project.meta,
-    features: parseSection(project.content, "Features"),
-    techStack: parseSection(project.content, "Tech Stack"),
+    meta: {
+      slug: project.meta.slug,
+      cover: project.meta.cover,
+      title: project.meta.title,
+      description: project.meta.description,
+      link: project.meta.link,
+    },
   };
 }

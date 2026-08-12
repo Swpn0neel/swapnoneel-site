@@ -2,7 +2,7 @@
 
 import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 import { ArrowUp } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Stay hidden until the reader has scrolled meaningfully away from the top.
 // Crossing this line on the way down fades the button in; coming back up
@@ -12,9 +12,17 @@ const SHOW_THRESHOLD = 400;
 export function BackToTop() {
   const [isVisible, setIsVisible] = useState(false);
   const [isBlocked, setIsBlocked] = useState(false);
+  const isVisibleRef = useRef(false);
 
   useEffect(() => {
-    const update = () => setIsVisible(window.scrollY > SHOW_THRESHOLD);
+    const update = () => {
+      const next = window.scrollY > SHOW_THRESHOLD;
+      // Scroll can fire every frame. Only ask React to render when this
+      // control crosses its visibility threshold.
+      if (next === isVisibleRef.current) return;
+      isVisibleRef.current = next;
+      setIsVisible(next);
+    };
 
     window.addEventListener("scroll", update, { passive: true });
     update();

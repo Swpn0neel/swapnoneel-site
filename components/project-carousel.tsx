@@ -1,14 +1,14 @@
 "use client";
 
 import { i18n } from "@/lib/i18n";
-import type { ProjectOverlayData } from "@/lib/project-overlay-data";
+import type { ProjectCardData } from "@/lib/project-overlay-data";
 import { useCallback, useState } from "react";
 import { ProjectCover } from "./project-card";
 import { SmartCarousel } from "./smart-carousel";
 
 interface ProjectCarouselProps {
-  items: ProjectOverlayData[];
-  onOpen: (project: ProjectOverlayData) => void;
+  items: ProjectCardData[];
+  onOpen: (project: ProjectCardData) => void;
   /** Slug of the project the shared overlay currently has open, if any. */
   openSlug?: string;
   onActiveProjectChange?: (slug: string) => void;
@@ -76,7 +76,6 @@ export function ProjectCarousel({
                     <ProjectCover
                       cover={item.meta.cover}
                       sizes="(min-width: 640px) 580px, 82vw"
-                      priority={i === 0}
                     />
                   ) : (
                     <span className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">

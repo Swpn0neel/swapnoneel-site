@@ -2,7 +2,7 @@
 
 import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 import { Check, ChevronDown, Pause, Play, RotateCcw } from "lucide-react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 // Rough speaking pace of Web Speech voices at 1x, used only for the time labels.
@@ -12,6 +12,93 @@ const WAVEFORM_EDGE_INSET = 5;
 const WAVEFORM_BAR_SPAN = WAVEFORM_VIEWBOX_WIDTH - WAVEFORM_EDGE_INSET * 2;
 const BAR_COUNT = 64;
 const VIEWPORT_RETURN_IDLE_MS = 6000;
+const PREPARATION_SLICE_MS = 6;
+const PREPARATION_WORD_BATCH = 160;
+const FALLBACK_DOM_WORD_BATCH = 80;
+const NARRATION_READ_HIGHLIGHT = "narration-read";
+const NARRATION_CURRENT_HIGHLIGHT = "narration-current";
+const NARRATION_UNREAD_HIGHLIGHT = "narration-unread";
+
+// Static geometry should not be recalculated for every player mount.
+const WAVEFORM_BAR_HEIGHTS = Array.from({ length: BAR_COUNT }, (_, i) => {
+  const phrase = 0.46 + 0.2 * Math.sin(i * 0.32 + 0.4);
+  const syllable = 0.12 * Math.sin(i * 1.17 + 1.1);
+  const breath = 0.08 * Math.cos(i * 0.13);
+  return Math.min(0.88, Math.max(0.2, phrase + syllable + breath));
+});
+
+interface StableRef<T> {
+  current: T;
+}
+
+interface NarrationWaveformVisualProps {
+  barsRef: StableRef<(SVGLineElement | null)[]>;
+  dotPositionRef: StableRef<HTMLSpanElement | null>;
+  visualTrackRef: StableRef<HTMLDivElement | null>;
+}
+
+// Progress and played-bar state are written directly through these stable
+// refs. Memoizing the static visual keeps per-word time/label state updates in
+// the player from reconciling all 64 SVG lines.
+const NarrationWaveformVisual = memo(function NarrationWaveformVisual({
+  barsRef,
+  dotPositionRef,
+  visualTrackRef,
+}: NarrationWaveformVisualProps) {
+  return (
+    <div
+      ref={visualTrackRef}
+      className="relative h-8 w-full"
+      aria-hidden="true"
+    >
+      {/* Each bar is one persistent line, either dim or "played" — toggled by
+          class, not revealed by a moving clip mask. */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg
+          viewBox={`0 0 ${WAVEFORM_VIEWBOX_WIDTH} 32`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full"
+        >
+          <g className="text-foreground/20 [&_.nb-played]:text-foreground">
+            {WAVEFORM_BAR_HEIGHTS.map((height, i) => {
+              const x =
+                WAVEFORM_EDGE_INSET + (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
+              const halfHeight = 3 + height * 11;
+              return (
+                <line
+                  key={i}
+                  ref={(el) => {
+                    barsRef.current[i] = el;
+                  }}
+                  // Narrow screens drop every other bar to preserve the same
+                  // airy rhythm instead of turning into a dense picket fence.
+                  className={i % 2 === 1 ? "max-sm:hidden" : undefined}
+                  x1={x}
+                  x2={x}
+                  y1={16 - halfHeight}
+                  y2={16 + halfHeight}
+                  stroke="currentColor"
+                  strokeWidth="1.35"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+              );
+            })}
+          </g>
+        </svg>
+      </div>
+
+      <span
+        ref={dotPositionRef}
+        // Playback owns this outer layer's transform. Hover scale stays on the
+        // child so it cannot recompose the live position transform.
+        className="pointer-events-none absolute top-1/2 left-0 h-[86%] w-[3px] will-change-transform"
+      >
+        <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-x-150 motion-reduce:transition-none" />
+      </span>
+    </div>
+  );
+});
 
 // Chrome/Windows can clip the beginning of speech while its native TTS backend
 // is recovering from cancel(). A real, silent utterance is used as a
@@ -27,9 +114,44 @@ const PRIMER_START_TIMEOUT_MS = 1200;
 // clips the beginning of each native utterance clips the pause, not the word.
 const CHUNK_LEAD_IN = "… ";
 
-interface WordSpan {
-  el: HTMLSpanElement;
+interface NarrationWord {
+  block: HTMLElement;
+  el: HTMLSpanElement | null;
+  range: Range | null;
   text: string;
+}
+
+interface NodeWordLocation {
+  endOffset: number;
+  index: number;
+  startOffset: number;
+}
+
+interface HighlightSetLike {
+  add(range: Range): HighlightSetLike;
+  delete(range: Range): boolean;
+}
+
+interface HighlightRegistryLike {
+  delete(name: string): boolean;
+  set(name: string, highlight: HighlightSetLike): void;
+}
+
+interface HighlightRuntime {
+  current: HighlightSetLike;
+  index: number;
+  read: HighlightSetLike;
+  registry: HighlightRegistryLike;
+  unread: HighlightSetLike;
+}
+
+interface HighlightConstructorLike {
+  new (...ranges: Range[]): HighlightSetLike;
+}
+
+interface IdleSchedulerLike {
+  cancel?: (id: number) => void;
+  request?: (callback: () => void, options: { timeout: number }) => number;
 }
 
 // A chunk is one utterance: a contiguous run of words inside a single block
@@ -74,6 +196,90 @@ function formatTime(sec: number) {
   return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
+function getHighlightSupport(): {
+  HighlightCtor: HighlightConstructorLike;
+  registry: HighlightRegistryLike;
+} | null {
+  if (typeof CSS === "undefined" || typeof CSS.escape !== "function") {
+    return null;
+  }
+  const HighlightCtor = (
+    window as typeof window & { Highlight?: HighlightConstructorLike }
+  ).Highlight;
+  const registry = (CSS as typeof CSS & { highlights?: HighlightRegistryLike })
+    .highlights;
+  return HighlightCtor && registry ? { HighlightCtor, registry } : null;
+}
+
+function installHighlightStyles(articleId: string) {
+  const articleSelector = `#${CSS.escape(articleId)}.narrating`;
+  const style = document.createElement("style");
+  style.dataset.narrationHighlightStyles = articleId;
+  // Keep syntax that Turbopack does not yet optimize out of the build-time CSS
+  // pipeline. This only reaches a browser after the Highlight API support check
+  // and deferred Range preparation, so it adds no initial render work.
+  style.textContent = `
+${articleSelector}::highlight(${NARRATION_READ_HIGHLIGHT}),
+${articleSelector}::highlight(${NARRATION_CURRENT_HIGHLIGHT}) {
+  color: currentColor;
+}
+
+${articleSelector}::highlight(${NARRATION_UNREAD_HIGHLIGHT}) {
+  color: color-mix(in srgb, currentColor 40%, transparent);
+}`;
+  document.head.appendChild(style);
+  return () => style.remove();
+}
+
+function abortIfNeeded(signal: AbortSignal) {
+  if (signal.aborted) throw new DOMException("Aborted", "AbortError");
+}
+
+function getIdleScheduler(): IdleSchedulerLike {
+  const idleWindow = window as unknown as {
+    cancelIdleCallback?: (id: number) => void;
+    requestIdleCallback?: (
+      callback: () => void,
+      options: { timeout: number }
+    ) => number;
+  };
+  return {
+    cancel: idleWindow.cancelIdleCallback?.bind(window),
+    request: idleWindow.requestIdleCallback?.bind(window),
+  };
+}
+
+// Preparation always yields between bounded slices. Urgent work uses the next
+// task after a queued Play; normal work waits for idle time after page load.
+function yieldPreparationTurn(signal: AbortSignal, urgent: boolean) {
+  return new Promise<void>((resolve, reject) => {
+    const idleScheduler = getIdleScheduler();
+    let idleId: number | null = null;
+    let timeoutId: number | null = null;
+
+    const cleanup = () => {
+      signal.removeEventListener("abort", onAbort);
+      if (idleId !== null) idleScheduler.cancel?.(idleId);
+      if (timeoutId !== null) window.clearTimeout(timeoutId);
+    };
+    const finish = () => {
+      cleanup();
+      resolve();
+    };
+    const onAbort = () => {
+      cleanup();
+      reject(new DOMException("Aborted", "AbortError"));
+    };
+
+    signal.addEventListener("abort", onAbort, { once: true });
+    if (urgent || !idleScheduler.request) {
+      timeoutId = window.setTimeout(finish, urgent ? 0 : 16);
+    } else {
+      idleId = idleScheduler.request(finish, { timeout: 750 });
+    }
+  });
+}
+
 // ---- pre-generated narration (Edge TTS) timings ----
 // scripts/generate-narrations.mjs produces /narration/<year>/<slug>.json: the audio
 // URL plus a start time for every spoken word. Those words come from the
@@ -95,16 +301,19 @@ const normWord = (s: string) => s.toLowerCase().replace(/[^\p{L}\p{N}]+/gu, "");
 // may cover part of a DOM word (hyphenated words split by the service), several
 // DOM words (merged tokens), or neither (spoken expansions like "2026" ->
 // "twenty twenty-six" are dropped; unmatched DOM words are interpolated).
-function alignTimings(
+async function alignTimings(
   domNorm: string[],
   ttsWords: string[],
   ttsStarts: number[],
-  durationMs: number
-): number[] {
+  durationMs: number,
+  signal: AbortSignal,
+  isUrgent: () => boolean
+): Promise<number[]> {
   const n = domNorm.length;
   const starts: number[] = new Array(n).fill(-1);
   let k = 0; // dom cursor
   let acc = ""; // matched prefix of domNorm[k] built from partial TTS tokens
+  let sliceStarted = performance.now();
 
   for (let j = 0; j < ttsWords.length && k < n; j++) {
     const tn = normWord(ttsWords[j]);
@@ -166,6 +375,15 @@ function alignTimings(
         if (!acc) k++;
       }
     }
+
+    if (
+      j % PREPARATION_WORD_BATCH === 0 &&
+      performance.now() - sliceStarted >= PREPARATION_SLICE_MS
+    ) {
+      await yieldPreparationTurn(signal, isUrgent());
+      abortIfNeeded(signal);
+      sliceStarted = performance.now();
+    }
   }
 
   // Interpolate any unmatched words between their nearest anchors and force
@@ -182,6 +400,14 @@ function alignTimings(
       starts[i] = Math.max(val, prevVal);
       prevVal = starts[i];
       prevIdx = i;
+    }
+    if (
+      i % PREPARATION_WORD_BATCH === 0 &&
+      performance.now() - sliceStarted >= PREPARATION_SLICE_MS
+    ) {
+      await yieldPreparationTurn(signal, isUrgent());
+      abortIfNeeded(signal);
+      sliceStarted = performance.now();
     }
   }
   return starts;
@@ -206,20 +432,8 @@ export function BlogNarrator({
   const [totalWords, setTotalWords] = useState(initialWordCount);
   const [dragging, setDragging] = useState(false);
   const [speedOpen, setSpeedOpen] = useState(false);
+  const [playQueued, setPlayQueued] = useState(false);
   const speedMenuRef = useRef<HTMLDivElement>(null);
-
-  // A restrained, deterministic waveform. The blended frequencies produce a
-  // natural speech rhythm without the noisy equalizer look of random bars.
-  const barHeights = useMemo(() => {
-    const heights: number[] = [];
-    for (let i = 0; i < BAR_COUNT; i++) {
-      const phrase = 0.46 + 0.2 * Math.sin(i * 0.32 + 0.4);
-      const syllable = 0.12 * Math.sin(i * 1.17 + 1.1);
-      const breath = 0.08 * Math.cos(i * 0.13);
-      heights.push(Math.min(0.88, Math.max(0.2, phrase + syllable + breath)));
-    }
-    return heights;
-  }, []);
 
   // Close the speed menu on outside click.
   useEffect(() => {
@@ -233,11 +447,22 @@ export function BlogNarrator({
     return () => window.removeEventListener("pointerdown", onDown);
   }, [speedOpen]);
 
-  const wordsRef = useRef<WordSpan[]>([]);
+  const wordsRef = useRef<NarrationWord[]>([]);
   const chunksRef = useRef<Chunk[]>([]);
+  const wordLocationsRef = useRef<WeakMap<Text, NodeWordLocation[]>>(
+    new WeakMap()
+  );
+  const highlightRuntimeRef = useRef<HighlightRuntime | null>(null);
+  const fallbackSpansRef = useRef(false);
   const proseRef = useRef<HTMLElement | null>(null);
   const playingRef = useRef(false);
   const pausedRef = useRef(false);
+  const readyRef = useRef(false);
+  const queuedPlayRef = useRef(false);
+  const beginPreparationRef = useRef<(urgent: boolean) => void>(
+    () => undefined
+  );
+  const playRef = useRef<() => void>(() => undefined);
   const wordIdxRef = useRef(0);
   const rateRef = useRef(1);
   const lastUserScrollRef = useRef(0);
@@ -260,6 +485,12 @@ export function BlogNarrator({
   // Incremented on every (re)start; stale utterance callbacks and pending
   // start-polls compare against it and bail, so rapid seeks can't race.
   const genRef = useRef(0);
+  const invalidateSpeechGeneration = useCallback(() => {
+    // Teardown must invalidate the latest generation, not the value that was
+    // current when the setup effect ran: playback can restart while that
+    // effect remains mounted.
+    genRef.current++;
+  }, []);
   const keepAliveRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // ---- audio-mode state (pre-generated Edge TTS narration) ----
@@ -279,6 +510,8 @@ export function BlogNarrator({
   // Start time (ms) for every DOM word, produced by alignTimings.
   const domStartsRef = useRef<number[] | null>(null);
   const rafRef = useRef<number | null>(null);
+  const dragRafRef = useRef<number | null>(null);
+  const dragCleanupRef = useRef<() => void>(() => undefined);
   const lastLabelUpdateRef = useRef(0);
 
   // ---- the single writer of visual playback progress ----
@@ -346,79 +579,363 @@ export function BlogNarrator({
     return () => observer.disconnect();
   }, [ready, setProgressUI]);
 
-  // ---- one-time setup: wrap every narratable word in an indexed span ----
+  // ---- deferred, chunked narration preparation ----
+  // Modern browsers keep the article DOM untouched and index words as Ranges
+  // for the CSS Custom Highlight API. Old browsers get the incumbent span
+  // behavior, but only here, after load/idle, in bounded DOM batches.
   useEffect(() => {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      setSupported(false);
-      return;
-    }
     const prose = document.getElementById(articleId);
     if (!prose) return;
     proseRef.current = prose;
+    const abortController = new AbortController();
+    const { signal } = abortController;
+    const speechSupported = "speechSynthesis" in window;
+    if (!speechSupported) {
+      setSupported(false);
+      return;
+    }
+    const highlightSupport = getHighlightSupport();
+    const idleScheduler = getIdleScheduler();
+    fallbackSpansRef.current = !highlightSupport;
+    let preparationStarted = false;
+    let priorityRequested = queuedPlayRef.current;
+    let idleId: number | null = null;
+    let launchTimer: number | null = null;
+    let autoPlayTimer: number | null = null;
+    let removeHighlightStyles: () => void = () => undefined;
 
-    const walker = document.createTreeWalker(prose, NodeFilter.SHOW_TEXT, {
-      acceptNode(node) {
-        let el = node.parentElement;
-        while (el && el !== prose) {
-          if (SKIP_TAGS.has(el.tagName) || el.hasAttribute("data-no-narrate"))
-            return NodeFilter.FILTER_REJECT;
-          el = el.parentElement;
-        }
-        return /\S/.test(node.nodeValue || "")
-          ? NodeFilter.FILTER_ACCEPT
-          : NodeFilter.FILTER_REJECT;
-      },
-    });
-
-    const textNodes: Text[] = [];
-    while (walker.nextNode()) textNodes.push(walker.currentNode as Text);
-
-    const words: WordSpan[] = [];
-    const blockOf: HTMLElement[] = [];
-    for (const node of textNodes) {
+    const findBlock = (node: Text) => {
       let block = node.parentElement;
       while (block && block !== prose && !BLOCK_TAGS.has(block.tagName)) {
         block = block.parentElement;
       }
-      const frag = document.createDocumentFragment();
-      for (const token of (node.nodeValue || "").split(/(\s+)/)) {
-        if (!token) continue;
-        if (/^\s+$/.test(token)) {
-          frag.appendChild(document.createTextNode(token));
-        } else {
-          const span = document.createElement("span");
-          span.className = "nw";
-          span.dataset.nwi = String(words.length);
-          span.textContent = token;
-          frag.appendChild(span);
-          words.push({ el: span, text: token });
-          blockOf.push(block || prose);
+      return block || prose;
+    };
+
+    const makeWalker = () =>
+      document.createTreeWalker(prose, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          let el = node.parentElement;
+          while (el && el !== prose) {
+            if (
+              SKIP_TAGS.has(el.tagName) ||
+              el.hasAttribute("data-no-narrate")
+            ) {
+              return NodeFilter.FILTER_REJECT;
+            }
+            el = el.parentElement;
+          }
+          return /\S/.test(node.nodeValue || "")
+            ? NodeFilter.FILTER_ACCEPT
+            : NodeFilter.FILTER_REJECT;
+        },
+      });
+
+    const loadNarrationData = async (): Promise<NarrationData | null> => {
+      if (!slug) return null;
+      try {
+        const res = await fetch(`/narration/${year}/${slug}.json`, { signal });
+        if (!res.ok) return null;
+        const data = (await res.json()) as NarrationData;
+        if (
+          !data?.audio ||
+          !Array.isArray(data.words) ||
+          data.words.length === 0 ||
+          data.words.length !== data.starts?.length
+        ) {
+          return null;
+        }
+        return data;
+      } catch (error) {
+        if (signal.aborted) throw error;
+        // Missing or malformed timing data preserves the Web Speech fallback.
+        return null;
+      }
+    };
+
+    const prepareRangeWords = async (
+      words: NarrationWord[],
+      domNorm: string[],
+      unread: HighlightSetLike
+    ) => {
+      const locations = new WeakMap<Text, NodeWordLocation[]>();
+      const walker = makeWalker();
+      let sliceStarted = performance.now();
+      let nodeCount = 0;
+
+      while (walker.nextNode()) {
+        abortIfNeeded(signal);
+        const node = walker.currentNode as Text;
+        const block = findBlock(node);
+        const nodeLocations: NodeWordLocation[] = [];
+        const matcher = /\S+/g;
+        let match: RegExpExecArray | null;
+        while ((match = matcher.exec(node.data))) {
+          const range = document.createRange();
+          range.setStart(node, match.index);
+          range.setEnd(node, match.index + match[0].length);
+          const index = words.length;
+          words.push({
+            block,
+            el: null,
+            range,
+            text: match[0],
+          });
+          domNorm.push(normWord(match[0]));
+          nodeLocations.push({
+            endOffset: match.index + match[0].length,
+            index,
+            startOffset: match.index,
+          });
+          unread.add(range);
+
+          if (
+            words.length % PREPARATION_WORD_BATCH === 0 &&
+            performance.now() - sliceStarted >= PREPARATION_SLICE_MS
+          ) {
+            await yieldPreparationTurn(signal, priorityRequested);
+            abortIfNeeded(signal);
+            sliceStarted = performance.now();
+          }
+        }
+        locations.set(node, nodeLocations);
+        nodeCount++;
+        if (
+          nodeCount % 24 === 0 &&
+          performance.now() - sliceStarted >= PREPARATION_SLICE_MS
+        ) {
+          await yieldPreparationTurn(signal, priorityRequested);
+          abortIfNeeded(signal);
+          sliceStarted = performance.now();
         }
       }
-      node.parentNode?.replaceChild(frag, node);
-    }
+      wordLocationsRef.current = locations;
+    };
 
-    // Group consecutive words that share a block element into chunks.
-    const chunks: Chunk[] = [];
-    let i = 0;
-    while (i < words.length) {
-      const j0 = i;
-      const parts: string[] = [];
-      const offsets: number[] = [];
-      let len = 0;
-      while (i < words.length && blockOf[i] === blockOf[j0]) {
-        offsets.push(len);
-        parts.push(words[i].text);
-        len += words[i].text.length + 1;
-        i++;
+    const prepareFallbackWords = async (
+      words: NarrationWord[],
+      domNorm: string[]
+    ) => {
+      const walker = makeWalker();
+      const textNodes: Text[] = [];
+      let sliceStarted = performance.now();
+      while (walker.nextNode()) {
+        textNodes.push(walker.currentNode as Text);
+        if (
+          textNodes.length % 48 === 0 &&
+          performance.now() - sliceStarted >= PREPARATION_SLICE_MS
+        ) {
+          await yieldPreparationTurn(signal, priorityRequested);
+          abortIfNeeded(signal);
+          sliceStarted = performance.now();
+        }
       }
-      chunks.push({ start: j0, end: i, text: parts.join(" "), offsets });
-    }
 
-    wordsRef.current = words;
-    chunksRef.current = chunks;
-    setTotalWords(words.length);
-    setReady(words.length > 0);
+      for (const node of textNodes) {
+        abortIfNeeded(signal);
+        const block = findBlock(node);
+        const originalText = node.data;
+        const matcher = /\s+|\S+/g;
+        let remainingNode: Text | null = node;
+        let fragment = document.createDocumentFragment();
+        let fragmentLength = 0;
+        let fragmentWords = 0;
+        let match: RegExpExecArray | null;
+
+        const commitFragment = () => {
+          if (!remainingNode || fragmentLength === 0) return;
+          const tail =
+            fragmentLength < remainingNode.data.length
+              ? remainingNode.splitText(fragmentLength)
+              : null;
+          remainingNode.parentNode?.replaceChild(fragment, remainingNode);
+          remainingNode = tail;
+          fragment = document.createDocumentFragment();
+          fragmentLength = 0;
+          fragmentWords = 0;
+        };
+
+        while ((match = matcher.exec(originalText))) {
+          const token = match[0];
+          fragmentLength += token.length;
+          if (/^\s+$/.test(token)) {
+            fragment.appendChild(document.createTextNode(token));
+          } else {
+            const span = document.createElement("span");
+            span.className = "nw";
+            span.dataset.nwi = String(words.length);
+            span.textContent = token;
+            fragment.appendChild(span);
+            words.push({
+              block,
+              el: span,
+              range: null,
+              text: token,
+            });
+            domNorm.push(normWord(token));
+            fragmentWords++;
+          }
+
+          if (fragmentWords >= FALLBACK_DOM_WORD_BATCH) {
+            commitFragment();
+            await yieldPreparationTurn(signal, priorityRequested);
+            abortIfNeeded(signal);
+          }
+        }
+        commitFragment();
+        if (performance.now() - sliceStarted >= PREPARATION_SLICE_MS) {
+          await yieldPreparationTurn(signal, priorityRequested);
+          abortIfNeeded(signal);
+          sliceStarted = performance.now();
+        }
+      }
+    };
+
+    const prepare = async () => {
+      try {
+        // Even a user-prioritized preparation begins in a fresh task, so the
+        // first Play interaction never inherits article indexing work.
+        await yieldPreparationTurn(signal, priorityRequested);
+        const timingPromise = loadNarrationData();
+        const words: NarrationWord[] = [];
+        const domNorm: string[] = [];
+        let runtime: HighlightRuntime | null = null;
+
+        if (highlightSupport) {
+          const read = new highlightSupport.HighlightCtor();
+          const current = new highlightSupport.HighlightCtor();
+          const unread = new highlightSupport.HighlightCtor();
+          runtime = {
+            current,
+            index: -1,
+            read,
+            registry: highlightSupport.registry,
+            unread,
+          };
+          await prepareRangeWords(words, domNorm, unread);
+        } else {
+          await prepareFallbackWords(words, domNorm);
+        }
+        abortIfNeeded(signal);
+
+        // Group adjacent words by semantic block for reliable Web Speech
+        // utterances, yielding across long articles.
+        const chunks: Chunk[] = [];
+        let i = 0;
+        let sliceStarted = performance.now();
+        while (i < words.length) {
+          const j0 = i;
+          const parts: string[] = [];
+          const offsets: number[] = [];
+          let len = 0;
+          while (i < words.length && words[i].block === words[j0].block) {
+            offsets.push(len);
+            parts.push(words[i].text);
+            len += words[i].text.length + 1;
+            i++;
+          }
+          chunks.push({ start: j0, end: i, text: parts.join(" "), offsets });
+          if (performance.now() - sliceStarted >= PREPARATION_SLICE_MS) {
+            await yieldPreparationTurn(signal, priorityRequested);
+            abortIfNeeded(signal);
+            sliceStarted = performance.now();
+          }
+        }
+
+        const data = await timingPromise;
+        abortIfNeeded(signal);
+        wordsRef.current = words;
+        chunksRef.current = chunks;
+        highlightRuntimeRef.current = runtime;
+        if (runtime) {
+          removeHighlightStyles = installHighlightStyles(articleId);
+          runtime.registry.set(NARRATION_READ_HIGHLIGHT, runtime.read);
+          runtime.registry.set(NARRATION_CURRENT_HIGHLIGHT, runtime.current);
+          runtime.registry.set(NARRATION_UNREAD_HIGHLIGHT, runtime.unread);
+        }
+
+        if (data) {
+          const alignedStarts = await alignTimings(
+            domNorm,
+            data.words,
+            data.starts,
+            data.durationMs,
+            signal,
+            () => priorityRequested
+          );
+          domStartsRef.current = alignedStarts;
+          audioSrcRef.current = data.audio;
+          durationMsRef.current = data.durationMs;
+          const initialMs = alignedStarts[wordIdxRef.current] ?? 0;
+          audioPositionMsRef.current = initialMs;
+          setCurMs(initialMs);
+          setAudioDurationMs(data.durationMs);
+          modeRef.current = "audio";
+          setMode("audio");
+        }
+
+        const hasWords = words.length > 0;
+        setTotalWords(words.length);
+        readyRef.current = hasWords;
+        setReady(hasWords);
+        if (!hasWords) {
+          queuedPlayRef.current = false;
+          setPlayQueued(false);
+          setSupported(false);
+          return;
+        }
+
+        if (queuedPlayRef.current) {
+          queuedPlayRef.current = false;
+          setPlayQueued(false);
+          autoPlayTimer = window.setTimeout(() => playRef.current(), 0);
+        }
+      } catch {
+        if (!signal.aborted) setSupported(false);
+      }
+    };
+
+    const launchPreparation = () => {
+      if (preparationStarted || signal.aborted) return;
+      preparationStarted = true;
+      if (idleId !== null) {
+        idleScheduler.cancel?.(idleId);
+        idleId = null;
+      }
+      launchTimer = window.setTimeout(() => {
+        launchTimer = null;
+        void prepare();
+      }, 0);
+    };
+
+    const scheduleAfterLoad = () => {
+      if (priorityRequested) {
+        launchPreparation();
+        return;
+      }
+      if (idleScheduler.request) {
+        idleId = idleScheduler.request(launchPreparation, { timeout: 1500 });
+      } else {
+        launchTimer = window.setTimeout(launchPreparation, 16);
+      }
+    };
+
+    const onLoad = () => scheduleAfterLoad();
+    if (document.readyState === "complete") scheduleAfterLoad();
+    else window.addEventListener("load", onLoad, { once: true });
+
+    beginPreparationRef.current = (urgent: boolean) => {
+      if (!urgent) return;
+      priorityRequested = true;
+      if (preparationStarted) return;
+      if (idleId !== null) {
+        idleScheduler.cancel?.(idleId);
+        idleId = null;
+      }
+      // Timing metadata stays behind the load/LCP boundary even for an early
+      // click. Once load has fired, the request skips the idle wait.
+      if (document.readyState === "complete") launchPreparation();
+    };
 
     const cancelIdleReturn = () => {
       if (viewportOverrideTimerRef.current !== null) {
@@ -460,117 +977,155 @@ export function BlogNarrator({
         NARRATION_VIEWPORT_OVERRIDE_EVENT,
         onViewportOverride
       );
+      window.removeEventListener("load", onLoad);
       cancelIdleReturn();
-      window.speechSynthesis.cancel();
-      if (keepAliveRef.current) clearInterval(keepAliveRef.current);
-    };
-  }, [articleId]);
-
-  // Load pre-generated narration timings, if this post has them. Any failure
-  // simply leaves the component in Web Speech mode.
-  useEffect(() => {
-    if (!ready || !slug) return;
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await fetch(`/narration/${year}/${slug}.json`);
-        if (!res.ok) return;
-        const data = (await res.json()) as NarrationData;
-        if (
-          cancelled ||
-          !data?.audio ||
-          !Array.isArray(data.words) ||
-          data.words.length === 0 ||
-          data.words.length !== data.starts?.length
-        )
-          return;
-        const domNorm = wordsRef.current.map((w) => normWord(w.text));
-        const alignedStarts = alignTimings(
-          domNorm,
-          data.words,
-          data.starts,
-          data.durationMs
-        );
-        domStartsRef.current = alignedStarts;
-        audioSrcRef.current = data.audio;
-        durationMsRef.current = data.durationMs;
-        const initialMs = alignedStarts[wordIdxRef.current] ?? 0;
-        audioPositionMsRef.current = initialMs;
-        setCurMs(initialMs);
-        setAudioDurationMs(data.durationMs);
-        modeRef.current = "audio";
-        setMode("audio");
-      } catch {
-        // network error / malformed JSON — keep the speech engine
+      abortController.abort();
+      invalidateSpeechGeneration();
+      playingRef.current = false;
+      pausedRef.current = false;
+      readyRef.current = false;
+      beginPreparationRef.current = () => undefined;
+      if (idleId !== null) idleScheduler.cancel?.(idleId);
+      if (launchTimer !== null) window.clearTimeout(launchTimer);
+      if (autoPlayTimer !== null) window.clearTimeout(autoPlayTimer);
+      highlightSupport?.registry.delete(NARRATION_READ_HIGHLIGHT);
+      highlightSupport?.registry.delete(NARRATION_CURRENT_HIGHLIGHT);
+      highlightSupport?.registry.delete(NARRATION_UNREAD_HIGHLIGHT);
+      removeHighlightStyles();
+      if (speechSupported) window.speechSynthesis.cancel();
+      if (keepAliveRef.current) {
+        clearInterval(keepAliveRef.current);
+        keepAliveRef.current = null;
       }
-    })();
-    return () => {
-      cancelled = true;
     };
-  }, [ready, slug, year]);
+  }, [articleId, invalidateSpeechGeneration, slug, year]);
 
   // Unmount: stop the audio pipeline (speech teardown lives in the setup effect).
   useEffect(
     () => () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
-      audioRef.current?.pause();
+      if (dragRafRef.current) cancelAnimationFrame(dragRafRef.current);
+      dragCleanupRef.current();
+      if (audioRef.current) {
+        audioRef.current.onended = null;
+        audioRef.current.onerror = null;
+        audioRef.current.pause();
+      }
       audioRef.current = null;
     },
     []
   );
 
   // ---- highlight helpers (direct DOM, no per-word re-render) ----
-  const applyReadState = useCallback((idx: number) => {
+  const syncRangeReadState = useCallback((idx: number) => {
     const words = wordsRef.current;
-    for (let i = 0; i < words.length; i++) {
-      words[i].el.classList.toggle("nw-read", i < idx);
-      words[i].el.classList.toggle("nw-current", i === idx);
+    const runtime = highlightRuntimeRef.current;
+    if (!runtime || !words[idx]?.range) return;
+    const prev = runtime.index;
+    if (prev === idx) return;
+
+    const move = (
+      wordIdx: number,
+      from: HighlightSetLike,
+      to: HighlightSetLike
+    ) => {
+      const range = words[wordIdx]?.range;
+      if (!range) return;
+      from.delete(range);
+      to.add(range);
+    };
+
+    if (prev < 0) {
+      for (let i = 0; i < idx; i++) move(i, runtime.unread, runtime.read);
+      move(idx, runtime.unread, runtime.current);
+    } else if (idx > prev) {
+      move(prev, runtime.current, runtime.read);
+      for (let i = prev + 1; i < idx; i++) {
+        move(i, runtime.unread, runtime.read);
+      }
+      move(idx, runtime.unread, runtime.current);
+    } else {
+      move(prev, runtime.current, runtime.unread);
+      for (let i = prev - 1; i > idx; i--) {
+        move(i, runtime.read, runtime.unread);
+      }
+      move(idx, runtime.read, runtime.current);
     }
+    runtime.index = idx;
   }, []);
 
-  const setCurrentWord = useCallback((idx: number) => {
-    const words = wordsRef.current;
-    const prev = wordIdxRef.current;
-    if (words[prev]) words[prev].el.classList.remove("nw-current");
-    if (words[prev] && idx > prev) words[prev].el.classList.add("nw-read");
-    // Non-sequential jump (seek): recompute all read flags.
-    if (idx !== prev + 1 && idx !== prev) {
-      for (let i = 0; i < words.length; i++) {
-        words[i].el.classList.toggle("nw-read", i < idx);
+  const applyReadState = useCallback(
+    (idx: number) => {
+      if (!fallbackSpansRef.current) {
+        syncRangeReadState(idx);
+        return;
       }
-    }
-    const cur = words[idx];
-    if (cur) {
+      const words = wordsRef.current;
+      for (let i = 0; i < words.length; i++) {
+        words[i].el?.classList.toggle("nw-read", i < idx);
+        words[i].el?.classList.toggle("nw-current", i === idx);
+      }
+    },
+    [syncRangeReadState]
+  );
+
+  const setCurrentWord = useCallback(
+    (idx: number) => {
+      const words = wordsRef.current;
+      const prev = wordIdxRef.current;
+      const cur = words[idx];
+      if (!cur) return;
+
+      if (fallbackSpansRef.current) {
+        words[prev]?.el?.classList.remove("nw-current");
+        if (idx > prev) words[prev]?.el?.classList.add("nw-read");
+        // Non-sequential jump (seek): recompute all read flags.
+        if (idx !== prev + 1 && idx !== prev) applyReadState(idx);
+      } else {
+        syncRangeReadState(idx);
+      }
+
       // Ink-fill sweep duration: base ms-per-word at the current rate, scaled
       // by word length so long words fill slower than short ones.
-      const baseMs = 60000 / (BASE_WPM * rateRef.current);
-      const lenScale = Math.min(2, Math.max(0.6, cur.text.length / 5));
-      cur.el.style.setProperty("--wdur", `${Math.round(baseMs * lenScale)}ms`);
-      cur.el.classList.add("nw-current");
+      if (cur.el) {
+        const baseMs = 60000 / (BASE_WPM * rateRef.current);
+        const lenScale = Math.min(2, Math.max(0.6, cur.text.length / 5));
+        cur.el.style.setProperty(
+          "--wdur",
+          `${Math.round(baseMs * lenScale)}ms`
+        );
+        cur.el.classList.add("nw-current");
+      }
       // Auto-scroll: keep the current word in a comfortable band, unless the
       // reader scrolled themselves in the last few seconds.
       if (
         !viewportOverrideRef.current &&
         Date.now() - lastUserScrollRef.current > 4000
       ) {
-        const r = cur.el.getBoundingClientRect();
-        const vh = window.innerHeight;
-        if (r.top < vh * 0.15 || r.bottom > vh * 0.65) {
-          window.scrollTo({
-            top: window.scrollY + r.top - vh * 0.35,
-            behavior: "smooth",
-          });
+        const r =
+          cur.range?.getBoundingClientRect() ?? cur.el?.getBoundingClientRect();
+        if (r) {
+          const vh = window.innerHeight;
+          if (r.top < vh * 0.15 || r.bottom > vh * 0.65) {
+            window.scrollTo({
+              top: window.scrollY + r.top - vh * 0.35,
+              behavior: "smooth",
+            });
+          }
         }
       }
-    }
-    wordIdxRef.current = idx;
-    setWordIdx(idx);
-  }, []);
+      wordIdxRef.current = idx;
+      setWordIdx(idx);
+    },
+    [applyReadState, syncRangeReadState]
+  );
 
   const clearHighlights = useCallback(() => {
     proseRef.current?.classList.remove("narrating");
-    for (const w of wordsRef.current) {
-      w.el.classList.remove("nw-read", "nw-current");
+    if (fallbackSpansRef.current) {
+      for (const w of wordsRef.current) {
+        w.el?.classList.remove("nw-read", "nw-current");
+      }
     }
   }, []);
 
@@ -623,12 +1178,27 @@ export function BlogNarrator({
     clearHighlights();
     wordIdxRef.current = 0;
     setWordIdx(0);
-  }, [clearHighlights]);
+    // Reset the Range partitions outside a user interaction so replay never
+    // pays an O(article) rewind cost in the next Play task.
+    applyReadState(0);
+  }, [clearHighlights, applyReadState]);
 
   const startFrom = useCallback(
     (idx: number, alreadyStopped = false) => {
       const chunks = chunksRef.current;
-      const ci = chunks.findIndex((c) => idx >= c.start && idx < c.end);
+      let lo = 0;
+      let hi = chunks.length - 1;
+      let ci = -1;
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        const chunk = chunks[mid];
+        if (idx < chunk.start) hi = mid - 1;
+        else if (idx >= chunk.end) lo = mid + 1;
+        else {
+          ci = mid;
+          break;
+        }
+      }
       if (ci === -1) return;
 
       resumeViewportFollow();
@@ -685,10 +1255,17 @@ export function BlogNarrator({
             if (e.charIndex < CHUNK_LEAD_IN.length) return;
             const absChar = charStart + e.charIndex - CHUNK_LEAD_IN.length;
             // Find the word whose offset is <= absChar (offsets are sorted).
+            let offsetLo = localStart;
+            let offsetHi = chunk.offsets.length - 1;
             let w = localStart;
-            for (let j = localStart; j < chunk.offsets.length; j++) {
-              if (chunk.offsets[j] <= absChar) w = j;
-              else break;
+            while (offsetLo <= offsetHi) {
+              const mid = (offsetLo + offsetHi) >> 1;
+              if (chunk.offsets[mid] <= absChar) {
+                w = mid;
+                offsetLo = mid + 1;
+              } else {
+                offsetHi = mid - 1;
+              }
             }
             setCurrentWord(chunk.start + w);
           };
@@ -845,10 +1422,11 @@ export function BlogNarrator({
     clearHighlights();
     wordIdxRef.current = 0;
     setWordIdx(0);
+    applyReadState(0);
     setCurMs(0);
     audioPositionMsRef.current = 0;
     if (audioRef.current) audioRef.current.currentTime = 0;
-  }, [clearHighlights]);
+  }, [clearHighlights, applyReadState]);
 
   // Created lazily so the MP3 only downloads once playback is requested.
   const getAudio = useCallback(() => {
@@ -979,6 +1557,25 @@ export function BlogNarrator({
     clearHighlights();
   }, [clearHighlights, audioPause]);
 
+  useEffect(() => {
+    playRef.current = play;
+    return () => {
+      playRef.current = () => undefined;
+    };
+  }, [play]);
+
+  const onPrimaryAction = useCallback(() => {
+    if (!readyRef.current) {
+      if (!supported) return;
+      queuedPlayRef.current = true;
+      setPlayQueued(true);
+      beginPreparationRef.current(true);
+      return;
+    }
+    if (playingRef.current) pause();
+    else play();
+  }, [pause, play, supported]);
+
   const restart = useCallback(() => {
     if (modeRef.current === "audio") {
       audioPlay(0);
@@ -987,20 +1584,56 @@ export function BlogNarrator({
     startFrom(0);
   }, [startFrom, audioPlay]);
 
+  const wordIndexFromPoint = useCallback((clientX: number, clientY: number) => {
+    const doc = document as Document & {
+      caretPositionFromPoint?: (
+        x: number,
+        y: number
+      ) => { offset: number; offsetNode: Node } | null;
+      caretRangeFromPoint?: (x: number, y: number) => Range | null;
+    };
+    const position = doc.caretPositionFromPoint?.(clientX, clientY);
+    const legacyRange = position
+      ? null
+      : doc.caretRangeFromPoint?.(clientX, clientY);
+    const node = position?.offsetNode ?? legacyRange?.startContainer;
+    const offset = position?.offset ?? legacyRange?.startOffset;
+    if (!(node instanceof Text) || offset === undefined) return -1;
+    const locations = wordLocationsRef.current.get(node);
+    if (!locations) return -1;
+
+    let lo = 0;
+    let hi = locations.length - 1;
+    while (lo <= hi) {
+      const mid = (lo + hi) >> 1;
+      const word = locations[mid];
+      if (offset < word.startOffset) hi = mid - 1;
+      else if (offset >= word.endOffset) lo = mid + 1;
+      else return word.index;
+    }
+    return -1;
+  }, []);
+
   // While narrating, clicking any word jumps playback there. Capture phase +
-  // preventDefault so words inside links jump instead of navigating.
+  // preventDefault so words inside links jump instead of navigating. Modern
+  // browsers resolve the clicked caret into the Range index without word DOM.
   useEffect(() => {
     if (!ready) return;
     const prose = proseRef.current;
     if (!prose) return;
     const onClick = (e: MouseEvent) => {
       if (!playingRef.current) return;
-      const el = (e.target as HTMLElement).closest?.(
-        ".nw"
-      ) as HTMLElement | null;
-      if (!el?.dataset.nwi) return;
+      let idx = -1;
+      if (fallbackSpansRef.current) {
+        const el = (e.target as HTMLElement).closest?.(
+          ".nw"
+        ) as HTMLElement | null;
+        if (el?.dataset.nwi) idx = parseInt(el.dataset.nwi, 10);
+      } else {
+        idx = wordIndexFromPoint(e.clientX, e.clientY);
+      }
+      if (idx < 0) return;
       e.preventDefault();
-      const idx = parseInt(el.dataset.nwi, 10);
       setWordIdx(idx);
       if (modeRef.current === "audio") {
         const starts = domStartsRef.current;
@@ -1011,7 +1644,7 @@ export function BlogNarrator({
     };
     prose.addEventListener("click", onClick, true);
     return () => prose.removeEventListener("click", onClick, true);
-  }, [ready, startFrom, audioPlay]);
+  }, [ready, startFrom, audioPlay, wordIndexFromPoint]);
 
   const selectRate = useCallback(
     (idx: number) => {
@@ -1075,16 +1708,14 @@ export function BlogNarrator({
     [stop, startFrom, applyReadState, wordIdxForMs, audioPlay]
   );
 
-  const fractionFromEvent = useCallback((clientX: number) => {
-    const track = trackRef.current;
-    if (!track) return 0;
-    const r = track.getBoundingClientRect();
-    return Math.min(1, Math.max(0, (clientX - r.left) / r.width));
-  }, []);
-
   const onTrackPointerDown = useCallback(
     (e: React.PointerEvent<HTMLDivElement>) => {
       e.preventDefault();
+      const trackRect = trackRef.current?.getBoundingClientRect();
+      if (!trackRect?.width) return;
+      dragCleanupRef.current();
+      const fractionAt = (clientX: number) =>
+        Math.min(1, Math.max(0, (clientX - trackRect.left) / trackRect.width));
       const wasPlaying = playingRef.current;
       if (modeRef.current === "audio") {
         // Quiet while dragging, like the speech engine's stop-on-pointer-down.
@@ -1098,19 +1729,20 @@ export function BlogNarrator({
         stop();
       }
       setDragging(true);
-      const move = (ev: PointerEvent) => {
-        const frac = fractionFromEvent(ev.clientX);
-        // Written immediately, not just via state: pointermove can fire
-        // faster than React re-renders, and the dot should never lag a
-        // real drag.
+      let pendingClientX = e.clientX;
+      const renderDragFrame = () => {
+        dragRafRef.current = null;
+        const frac = fractionAt(pendingClientX);
         setProgressUI(frac);
         if (modeRef.current === "audio") {
           const ms = frac * durationMsRef.current;
           const idx = wordIdxForMs(ms);
           setCurMs(ms);
           audioPositionMsRef.current = ms;
-          wordIdxRef.current = idx;
-          setWordIdx(idx);
+          if (wordIdxRef.current !== idx) {
+            wordIdxRef.current = idx;
+            setWordIdx(idx);
+          }
           return;
         }
         const total = wordsRef.current.length;
@@ -1118,20 +1750,41 @@ export function BlogNarrator({
           total - 1,
           Math.max(0, Math.round(frac * (total - 1)))
         );
-        wordIdxRef.current = idx;
-        setWordIdx(idx);
+        if (wordIdxRef.current !== idx) {
+          wordIdxRef.current = idx;
+          setWordIdx(idx);
+        }
       };
-      const up = (ev: PointerEvent) => {
+      const move = (ev: PointerEvent) => {
+        pendingClientX = ev.clientX;
+        if (dragRafRef.current === null) {
+          dragRafRef.current = requestAnimationFrame(renderDragFrame);
+        }
+      };
+      const cleanupDrag = () => {
         window.removeEventListener("pointermove", move);
         window.removeEventListener("pointerup", up);
+        window.removeEventListener("pointercancel", up);
+        if (dragRafRef.current !== null) {
+          cancelAnimationFrame(dragRafRef.current);
+          dragRafRef.current = null;
+        }
+        dragCleanupRef.current = () => undefined;
+      };
+      const up = (ev: PointerEvent) => {
+        if (ev.type !== "pointercancel") pendingClientX = ev.clientX;
+        cleanupDrag();
+        renderDragFrame();
         setDragging(false);
-        seekToFraction(fractionFromEvent(ev.clientX), wasPlaying, true);
+        seekToFraction(fractionAt(pendingClientX), wasPlaying, true);
       };
       window.addEventListener("pointermove", move);
       window.addEventListener("pointerup", up);
+      window.addEventListener("pointercancel", up);
+      dragCleanupRef.current = cleanupDrag;
       move(e.nativeEvent);
     },
-    [stop, fractionFromEvent, seekToFraction, wordIdxForMs, setProgressUI]
+    [stop, seekToFraction, wordIdxForMs, setProgressUI]
   );
 
   const onTrackKeyDown = useCallback(
@@ -1188,27 +1841,43 @@ export function BlogNarrator({
   // playing (audioTick already set it a moment earlier), never a competing one.
   useEffect(() => {
     setProgressUI(progress);
-    // `ready` isn't read in the body, but it gates whether the dot/bars are
-    // even mounted — without it, the effect wouldn't re-fire (progress and
-    // setProgressUI are unchanged) at the exact moment they first exist,
-    // leaving them unstyled until the next unrelated progress change.
+    // Re-run at readiness so direct DOM visuals reflect any prepared timing
+    // position even when the numeric progress happened to remain unchanged.
   }, [progress, setProgressUI, ready]);
 
   if (!supported) return null;
 
   return (
-    <div className="border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3">
+    <div
+      aria-busy={!ready}
+      data-narration-state={ready ? "ready" : "loading"}
+      className="blog-narrator border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3"
+    >
+      <span className="sr-only" role="status" aria-live="polite">
+        {ready
+          ? "Narration ready."
+          : playQueued
+            ? "Preparing narration. Playback will start automatically."
+            : "Preparing narration."}
+      </span>
       <div className="flex items-center gap-1.5 sm:gap-2">
         <button
-          onClick={playing ? pause : play}
-          disabled={!ready}
-          aria-label={playing ? "Pause narration" : "Play narration"}
+          onClick={onPrimaryAction}
+          aria-label={
+            ready
+              ? playing
+                ? "Pause narration"
+                : "Play narration"
+              : playQueued
+                ? "Narration is preparing and will play automatically"
+                : "Play narration when ready"
+          }
           // Full strength, not the /80 it used to sit at. This is the primary
           // control in the component; dimming it at rest put it below the
           // played waveform beside it in the visual order. Hover feedback
           // comes from the background wash and the active press, which is
           // enough without also holding the icon back.
-          className="text-foreground hover:bg-foreground/6 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform] duration-200 ease-out focus-visible:rounded-full! active:scale-95 disabled:cursor-wait motion-reduce:transition-none"
+          className="narrator-primary-control text-foreground hover:bg-foreground/6 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,transform,opacity] duration-200 ease-out focus-visible:rounded-full! active:scale-95 motion-reduce:transition-none"
         >
           {playing ? (
             <Pause className="h-4.5 w-4.5 fill-current" />
@@ -1217,7 +1886,7 @@ export function BlogNarrator({
           )}
         </button>
 
-        <span className="text-muted-foreground text-2xs hidden w-9 shrink-0 text-right font-mono font-medium tabular-nums sm:block">
+        <span className="narrator-deferred-control text-muted-foreground text-2xs hidden w-9 shrink-0 text-right font-mono font-medium tabular-nums sm:block">
           {formatTime(elapsedSec)}
         </span>
 
@@ -1234,97 +1903,26 @@ export function BlogNarrator({
           aria-valuetext={`${formatTime(elapsedSec)} of ${formatTime(durationSec)}`}
           tabIndex={ready ? 0 : -1}
           onKeyDown={onTrackKeyDown}
-          className={`group relative flex h-11 min-w-0 flex-1 touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${
+          className={`narrator-deferred-control group relative flex h-11 min-w-0 flex-1 touch-none items-center rounded-md px-1.5 select-none sm:px-2 ${
             ready ? "cursor-pointer" : "cursor-wait"
           } ${dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"}`}
         >
-          <div
-            ref={visualTrackRef}
-            className="relative h-8 w-full"
-            aria-hidden="true"
-          >
-            {/* Each bar is one persistent line, either dim or "played" —
-                toggled by class, not revealed by a moving clip mask. A clip
-                rect sitting exactly at the play boundary is one more layer
-                for a fast-moving edge to visually catch on; a plain class
-                flip on a static element can't. */}
-            <div className="absolute inset-0 overflow-hidden">
-              <svg
-                viewBox={`0 0 ${WAVEFORM_VIEWBOX_WIDTH} 32`}
-                preserveAspectRatio="none"
-                className="absolute inset-0 h-full w-full"
-              >
-                {/* Unplayed / played. Both stay alpha rather than moving to
-                    the text tokens: this is a two-state fill, not a step on
-                    the text ramp, and the unplayed bars have to sit well below
-                    --faint-foreground or the track stops reading as "not yet
-                    played". Nudged from 0.14, which left the scrub target
-                    almost invisible against the panel before playback starts. */}
-                <g className="text-foreground/20 [&_.nb-played]:text-foreground">
-                  {barHeights.map((height, i) => {
-                    const x =
-                      WAVEFORM_EDGE_INSET +
-                      (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
-                    const halfHeight = 3 + height * 11;
-                    return (
-                      <line
-                        key={i}
-                        ref={(el) => {
-                          barsRef.current[i] = el;
-                        }}
-                        // On narrow screens the track is much shorter, so
-                        // every other bar is dropped to keep the same airy
-                        // rhythm instead of a dense picket fence.
-                        className={i % 2 === 1 ? "max-sm:hidden" : undefined}
-                        x1={x}
-                        x2={x}
-                        y1={16 - halfHeight}
-                        y2={16 + halfHeight}
-                        stroke="currentColor"
-                        strokeWidth="1.35"
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    );
-                  })}
-                </g>
-              </svg>
-            </div>
-
-            <span
-              ref={dotPositionRef}
-              // Playback owns this outer layer's transform. Keeping hover
-              // scale on the child prevents the browser from recomposing the
-              // live position transform when hover begins or ends.
-              //
-              // Height is a percentage of the track, not a fixed px, so it
-              // stays locked to the waveform: the bars are drawn in a 32-unit
-              // viewBox with preserveAspectRatio="none", so they stretch with
-              // the container and a px value would drift out of proportion.
-              // The tallest bar reaches 25.36 of those 32 units (79%), so 86%
-              // clears it by a little at every size — which is the whole point
-              // of a playhead: it has to read as sitting in front of the
-              // waveform, not as one more bar in it.
-              className="pointer-events-none absolute top-1/2 left-0 h-[86%] w-[3px] will-change-transform"
-            >
-              {/* 3px against the bars' 1.35px non-scaling stroke — heavy
-                  enough to read as the handle, still a hairline. rounded-full
-                  resolves to a 1.5px cap here, matching the bars'
-                  strokeLinecap="round". The background ring keeps a clear gap
-                  so the playhead never visually merges with a bar it overlaps.
-                  Hover thickens on X only: a uniform scale would also stretch
-                  it vertically past the track it is supposed to sit inside. */}
-              <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-x-150 motion-reduce:transition-none" />
-            </span>
-          </div>
+          <NarrationWaveformVisual
+            barsRef={barsRef}
+            dotPositionRef={dotPositionRef}
+            visualTrackRef={visualTrackRef}
+          />
         </div>
 
-        <span className="text-muted-foreground text-2xs hidden w-9 shrink-0 font-mono font-medium tabular-nums sm:block">
+        <span className="narrator-deferred-control text-muted-foreground text-2xs hidden w-9 shrink-0 font-mono font-medium tabular-nums sm:block">
           {formatTime(durationSec)}
         </span>
 
         {/* Speed dropdown */}
-        <div ref={speedMenuRef} className="relative shrink-0">
+        <div
+          ref={speedMenuRef}
+          className="narrator-deferred-control relative shrink-0"
+        >
           <button
             onClick={() => setSpeedOpen((o) => !o)}
             disabled={!ready}
@@ -1374,7 +1972,7 @@ export function BlogNarrator({
           onClick={restart}
           disabled={!ready}
           aria-label="Restart narration"
-          className="text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-colors duration-200 focus-visible:rounded-full! disabled:cursor-wait"
+          className="narrator-deferred-control text-muted-foreground hover:bg-foreground/6 hover:text-foreground flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full transition-[color,background-color,opacity] duration-200 focus-visible:rounded-full! disabled:cursor-wait"
         >
           <RotateCcw className="h-3.5 w-3.5" />
         </button>

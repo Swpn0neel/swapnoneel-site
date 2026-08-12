@@ -72,7 +72,10 @@ const generateSlug = (text: string) => {
     .replace(/-+/g, "-");
 };
 
-const EAGER_IMAGE_COUNT = 2;
+// The cover is the sole high-priority/preloaded image. Only the first inline
+// image starts eagerly (at low fetch priority); every later image stays native
+// lazy so it cannot compete with article LCP.
+const EAGER_IMAGE_COUNT = 1;
 
 function extractLeadImageSources(markdown: string): Set<string> {
   const regex = /!\[[^\]]*\]\((\S+?)\)/g;

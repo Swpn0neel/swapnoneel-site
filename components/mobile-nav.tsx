@@ -7,7 +7,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import * as React from "react";
 
-export function MobileNav() {
+export function MobileNav({
+  onPrefetch,
+}: {
+  onPrefetch: (href: string) => void;
+}) {
   const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();
   const menuRef = React.useRef<HTMLDivElement>(null);
@@ -15,7 +19,7 @@ export function MobileNav() {
   const firstFocusableRef = React.useRef<HTMLElement>(null);
   const lastFocusableRef = React.useRef<HTMLElement>(null);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => setIsOpen((open) => !open);
   const closeMenu = () => setIsOpen(false);
 
   React.useEffect(() => {
@@ -147,8 +151,12 @@ export function MobileNav() {
               // a layout box inside the viewport and Next's prefetch observer
               // treats every link here as visible — ~150 KiB of RSC payloads
               // fetched on first paint, which starves LCP on slow mobile.
-              // Prefetch only once the menu is actually opened.
-              prefetch={isOpen ? undefined : false}
+              // Opening focuses the first link, and direct pointer/focus/down
+              // intent warms whichever route the visitor actually selects.
+              prefetch={false}
+              onPointerEnter={() => onPrefetch(item.href)}
+              onFocus={() => onPrefetch(item.href)}
+              onPointerDown={() => onPrefetch(item.href)}
               onClick={closeMenu}
               className={`hover:text-foreground focus-visible:ring-ring w-full rounded-md py-2 text-center text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/80" : "text-muted-foreground"}`}
               aria-current={isActive ? "page" : undefined}

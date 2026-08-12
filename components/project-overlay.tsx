@@ -2,7 +2,8 @@
 
 import { i18n } from "@/lib/i18n";
 import paletteMap from "@/lib/palette-map.json";
-import type { ProjectOverlayData } from "@/lib/project-overlay-data";
+import { projectOverlayContent } from "@/lib/project-overlay-content";
+import type { ProjectMeta } from "@/lib/project-overlay-data";
 import { firstLink } from "@/lib/utils";
 import type { CSSProperties } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -12,37 +13,44 @@ import { ProjectWindow } from "./project-window";
 const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
 interface ProjectOverlayProps {
-  project: ProjectOverlayData | null;
+  project: ProjectMeta;
   onClose: () => void;
+}
+
+function isConstrainedDevice() {
+  const connection = (
+    navigator as Navigator & {
+      connection?: { saveData?: boolean };
+      deviceMemory?: number;
+    }
+  ).connection;
+  const deviceMemory = (navigator as Navigator & { deviceMemory?: number })
+    .deviceMemory;
+
+  return Boolean(
+    connection?.saveData ||
+    (typeof deviceMemory === "number" && deviceMemory <= 4) ||
+    navigator.hardwareConcurrency <= 4
+  );
 }
 
 export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   const [isVisible, setIsVisible] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
   const overlayRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const returnFocusRef = useRef<HTMLElement | null>(null);
 
+  const constrainedDevice = isConstrainedDevice();
+
   useEffect(() => {
-    if (project) {
+    requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setIsVisible(true);
-        });
+        setIsVisible(true);
       });
-    } else {
-      setIsVisible(false);
-      setIsClosing(false);
-    }
+    });
   }, [project]);
 
   useEffect(() => {
-    if (!project) {
-      returnFocusRef.current?.focus();
-      returnFocusRef.current = null;
-      return;
-    }
-
     const activeElement = document.activeElement;
     if (activeElement instanceof HTMLElement) {
       returnFocusRef.current = activeElement;
@@ -57,25 +65,21 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
   // holds that space open through the lock, so padding here would shift the
   // page by the scrollbar's width rather than keep it still.
   useEffect(() => {
-    document.body.style.overflow = project ? "hidden" : "";
+    document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
+      returnFocusRef.current?.focus();
+      returnFocusRef.current = null;
     };
-  }, [project]);
+  }, []);
 
   const handleClose = useCallback(() => {
-    setIsClosing(true);
     setIsVisible(false);
-    setTimeout(() => {
-      setIsClosing(false);
-      onClose();
-    }, 400);
+    setTimeout(onClose, 400);
   }, [onClose]);
 
   // Keep keyboard focus inside the modal and close it on Escape.
   useEffect(() => {
-    if (!project) return;
-
     const handler = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         e.preventDefault();
@@ -105,22 +109,19 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
 
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [handleClose, project]);
+  }, [handleClose]);
 
-  if (!project && !isClosing) return null;
-
-  const techStack = project?.techStack ?? [];
-  const features = project?.features ?? [];
-  const projectLink = project ? firstLink(project.meta.link) : undefined;
-  const palette = project?.meta.cover
-    ? palettes[project.meta.cover]
-    : undefined;
+  const { features = [], techStack = [] } =
+    projectOverlayContent[project.slug] ?? {};
+  const projectLink = firstLink(project.link);
+  const palette = project.cover ? palettes[project.cover] : undefined;
 
   return createPortal(
     <div
       id="project-overlay-dialog"
       ref={overlayRef}
       className={`project-overlay-backdrop ${isVisible ? "project-overlay-backdrop--visible" : ""}`}
+      data-constrained-device={constrainedDevice ? "true" : undefined}
       onClick={(e) => {
         if (e.target === overlayRef.current) handleClose();
       }}
@@ -128,7 +129,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       aria-modal="true"
       aria-labelledby="project-overlay-title"
       aria-describedby={
-        project?.meta.description ? "project-overlay-description" : undefined
+        project.description ? "project-overlay-description" : undefined
       }
     >
       <div
@@ -136,11 +137,9 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
       >
         {/* Hero — same gradient + framed window treatment as the card */}
         <div
-          className={`project-overlay-hero ${
-            project?.meta.cover ? "project-cover" : ""
-          }`}
+          className={`project-overlay-hero ${project.cover ? "project-cover" : ""}`}
           style={
-            project?.meta.cover
+            project.cover
               ? ({
                   "--pc-h1": String(palette?.h1 ?? 220),
                   "--pc-h2": String(palette?.h2 ?? 200),
@@ -148,16 +147,16 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               : undefined
           }
         >
-          {project?.meta.cover ? (
+          {project.cover ? (
             <ProjectWindow
-              src={project.meta.cover}
-              alt={project.meta.title}
+              src={project.cover}
+              alt={project.title}
               sizes="(max-width: 640px) 86vw, 654px"
               priority
             />
           ) : (
             <div className="project-overlay-hero-placeholder">
-              <span>{project?.meta.title}</span>
+              <span>{project.title}</span>
             </div>
           )}
 
@@ -194,7 +193,7 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
               id="project-overlay-title"
               className="project-overlay-hero-title"
             >
-              {project?.meta.title}
+              {project.title}
             </h2>
             {projectLink && (
               <a
@@ -225,12 +224,12 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
 
         {/* Scrollable info below the hero */}
         <div className="project-overlay-info">
-          {project?.meta.description && (
+          {project.description && (
             <p
               id="project-overlay-description"
               className="project-overlay-description"
             >
-              {project.meta.description}
+              {project.description}
             </p>
           )}
 
@@ -241,17 +240,12 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                   {i18n.overlay.features}
                 </h3>
                 <ul className="project-overlay-features">
-                  {features.map((feat, i) => {
-                    const clean = feat.replace(/\*\*/g, "");
-                    return (
-                      <li key={i} className="project-overlay-feature-item">
-                        <span className="project-overlay-feature-bullet">
-                          ›
-                        </span>
-                        {clean}
-                      </li>
-                    );
-                  })}
+                  {features.map((feature) => (
+                    <li key={feature} className="project-overlay-feature-item">
+                      <span className="project-overlay-feature-bullet">›</span>
+                      {feature}
+                    </li>
+                  ))}
                 </ul>
               </div>
             )}
@@ -262,17 +256,11 @@ export function ProjectOverlay({ project, onClose }: ProjectOverlayProps) {
                   {i18n.overlay.techStack}
                 </h3>
                 <div className="project-overlay-tags">
-                  {techStack.map((tech, i) => {
-                    const boldMatch = tech.match(/\*\*(.+?)\*\*/);
-                    const label = boldMatch
-                      ? boldMatch[1]
-                      : tech.split("—")[0].split("–")[0].trim();
-                    return (
-                      <span key={i} className="project-overlay-tag">
-                        {label}
-                      </span>
-                    );
-                  })}
+                  {techStack.map((tech) => (
+                    <span key={tech} className="project-overlay-tag">
+                      {tech}
+                    </span>
+                  ))}
                 </div>
               </div>
             )}

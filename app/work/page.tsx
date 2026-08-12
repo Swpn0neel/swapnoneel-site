@@ -3,7 +3,7 @@ import { ProjectGrid } from "@/components/project-grid";
 import { i18n } from "@/lib/i18n";
 import { getAllProjects, getAllWorkItems } from "@/lib/md";
 import { WORK_DESCRIPTION } from "@/lib/page-metadata";
-import { buildProjectOverlayData } from "@/lib/project-overlay-data";
+import { toProjectCardData } from "@/lib/project-overlay-data";
 import { firstLink, safeJsonLd } from "@/lib/utils";
 import { Award, GitBranch, LineChart, Trophy, Users } from "lucide-react";
 
@@ -60,7 +60,7 @@ const achievements = [
 export default function WorkPage() {
   const workItems = getAllWorkItems();
   const projects = getAllProjects();
-  const projectCards = projects.map(buildProjectOverlayData);
+  const projectCards = projects.map(toProjectCardData);
 
   return (
     <div className="space-y-10 pb-16">

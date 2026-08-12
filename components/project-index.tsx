@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProjectOverlayData } from "@/lib/project-overlay-data";
+import type { ProjectCardData } from "@/lib/project-overlay-data";
 import { firstLink } from "@/lib/utils";
 
 // Text-first project index for the home page — tight title / one-liner rows
@@ -12,10 +12,10 @@ export function ProjectIndex({
   onOpen,
   openSlug,
 }: {
-  items: ProjectOverlayData[];
+  items: ProjectCardData[];
   /** Slug of the slide the carousel above is showing, echoed on that row. */
   activeSlug?: string;
-  onOpen: (project: ProjectOverlayData) => void;
+  onOpen: (project: ProjectCardData) => void;
   /** Slug of the project the shared overlay currently has open, if any. */
   openSlug?: string;
 }) {

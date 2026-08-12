@@ -47,6 +47,35 @@ const THEME_EASE = "cubic-bezier(0.22, 0.61, 0.36, 1)";
 // Floor on a re-keyed span, so a barely-started wipe does not snap shut in three
 // frames when it is sent back.
 const RETARGET_MIN_MS = 180;
+const LARGE_DOCUMENT_NODE_COUNT = 2_500;
+
+type ConnectionHints = {
+  effectiveType?: string;
+  saveData?: boolean;
+};
+
+type PerformanceNavigator = Navigator & {
+  connection?: ConnectionHints;
+  deviceMemory?: number;
+};
+
+function shouldUseColorCrossfade() {
+  const performanceNavigator = navigator as PerformanceNavigator;
+  const connection = performanceNavigator.connection;
+  const lowPowerDevice =
+    (performanceNavigator.deviceMemory !== undefined &&
+      performanceNavigator.deviceMemory <= 2) ||
+    (navigator.hardwareConcurrency > 0 && navigator.hardwareConcurrency <= 2) ||
+    connection?.effectiveType === "slow-2g" ||
+    connection?.effectiveType === "2g";
+
+  return (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    connection?.saveData === true ||
+    lowPowerDevice ||
+    document.getElementsByTagName("*").length > LARGE_DOCUMENT_NODE_COUNT
+  );
+}
 
 /** The icon swap and profile card flip, which globals.css still owns. */
 function secondaryTransitionAnimations(): Animation[] {
@@ -116,6 +145,8 @@ export function ThemeToggle() {
 
     const root = document.documentElement;
     root.classList.remove("theme-transition", "theme-view-transition");
+    delete root.dataset.themeCrossfade;
+    root.style.removeProperty("--theme-fade-color");
     // classList.remove leaves class="" behind once the last one goes.
     if (root.className === "") root.removeAttribute("class");
   }, []);
@@ -336,12 +367,10 @@ export function ThemeToggle() {
 
     pendingThemeRef.current = toTheme;
 
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const useColorCrossfade = shouldUseColorCrossfade();
     // Only the wipe travels, so only the wipe is paced by distance. Both paths
     // hand the same variable to CSS, which derives the icon and profile timings.
-    const duration = reducedMotion
+    const duration = useColorCrossfade
       ? FALLBACK_DURATION_MS
       : Math.round(
           Math.min(
@@ -359,7 +388,10 @@ export function ThemeToggle() {
     // committing instantly. The wipe never starts and globals.css pins the icon
     // and profile card, but the page still crossfades instead of cutting
     // between near-white and near-black in a single frame.
-    if (!reducedMotion && typeof document.startViewTransition === "function") {
+    if (
+      !useColorCrossfade &&
+      typeof document.startViewTransition === "function"
+    ) {
       resetTransition();
 
       const sequence = sequenceRef.current;
@@ -443,13 +475,23 @@ export function ThemeToggle() {
         clearTimeout(timerRef.current);
         timerRef.current = null;
       }
+      // Reversing a crossfade starts from its present opacity rather than
+      // dropping the overlay. This retains the earlier click's no-hard-cut
+      // guarantee while the new theme is applied below.
+      delete root.dataset.themeCrossfade;
+      void root.offsetWidth;
     } else {
       resetTransition();
+      root.style.setProperty(
+        "--theme-fade-color",
+        getComputedStyle(document.body).backgroundColor
+      );
       root.classList.add("theme-transition");
       void root.offsetWidth;
     }
 
     applyTheme(toTheme);
+    root.dataset.themeCrossfade = "active";
 
     timerRef.current = setTimeout(resetTransition, THEME_TRANSITION_HOLD);
   };
