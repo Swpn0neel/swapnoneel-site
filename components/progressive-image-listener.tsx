@@ -3,9 +3,18 @@
 import { useEffect } from "react";
 
 const SHELL_SELECTOR = "[data-progressive-image]";
+const UNENHANCED_SHELL_SELECTOR =
+  '[data-progressive-image]:not([data-image-enhanced="true"])';
 const IMAGE_SELECTOR = ".progressive-image__image";
 
-const registeredShells = new Set<HTMLElement>();
+type ImageRegistration = {
+  cleanup: () => void;
+};
+
+// A fallback scan can win the race with a component effect. A WeakMap keeps
+// that shared registration from retaining a detached shell, while returning
+// the same cleanup to the later component owner.
+const registeredShells = new WeakMap<HTMLElement, ImageRegistration>();
 let intersectionObserver: IntersectionObserver | null = null;
 
 function getIntersectionObserver() {
@@ -21,7 +30,9 @@ function getIntersectionObserver() {
           "[data-image-shimmer]"
         );
         if (shimmer && shell.dataset.imageState === "loading") {
-          shimmer.dataset.shimmerActive = entry.isIntersecting ? "true" : "false";
+          shimmer.dataset.shimmerActive = entry.isIntersecting
+            ? "true"
+            : "false";
         }
       }
     },
@@ -37,7 +48,8 @@ function getIntersectionObserver() {
  * non-priority image into the established shimmer/fade behaviour.
  */
 export function registerProgressiveImage(shell: HTMLElement) {
-  if (registeredShells.has(shell)) return () => {};
+  const existing = registeredShells.get(shell);
+  if (existing) return existing.cleanup;
 
   const image = shell.querySelector<HTMLImageElement>(IMAGE_SELECTOR);
   if (!image) return () => {};
@@ -47,11 +59,24 @@ export function registerProgressiveImage(shell: HTMLElement) {
     const shimmer = shell.querySelector<HTMLElement>("[data-image-shimmer]");
     if (shimmer) shimmer.dataset.shimmerActive = "false";
     getIntersectionObserver()?.unobserve(shell);
+    image.removeEventListener("load", onLoad);
+    image.removeEventListener("error", onError);
   };
   const onLoad = () => finish("loaded");
   const onError = () => finish("error");
 
-  registeredShells.add(shell);
+  const cleanup = () => {
+    // A stale owner can run after a fallback scan has re-registered a moved
+    // shell. It must not tear down that newer registration.
+    if (registeredShells.get(shell) !== registration) return;
+    image.removeEventListener("load", onLoad);
+    image.removeEventListener("error", onError);
+    getIntersectionObserver()?.unobserve(shell);
+    registeredShells.delete(shell);
+    delete shell.dataset.imageEnhanced;
+  };
+  const registration: ImageRegistration = { cleanup };
+  registeredShells.set(shell, registration);
   shell.dataset.imageEnhanced = "true";
   image.addEventListener("load", onLoad);
   image.addEventListener("error", onError);
@@ -69,21 +94,24 @@ export function registerProgressiveImage(shell: HTMLElement) {
     }
   }
 
-  return () => {
-    image.removeEventListener("load", onLoad);
-    image.removeEventListener("error", onError);
-    getIntersectionObserver()?.unobserve(shell);
-    registeredShells.delete(shell);
-  };
+  return cleanup;
 }
 
-function initializeTree(root: ParentNode) {
-  if (root instanceof HTMLElement && root.matches(SHELL_SELECTOR)) {
-    registerProgressiveImage(root);
+function initializeRoute(root: HTMLElement) {
+  root
+    .querySelectorAll<HTMLElement>(UNENHANCED_SHELL_SELECTOR)
+    .forEach((shell) => registerProgressiveImage(shell));
+}
+
+function unregisterTree(root: Node) {
+  if (!(root instanceof HTMLElement)) return;
+
+  if (root.matches(SHELL_SELECTOR)) {
+    registeredShells.get(root)?.cleanup();
   }
   root
     .querySelectorAll<HTMLElement>(SHELL_SELECTOR)
-    .forEach((shell) => registerProgressiveImage(shell));
+    .forEach((shell) => registeredShells.get(shell)?.cleanup());
 }
 
 /**
@@ -96,22 +124,22 @@ export function ProgressiveImageListener() {
     const routeRoot = document.getElementById("main-content");
     if (!routeRoot) return;
 
-    initializeTree(routeRoot);
+    initializeRoute(routeRoot);
 
-    const pendingRoots = new Set<ParentNode>();
     let frame = 0;
     const flush = () => {
       frame = 0;
-      for (const root of pendingRoots) initializeTree(root);
-      pendingRoots.clear();
+      // Dynamic narration can insert thousands of small nodes. One route-root
+      // query avoids work proportional to that mutation burst.
+      initializeRoute(routeRoot);
     };
     const observer = new MutationObserver((records) => {
+      let hasAdditions = false;
       for (const record of records) {
-        for (const node of record.addedNodes) {
-          if (node instanceof HTMLElement) pendingRoots.add(node);
-        }
+        hasAdditions ||= record.addedNodes.length > 0;
+        record.removedNodes.forEach(unregisterTree);
       }
-      if (!frame && pendingRoots.size) frame = requestAnimationFrame(flush);
+      if (!frame && hasAdditions) frame = requestAnimationFrame(flush);
     });
 
     observer.observe(routeRoot, { childList: true, subtree: true });
