@@ -388,7 +388,10 @@ export function ThemeToggle() {
     // committing instantly. The wipe never starts and globals.css pins the icon
     // and profile card, but the page still crossfades instead of cutting
     // between near-white and near-black in a single frame.
-    if (!useColorCrossfade && typeof document.startViewTransition === "function") {
+    if (
+      !useColorCrossfade &&
+      typeof document.startViewTransition === "function"
+    ) {
       resetTransition();
 
       const sequence = sequenceRef.current;

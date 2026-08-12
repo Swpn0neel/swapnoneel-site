@@ -29,8 +29,8 @@ function isConstrainedDevice() {
 
   return Boolean(
     connection?.saveData ||
-      (typeof deviceMemory === "number" && deviceMemory <= 4) ||
-      navigator.hardwareConcurrency <= 4
+    (typeof deviceMemory === "number" && deviceMemory <= 4) ||
+    navigator.hardwareConcurrency <= 4
   );
 }
 

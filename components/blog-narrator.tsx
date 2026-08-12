@@ -62,8 +62,7 @@ const NarrationWaveformVisual = memo(function NarrationWaveformVisual({
           <g className="text-foreground/20 [&_.nb-played]:text-foreground">
             {WAVEFORM_BAR_HEIGHTS.map((height, i) => {
               const x =
-                WAVEFORM_EDGE_INSET +
-                (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
+                WAVEFORM_EDGE_INSET + (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
               const halfHeight = 3 + height * 11;
               return (
                 <line
@@ -205,9 +204,8 @@ function getHighlightSupport(): {
   const HighlightCtor = (
     window as typeof window & { Highlight?: HighlightConstructorLike }
   ).Highlight;
-  const registry = (
-    CSS as typeof CSS & { highlights?: HighlightRegistryLike }
-  ).highlights;
+  const registry = (CSS as typeof CSS & { highlights?: HighlightRegistryLike })
+    .highlights;
   return HighlightCtor && registry ? { HighlightCtor, registry } : null;
 }
 
@@ -439,7 +437,9 @@ export function BlogNarrator({
   const pausedRef = useRef(false);
   const readyRef = useRef(false);
   const queuedPlayRef = useRef(false);
-  const beginPreparationRef = useRef<(urgent: boolean) => void>(() => undefined);
+  const beginPreparationRef = useRef<(urgent: boolean) => void>(
+    () => undefined
+  );
   const playRef = useRef<() => void>(() => undefined);
   const wordIdxRef = useRef(0);
   const rateRef = useRef(1);
@@ -594,7 +594,10 @@ export function BlogNarrator({
         acceptNode(node) {
           let el = node.parentElement;
           while (el && el !== prose) {
-            if (SKIP_TAGS.has(el.tagName) || el.hasAttribute("data-no-narrate")) {
+            if (
+              SKIP_TAGS.has(el.tagName) ||
+              el.hasAttribute("data-no-narrate")
+            ) {
               return NodeFilter.FILTER_REJECT;
             }
             el = el.parentElement;

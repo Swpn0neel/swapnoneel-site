@@ -1,9 +1,6 @@
 "use client";
 
-import type {
-  ProjectCardData,
-  ProjectMeta,
-} from "@/lib/project-overlay-data";
+import type { ProjectCardData, ProjectMeta } from "@/lib/project-overlay-data";
 import { useState } from "react";
 import { ProjectCard } from "./project-card";
 import {
