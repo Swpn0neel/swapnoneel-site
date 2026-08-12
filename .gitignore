@@ -45,3 +45,6 @@ next-env.d.ts
 /.astro
 /dist
 .env*
+.unlighthouse
+.unlighthouse-optimized
+.unlighthouse-subagent-mobile
