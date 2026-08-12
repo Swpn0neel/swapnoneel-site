@@ -463,6 +463,12 @@ export function BlogNarrator({
   // Incremented on every (re)start; stale utterance callbacks and pending
   // start-polls compare against it and bail, so rapid seeks can't race.
   const genRef = useRef(0);
+  const invalidateSpeechGeneration = useCallback(() => {
+    // Teardown must invalidate the latest generation, not the value that was
+    // current when the setup effect ran: playback can restart while that
+    // effect remains mounted.
+    genRef.current++;
+  }, []);
   const keepAliveRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // ---- audio-mode state (pre-generated Edge TTS narration) ----
@@ -947,7 +953,7 @@ export function BlogNarrator({
       window.removeEventListener("load", onLoad);
       cancelIdleReturn();
       abortController.abort();
-      genRef.current++;
+      invalidateSpeechGeneration();
       playingRef.current = false;
       pausedRef.current = false;
       readyRef.current = false;
@@ -964,7 +970,7 @@ export function BlogNarrator({
         keepAliveRef.current = null;
       }
     };
-  }, [articleId, slug, year]);
+  }, [articleId, invalidateSpeechGeneration, slug, year]);
 
   // Unmount: stop the audio pipeline (speech teardown lives in the setup effect).
   useEffect(
