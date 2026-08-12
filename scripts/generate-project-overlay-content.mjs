@@ -83,17 +83,24 @@ const generated = await prettier.format(unformatted, {
   ...prettierConfig,
   filepath: outputPath,
 });
+const normalizeLineEndings = (value) => value.replace(/\r\n?/g, "\n");
+
+async function readCurrentOutput() {
+  try {
+    return await fs.readFile(outputPath, "utf8");
+  } catch (error) {
+    if (error?.code === "ENOENT") return null;
+    throw error;
+  }
+}
+
+const current = await readCurrentOutput();
+const isCurrent =
+  current !== null &&
+  normalizeLineEndings(current) === normalizeLineEndings(generated);
 
 if (checkOnly) {
-  let current = "";
-  try {
-    current = await fs.readFile(outputPath, "utf8");
-  } catch {
-    // The comparison below reports the same actionable recovery command for a
-    // missing file and a stale one.
-  }
-
-  if (current !== generated) {
+  if (!isCurrent) {
     console.error(
       "Project overlay content is stale. Run `npm run generate-project-overlay-content`."
     );
@@ -103,7 +110,11 @@ if (checkOnly) {
       `Project overlay content is current (${files.length} projects).`
     );
   }
-} else {
+} else if (!isCurrent) {
   await fs.writeFile(outputPath, generated);
   console.log(`Generated overlay content for ${files.length} projects.`);
+} else {
+  console.log(
+    `Project overlay content is unchanged (${files.length} projects).`
+  );
 }
