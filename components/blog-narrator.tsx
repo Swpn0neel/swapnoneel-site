@@ -225,7 +225,11 @@ ${articleSelector}::highlight(${NARRATION_CURRENT_HIGHLIGHT}) {
 }
 
 ${articleSelector}::highlight(${NARRATION_UNREAD_HIGHLIGHT}) {
-  color: color-mix(in srgb, currentColor 40%, transparent);
+  color: color-mix(
+    in srgb,
+    hsl(var(--body-foreground)) 40%,
+    hsl(var(--background)) 60%
+  );
 }`;
   document.head.appendChild(style);
   return () => style.remove();

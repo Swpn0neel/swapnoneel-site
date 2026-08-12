@@ -424,6 +424,16 @@ body {
   transform-origin: center;
 }
 
+/* The real icon and card must already be at their captured endpoints. Their
+   ordinary component transitions otherwise keep running while the snapshots
+   are taken, then the explicit pseudo-element animations start from an
+   in-between frame and visibly trail the root reveal. Scope the suppression to
+   the two captured elements instead of invalidating transitions page-wide. */
+:root.theme-view-transition .theme-toggle-icon,
+:root.theme-view-transition .pfp-flip-card-inner {
+  transition: none !important;
+}
+
 /* Leads the wipe: the control the visitor touched is the first thing to
    resolve, and it is clear of the reveal well before the corners fill. */
 :root[data-theme="dark"]::view-transition-old(theme-icon) {
