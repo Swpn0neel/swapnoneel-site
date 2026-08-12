@@ -1,20 +1,25 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
 const prefetchedRoutes = new Set<string>();
 
 export function useRoutePrefetch() {
   const router = useRouter();
+  const pathname = usePathname();
 
   return useCallback(
     (href: string) => {
+      const isCurrentRoute =
+        pathname === href ||
+        (href !== "/" && pathname.startsWith(`${href}/`));
+      if (isCurrentRoute) return;
       if (prefetchedRoutes.has(href)) return;
       prefetchedRoutes.add(href);
       router.prefetch(href);
     },
-    [router]
+    [pathname, router]
   );
 }
 

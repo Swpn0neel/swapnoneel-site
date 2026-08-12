@@ -19,14 +19,7 @@ export function MobileNav({
   const firstFocusableRef = React.useRef<HTMLElement>(null);
   const lastFocusableRef = React.useRef<HTMLElement>(null);
 
-  const toggleMenu = () => {
-    if (!isOpen) {
-      navItems.forEach((item) => {
-        if (item.href !== pathname) onPrefetch(item.href);
-      });
-    }
-    setIsOpen(!isOpen);
-  };
+  const toggleMenu = () => setIsOpen((open) => !open);
   const closeMenu = () => setIsOpen(false);
 
   React.useEffect(() => {
@@ -158,7 +151,8 @@ export function MobileNav({
               // a layout box inside the viewport and Next's prefetch observer
               // treats every link here as visible — ~150 KiB of RSC payloads
               // fetched on first paint, which starves LCP on slow mobile.
-              // Opening the menu and direct link intent warm these explicitly.
+              // Opening focuses the first link, and direct pointer/focus/down
+              // intent warms whichever route the visitor actually selects.
               prefetch={false}
               onPointerEnter={() => onPrefetch(item.href)}
               onFocus={() => onPrefetch(item.href)}
