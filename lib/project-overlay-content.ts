@@ -1,0 +1,172 @@
+import type { ProjectOverlayContent } from "./project-overlay-data";
+
+// Overlay-only display data, split from the card metadata sent in the initial
+// RSC payload. Values mirror the markdown sections after the formatting that
+// ProjectOverlay previously performed at render time.
+export const projectOverlayContent: Record<string, ProjectOverlayContent> = {
+  anrl: {
+    features: [
+      "Explicit saliency weighting to definitively direct the transformer's attention to critical information",
+      "Built-in epistemic confidence markers to dynamically encode truthiness and prevent hallucinations",
+      "Robust relational anchoring to securely link conceptual nodes and completely prevent column slippage",
+      "Native causal logic operators to explicitly distinguish causation from mere association during reasoning steps",
+      "High token density syntax specifically designed to minimize structural noise and delimiters for optimal context utilization",
+    ],
+    techStack: ["Rust Compiler", "MessagePack", "Tree-Sitter", "Fastembed"],
+  },
+  blame: {
+    features: [
+      "Runs client-side to query `api.github.com` without backend storage, keeping scans private",
+      "Employs a DP-based fuzzy matcher to filter results with word-boundary and run bonuses",
+      "Supports personal access tokens directly from the browser to raise API rate limits",
+      "Groups commits by GitHub profile and resolves usernames from private email aliases",
+      "Exports aggregated results as a CSV file or copies them directly as markdown",
+      "Filters merge commits, sorts results, and limits the total contributor list size",
+    ],
+    techStack: ["Next.js", "TypeScript", "GitHub REST API", "Tailwind CSS"],
+  },
+  folio: {
+    features: [
+      "Choose from premium themes including Terminal, Vercel, Material You, and Editorial",
+      "Live preview dashboard to see changes in real-time as you customize your content",
+      "Custom section templates for Galleries, Stats, Timelines, and Link Cards",
+      "Granular customization with per-section accent colors and theme overrides",
+      "Built-in image support for avatar and gallery uploads with seamless Supabase integration",
+    ],
+    techStack: [
+      "TanStack Start",
+      "TypeScript",
+      "React",
+      "Tailwind CSS",
+      "Supabase",
+      "Radix UI",
+      "@dnd-kit",
+    ],
+  },
+  "get-response": {
+    features: [
+      "Ask questions from direct text input, file content, or entire directory context",
+      "Enter a persistent chat mode for back-and-forth conversational sessions",
+      "Automate terminal commands by describing tasks in plain English",
+      "Generate content and handle technical tasks like writing unit tests or scaffolding applications",
+    ],
+    techStack: [
+      "Node.js",
+      "Google Gemini API",
+      "Stack Exchange API",
+      "Tesseract.js",
+      "PDF-Parse",
+      "Mermaid.js",
+      "Boxen",
+      "Chalk",
+    ],
+  },
+  "in-poster": {
+    features: [
+      "AI Post generation that instantly convert topics into high-quality posts",
+      "Toggleable hashtag generation to boost reach",
+      "One-click copy for a seamless flow from generation to posting",
+    ],
+    techStack: [
+      "Next.js 14",
+      "Google Gemini AI",
+      "Clerk",
+      "Prisma",
+      "PostgreSQL",
+      "Recoil",
+    ],
+  },
+  "mesh-hop": {
+    features: [
+      "Automated proxy discovery pulls current candidates (HTTP, HTTPS, SOCKS4, SOCKS5) from multiple public providers.",
+      "End-to-end proxy verification tests candidates concurrently via HTTPS requests to Cloudflare's trace endpoint to verify country and IP.",
+      "Performance profiling and benchmarking measures steady-state download speed, speed consistency, and network classification.",
+      "One-click proxied browsing launches a dedicated, isolated browser profile with reduced WebRTC/DNS leakages and pre-installed extensions.",
+      "Dynamic IP rotation rotates proxies or refreshes candidates instantly from the desktop interface.",
+    ],
+    techStack: ["Rust", "Next.js", "Node.js", "Tailwind CSS", "Firefox"],
+  },
+  "omni-learner": {
+    features: [
+      "256+ language support, a massive scaling concept designed to make global knowledge truly accessible",
+      "Lightning-fast translation where the UI workflow is optimized for translating educational resources in seconds using deep learning",
+      "Designed with a focus on student accessibility, featuring low-cost tiers for individual users",
+      'An intuitive "Explore" functionality to discover translated resources from language A to language B',
+    ],
+    techStack: ["Figma"],
+  },
+  scholarian: {
+    features: [
+      "Persistent research history for every search run and report is persisted via Supabase",
+      "Stateful research pipeline for real-time tracking from query enrichment to report generation",
+      "Smart mode that prioritizes the finding of the absolute best papers through repeated searches",
+      "Smart refinement is built-in for intent analysis to narrow down research topics",
+      "Analytical lens workspace for a premium responsive dashboard optimized for all devices",
+      "PDF export engine that generates high-fidelity PDF versions of research reports",
+    ],
+    techStack: [
+      "Next.js",
+      "TypeScript",
+      "Google Gemini AI",
+      "Supabase",
+      "Zustand",
+      "Tailwind CSS",
+      "Base UI",
+      "Radix",
+    ],
+  },
+  "term-ai": {
+    features: [
+      "Interactive terminal with a full-featured CLI access with Neovim integration directly in the browser",
+      "AI-Powered assistance with context-aware help for debugging, command suggestions, and automation",
+      "GitHub synchronization for seamless project management with built-in cloning and saving capabilities",
+      "Multi-device support with mobile-friendly design allowing for development on tablets and smartphones",
+      "Real-time terminal proxy for low-latency terminal responsiveness powered by socket.io and node-pty",
+    ],
+    techStack: [
+      "Next.js 14",
+      "Socket.io",
+      "xterm.js",
+      "node-pty",
+      "Integrated AI",
+      "Docker",
+      "Google Cloud Run",
+      "MongoDB",
+      "Prisma",
+    ],
+  },
+  "term-chat": {
+    features: [
+      "Real-time messaging for instant DMs and group chats with live presence and unread counters",
+      "AI integration powered by Google Gemini with persistent chat history and context management",
+      "Seamless sharing of files and directories (auto-zipped) via Cloudflare R2",
+      "Secure auth with CLI-based registration and login with session persistence",
+      "Social ecosystem that includes global user search, activity-sorted friend lists, and friend request management",
+    ],
+    techStack: [
+      "Node.js",
+      "npm",
+      "Supabase",
+      "Cloudflare R2",
+      "Google Gemini API",
+      "bcrypt",
+    ],
+  },
+  toile: {
+    features: [
+      "Create, read, update, and delete artistic entries",
+      "Smooth, performant animations powered by GSAP",
+      "Secure user authentication via Appwrite",
+      "Fully responsive across mobile and desktop",
+    ],
+    techStack: ["React.js", "GSAP", "Tailwind CSS", "Appwrite"],
+  },
+  ydub: {
+    features: [
+      "Lip-sync conceptualization with an intuitive interface for a deep-learning-based lip-syncing engine",
+      "Inclusive language strategy designed to accommodate multi-script layouts for 32+ Indian languages",
+      "Growth-driven UI that incorporated high-impact data visualization (10x watch time, 300% revenue) to bridge user trust",
+    ],
+    techStack: ["Figma"],
+  },
+};

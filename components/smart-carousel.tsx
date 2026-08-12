@@ -10,6 +10,7 @@ import {
 } from "react";
 
 const DEFAULT_AUTOPLAY_DELAY_MS = 2500;
+const AUTOPLAY_START_DELAY_MS = 1500;
 const RESUME_AFTER_INTERACTION_MS = 7000;
 const SYNCED_SCROLL_DURATION = 30;
 
@@ -69,12 +70,15 @@ export function SmartCarousel({
   const rootRef = useRef<HTMLDivElement>(null);
   const apiRef = useRef<EmblaCarouselType | null>(null);
   const autoplayTimerRef = useRef<number | null>(null);
+  const autoplayStartTimerRef = useRef<number | null>(null);
+  const autoplayIdleRef = useRef<number | null>(null);
   const interactionTimerRef = useRef<number | null>(null);
   const visibleRef = useRef(false);
   const hoveredRef = useRef(false);
   const focusedRef = useRef(false);
   const interactingRef = useRef(false);
   const reducedMotionRef = useRef(false);
+  const autoplayReadyRef = useRef(false);
   const pausedRef = useRef(paused);
   const releaseInteractionRef = useRef<(() => void) | null>(null);
   const onSlideChangeRef = useRef(onSlideChange);
@@ -108,8 +112,23 @@ export function SmartCarousel({
       !hoveredRef.current &&
       !focusedRef.current &&
       !interactingRef.current &&
-      !reducedMotionRef.current
+      !reducedMotionRef.current &&
+      autoplayReadyRef.current &&
+      !(
+        navigator as Navigator & { connection?: { saveData?: boolean } }
+      ).connection?.saveData
     );
+  }, []);
+
+  const clearAutoplayStart = useCallback(() => {
+    if (autoplayStartTimerRef.current !== null) {
+      window.clearTimeout(autoplayStartTimerRef.current);
+      autoplayStartTimerRef.current = null;
+    }
+    if (autoplayIdleRef.current !== null) {
+      window.cancelIdleCallback(autoplayIdleRef.current);
+      autoplayIdleRef.current = null;
+    }
   }, []);
 
   const scheduleAutoplay = useCallback(() => {
@@ -132,6 +151,31 @@ export function SmartCarousel({
       Math.max(0, nextTickAt - now)
     );
   }, [autoplayDelay, canAutoplay, clearAutoplayTimer]);
+
+  const scheduleAutoplayStart = useCallback(() => {
+    clearAutoplayStart();
+    autoplayReadyRef.current = false;
+
+    const startDelay = () => {
+      autoplayIdleRef.current = null;
+      autoplayStartTimerRef.current = window.setTimeout(() => {
+        autoplayStartTimerRef.current = null;
+        autoplayReadyRef.current = true;
+        scheduleAutoplay();
+      }, AUTOPLAY_START_DELAY_MS);
+    };
+
+    if ("requestIdleCallback" in window) {
+      autoplayIdleRef.current = window.requestIdleCallback(startDelay, {
+        timeout: 2000,
+      });
+    } else {
+      autoplayStartTimerRef.current = window.setTimeout(() => {
+        autoplayStartTimerRef.current = null;
+        startDelay();
+      }, 0);
+    }
+  }, [clearAutoplayStart, scheduleAutoplay]);
 
   const resumeAfterInteraction = useCallback(() => {
     if (interactionTimerRef.current !== null) {
@@ -231,11 +275,18 @@ export function SmartCarousel({
     return () => {
       cancelled = true;
       loadObserver?.disconnect();
+      clearAutoplayStart();
       clearAutoplayTimer();
       apiRef.current?.destroy();
       apiRef.current = null;
     };
-  }, [align, clearAutoplayTimer, dragFree, scheduleAutoplay]);
+  }, [
+    align,
+    clearAutoplayStart,
+    clearAutoplayTimer,
+    dragFree,
+    scheduleAutoplay,
+  ]);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -252,7 +303,13 @@ export function SmartCarousel({
     const visibilityObserver = new IntersectionObserver(
       ([entry]) => {
         visibleRef.current = entry.isIntersecting;
-        scheduleAutoplay();
+        if (entry.isIntersecting) {
+          scheduleAutoplayStart();
+        } else {
+          autoplayReadyRef.current = false;
+          clearAutoplayStart();
+          clearAutoplayTimer();
+        }
       },
       { threshold: 0 }
     );
@@ -265,13 +322,19 @@ export function SmartCarousel({
       mediaQuery.removeEventListener("change", updateReducedMotion);
       visibilityObserver.disconnect();
       document.removeEventListener("visibilitychange", onVisibilityChange);
+      clearAutoplayStart();
       releaseInteractionRef.current?.();
       if (interactionTimerRef.current !== null) {
         window.clearTimeout(interactionTimerRef.current);
         interactionTimerRef.current = null;
       }
     };
-  }, [scheduleAutoplay]);
+  }, [
+    clearAutoplayStart,
+    clearAutoplayTimer,
+    scheduleAutoplay,
+    scheduleAutoplayStart,
+  ]);
 
   // The track is overflow-clipped once Embla is driving it, so the browser
   // cannot scroll a focused off-screen slide into view by itself — tabbing

@@ -1552,6 +1552,19 @@ mark {
   backdrop-filter: blur(16px);
 }
 
+/* Full-viewport backdrop filters are costly on low-memory / low-core devices
+   and waste data-saver users' limited resources. The slightly denser scrim
+   keeps the same foreground isolation without animating a blur layer. */
+.project-overlay-backdrop[data-constrained-device="true"] {
+  backdrop-filter: none;
+  transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.project-overlay-backdrop--visible[data-constrained-device="true"] {
+  background: rgba(0, 0, 0, 0.52);
+  backdrop-filter: none;
+}
+
 .project-overlay-panel {
   position: relative;
   width: 100%;

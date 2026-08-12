@@ -58,6 +58,7 @@ export function ExperienceSection({
         {seeAllHref && (
           <Link
             href={seeAllHref}
+            prefetch={false}
             className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
           >
             {i18n.common.seeAll}
@@ -77,7 +78,6 @@ export function ExperienceSection({
                 <ExperienceRow
                   item={item}
                   logoSize={logoSize}
-                  logoLowPriority={!prominent}
                   detailed={prominent}
                 />
               </a>
@@ -90,7 +90,6 @@ export function ExperienceSection({
                 <ExperienceRow
                   item={item}
                   logoSize={logoSize}
-                  logoLowPriority={!prominent}
                   detailed={prominent}
                 />
               </Link>
@@ -125,12 +124,10 @@ function ReadMore() {
 function ExperienceRow({
   item,
   logoSize,
-  logoLowPriority,
   detailed,
 }: {
   item: { meta: PostMeta };
   logoSize: number;
-  logoLowPriority: boolean;
   /** Adds the blurb and "Read more" beneath the title — /work only. */
   detailed: boolean;
 }) {
@@ -141,7 +138,6 @@ function ExperienceRow({
           src={item.meta.cover}
           alt={item.meta.title}
           size={logoSize}
-          lowPriority={logoLowPriority}
           className={
             detailed ? "float-left mr-4 mb-1 sm:float-none sm:mr-0" : ""
           }

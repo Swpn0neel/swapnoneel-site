@@ -6,7 +6,7 @@ import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllWorkItems, getFeaturedProjects } from "@/lib/md";
-import { buildProjectOverlayData } from "@/lib/project-overlay-data";
+import { toProjectCardData } from "@/lib/project-overlay-data";
 import { buildPersonSchema } from "@/lib/structured-data";
 import { safeJsonLd } from "@/lib/utils";
 import dynamic from "next/dynamic";
@@ -19,7 +19,7 @@ const CalBooking = dynamic(() =>
 
 export default function Home() {
   const workItems = getAllWorkItems();
-  const projects = getFeaturedProjects().map(buildProjectOverlayData);
+  const projects = getFeaturedProjects().map(toProjectCardData);
 
   return (
     <div className="space-y-7 pb-12">
@@ -140,6 +140,7 @@ export default function Home() {
           </h2>
           <Link
             href="/work"
+            prefetch={false}
             className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
           >
             {i18n.common.seeAll}

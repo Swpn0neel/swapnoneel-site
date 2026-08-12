@@ -1,31 +1,41 @@
 "use client";
 
-import type { ProjectOverlayData } from "@/lib/project-overlay-data";
-import dynamic from "next/dynamic";
+import type {
+  ProjectCardData,
+  ProjectMeta,
+} from "@/lib/project-overlay-data";
 import { useState } from "react";
 import { ProjectCard } from "./project-card";
+import {
+  LazyProjectOverlay,
+  preloadProjectOverlay,
+  useProjectOverlayPreload,
+} from "./project-overlay-loader";
 
-const ProjectOverlay = dynamic(
-  () => import("./project-overlay").then((module) => module.ProjectOverlay),
-  { ssr: false }
-);
-
-export function ProjectGrid({ items }: { items: ProjectOverlayData[] }) {
-  const [activeProject, setActiveProject] = useState<ProjectOverlayData | null>(
-    null
-  );
+export function ProjectGrid({ items }: { items: ProjectCardData[] }) {
+  const [activeProject, setActiveProject] = useState<ProjectMeta | null>(null);
+  const sectionRef = useProjectOverlayPreload<HTMLDivElement>();
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+      <div
+        ref={sectionRef}
+        className="grid grid-cols-1 gap-3 sm:grid-cols-2"
+        onPointerOverCapture={() => void preloadProjectOverlay()}
+        onFocusCapture={() => void preloadProjectOverlay()}
+        onPointerDownCapture={() => void preloadProjectOverlay()}
+      >
         {items.map((item) => (
           <button
             type="button"
             key={item.meta.slug}
-            onClick={() => setActiveProject(item)}
+            onClick={() => {
+              void preloadProjectOverlay();
+              setActiveProject(item.meta);
+            }}
             aria-haspopup="dialog"
             aria-controls="project-overlay-dialog"
-            aria-expanded={activeProject?.meta.slug === item.meta.slug}
+            aria-expanded={activeProject?.slug === item.meta.slug}
             className="block cursor-pointer text-left"
           >
             <span className="sr-only">Open details for </span>
@@ -37,10 +47,12 @@ export function ProjectGrid({ items }: { items: ProjectOverlayData[] }) {
         ))}
       </div>
 
-      <ProjectOverlay
-        project={activeProject}
-        onClose={() => setActiveProject(null)}
-      />
+      {activeProject && (
+        <LazyProjectOverlay
+          project={activeProject}
+          onClose={() => setActiveProject(null)}
+        />
+      )}
     </>
   );
 }
