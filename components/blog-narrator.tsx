@@ -2,7 +2,7 @@
 
 import { NARRATION_VIEWPORT_OVERRIDE_EVENT } from "@/lib/narration-events";
 import { Check, ChevronDown, Pause, Play, RotateCcw } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { memo, useCallback, useEffect, useRef, useState } from "react";
 
 const RATES = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 // Rough speaking pace of Web Speech voices at 1x, used only for the time labels.
@@ -25,6 +25,80 @@ const WAVEFORM_BAR_HEIGHTS = Array.from({ length: BAR_COUNT }, (_, i) => {
   const syllable = 0.12 * Math.sin(i * 1.17 + 1.1);
   const breath = 0.08 * Math.cos(i * 0.13);
   return Math.min(0.88, Math.max(0.2, phrase + syllable + breath));
+});
+
+interface StableRef<T> {
+  current: T;
+}
+
+interface NarrationWaveformVisualProps {
+  barsRef: StableRef<(SVGLineElement | null)[]>;
+  dotPositionRef: StableRef<HTMLSpanElement | null>;
+  visualTrackRef: StableRef<HTMLDivElement | null>;
+}
+
+// Progress and played-bar state are written directly through these stable
+// refs. Memoizing the static visual keeps per-word time/label state updates in
+// the player from reconciling all 64 SVG lines.
+const NarrationWaveformVisual = memo(function NarrationWaveformVisual({
+  barsRef,
+  dotPositionRef,
+  visualTrackRef,
+}: NarrationWaveformVisualProps) {
+  return (
+    <div
+      ref={visualTrackRef}
+      className="relative h-8 w-full"
+      aria-hidden="true"
+    >
+      {/* Each bar is one persistent line, either dim or "played" — toggled by
+          class, not revealed by a moving clip mask. */}
+      <div className="absolute inset-0 overflow-hidden">
+        <svg
+          viewBox={`0 0 ${WAVEFORM_VIEWBOX_WIDTH} 32`}
+          preserveAspectRatio="none"
+          className="absolute inset-0 h-full w-full"
+        >
+          <g className="text-foreground/20 [&_.nb-played]:text-foreground">
+            {WAVEFORM_BAR_HEIGHTS.map((height, i) => {
+              const x =
+                WAVEFORM_EDGE_INSET +
+                (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
+              const halfHeight = 3 + height * 11;
+              return (
+                <line
+                  key={i}
+                  ref={(el) => {
+                    barsRef.current[i] = el;
+                  }}
+                  // Narrow screens drop every other bar to preserve the same
+                  // airy rhythm instead of turning into a dense picket fence.
+                  className={i % 2 === 1 ? "max-sm:hidden" : undefined}
+                  x1={x}
+                  x2={x}
+                  y1={16 - halfHeight}
+                  y2={16 + halfHeight}
+                  stroke="currentColor"
+                  strokeWidth="1.35"
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                />
+              );
+            })}
+          </g>
+        </svg>
+      </div>
+
+      <span
+        ref={dotPositionRef}
+        // Playback owns this outer layer's transform. Hover scale stays on the
+        // child so it cannot recompose the live position transform.
+        className="pointer-events-none absolute top-1/2 left-0 h-[86%] w-[3px] will-change-transform"
+      >
+        <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-x-150 motion-reduce:transition-none" />
+      </span>
+    </div>
+  );
 });
 
 // Chrome/Windows can clip the beginning of speech while its native TTS backend
@@ -1799,85 +1873,11 @@ export function BlogNarrator({
             ready ? "cursor-pointer" : "cursor-wait"
           } ${dragging ? "bg-foreground/4.5" : "hover:bg-foreground/2.5"}`}
         >
-          <div
-            ref={visualTrackRef}
-            className="relative h-8 w-full"
-            aria-hidden="true"
-          >
-            {/* Each bar is one persistent line, either dim or "played" —
-                toggled by class, not revealed by a moving clip mask. A clip
-                rect sitting exactly at the play boundary is one more layer
-                for a fast-moving edge to visually catch on; a plain class
-                flip on a static element can't. */}
-            <div className="absolute inset-0 overflow-hidden">
-              <svg
-                viewBox={`0 0 ${WAVEFORM_VIEWBOX_WIDTH} 32`}
-                preserveAspectRatio="none"
-                className="absolute inset-0 h-full w-full"
-              >
-                {/* Unplayed / played. Both stay alpha rather than moving to
-                    the text tokens: this is a two-state fill, not a step on
-                    the text ramp, and the unplayed bars have to sit well below
-                    --faint-foreground or the track stops reading as "not yet
-                    played". Nudged from 0.14, which left the scrub target
-                    almost invisible against the panel before playback starts. */}
-                <g className="text-foreground/20 [&_.nb-played]:text-foreground">
-                  {WAVEFORM_BAR_HEIGHTS.map((height, i) => {
-                    const x =
-                      WAVEFORM_EDGE_INSET +
-                      (i * WAVEFORM_BAR_SPAN) / (BAR_COUNT - 1);
-                    const halfHeight = 3 + height * 11;
-                    return (
-                      <line
-                        key={i}
-                        ref={(el) => {
-                          barsRef.current[i] = el;
-                        }}
-                        // On narrow screens the track is much shorter, so
-                        // every other bar is dropped to keep the same airy
-                        // rhythm instead of a dense picket fence.
-                        className={i % 2 === 1 ? "max-sm:hidden" : undefined}
-                        x1={x}
-                        x2={x}
-                        y1={16 - halfHeight}
-                        y2={16 + halfHeight}
-                        stroke="currentColor"
-                        strokeWidth="1.35"
-                        strokeLinecap="round"
-                        vectorEffect="non-scaling-stroke"
-                      />
-                    );
-                  })}
-                </g>
-              </svg>
-            </div>
-
-            <span
-              ref={dotPositionRef}
-              // Playback owns this outer layer's transform. Keeping hover
-              // scale on the child prevents the browser from recomposing the
-              // live position transform when hover begins or ends.
-              //
-              // Height is a percentage of the track, not a fixed px, so it
-              // stays locked to the waveform: the bars are drawn in a 32-unit
-              // viewBox with preserveAspectRatio="none", so they stretch with
-              // the container and a px value would drift out of proportion.
-              // The tallest bar reaches 25.36 of those 32 units (79%), so 86%
-              // clears it by a little at every size — which is the whole point
-              // of a playhead: it has to read as sitting in front of the
-              // waveform, not as one more bar in it.
-              className="pointer-events-none absolute top-1/2 left-0 h-[86%] w-[3px] will-change-transform"
-            >
-              {/* 3px against the bars' 1.35px non-scaling stroke — heavy
-                  enough to read as the handle, still a hairline. rounded-full
-                  resolves to a 1.5px cap here, matching the bars'
-                  strokeLinecap="round". The background ring keeps a clear gap
-                  so the playhead never visually merges with a bar it overlaps.
-                  Hover thickens on X only: a uniform scale would also stretch
-                  it vertically past the track it is supposed to sit inside. */}
-              <span className="bg-foreground ring-background absolute inset-0 rounded-full ring-2 transition-transform duration-150 ease-out group-hover:scale-x-150 motion-reduce:transition-none" />
-            </span>
-          </div>
+          <NarrationWaveformVisual
+            barsRef={barsRef}
+            dotPositionRef={dotPositionRef}
+            visualTrackRef={visualTrackRef}
+          />
         </div>
 
         <span className="narrator-deferred-control text-muted-foreground text-2xs hidden w-9 shrink-0 font-mono font-medium tabular-nums sm:block">
