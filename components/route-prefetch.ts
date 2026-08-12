@@ -1,5 +1,6 @@
 "use client";
 
+import { getOptionalIdleScheduler } from "@/lib/idle-scheduler";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect } from "react";
 
@@ -12,8 +13,7 @@ export function useRoutePrefetch() {
   return useCallback(
     (href: string) => {
       const isCurrentRoute =
-        pathname === href ||
-        (href !== "/" && pathname.startsWith(`${href}/`));
+        pathname === href || (href !== "/" && pathname.startsWith(`${href}/`));
       if (isCurrentRoute) return;
       if (prefetchedRoutes.has(href)) return;
       prefetchedRoutes.add(href);
@@ -30,11 +30,12 @@ export function useLikelyRoutePrefetch(href: string, enabled: boolean) {
   useEffect(() => {
     if (!enabled) return;
 
+    const idleScheduler = getOptionalIdleScheduler();
     let idleHandle: number | null = null;
     let fallbackTimer: number | null = null;
     const schedule = () => {
-      if ("requestIdleCallback" in window) {
-        idleHandle = window.requestIdleCallback(() => prefetch(href), {
+      if (idleScheduler.requestIdleCallback) {
+        idleHandle = idleScheduler.requestIdleCallback(() => prefetch(href), {
           timeout: 3000,
         });
       } else {
@@ -47,7 +48,9 @@ export function useLikelyRoutePrefetch(href: string, enabled: boolean) {
 
     return () => {
       window.removeEventListener("load", schedule);
-      if (idleHandle !== null) window.cancelIdleCallback(idleHandle);
+      if (idleHandle !== null) {
+        idleScheduler.cancelIdleCallback?.(idleHandle);
+      }
       if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
     };
   }, [enabled, href, prefetch]);

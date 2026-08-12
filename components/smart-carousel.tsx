@@ -1,5 +1,6 @@
 "use client";
 
+import { getOptionalIdleScheduler } from "@/lib/idle-scheduler";
 import type { EmblaCarouselType } from "embla-carousel";
 import {
   type ReactNode,
@@ -114,9 +115,8 @@ export function SmartCarousel({
       !interactingRef.current &&
       !reducedMotionRef.current &&
       autoplayReadyRef.current &&
-      !(
-        navigator as Navigator & { connection?: { saveData?: boolean } }
-      ).connection?.saveData
+      !(navigator as Navigator & { connection?: { saveData?: boolean } })
+        .connection?.saveData
     );
   }, []);
 
@@ -126,7 +126,7 @@ export function SmartCarousel({
       autoplayStartTimerRef.current = null;
     }
     if (autoplayIdleRef.current !== null) {
-      window.cancelIdleCallback(autoplayIdleRef.current);
+      getOptionalIdleScheduler().cancelIdleCallback?.(autoplayIdleRef.current);
       autoplayIdleRef.current = null;
     }
   }, []);
@@ -165,8 +165,9 @@ export function SmartCarousel({
       }, AUTOPLAY_START_DELAY_MS);
     };
 
-    if ("requestIdleCallback" in window) {
-      autoplayIdleRef.current = window.requestIdleCallback(startDelay, {
+    const idleScheduler = getOptionalIdleScheduler();
+    if (idleScheduler.requestIdleCallback) {
+      autoplayIdleRef.current = idleScheduler.requestIdleCallback(startDelay, {
         timeout: 2000,
       });
     } else {

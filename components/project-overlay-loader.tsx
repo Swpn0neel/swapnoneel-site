@@ -1,11 +1,10 @@
 "use client";
 
+import { getOptionalIdleScheduler } from "@/lib/idle-scheduler";
 import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
 
-let overlayModulePromise:
-  | ReturnType<typeof importProjectOverlay>
-  | undefined;
+let overlayModulePromise: ReturnType<typeof importProjectOverlay> | undefined;
 
 function importProjectOverlay() {
   return import("./project-overlay");
@@ -34,6 +33,7 @@ export function useProjectOverlayPreload<T extends HTMLElement>() {
 
   useEffect(() => {
     const section = sectionRef.current;
+    const idleScheduler = getOptionalIdleScheduler();
     let idleHandle: number | null = null;
     let fallbackTimer: number | null = null;
     let observer: IntersectionObserver | null = null;
@@ -44,8 +44,8 @@ export function useProjectOverlayPreload<T extends HTMLElement>() {
     };
 
     const scheduleAfterLoad = () => {
-      if ("requestIdleCallback" in window) {
-        idleHandle = window.requestIdleCallback(warm, { timeout: 2500 });
+      if (idleScheduler.requestIdleCallback) {
+        idleHandle = idleScheduler.requestIdleCallback(warm, { timeout: 2500 });
       } else {
         fallbackTimer = window.setTimeout(warm, 1500);
       }
@@ -73,7 +73,9 @@ export function useProjectOverlayPreload<T extends HTMLElement>() {
       cancelled = true;
       window.removeEventListener("load", scheduleAfterLoad);
       observer?.disconnect();
-      if (idleHandle !== null) window.cancelIdleCallback(idleHandle);
+      if (idleHandle !== null) {
+        idleScheduler.cancelIdleCallback?.(idleHandle);
+      }
       if (fallbackTimer !== null) window.clearTimeout(fallbackTimer);
     };
   }, []);
