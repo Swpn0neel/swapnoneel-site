@@ -1953,6 +1953,14 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* The theme fallback is the one intentional non-geometric transition: a
+     short opacity-only canvas crossfade prevents a hard light/dark cut. */
+  :root.theme-transition::before {
+    transition-property: opacity !important;
+    transition-duration: var(--theme-duration) !important;
+    transition-timing-function: var(--theme-ease) !important;
+  }
 }
 
 /* ─── Hire Me Link Animated Gradient ─── */
