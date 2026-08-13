@@ -1,6 +1,6 @@
 ---
 title: My Second year in Tech
-date: "2024-11-08T21:33:04.263Z"
+date: '2024-11-08T21:33:04.263Z'
 description: >-
   Exactly one year back from now, I published a blog where I shared my First
   year of Tech journey. In that blog, I’ve mentioned about how I got started,
@@ -8,13 +8,13 @@ description: >-
   throughout the semest...
 cover: >-
   https://web.archive.org/web/20241202120007/https://cdn.hashnode.com/res/hashnode/image/upload/v1729861086308/c152433f-383b-4b26-9f86-87418d53ab86.png
-link: "https://swapnoneel.hashnode.dev/my-second-year-in-tech"
+link: 'https://swapnoneel.hashnode.dev/my-second-year-in-tech'
 tags:
   - career
   - reflections
   - tech-journey
   - lessons-learned
-updated: "2026-07-23T13:07:48.942Z"
+updated: '2026-08-13T21:16:38.068Z'
 ---
 
 Exactly one year back from now, I published a blog where I shared my First year of Tech journey. In that blog, I’ve mentioned about how I got started, and balanced both development and DSA, while maintaining a consistent 9+ CGPA throughout the semesters. Also, I shared how I got my breakthrough in freelancing and how I attended multiple hackathons and won all of them! If you haven’t read that blog, I would request you to [read it from here](https://swapnoneel.hashnode.dev/my-first-year-in-tech).
@@ -133,7 +133,7 @@ I have tried to mention most of the important stuff here. But I want to mention/
 - In few places, I’ve mentioned about what I’ve done while working within Keploy. But please take note that these were just a few things that I really loved working on, or was worthy of mentioning here. Being a DevRel is a lot more than this!
 - I invested majority of my freelancing money in stocks or spent them in buying assets. And also, I gifted myself a Nothing Phone (2a) this year, and also built a completely new work-setup for me in our house! Other than these, I paid the semester fees this year, all by myself; and also have taken care of my closed ones.
 - In my last year’s blog, I had mentioned that I was mentoring my juniors and guiding them, which I did consistently throughout this year too, but I didn’t felt the need to mention it here and elaborating on that front. If you are eager to learn more about it, you can go through our [LinkedIn page](https://www.linkedin.com/company/the-async-devs/).
-- I was active on Twitter(X) throughout this time, and was able to grow my follower count up to 1800 people. You can checkout my profile from [here](https://x.com/swapnoneel123)! And tried to be as active on LinkedIn as possible, you can checkout my LinkedIn profile from [here](https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/).
+- I was active on Twitter(X) throughout this time, and was able to grow my follower count up to 1800 people. You can check out [my X / Twitter profile](https://x.com/swapnoneel123)! And tried to be as active on LinkedIn as possible, you can check out [my LinkedIn profile](https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/).
 
 ## Was I able to meet my expectations?
 

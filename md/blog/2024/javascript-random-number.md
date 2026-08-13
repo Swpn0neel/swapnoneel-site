@@ -1,24 +1,24 @@
 ---
 title: How to Generate Random Numbers in JavaScript
-date: "2024-11-01T01:20:01.000Z"
+date: '2024-11-01T01:20:01.000Z'
 description: >-
   Use Math.random() for everyday variation, then build ranges, integers,
   booleans, choices, and shuffles around it. Use the Web Crypto API when
   randomness protects an identifier or secret.
 cover: >-
   https://wp.keploy.io/wp-content/uploads/2024/11/ae22594e-c87c-49a5-8748-e3a26131.webp
-link: "https://keploy.io/blog/community/javascript-random-number"
+link: 'https://keploy.io/blog/community/javascript-random-number'
 tags:
   - javascript
   - math
   - webdev
   - frontend
-updated: "2026-08-09T21:03:04.071Z"
+updated: '2026-08-13T21:16:38.068Z'
 ---
 
 When you need a surprise in a game, a quiz, or a sample from a list, JavaScript gives you a starting point: `Math.random()`. It returns a decimal from 0 (included) up to 1 (not included). The number is pseudo-random, so it works for everyday variation but is not a security feature.
 
-The useful part is the small bit of math you put around that decimal. Once you understand that, random integers, choices, booleans, and shuffles all follow the same pattern. A related JavaScript array guide is linked [here](https://keploy.io/blog/community/javascript-array-filter-method-guide) if you want to keep working with collections afterward.
+The useful part is the small bit of math you put around that decimal. Once you understand that, random integers, choices, booleans, and shuffles all follow the same pattern. A related [JavaScript array filter guide on Keploy](https://keploy.io/blog/community/javascript-array-filter-method-guide) is available if you want to keep working with collections afterward.
 
 ## Start with Math.random()
 

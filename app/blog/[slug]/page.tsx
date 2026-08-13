@@ -155,15 +155,40 @@ export default async function BlogPostPage({
         })
       : null;
 
+  // When adding a new cross-post brand, define TWO colors (light and dark mode):
+  // 1. Light theme (`text-[#...]`): Darker shade (e.g. 700-level) with >= 4.5:1 contrast against #ffffff
+  // 2. Dark theme (`dark:text-[#...]`): Lighter tint (e.g. 400-level) with >= 4.5:1 contrast against #0a0a0a
+  // This ensures WCAG AA compliance and maintains a 100/100 Lighthouse Accessibility score.
   function getCrossPost(url: string) {
     if (url.includes("keploy"))
-      return { label: "Keploy Blogs", color: "#F97316" };
-    if (url.includes("dev.to")) return { label: "DEV.to", color: "#3B49DF" };
+      return {
+        label: "Keploy Blogs",
+        className: "text-[#C2410C] dark:text-[#FB923C]",
+      };
+    if (url.includes("dev.to"))
+      return {
+        label: "DEV.to",
+        className: "text-[#3B49DF] dark:text-[#818CF8]",
+      };
     if (url.includes("medium.com"))
-      return { label: "Medium", color: "#02B875" };
+      return {
+        label: "Medium",
+        className: "text-[#047857] dark:text-[#34D399]",
+      };
     if (url.includes("substack.com"))
-      return { label: "Substack", color: "#FF6719" };
-    return { label: "Hashnode", color: "#2962FF" };
+      return {
+        label: "Substack",
+        className: "text-[#C2410C] dark:text-[#FB923C]",
+      };
+    if (url.includes("getmaxim.ai") || url.includes("bifrost"))
+      return {
+        label: "Maxim AI",
+        className: "text-[#0F766E] dark:text-[#2DD4BF]",
+      };
+    return {
+      label: "Hashnode",
+      className: "text-[#1D4ED8] dark:text-[#60A5FA]",
+    };
   }
 
   const crossPosts = (post.urls ?? []).map((url) => ({
@@ -370,11 +395,10 @@ export default async function BlogPostPage({
                         href={cp.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80"
-                        style={{ color: cp.color }}
+                        className={`inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80 ${cp.className}`}
                       >
                         {cp.label}
-                        <ArrowUpRight className="h-3 w-3" />
+                        <ArrowUpRight className="ml-0.5 h-3 w-3" />
                       </a>
                       {i < crossPosts.length - 2 && (
                         <span className="text-muted-foreground">{", "}</span>
