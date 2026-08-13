@@ -7,7 +7,7 @@ cover: "/work/zonko.webp"
 
 [Zonko Labs](https://zonko.ai) is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
 
-### What I did
+## What I did
 
 - Formed the first layer of internal testing for **Luffy**, an AI co-worker in Slack, helping the dev team catch bugs early.
 - Built an internal tool to capture **Luffy's data logs**, generating reports on latency and probable slowdowns.

@@ -7,7 +7,7 @@ cover: "/work/tutorials-point.webp"
 
 [Tutorials Point](https://www.tutorialspoint.com) is one of the most popular platforms for learning programming and technology, with millions of learners worldwide.
 
-### What I did
+## What I did
 
 - Created an **Advanced Python Course** with over **40 modules** that was purchased by **9,800+ users** over a period of 12 months, making it one of the most successful courses I've shipped.
 - Contributed to **MySQL** and **Web Development** courses which helped on-board new learners to the platform.

@@ -7,7 +7,7 @@ cover: "/work/keploy.webp"
 
 [Keploy](https://keploy.io) is an open-source, developer-friendly API testing platform that auto-generates test cases and data mocks from real traffic.
 
-### What I did
+## What I did
 
 - Built **multiple new sample applications** and improved existing ones using Rust, Flask, MongoDB, Spring Boot, and Django to demonstrate Keploy’s testing capabilities.
 - Implemented a fully-functional **RAG-based AI chatbot** for Keploy's documentation page, helping developers navigate the docs faster.

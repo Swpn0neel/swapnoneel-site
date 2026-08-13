@@ -121,6 +121,7 @@ export default async function WorkItemPage({
           }}
           components={{
             pre: CodeBlock,
+            h1: ({ children }) => <h2>{children}</h2>,
             a: ({ href, children, ...props }) => {
               const isExternal =
                 href &&
