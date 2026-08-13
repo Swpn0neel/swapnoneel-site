@@ -23,7 +23,6 @@
     "pre-commit": "node scripts/generate-narrations.mjs && git add -A -- public/narration"
   },
   "dependencies": {
-    "@calcom/embed-react": "^1.5.3",
     "@emailjs/browser": "^4.4.1",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",

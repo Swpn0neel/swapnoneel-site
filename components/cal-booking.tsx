@@ -2,13 +2,88 @@
 
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
+import { getRenderedTheme } from "@/lib/theme";
 import { Calendar } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
-type CalApiPromise = ReturnType<
-  (typeof import("@calcom/embed-react"))["getCalApi"]
->;
+type CalApiFunction = (action: string, ...args: unknown[]) => void;
+
+declare global {
+  interface Window {
+    Cal?: {
+      (action?: string, ...args: unknown[]): void;
+      ns?: Record<string, CalApiFunction>;
+      loaded?: boolean;
+      q?: unknown[][];
+    };
+  }
+}
+
+let loadPromise: Promise<void> | null = null;
+
+function ensureCalLoaded(): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.Cal && window.Cal.loaded) return Promise.resolve();
+  if (loadPromise) return loadPromise;
+
+  loadPromise = new Promise((resolve) => {
+    (function (C: Window, A: string, L: string) {
+      const p = function (a: unknown, ar: unknown) {
+        ((a as { q?: unknown[] }).q = ((a as { q?: unknown[] }).q || [])).push(ar);
+      };
+      const d = C.document;
+      C.Cal =
+        C.Cal ||
+        function () {
+          const cal = C.Cal!;
+          const ar = Array.from(arguments);
+          if (!cal.loaded) {
+            cal.ns = {};
+            cal.q = cal.q || [];
+            const s = d.createElement("script");
+            s.src = A;
+            s.async = true;
+            s.onload = () => resolve();
+            d.head.appendChild(s);
+            cal.loaded = true;
+          }
+          if (ar[0] === L) {
+            const api = function () {
+              p(api, Array.from(arguments));
+            };
+            const namespace = ar[1] as string;
+            (api as unknown as { q: unknown[] }).q = [];
+            if (typeof namespace === "string") {
+              cal.ns![namespace] = cal.ns![namespace] || (api as CalApiFunction);
+              p(cal.ns![namespace], ar);
+              p(cal, ["initNamespace", namespace]);
+            } else {
+              p(cal, ar);
+            }
+            return;
+          }
+          p(cal, ar);
+        };
+    })(window, "https://app.cal.com/embed/embed.js", "init");
+
+    // Trigger script append immediately
+    window.Cal?.();
+  });
+
+  return loadPromise;
+}
+
+async function getCalApi(namespace: string): Promise<CalApiFunction> {
+  await ensureCalLoaded();
+  const cal = window.Cal;
+  if (!cal) {
+    throw new Error("Cal embed script unavailable");
+  }
+  cal("init", namespace, { origin: "https://cal.com" });
+  cal("initNamespace", namespace);
+  return (cal.ns?.[namespace] || cal) as CalApiFunction;
+}
 
 interface CalBookingProps {
   className?: string;
@@ -16,54 +91,57 @@ interface CalBookingProps {
 }
 
 export function CalBooking({ className, customText }: CalBookingProps) {
-  const { theme, systemTheme } = useTheme();
-  const apiRef = useRef<{
-    namespace: string;
-    promise: CalApiPromise;
-  } | null>(null);
+  const { resolvedTheme } = useTheme();
 
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  const getThemeInfo = useCallback(() => {
+    const isClient = typeof window !== "undefined";
+    const rendered = isClient
+      ? getRenderedTheme()
+      : resolvedTheme === "light"
+        ? "light"
+        : "dark";
+    const isDark = rendered === "dark";
 
-  const initCal = useCallback(async () => {
-    const isDark = currentTheme === "dark";
-    const namespace = isDark
-      ? siteConfig.calendar.namespaceDark
-      : siteConfig.calendar.namespaceLight;
+    return {
+      isDark,
+      namespace: isDark
+        ? siteConfig.calendar.namespaceDark
+        : siteConfig.calendar.namespaceLight,
+      theme: rendered,
+      calBrand: isDark ? "#ffffff" : "#000000",
+    };
+  }, [resolvedTheme]);
 
-    if (apiRef.current?.namespace === namespace) {
-      return apiRef.current.promise;
-    }
-
-    const promise = import("@calcom/embed-react")
-      .then(({ getCalApi }) => getCalApi({ namespace }))
-      .then((cal) => {
-        cal("ui", {
-          theme: isDark ? "dark" : "light",
-          cssVarsPerTheme: {
-            light: { "cal-brand": isDark ? "#ffffff" : "#000000" },
-            dark: { "cal-brand": isDark ? "#ffffff" : "#000000" },
-          },
-          hideEventTypeDetails: false,
-          layout: "month_view",
-        });
-        return cal;
-      });
-
-    apiRef.current = { namespace, promise };
-    return promise;
-  }, [currentTheme]);
-
-  const handleClick = useCallback(async () => {
-    const cal = await initCal();
+  const openCalModal = useCallback(async () => {
+    const { namespace, theme, calBrand } = getThemeInfo();
+    const cal = await getCalApi(namespace);
+    cal("ui", {
+      theme,
+      cssVarsPerTheme: {
+        light: { "cal-brand": calBrand },
+        dark: { "cal-brand": calBrand },
+      },
+      hideEventTypeDetails: false,
+      layout: "month_view",
+    });
     cal("modal", {
       calLink: siteConfig.calendar.link,
-      config: { layout: "month_view" },
+      config: {
+        layout: "month_view",
+        theme,
+      },
     });
-  }, [initCal]);
+  }, [getThemeInfo]);
 
   const warmCal = useCallback(() => {
-    void initCal();
-  }, [initCal]);
+    const { namespace } = getThemeInfo();
+    void ensureCalLoaded().then(() => {
+      if (window.Cal) {
+        window.Cal("init", namespace, { origin: "https://cal.com" });
+        window.Cal("initNamespace", namespace);
+      }
+    });
+  }, [getThemeInfo]);
 
   if (customText) {
     return (
@@ -72,7 +150,7 @@ export function CalBooking({ className, customText }: CalBookingProps) {
         type="button"
         onPointerEnter={warmCal}
         onFocus={warmCal}
-        onClick={handleClick}
+        onClick={openCalModal}
         className={className}
       >
         {customText}
@@ -86,7 +164,7 @@ export function CalBooking({ className, customText }: CalBookingProps) {
       type="button"
       onPointerEnter={warmCal}
       onFocus={warmCal}
-      onClick={handleClick}
+      onClick={openCalModal}
       className="focus-visible:ring-ring bg-foreground text-background hover:bg-foreground/90 inline-flex h-9 w-full items-center justify-center gap-2 rounded-sm px-4 text-sm leading-none font-medium whitespace-nowrap shadow transition-colors focus-visible:ring-1 focus-visible:outline-none sm:w-auto"
     >
       <Calendar className="size-[1em] shrink-0" />
