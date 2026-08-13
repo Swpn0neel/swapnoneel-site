@@ -107,6 +107,33 @@ export default function RootLayout({
             CSS narrows this to the active scheme from the first rendered frame. */}
         <meta name="color-scheme" content="light dark" />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
+        {/* Native Speculation Rules for instantaneous background prefetching in modern Chromium */}
+        <script
+          type="speculationrules"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              prefetch: [
+                {
+                  source: "list",
+                  urls: ["/blog", "/work", "/contact", "/resume"],
+                  eagerness: "moderate",
+                },
+                {
+                  source: "document",
+                  where: {
+                    and: [
+                      { href_matches: "/*" },
+                      { not: { href_matches: "/api/*" } },
+                      { not: { href_matches: "/feed.xml" } },
+                      { not: { href_matches: "/*.txt" } },
+                    ],
+                  },
+                  eagerness: "conservative",
+                },
+              ],
+            }),
+          }}
+        />
       </head>
       <body
         className="bg-background text-foreground min-h-screen font-sans antialiased"

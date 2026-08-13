@@ -3,7 +3,7 @@ import matter from "gray-matter";
 import path from "path";
 import { cache } from "react";
 
-const mdDir = path.join(process.cwd(), "md");
+const mdDir = path.join(/*turbopackIgnore: true*/ process.cwd(), "md");
 
 function isPathSafe(filePath: string): boolean {
   const relative = path.relative(mdDir, filePath);
