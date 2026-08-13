@@ -1,31 +1,31 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useRef } from "react";
 
 /**
- * The entrance animation itself lives in globals.css, keyed off the
- * `data-page-transition` attribute. This used to drive it from a
- * useLayoutEffect calling element.animate(), guarded by a ref comparison that
- * skipped the very first mount — which meant a page only ever animated if you
- * arrived by client-side routing.
+ * On first SSR paint / document load, content is rendered instantly with 100%
+ * opacity and zero offset (data-page-transition="instant") to maximize Speed Index,
+ * FCP, and LCP.
  *
- * /resume is reachable only from the footer, and every footer link carries
- * target="_blank", so it is always a fresh document and that guard always won:
- * the one page that never animated. Any direct link, refresh or new tab hit
- * the same hole on every other page too.
- *
- * Moving it to CSS closes that gap without a second code path. `key={pathname}`
- * already remounts this div on every navigation, and remounting an element
- * restarts its CSS animation — so one declaration covers both the first paint
- * and every route change after it, and it starts at parse time instead of
- * waiting for hydration.
+ * On client-side route changes, `pathname` differs from the initial mount path,
+ * switching to data-page-transition="ready" which triggers the smooth CSS
+ * `page-enter` animation.
  */
 export function PageTransition({ children }: { children: ReactNode }) {
   const pathname = usePathname();
+  const initialPathname = useRef(pathname);
+  const isNavigating = useRef(false);
+
+  if (pathname !== initialPathname.current) {
+    isNavigating.current = true;
+  }
 
   return (
-    <div key={pathname} data-page-transition="ready">
+    <div
+      key={pathname}
+      data-page-transition={isNavigating.current ? "ready" : "instant"}
+    >
       {children}
     </div>
   );

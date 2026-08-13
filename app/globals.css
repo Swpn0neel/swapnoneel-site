@@ -686,6 +686,11 @@ body {
   }
 }
 
+[data-page-transition="instant"] {
+  opacity: 1;
+  transform: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   [data-page-transition="ready"] {
     animation: page-enter 200ms ease-in-out backwards;

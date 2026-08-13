@@ -129,7 +129,6 @@ export default function Home() {
         items={workItems}
         seeAllHref="/work"
         from="home"
-        className="deferred-render"
       />
 
       {/* Projects */}
