@@ -1,16 +1,16 @@
 ---
 title: How I made an AI Agent write in my voice
-date: "2026-07-06T00:00:00.000Z"
-description: "You can make AI write in your voice, but a prompt won't get you there..."
+date: '2026-07-06T00:00:00.000Z'
+description: 'You can make AI write in your voice, but a prompt won''t get you there...'
 slug: make-ai-write-in-your-voice
 link:
+  - "https://swapnoneel.hashnode.dev/how-i-made-an-ai-agent-write-in-my-voice"
   - "https://dev.to/swapnoneel123/how-i-made-an-ai-agent-write-in-my-voice-5dli"
-  - >-
-    https://medium.com/@swapnoneel/how-i-made-an-ai-agent-write-in-my-voice-c41576aa36bb
-canonical: "https://www.swapnoneel.site/blog/make-ai-write-in-your-voice"
+  - "https://medium.com/@swapnoneel/how-i-made-an-ai-agent-write-in-my-voice-c41576aa36bb"
+canonical: 'https://www.swapnoneel.site/blog/make-ai-write-in-your-voice'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/i8fz76dcy7hsjskwcovi.png
-updated: "2026-08-12T23:19:07.634Z"
+updated: '2026-08-15T08:53:59.953Z'
 tags:
   - ai
   - agents
