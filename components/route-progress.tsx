@@ -12,6 +12,8 @@ const GIVE_UP_MS = 15000;
 
 type Phase = "idle" | "loading" | "done";
 
+const normalizePath = (path: string) => path.replace(/\/+$/, "") || "/";
+
 /**
  * A route change on a static export is usually instant, but a cold RSC payload
  * fetch can leave the old page on screen for a second or two with no feedback —
@@ -27,6 +29,7 @@ export function RouteProgress() {
   const pathname = usePathname();
   const [phase, setPhase] = useState<Phase>("idle");
   const phaseRef = useRef<Phase>("idle");
+  const pathnameRef = useRef<string>(pathname);
   const timers = useRef<number[]>([]);
 
   const enter = (next: Phase) => {
@@ -66,18 +69,40 @@ export function RouteProgress() {
       const url = new URL(anchor.href, window.location.href);
       if (url.origin !== window.location.origin) return;
       // Same document, different hash: no fetch, no bar.
-      if (url.pathname === window.location.pathname && url.hash) return;
-      if (url.pathname === window.location.pathname) return;
+      if (
+        normalizePath(url.pathname) ===
+          normalizePath(window.location.pathname) &&
+        url.hash
+      )
+        return;
+      if (
+        normalizePath(url.pathname) === normalizePath(window.location.pathname)
+      )
+        return;
 
       start();
     };
 
+    const onPopState = () => {
+      // Popstate fires during back/forward history navigation as well as in-page
+      // fragment/hash navigation. If the destination pathname is the same as the
+      // current pathname (e.g. hash change / Table of Contents / in-page anchor jump),
+      // no page transition or fetch is happening, so ignore it.
+      if (
+        normalizePath(window.location.pathname) ===
+        normalizePath(pathnameRef.current)
+      ) {
+        return;
+      }
+      start();
+    };
+
     document.addEventListener("click", onClick, true);
-    window.addEventListener("popstate", start);
+    window.addEventListener("popstate", onPopState);
 
     return () => {
       document.removeEventListener("click", onClick, true);
-      window.removeEventListener("popstate", start);
+      window.removeEventListener("popstate", onPopState);
       clearTimers();
     };
   }, []);
@@ -85,6 +110,7 @@ export function RouteProgress() {
   // The new route has rendered. Cancel a bar that never got to appear, or run
   // the outro on one that did.
   useEffect(() => {
+    pathnameRef.current = pathname;
     clearTimers();
     if (phaseRef.current === "loading") {
       enter("done");
