@@ -37,9 +37,9 @@ export async function generateMetadata({
   const url = `https://www.swapnoneel.site/blog/${slug}`;
   const ogImage = post.cover
     ? {
-        url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
-        alt: post.title,
-      }
+      url: `/_next/image?url=${encodeURIComponent(mirroredSrc(post.cover))}&w=1280&q=75`,
+      alt: post.title,
+    }
     : null;
   return {
     title: post.title,
@@ -149,10 +149,10 @@ export default async function BlogPostPage({
   const updatedStr =
     updated && !Number.isNaN(updated.getTime())
       ? updated.toLocaleDateString("en-US", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
       : null;
 
   // When adding a new cross-post brand, define TWO colors (light and dark mode):
@@ -398,7 +398,7 @@ export default async function BlogPostPage({
                         className={`inline-flex items-center font-medium underline underline-offset-2 transition-opacity hover:opacity-80 ${cp.className}`}
                       >
                         {cp.label}
-                        <ArrowUpRight className="ml-0.5 h-3 w-3" />
+                        {<ArrowUpRight className="h-3 w-3" />}
                       </a>
                       {i < crossPosts.length - 2 && (
                         <span className="text-muted-foreground">{", "}</span>
@@ -412,9 +412,8 @@ export default async function BlogPostPage({
               )}
               {updatedStr && (
                 <p
-                  className={`text-muted-foreground blog-scaled-text ${
-                    crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
-                  }`}
+                  className={`text-muted-foreground blog-scaled-text ${crossPosts.length > 0 ? "blog-footer-gap-tight" : ""
+                    }`}
                 >
                   {i18n.blog.lastUpdatedOn}: {updatedStr}
                 </p>
