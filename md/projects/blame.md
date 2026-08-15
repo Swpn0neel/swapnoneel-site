@@ -4,7 +4,7 @@ date: "2026-07-01"
 description: "Client-side Next.js web application designed to scan GitHub repositories, resolve contributor identities, and audit commit counts directly in the browser."
 cover: "/project/blame.jpg"
 link: "https://gitblame.vercel.app"
-featured: true
+featured: false
 ---
 
 ## Blame
