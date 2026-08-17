@@ -626,6 +626,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3e6j3ogmivqjmcrf5vl8.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/3e6j3ogmivqjmcrf5vl8-79ef30f4.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3njozpqr6g3ytrb177ar.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/3njozpqr6g3ytrb177ar-0ee2729c.webp",
     "width": 926,
@@ -830,6 +841,28 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/bltwhnlm4r1ooiqa9pvt.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/bltwhnlm4r1ooiqa9pvt-ff360d1a.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/c8hkbqxrhshh2kazha4j.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/c8hkbqxrhshh2kazha4j-fad51149.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/cgnv1ejfcvkgmrohejyj.png": {
     "local": "/blog-img/2026/bifrost-for-enterprises/cgnv1ejfcvkgmrohejyj-67902728.webp",
     "width": 913,
@@ -959,6 +992,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/klnjbx0lfzy4vgxrv4xo.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/klnjbx0lfzy4vgxrv4xo-f0c37dc8.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/mnf69thhecu599edac1q.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/mnf69thhecu599edac1q-f624c866.webp",
     "width": 1536,
@@ -1024,6 +1068,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/rlgf0fpspsc35cdk60qi.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/rlgf0fpspsc35cdk60qi-931a60df.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s436tk6aszvy9g079vjt.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/s436tk6aszvy9g079vjt-cfad970a.webp",
     "width": 1536,
@@ -1042,6 +1097,28 @@
     "renditions": [
       640,
       779
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tjxt9en3l4yzf1gelqlr.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/tjxt9en3l4yzf1gelqlr-e024e93c.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tpeg1tbewphirbc8s1pa.png": {
+    "local": "/blog-img/2026/what-is-adaptive-load-balancing/tpeg1tbewphirbc8s1pa-d09037de.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
     ]
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tqs4v53py7hbpl3fdtgz.png": {
