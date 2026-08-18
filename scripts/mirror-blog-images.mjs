@@ -300,8 +300,21 @@ function localPath(url, owner) {
 }
 
 async function mirror(url, target) {
-  const res = await fetch(url, { signal: AbortSignal.timeout(20000) });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  let res;
+  let lastError;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      res = await fetch(url, {
+        headers: { "User-Agent": "Mozilla/5.0" },
+        signal: AbortSignal.timeout(30000),
+      });
+      if (res.ok) break;
+    } catch (err) {
+      lastError = err;
+      await new Promise((resolve) => setTimeout(resolve, 1000 * (attempt + 1)));
+    }
+  }
+  if (!res || !res.ok) throw lastError || new Error(`HTTP ${res?.status}`);
   const buffer = Buffer.from(await res.arrayBuffer());
 
   // density lifts SVG rasterization to the target width instead of its

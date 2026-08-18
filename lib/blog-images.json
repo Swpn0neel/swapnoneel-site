@@ -615,6 +615,17 @@
       1521
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0jqt2fv5869zcc74abon.png": {
+    "local": "/blog-img/2026/ai-observability-explained/0jqt2fv5869zcc74abon-dcb709be.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/28o1zintr6j86wowkvn0.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/28o1zintr6j86wowkvn0-6699323c.webp",
     "width": 1536,
@@ -644,6 +655,17 @@
     "renditions": [
       640,
       926
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3s0utdi83ubyijnvze1x.png": {
+    "local": "/blog-img/2026/ai-observability-explained/3s0utdi83ubyijnvze1x-4df78c40.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
     ]
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3s98sgz7952omd3ajmg3.png": {
@@ -738,6 +760,39 @@
     "local": "/blog-img/2026/deep-dive-into-bifrost/6yl65270vb753sc5r70d-bbc05cdb.webp",
     "width": 1536,
     "height": 932,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/72i1wisqwyz7zwvurepu.png": {
+    "local": "/blog-img/2026/ai-observability-explained/72i1wisqwyz7zwvurepu-7eca0a4c.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/78xs5rtn8pt5huvu3cyl.png": {
+    "local": "/blog-img/2026/ai-observability-explained/78xs5rtn8pt5huvu3cyl-af9c7bf3.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/81g9z5hg0w76ysc9c7um.png": {
+    "local": "/blog-img/2026/ai-observability-explained/81g9z5hg0w76ysc9c7um-ad869d14.webp",
+    "width": 1536,
+    "height": 864,
     "renditions": [
       640,
       960,
@@ -1061,6 +1116,17 @@
     "local": "/blog-img/2026/bifrost-for-enterprises/re84bfyifr07hwij3hl5-09757adb.webp",
     "width": 1536,
     "height": 926,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/rhkiusbk7ev7rfgmtj6c.png": {
+    "local": "/blog-img/2026/ai-observability-explained/rhkiusbk7ev7rfgmtj6c-1da84e28.webp",
+    "width": 1536,
+    "height": 864,
     "renditions": [
       640,
       960,
