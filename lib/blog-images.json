@@ -626,6 +626,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/1qpab5iqbnfib7t76sfx.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/1qpab5iqbnfib7t76sfx-cbf8ef8e.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/28o1zintr6j86wowkvn0.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/28o1zintr6j86wowkvn0-6699323c.webp",
     "width": 1536,
@@ -679,6 +690,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3v3qhwmra038m9m4xgsp.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/3v3qhwmra038m9m4xgsp-e4ec0e72.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4loyitgxbfeatne9i0tw.png": {
     "local": "/blog-img/2026/deep-dive-into-bifrost/4loyitgxbfeatne9i0tw-1394ff9c.webp",
     "width": 1536,
@@ -714,6 +736,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/53o4fp681781ercsv3cd.png": {
     "local": "/blog-img/2026/vercel-frontend-deployment-default/53o4fp681781ercsv3cd-eca6c414.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/5a8qgzs3aik93kw5cln9.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/5a8qgzs3aik93kw5cln9-09ca5eb8.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -896,6 +929,28 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/bca2riv6xiz4clpbngq4.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/bca2riv6xiz4clpbngq4-ae7fe762.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/bflbiben9y76am58s2yq.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/bflbiben9y76am58s2yq-9c162a92.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/bltwhnlm4r1ooiqa9pvt.png": {
     "local": "/blog-img/2026/what-is-adaptive-load-balancing/bltwhnlm4r1ooiqa9pvt-ff360d1a.webp",
     "width": 1536,
@@ -1036,6 +1091,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/j1gnm7fit9fqcewhgu4m.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/j1gnm7fit9fqcewhgu4m-25715b5b.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/jn984noo2rlwqhqq6b3q.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/jn984noo2rlwqhqq6b3q-a1c12583.webp",
     "width": 1536,
@@ -1081,6 +1147,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/n2oyhuh4p1el7u73bhrn.png": {
     "local": "/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/n2oyhuh4p1el7u73bhrn-ede97372.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/o2albu3d51p4reqzb2w0.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/o2albu3d51p4reqzb2w0-d074186e.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1209,6 +1286,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u8og1qce297e7399xh0h.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/u8og1qce297e7399xh0h-64e5de70.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9xplxu74ikwfrltmxfi.png": {
     "local": "/blog-img/2026/geo-for-developers/u9xplxu74ikwfrltmxfi-b4b4f8d4.webp",
     "width": 1536,
@@ -1241,6 +1329,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ux3cdjdufpwk8zivmwo1.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/ux3cdjdufpwk8zivmwo1-ee3509d5.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/v8qp2p0klx6l09y43ly7.png": {
     "local": "/blog-img/2026/vercel-frontend-deployment-default/v8qp2p0klx6l09y43ly7-6e5f1640.webp",
     "width": 1274,
@@ -1253,6 +1352,28 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/vr4zw9hox2yybrgbhzqs.png": {
     "local": "/blog-img/2026/testing-ai-coding-agents/vr4zw9hox2yybrgbhzqs-581bc19d.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/vx141iz8mc6jumndcpk8.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/vx141iz8mc6jumndcpk8-b425e0a4.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/wpivlvi3ri9qiqp79l0k.png": {
+    "local": "/blog-img/2026/what-is-semantic-caching/wpivlvi3ri9qiqp79l0k-b63091ab.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
