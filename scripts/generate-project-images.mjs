@@ -2,6 +2,7 @@ import crypto from "crypto";
 import fs from "fs/promises";
 import path from "path";
 import sharp from "sharp";
+import { DEVICE_SIZES, PROJECT_FORMATS } from "../lib/images.config.ts";
 
 const sourceDir = path.join(process.cwd(), "public", "project");
 const outputDir = path.join(process.cwd(), "public", "project-img");
@@ -20,11 +21,12 @@ const manifestPath = path.join(process.cwd(), "lib", "project-images.json");
 //
 // Consumers never reconstruct these filenames — the manifest below is the only
 // place the naming lives, and lib/project-image-loader.ts is how it is read.
-const DEVICE_SIZES = [640, 960, 1280, 1536];
-const FORMATS = [
-  { ext: "avif", type: "image/avif", options: { quality: 70, effort: 6 } },
-  { ext: "webp", type: "image/webp", options: { quality: 82, effort: 6 } },
-];
+// DEVICE_SIZES and formats are synced via lib/images.config.ts
+const FORMATS = PROJECT_FORMATS.map((f) => ({
+  ext: f.ext,
+  type: f.type,
+  options: { quality: f.quality, effort: f.effort },
+}));
 const PIPELINE_VERSION = 2;
 
 const pipeline = {

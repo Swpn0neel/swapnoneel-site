@@ -3,6 +3,13 @@ import fs from "fs/promises";
 import matter from "gray-matter";
 import path from "path";
 import sharp from "sharp";
+import {
+  BLOG_AVIF_EFFORT,
+  BLOG_AVIF_QUALITY,
+  BLOG_WEBP_QUALITY,
+  DEVICE_SIZES,
+  MAX_WIDTH,
+} from "../lib/images.config.ts";
 
 const mdDir = path.join(process.cwd(), "md", "blog");
 const outDir = path.join(process.cwd(), "public", "blog-img");
@@ -23,11 +30,7 @@ const CONCURRENCY = 8;
 // but it is still the input to the OG card URL in app/blog/[slug]/page.tsx and
 // the source SmoothImage falls back to when a rendition fails to load.
 //
-// MAX_WIDTH matches the largest entry in next.config deviceSizes — anything
-// wider can never be selected by a srcset candidate, so storing it would only
-// slow the transcode down.
-const MAX_WIDTH = 1536;
-const WEBP_QUALITY = 100;
+// MAX_WIDTH matches the largest entry in DEVICE_SIZES — synced via lib/images.config.ts
 
 // Pre-generated AVIF renditions, one per deviceSize, served through the custom
 // loader in lib/blog-image-loader.ts instead of /_next/image.
@@ -47,9 +50,9 @@ const WEBP_QUALITY = 100;
 // The WebP mirrors stay because the OG card URL in app/blog/[slug]/page.tsx
 // still goes through /_next/image, and SmoothImage's error fallback renders the
 // mirror directly.
-const DEVICE_SIZES = [640, 960, 1280, 1536];
-const AVIF_QUALITY = 70;
-const AVIF_EFFORT = 6;
+const AVIF_QUALITY = BLOG_AVIF_QUALITY;
+const AVIF_EFFORT = BLOG_AVIF_EFFORT;
+const WEBP_QUALITY = BLOG_WEBP_QUALITY;
 
 // Never emit a rendition wider than the mirror — `withoutEnlargement` would
 // just write the same pixels under four names. The mirror's own width is always

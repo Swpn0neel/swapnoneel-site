@@ -1,5 +1,4 @@
-import { ProgressiveImage } from "@/components/progressive-image";
-import { SmoothImage } from "@/components/smooth-image";
+import { OptimizedImage } from "@/components/optimized-image";
 import { renditionsFor } from "@/lib/blog-image-loader";
 import { mirroredAspectRatio, mirroredSrc } from "@/lib/blog-image-map";
 import { pickRendition } from "@/lib/blog-rendition";
@@ -113,29 +112,24 @@ export function BlogImage({
             fetchPriority="high"
           />
         )}
-        {renditions ? (
-          <ProgressiveImage
-            {...imageProps}
-            as="span"
-            critical={priority}
-            unoptimized
-            sourceSets={[
-              {
-                type: "image/avif",
-                srcSet: avifSrcSet!,
-                sizes: IMAGE_SIZES,
-              },
-            ]}
-          />
-        ) : (
-          <SmoothImage
-            {...imageProps}
-            as="span"
-            priority={priority}
-            showSkeleton
-            unoptimized={!isOptimizedHost(resolvedSrc)}
-          />
-        )}
+        <OptimizedImage
+          {...imageProps}
+          as="span"
+          critical={priority}
+          unoptimized={Boolean(renditions) || !isOptimizedHost(resolvedSrc)}
+          sourceSets={
+            renditions
+              ? [
+                  {
+                    type: "image/avif",
+                    srcSet: avifSrcSet!,
+                    sizes: IMAGE_SIZES,
+                  },
+                ]
+              : undefined
+          }
+          showSkeleton
+        />
       </span>
       {alt && !hideCaption && (
         // Scales with the reader's A-/A/A+ choice (--prose-scale, set in
