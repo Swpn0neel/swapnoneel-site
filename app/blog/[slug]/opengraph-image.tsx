@@ -6,10 +6,11 @@ import {
 } from "@/lib/og-image";
 import { notFound } from "next/navigation";
 
-// Posts with a cover use it as their card (see generateMetadata in page.tsx), so
-// only the cover-less ones are rendered here — every post today has a cover, and
-// this is what keeps the next one that does not from falling back to the generic
-// /blog card inherited from the parent segment.
+// Posts with a cover use it as their card (see generateMetadata in page.tsx),
+// and that wins over this file-convention image — so rendering one for them
+// produced 49 PNGs no page ever references. Only the cover-less ones are built
+// here, which is what keeps the next post without a cover from falling back to
+// the generic /blog card inherited from the parent segment.
 export const dynamicParams = false;
 
 export async function generateStaticParams() {
@@ -19,6 +20,11 @@ export async function generateStaticParams() {
     .map((post) => ({ slug: post.slug }));
 }
 
+export const size = OG_IMAGE_SIZE;
+export const contentType = OG_IMAGE_CONTENT_TYPE;
+
+// Per-image alt, so the card is described by its post rather than by the word
+// "Blog" the static export was giving every one of them.
 export async function generateImageMetadata({
   params,
 }: {

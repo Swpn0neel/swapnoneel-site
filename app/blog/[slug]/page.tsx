@@ -6,17 +6,26 @@ import { FontSizeToggle } from "@/components/font-size-toggle";
 import { RelatedPosts } from "@/components/related-posts";
 import { TableOfContents } from "@/components/table-of-contents";
 import { mirroredSrc } from "@/lib/blog-image-map";
+import { getCrossPost } from "@/lib/blog-brand";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllBlogPosts, getBlogPost } from "@/lib/md";
+import {
+  cleanMarkdown as cleanMarkdownFn,
+  extractHeadings,
+  extractLeadImageSources,
+  generateSlug,
+} from "@/lib/mdx";
 import { getRawText } from "@/lib/mdx-text";
+import { getNarrationInfo } from "@/lib/narration";
+import { rehypeNarrate } from "@/lib/rehype-narrate";
 import { getRelatedPosts } from "@/lib/related-posts";
 import { breadcrumbJsonLd, safeJsonLd } from "@/lib/utils";
 import { ArrowUpRight } from "lucide-react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import rehypeHighlight from "rehype-highlight";
+import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 
 export const dynamicParams = false;
@@ -64,70 +73,9 @@ export async function generateMetadata({
   };
 }
 
-const generateSlug = (text: string) => {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-};
-
 // The cover is the sole high-priority/preloaded image. Only the first inline
 // image starts eagerly (at low fetch priority); every later image stays native
 // lazy so it cannot compete with article LCP.
-const EAGER_IMAGE_COUNT = 1;
-
-function extractLeadImageSources(markdown: string): Set<string> {
-  const regex = /!\[[^\]]*\]\((\S+?)\)/g;
-  const sources = new Set<string>();
-  let match;
-  while ((match = regex.exec(markdown)) && sources.size < EAGER_IMAGE_COUNT) {
-    sources.add(match[1]);
-  }
-  return sources;
-}
-
-function extractHeadings(markdown: string) {
-  const headings: { text: string; slug: string; level: number }[] = [];
-
-  // Normalize carriage returns to avoid trailing \r on Windows
-  const normalized = markdown.replace(/\r\n/g, "\n");
-
-  // Remove multi-line code blocks entirely to avoid matching comments like ## inside code
-  const withoutCodeBlocks = normalized
-    .replace(/```[\s\S]*?```/g, "")
-    .replace(/~~~[\s\S]*?~~~/g, "");
-
-  const lines = withoutCodeBlocks.split("\n");
-
-  for (const line of lines) {
-    // Match h1 to h4 markdown headings
-    const match = line.match(/^(#{1,4})\s+(.+)$/);
-    if (match) {
-      const level = match[1].length;
-      let rawText = match[2].trim();
-
-      // Strip all HTML tags completely
-      rawText = rawText.replace(/<[^>]*>/g, "");
-
-      // Strip markdown formatting symbols (bold, italic, inline code backticks)
-      rawText = rawText
-        .replace(/\*\*|__/g, "")
-        .replace(/\*|_/g, "")
-        .replace(/`([^`]+)`/g, "$1");
-
-      rawText = rawText.trim();
-      if (!rawText) continue;
-
-      headings.push({
-        text: rawText,
-        slug: generateSlug(rawText),
-        level,
-      });
-    }
-  }
-  return headings;
-}
 
 export default async function BlogPostPage({
   params,
@@ -155,54 +103,17 @@ export default async function BlogPostPage({
       })
       : null;
 
-  // When adding a new cross-post brand, define TWO colors (light and dark mode):
-  // 1. Light theme (`text-[#...]`): Darker shade (e.g. 700-level) with >= 4.5:1 contrast against #ffffff
-  // 2. Dark theme (`dark:text-[#...]`): Lighter tint (e.g. 400-level) with >= 4.5:1 contrast against #0a0a0a
-  // This ensures WCAG AA compliance and maintains a 100/100 Lighthouse Accessibility score.
-  function getCrossPost(url: string) {
-    if (url.includes("keploy"))
-      return {
-        label: "Keploy Blogs",
-        className: "text-[#C2410C] dark:text-[#FB923C]",
-      };
-    if (url.includes("dev.to"))
-      return {
-        label: "DEV.to",
-        className: "text-[#3B49DF] dark:text-[#818CF8]",
-      };
-    if (url.includes("medium.com"))
-      return {
-        label: "Medium",
-        className: "text-[#047857] dark:text-[#34D399]",
-      };
-    if (url.includes("substack.com"))
-      return {
-        label: "Substack",
-        className: "text-[#C2410C] dark:text-[#FB923C]",
-      };
-    if (url.includes("getmaxim.ai") || url.includes("bifrost"))
-      return {
-        label: "Maxim AI",
-        className: "text-[#0F766E] dark:text-[#2DD4BF]",
-      };
-    return {
-      label: "Hashnode",
-      className: "text-[#1D4ED8] dark:text-[#60A5FA]",
-    };
-  }
-
   const crossPosts = (post.urls ?? []).map((url) => ({
     url,
     ...getCrossPost(url),
   }));
 
-  const cleanMarkdown = (post.content?.markdown || "")
-    .replace(
-      /<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi,
-      "[<mark>$1</mark>]($2)"
-    )
-    .replace(/(!\[.*?\]\(([^)]*?))\s+align=".*?"\)/g, "$1)")
-    .replace(/%%?\[.*?\]/g, "");
+  const cleanMarkdown = cleanMarkdownFn(post.content?.markdown || "");
+
+  // Word spans are only emitted when the manifest's timings actually index
+  // this markdown; a post edited after its audio was generated renders plain
+  // and the player hides itself rather than highlighting the wrong words.
+  const narration = getNarrationInfo(slug, d.getFullYear(), cleanMarkdown);
 
   const headings = extractHeadings(cleanMarkdown);
   const leadImages = extractLeadImageSources(cleanMarkdown);
@@ -278,12 +189,11 @@ export default async function BlogPostPage({
       {/* Table of Contents Box */}
       <TableOfContents headings={headings} />
 
-      {/* Read-along narration player */}
       <BlogNarrator
         articleId="blog-prose"
         slug={slug}
         year={d.getFullYear()}
-        initialWordCount={post.wordCount}
+        available={narration.enabled}
       />
 
       {/* Main Content */}
@@ -297,8 +207,18 @@ export default async function BlogPostPage({
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              // ponytail: rehype-highlight includes common langs by default, no lowlight needed
-              rehypePlugins: [rehypeHighlight],
+              rehypePlugins: [
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: { light: "github-light", dark: "github-dark" },
+                    keepBackground: false,
+                  },
+                ],
+                // After pretty-code, so the highlighted <pre>/<code> subtree is
+                // already in place for the skip check to see.
+                [rehypeNarrate, { enabled: narration.enabled }],
+              ],
             },
           }}
           components={{
@@ -328,38 +248,50 @@ export default async function BlogPostPage({
                 />
               );
             },
-            h1: ({ children }) => {
+            h1: ({ children, ...props }) => {
               const text = getRawText(children);
               const slug = generateSlug(text);
+              // ...props carries the data-nwb/data-nwc word anchors rehypeNarrate
+              // put on this heading; dropping them silently desynced the
+              // narration index for every word after the first heading.
               return (
-                <h2 id={slug} className="scroll-mt-24">
+                <h2 {...props} id={slug} className="scroll-mt-24">
                   {children}
                 </h2>
               );
             },
-            h2: ({ children }) => {
+            h2: ({ children, ...props }) => {
               const text = getRawText(children);
               const slug = generateSlug(text);
+              // ...props carries the data-nwb/data-nwc word anchors rehypeNarrate
+              // put on this heading; dropping them silently desynced the
+              // narration index for every word after the first heading.
               return (
-                <h2 id={slug} className="scroll-mt-24">
+                <h2 {...props} id={slug} className="scroll-mt-24">
                   {children}
                 </h2>
               );
             },
-            h3: ({ children }) => {
+            h3: ({ children, ...props }) => {
               const text = getRawText(children);
               const slug = generateSlug(text);
+              // ...props carries the data-nwb/data-nwc word anchors rehypeNarrate
+              // put on this heading; dropping them silently desynced the
+              // narration index for every word after the first heading.
               return (
-                <h3 id={slug} className="scroll-mt-24">
+                <h3 {...props} id={slug} className="scroll-mt-24">
                   {children}
                 </h3>
               );
             },
-            h4: ({ children }) => {
+            h4: ({ children, ...props }) => {
               const text = getRawText(children);
               const slug = generateSlug(text);
+              // ...props carries the data-nwb/data-nwc word anchors rehypeNarrate
+              // put on this heading; dropping them silently desynced the
+              // narration index for every word after the first heading.
               return (
-                <h4 id={slug} className="scroll-mt-24">
+                <h4 {...props} id={slug} className="scroll-mt-24">
                   {children}
                 </h4>
               );

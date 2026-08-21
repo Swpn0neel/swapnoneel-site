@@ -62,24 +62,43 @@ const LANGUAGE_NAMES: Record<string, string> = {
 };
 
 /**
- * The fence's language, read off the `language-*` class rehype-highlight leaves
- * on the inner `<code>`. Returns null for the handful of bare ``` fences in the
- * archive, which carry no such class.
+ * The fence's language, read off the `language-*` class or `data-language`
+ * attribute. rehype-highlight wrote `language-*` on the inner `<code>`;
+ * rehype-pretty-code (shiki) writes `data-language` on both `<pre>` and
+ * `<code>` and removes the class. Handle both, and return null for the
+ * handful of bare ``` fences in the archive.
  */
 export function codeLanguage(node: ReactNode): string | null {
   if (!node || typeof node !== "object" || !("props" in node)) return null;
-  const props = node.props;
-  if (!props || typeof props !== "object" || !("className" in props)) {
-    return null;
+  const props = node.props as Record<string, unknown>;
+  if (!props || typeof props !== "object") return null;
+
+  // 1) shiki / rehype-pretty-code: data-language="js"
+  const dataLang =
+    (props["data-language"] as unknown) ?? (props["dataLanguage"] as unknown);
+  if (typeof dataLang === "string" && dataLang) {
+    const token = dataLang.toLowerCase();
+    return (
+      LANGUAGE_NAMES[token] ?? token.charAt(0).toUpperCase() + token.slice(1)
+    );
   }
-  const className = (props as { className?: unknown }).className;
-  if (typeof className !== "string") return null;
 
-  const match = /(?:^|\s)language-([\w+-]+)/.exec(className);
-  if (!match) return null;
+  // 2) fallback: language-* class (string or array) from rehype-highlight or raw MDX
+  const className = props["className"] as unknown;
+  let classStr: string | null = null;
+  if (typeof className === "string") classStr = className;
+  else if (Array.isArray(className))
+    classStr = (className as unknown[]).filter((c) => typeof c === "string").join(" ");
 
-  const token = match[1].toLowerCase();
-  return (
-    LANGUAGE_NAMES[token] ?? token.charAt(0).toUpperCase() + token.slice(1)
-  );
+  if (typeof classStr === "string") {
+    const match = /(?:^|\s)language-([\w+-]+)/.exec(classStr);
+    if (match) {
+      const token = match[1].toLowerCase();
+      return (
+        LANGUAGE_NAMES[token] ?? token.charAt(0).toUpperCase() + token.slice(1)
+      );
+    }
+  }
+
+  return null;
 }

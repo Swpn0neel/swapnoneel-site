@@ -1,6 +1,7 @@
 import fs from "fs/promises";
 import matter from "gray-matter";
 import path from "path";
+import { cleanMarkdown } from "../lib/mdx.ts";
 
 const baseUrl = "https://www.swapnoneel.site";
 
@@ -35,7 +36,7 @@ async function readFolder(folder) {
     entries.push({
       slug: path.basename(filePath).replace(/\.mdx?$/, ""),
       ...data,
-      content: content.trim(),
+      content: cleanMarkdown(content.trim()),
     });
   }
   return entries;

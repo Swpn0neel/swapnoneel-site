@@ -1,12 +1,8 @@
+import { getBlogSourcePath } from "@/lib/md";
 import fs from "fs";
 import path from "path";
 
-const mdDir = path.join(process.cwd(), "md", "blog");
-
-function isPathSafe(base: string, filePath: string): boolean {
-  const relative = path.relative(base, filePath);
-  return !relative.startsWith("..") && !path.isAbsolute(relative);
-}
+const NOT_FOUND_HEADERS = { "Content-Type": "text/plain; charset=utf-8" };
 
 export async function GET(
   _req: Request,
@@ -14,39 +10,29 @@ export async function GET(
 ) {
   const { slug } = await params;
 
-  // Find file recursively
-  const findFileRecursively = (currentDir: string): string | null => {
-    if (!fs.existsSync(currentDir)) return null;
-    const list = fs.readdirSync(currentDir);
-    for (const file of list) {
-      const filePath = path.join(currentDir, file);
-      const stat = fs.statSync(filePath);
-      if (stat && stat.isDirectory()) {
-        const found = findFileRecursively(filePath);
-        if (found) return found;
-      } else if (
-        (file === `${slug}.md` || file === `${slug}.mdx`) &&
-        isPathSafe(mdDir, filePath)
-      ) {
-        return filePath;
-      }
-    }
-    return null;
-  };
-
-  const filePath = findFileRecursively(mdDir);
-
-  if (!filePath) {
+  // Resolved from the generated content layer rather than by walking md/blog.
+  // The old recursive readdir/stat search built its paths at runtime, which the
+  // output tracer cannot follow — it gave up and bundled 2,480 files into this
+  // function, all of public/ and a stale dist/ included, to read one file.
+  // A slug that is not in the manifest never becomes a path at all, which also
+  // makes the traversal check the old code needed unnecessary.
+  const relativePath = getBlogSourcePath(slug);
+  if (!relativePath) {
     return new Response(
       `# 404 — Not Found\n\nNo blog post with slug: \`${slug}\``,
-      {
-        status: 404,
-        headers: { "Content-Type": "text/plain; charset=utf-8" },
-      }
+      { status: 404, headers: NOT_FOUND_HEADERS }
     );
   }
 
-  const raw = fs.readFileSync(filePath, "utf8");
+  let raw: string;
+  try {
+    raw = fs.readFileSync(path.join(process.cwd(), "md", relativePath), "utf8");
+  } catch {
+    return new Response(
+      `# 404 — Not Found\n\nNo blog post with slug: \`${slug}\``,
+      { status: 404, headers: NOT_FOUND_HEADERS }
+    );
+  }
 
   return new Response(raw, {
     status: 200,

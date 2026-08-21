@@ -1,13 +1,15 @@
 ---
-title: "What Is Semantic Caching, and Where It Quietly Breaks"
-date: "2026-08-19T17:39:37.000Z"
+title: 'What Is Semantic Caching, and Where It Quietly Breaks'
+date: '2026-08-19T17:39:37.000Z'
 description: >-
   Semantic caching serves cached LLM answers to queries that only match in
-  meaning. How it works, the threshold trap, real hit rates, and when to skip it.
+  meaning. How it works, the threshold trap, real hit rates, and when to skip
+  it.
 slug: what-is-semantic-caching
 link:
-  - "https://dev.to/swapnoneel123/what-is-semantic-caching-and-where-it-quietly-breaks-514o"
-canonical: "https://www.swapnoneel.site/blog/what-is-semantic-caching"
+  - >-
+    https://dev.to/swapnoneel123/what-is-semantic-caching-and-where-it-quietly-breaks-514o
+canonical: 'https://www.swapnoneel.site/blog/what-is-semantic-caching'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/5a8qgzs3aik93kw5cln9.png
 brand: maxim
@@ -16,6 +18,7 @@ tags:
   - beginners
   - ai
   - performance
+updated: '2026-08-21T05:40:31.914Z'
 ---
 
 Two people open your support chatbot within the same minute. One types `How do I reset my password?` and the other types `i forgot my password, how do i get a new one`.
@@ -181,7 +184,7 @@ Where it does earn its place: support bots, docs assistants, FAQ layers, onboard
 
 ## How Bifrost does semantic caching at the gateway
 
-I have been running [Bifrost](https://www.getmaxim.ai/bifrost) as my AI gateway for a while now, and its semantic cache is the cleanest implementation of everything above that I have read, mostly because I could actually read it. [The whole thing is open source on GitHub](https://github.com/maximhq/bifrost) under Apache 2.0, so none of what follows is a claim you have to take on trust.
+I have been running [Bifrost](https://www.getmaxim.ai/bifrost) as my AI gateway for a while now, and its semantic cache is the cleanest implementation of everything above that I have read, mostly because I could actually read it. You can check out their [GitHub repository](https://github.com/maximhq/bifrost) as well.
 
 The design choice I like most is that it is **two layers, not one**.
 

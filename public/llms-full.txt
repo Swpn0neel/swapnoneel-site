@@ -552,7 +552,7 @@ Where it does earn its place: support bots, docs assistants, FAQ layers, onboard
 
 ## How Bifrost does semantic caching at the gateway
 
-I have been running [Bifrost](https://www.getmaxim.ai/bifrost) as my AI gateway for a while now, and its semantic cache is the cleanest implementation of everything above that I have read, mostly because I could actually read it. [The whole thing is open source on GitHub](https://github.com/maximhq/bifrost) under Apache 2.0, so none of what follows is a claim you have to take on trust.
+I have been running [Bifrost](https://www.getmaxim.ai/bifrost) as my AI gateway for a while now, and its semantic cache is the cleanest implementation of everything above that I have read, mostly because I could actually read it. You can check out their [GitHub repository](https://github.com/maximhq/bifrost) as well.
 
 The design choice I like most is that it is **two layers, not one**.
 
