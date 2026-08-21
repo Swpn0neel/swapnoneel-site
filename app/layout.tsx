@@ -1,6 +1,7 @@
 import { BackToTop } from "@/components/back-to-top";
 import { Navbar } from "@/components/navbar";
 import { PageTransition } from "@/components/page-transition";
+import { RouteProgress } from "@/components/route-progress";
 import { SiteFooterLinks } from "@/components/site-footer-links";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/config";
@@ -109,33 +110,15 @@ export default function RootLayout({
             CSS narrows this to the active scheme from the first rendered frame. */}
         <meta name="color-scheme" content="light dark" />
         <script dangerouslySetInnerHTML={{ __html: THEME_INIT }} />
-        {/* Native Speculation Rules for instantaneous background prefetching in modern Chromium */}
-        <script
-          type="speculationrules"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              prefetch: [
-                {
-                  source: "list",
-                  urls: ["/blog", "/work", "/contact", "/resume"],
-                  eagerness: "moderate",
-                },
-                {
-                  source: "document",
-                  where: {
-                    and: [
-                      { href_matches: "/*" },
-                      { not: { href_matches: "/api/*" } },
-                      { not: { href_matches: "/feed.xml" } },
-                      { not: { href_matches: "/*.txt" } },
-                    ],
-                  },
-                  eagerness: "conservative",
-                },
-              ],
-            }),
-          }}
-        />
+        {/* No Speculation Rules here, and that is deliberate: they prefetch
+            full HTML documents, but every internal link goes through <Link>,
+            whose click is handled by the Next router with an RSC fetch — a
+            different request (`RSC: 1`, Vary'd separately) that can never be
+            answered from the speculation prefetch cache. The rules that used
+            to live here downloaded pages on hover that were then thrown away
+            and the real payload fetched again at click time. Router prefetch
+            on the links themselves (navbar, mobile-nav) is what actually
+            serves client-side navigation. */}
       </head>
       <body
         className="bg-background text-foreground min-h-screen font-sans antialiased"
@@ -150,6 +133,12 @@ export default function RootLayout({
             __html: `(function(){try{var s={sm:0.9,md:1,lg:1.15}[localStorage.getItem("prose-scale")];if(s)document.documentElement.style.setProperty("--prose-scale",s)}catch(e){}})();`,
           }}
         />
+        {/* Direct child of <body>, deliberately outside the layout wrapper: it
+            is position:fixed, and PageTransition puts a `transform` on its
+            wrapper while the page-enter animation runs — any fixed descendant
+            of that would be positioned against the animating box instead of
+            the viewport, and would slide with it. */}
+        <RouteProgress />
         {/* next-themes remains the application state and live system-preference
             owner; the toggle mirrors its resolved value to data-theme inside
             the same synchronous mutation used by the visual transition. */}

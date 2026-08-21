@@ -1,4 +1,4 @@
-/* components.css — smart-carousel, image-shimmer, project-cover/window/overlay, pfp-flip-card */
+/* components.css — smart-carousel, image-shimmer, project-cover/window/overlay, pfp-flip-card, nav-pending, route-progress */
 .smart-carousel {
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -24,10 +24,16 @@
 .smart-carousel[data-carousel-align="center"] .smart-carousel__slide {
   scroll-snap-align: center;
 }
-.smart-carousel[data-carousel-align="center"]:not([data-carousel-enhanced="true"]) .smart-carousel__slide:first-child {
+.smart-carousel[data-carousel-align="center"]:not(
+    [data-carousel-enhanced="true"]
+  )
+  .smart-carousel__slide:first-child {
   margin-inline-start: calc((100% - var(--carousel-slide-width, 100%)) / 2);
 }
-.smart-carousel[data-carousel-align="center"]:not([data-carousel-enhanced="true"]) .smart-carousel__slide:last-child {
+.smart-carousel[data-carousel-align="center"]:not(
+    [data-carousel-enhanced="true"]
+  )
+  .smart-carousel__slide:last-child {
   margin-inline-end: calc((100% - var(--carousel-slide-width, 100%)) / 2);
 }
 .image-shimmer {
@@ -560,4 +566,86 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* ── nav pending ───────────────────────────────────────────────────────────
+   Applied by NavPendingLabel to the clicked nav link while its navigation is
+   still in flight. The 150ms delay is the whole design: a prefetched
+   navigation commits before it elapses and the label never changes, so the
+   pulse only ever appears when a click is genuinely waiting on the network —
+   acknowledging the click at the moment the visitor would otherwise start
+   doubting it registered. Reduced motion gets a plain held dim on the same
+   delay instead of the pulse. */
+[data-nav-pending] {
+  animation: nav-pending 1s ease-in-out 150ms infinite;
+}
+@keyframes nav-pending {
+  50% {
+    opacity: 0.4;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-nav-pending] {
+    animation: none;
+    opacity: 0.55;
+    transition: opacity 1ms linear 150ms;
+  }
+}
+
+/* ── route progress ────────────────────────────────────────────────────────
+   Mounted by RouteProgress only once a navigation has been waiting past its
+   threshold, so there is no resting state to style here — the element exists
+   only while it is meant to be seen.
+
+   Indeterminate rather than filling: the router reports no progress for an
+   in-flight RSC fetch. The sliding segment is the same idiom as .image-shimmer
+   above, at the same 2px weight as a hairline border, tinted from --foreground
+   so it inverts with the theme like everything else. */
+.route-progress {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-start: 0;
+  z-index: 200;
+  block-size: 2px;
+  overflow: hidden;
+  pointer-events: none;
+  background: hsl(var(--foreground) / 0.07);
+  transition: opacity 260ms ease-out;
+}
+.route-progress[data-route-progress="leaving"] {
+  opacity: 0;
+}
+.route-progress__bar {
+  position: absolute;
+  inset-block: 0;
+  inline-size: 40%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    hsl(var(--foreground) / 0.55),
+    transparent
+  );
+  transform: translate3d(-110%, 0, 0);
+  will-change: transform;
+  animation: route-progress-slide 1.15s ease-in-out infinite;
+}
+@keyframes route-progress-slide {
+  to {
+    transform: translate3d(260%, 0, 0);
+  }
+}
+/* No travel, so the bar reports the wait by being present at all. Opacity is
+   still transitioned, which reduced-motion permits — it is a fade, not motion. */
+@media (prefers-reduced-motion: reduce) {
+  .route-progress__bar {
+    inline-size: 100%;
+    background: hsl(var(--foreground) / 0.32);
+    transform: none;
+    animation: none;
+  }
+}
+@media print {
+  .route-progress {
+    display: none;
+  }
 }
