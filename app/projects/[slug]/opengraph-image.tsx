@@ -1,4 +1,4 @@
-import { getAllWorkItems, getWorkItem } from "@/lib/md";
+import { getAllProjects, getProject } from "@/lib/md";
 import {
   OG_IMAGE_CONTENT_TYPE,
   OG_IMAGE_SIZE,
@@ -6,16 +6,15 @@ import {
 } from "@/lib/og-image";
 import { notFound } from "next/navigation";
 
-// Career entries only — projects render their own card under
-// app/projects/[slug]. The parent /work card would otherwise be inherited here,
-// putting the same generic "Work" image on every detail page.
+// Without this each project would inherit the generic card from the nearest
+// parent segment, putting the same image on all ten.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return getAllWorkItems().map((item) => ({ slug: item.meta.slug }));
+  return getAllProjects().map((p) => ({ slug: p.meta.slug }));
 }
 
-export const alt = "Work";
+export const alt = "Project";
 export const size = OG_IMAGE_SIZE;
 export const contentType = OG_IMAGE_CONTENT_TYPE;
 
@@ -25,7 +24,7 @@ export default async function OpengraphImage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = getWorkItem(slug);
+  const item = getProject(slug);
   if (!item) notFound();
 
   return renderOgImage(item.meta.title, item.meta.description);

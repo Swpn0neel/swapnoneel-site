@@ -2,6 +2,7 @@
 
 import type { ProjectCardData } from "@/lib/project-overlay-data";
 import { firstLink } from "@/lib/utils";
+import Link from "next/link";
 
 // Text-first project index for the home page — tight title / one-liner rows
 // with a ↗ link to the live site. The carousel above carries the project
@@ -9,15 +10,10 @@ import { firstLink } from "@/lib/utils";
 export function ProjectIndex({
   items,
   activeSlug,
-  onOpen,
-  openSlug,
 }: {
   items: ProjectCardData[];
   /** Slug of the slide the carousel above is showing, echoed on that row. */
   activeSlug?: string;
-  onOpen: (project: ProjectCardData) => void;
-  /** Slug of the project the shared overlay currently has open, if any. */
-  openSlug?: string;
 }) {
   return (
     <div className="divide-border divide-y">
@@ -29,16 +25,13 @@ export function ProjectIndex({
             key={item.meta.slug}
             className="group grid grid-cols-1 grid-rows-1 py-3 first:pt-0 last:pb-0 sm:flex sm:items-baseline sm:gap-4"
           >
-            <button
-              type="button"
-              onClick={() => onOpen(item)}
-              aria-haspopup="dialog"
-              aria-controls="project-overlay-dialog"
-              aria-expanded={openSlug === item.meta.slug}
+            <Link
+              href={`/projects/${item.meta.slug}`}
+              scroll={false}
               aria-current={active ? "true" : undefined}
+              aria-label={`Open details for ${item.meta.title}`}
               className="col-start-1 row-start-1 flex min-w-0 flex-1 cursor-pointer flex-col gap-1 text-left sm:flex-row sm:items-baseline sm:gap-4"
             >
-              <span className="sr-only">Open details for </span>
               <span
                 className={`group-hover:text-foreground shrink-0 pr-6 text-sm transition-colors group-hover:underline sm:w-36 sm:pr-0 ${
                   active
@@ -57,7 +50,7 @@ export function ProjectIndex({
                   {item.meta.description}
                 </span>
               )}
-            </button>
+            </Link>
             {liveLink && (
               <a
                 href={liveLink}

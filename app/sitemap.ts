@@ -73,7 +73,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
-    url: `${baseUrl}/work/${project.meta.slug}`,
+    url: `${baseUrl}/projects/${project.meta.slug}`,
     lastModified: parseValidDate(project.meta.date),
     changeFrequency: "monthly",
     priority: 0.6,

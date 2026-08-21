@@ -1,4 +1,4 @@
-import { ProgressiveImage } from "@/components/progressive-image";
+import { OptimizedImage } from "@/components/optimized-image";
 import { projectRenditions } from "@/lib/project-image-loader";
 
 interface ProjectWindowProps {
@@ -34,7 +34,7 @@ export function ProjectWindow({
       </div>
       <div className="project-window-shot">
         <div className="project-window-shot-crop">
-          <ProgressiveImage
+          <OptimizedImage
             src={src}
             alt={alt}
             fill

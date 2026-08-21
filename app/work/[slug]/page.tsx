@@ -2,29 +2,19 @@ import { CodeBlock } from "@/components/code-block";
 import { CopyButtonListener } from "@/components/copy-button-listener";
 import { WorkBackLink } from "@/components/work-back-link";
 import { siteConfig } from "@/lib/config";
-import { getAllProjects, getAllWorkItems, getWorkItem } from "@/lib/md";
+import { getAllWorkItems, getWorkItem } from "@/lib/md";
 import { breadcrumbJsonLd, firstLink, safeJsonLd } from "@/lib/utils";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
-import rehypeHighlight from "rehype-highlight";
+import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 
 export const dynamicParams = false;
 
+// Career entries only. Projects live at /projects/[slug]; their old /work URLs
+// are 308'd in next.config.ts before routing ever reaches this segment.
 export async function generateStaticParams() {
-  const work = getAllWorkItems();
-  const projects = getAllProjects();
-  const slugs = new Set<string>();
-
-  for (const item of work) slugs.add(item.meta.slug);
-  for (const item of projects) slugs.add(item.meta.slug);
-
-  const params = [];
-  for (const slug of slugs) {
-    params.push({ slug });
-  }
-
-  return params;
+  return getAllWorkItems().map((item) => ({ slug: item.meta.slug }));
 }
 
 export async function generateMetadata({
@@ -70,8 +60,8 @@ export default async function WorkItemPage({
 
   const url = `https://www.swapnoneel.site/work/${slug}`;
 
-  return (
-    <article className="pb-16">
+  const jsonLd = (
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -102,6 +92,12 @@ export default async function WorkItemPage({
           ),
         }}
       />
+    </>
+  );
+
+  return (
+    <article className="pb-16">
+      {jsonLd}
       <div className="mb-8">
         <WorkBackLink />
         <h1 className="mt-4 mb-1 text-xl font-semibold text-balance">
@@ -116,7 +112,15 @@ export default async function WorkItemPage({
           options={{
             mdxOptions: {
               remarkPlugins: [remarkGfm],
-              rehypePlugins: [rehypeHighlight],
+              rehypePlugins: [
+                [
+                  rehypePrettyCode,
+                  {
+                    theme: { light: "github-light", dark: "github-dark" },
+                    keepBackground: false,
+                  },
+                ],
+              ],
             },
           }}
           components={{

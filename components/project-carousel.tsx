@@ -2,15 +2,13 @@
 
 import { i18n } from "@/lib/i18n";
 import type { ProjectCardData } from "@/lib/project-overlay-data";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 import { ProjectCover } from "./project-card";
 import { SmartCarousel } from "./smart-carousel";
 
 interface ProjectCarouselProps {
   items: ProjectCardData[];
-  onOpen: (project: ProjectCardData) => void;
-  /** Slug of the project the shared overlay currently has open, if any. */
-  openSlug?: string;
   onActiveProjectChange?: (slug: string) => void;
   /** Holds autoplay — see SmartCarousel's `paused`. */
   paused?: boolean;
@@ -18,8 +16,6 @@ interface ProjectCarouselProps {
 
 export function ProjectCarousel({
   items,
-  onOpen,
-  openSlug,
   onActiveProjectChange,
   paused = false,
 }: ProjectCarouselProps) {
@@ -59,19 +55,12 @@ export function ProjectCarousel({
                 aria-label={`Slide ${i + 1} of ${items.length}: ${item.meta.title}`}
                 aria-current={active ? "true" : undefined}
               >
-                <button
-                  type="button"
-                  onClick={() => onOpen(item)}
-                  aria-haspopup="dialog"
-                  aria-controls="project-overlay-dialog"
-                  aria-expanded={openSlug === item.meta.slug}
+                <Link
+                  href={`/projects/${item.meta.slug}`}
+                  scroll={false}
                   className="group border-border block h-full w-full overflow-hidden rounded-md border"
+                  aria-label={`Open details for ${item.meta.title}`}
                 >
-                  {/* The cover renders with an empty alt, so the button has
-                      no other text to name it. */}
-                  <span className="sr-only">
-                    Open details for {item.meta.title}
-                  </span>
                   {item.meta.cover ? (
                     <ProjectCover
                       cover={item.meta.cover}
@@ -82,7 +71,7 @@ export function ProjectCarousel({
                       {item.meta.title}
                     </span>
                   )}
-                </button>
+                </Link>
               </li>
             );
           })}
