@@ -38,9 +38,7 @@ import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
-import remarkGfm from "remark-gfm";
-import remarkParse from "remark-parse";
-import { unified } from "unified";
+import { alignNarration, extractBlocks, narrationTokens } from "../lib/mdx.ts";
 
 const VOICE = "en-US-AndrewMultilingualNeural";
 // 48 kbps CBR mono: clear for speech, and duration maths stay exact (ms = bytes / 6).
@@ -70,61 +68,7 @@ const onlySlugs = args.filter((a) => !a.startsWith("--"));
 // list items and blockquotes are narrated; code (incl. inline), tables and
 // images are not. Small tokenization differences are fine — the client aligns
 // timing words to DOM words tolerantly.
-
-// Same pre-clean the blog page applies before rendering MDX.
-function cleanMarkdown(markdown) {
-  return (markdown || "")
-    .replace(
-      /<mark>(.*?)<\/mark>\s*\((https?:\/\/.*?)\)/gi,
-      "[<mark>$1</mark>]($2)"
-    )
-    .replace(/(!\[.*?\]\(([^)]*?))\s+align=".*?"\)/g, "$1)")
-    .replace(/%%?\[.*?\]/g, "");
-}
-
-function inlineText(node) {
-  switch (node.type) {
-    case "text":
-      return node.value;
-    case "inlineCode": // client skips CODE tags
-    case "image":
-    case "imageReference":
-    case "html": // inline tags like <mark>; their inner text arrives as text nodes
-      return "";
-    case "break":
-      return " ";
-    default:
-      return (node.children || []).map(inlineText).join("");
-  }
-}
-
-function collectBlocks(node, out) {
-  switch (node.type) {
-    case "heading":
-    case "paragraph": {
-      const t = inlineText(node).replace(/\s+/g, " ").trim();
-      if (t) out.push(t);
-      break;
-    }
-    case "code":
-    case "table":
-    case "html": // block-level HTML islands are not narrated
-    case "thematicBreak":
-      break;
-    default:
-      for (const child of node.children || []) collectBlocks(child, out);
-  }
-}
-
-function extractBlocks(markdown) {
-  const tree = unified()
-    .use(remarkParse)
-    .use(remarkGfm)
-    .parse(cleanMarkdown(markdown));
-  const blocks = [];
-  collectBlocks(tree, blocks);
-  return blocks;
-}
+// cleanMarkdown + extractBlocks are single-sourced from lib/mdx.ts (unified AST).
 
 // ---- synthesis ----------------------------------------------------------------
 
@@ -298,21 +242,41 @@ async function processPost(filePath) {
   const audioBuf = Buffer.concat(audioParts);
   const audioUrl = await saveAudio(slug, year, audioBuf);
 
+  // v2: `starts` is indexed by *source* token, not by TTS word. The service's
+  // tokens do not line up with the article's — it splits hyphenated words,
+  // merges others, and speaks expansions like "2026" as "twenty twenty-six" —
+  // and resolving that used to be the browser's job on every page load.
+  // alignNarration does it once, here, against the same token list
+  // rehypeNarrate numbers into the HTML, so the player only reads an index.
+  //
+  // `ttsWords`/`ttsStarts` stay in the file even though nothing reads them at
+  // runtime. They are the only inputs alignNarration needs, so keeping them
+  // means a future change to the tokeniser can re-derive `starts` offline
+  // (scripts/align-narrations.mjs) instead of re-synthesising every post and
+  // invalidating every audio URL.
+  const durationMs = Math.round(baseMs);
+  const tokens = narrationTokens(content);
+  const alignedStarts = alignNarration(tokens, words, starts, durationMs);
+
   fs.writeFileSync(
     jsonPath,
     JSON.stringify({
-      v: 1,
+      v: 2,
       voice: VOICE,
       hash,
       audio: audioUrl,
-      durationMs: Math.round(baseMs),
-      words,
-      starts,
+      durationMs,
+      count: tokens.length,
+      starts: alignedStarts,
+      ttsWords: words,
+      ttsStarts: starts,
     })
   );
   const mins = (baseMs / 60000).toFixed(1);
   const mb = (audioBuf.length / 1024 / 1024).toFixed(1);
-  console.log(`  ${slug}: ${mins} min, ${mb} MB, ${words.length} words`);
+  console.log(
+    `  ${slug}: ${mins} min, ${mb} MB, ${tokens.length} tokens (${words.length} tts words)`
+  );
   return "generated";
 }
 
