@@ -20,6 +20,12 @@ const eslintConfig = [
       "coverage/**",
       ".vercel/**",
       ".astro/**",
+      // Generated report bundles, not source. Linting them buried the handful
+      // of real findings under ~3,300 problems from minified vendor JS, which
+      // made `pnpm lint --max-warnings=0` useless to read.
+      ".unlighthouse/**",
+      ".velite/**",
+      "public/**",
     ],
   },
   {

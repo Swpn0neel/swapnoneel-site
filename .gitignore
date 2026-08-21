@@ -38,6 +38,10 @@ next-env.d.ts
 # vercel
 .vercel
 
+# velite generated data layer
+.velite
+/public/static
+
 # narration audio generated with --local (real audio lives in Vercel Blob)
 /public/narration/**/*.mp3
 
