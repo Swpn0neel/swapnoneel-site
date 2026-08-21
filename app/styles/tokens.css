@@ -1,0 +1,174 @@
+/* tokens.css — :root, dark palettes, @theme inline */
+:root {
+  color-scheme: light;
+  --theme-x: 50vw;
+  --theme-y: 0px;
+  --theme-radius: 150vmax;
+  --theme-duration: 360ms;
+  --theme-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --theme-icon-duration: calc(var(--theme-duration) * 0.7);
+  --theme-photo-duration: calc(var(--theme-duration) * 0.9);
+  --background: 0 0% 100%;
+  --foreground: 0 0% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 3.9%;
+  --muted: 0 0% 96.1%;
+  --body-foreground: 0 0% 21%;
+  --muted-foreground: 0 0% 35%;
+  --faint-foreground: 0 0% 45%;
+  --border: 0 0% 89.8%;
+  --secondary: 0 0% 96.1%;
+  --secondary-foreground: 0 0% 3.9%;
+  --primary: 0 0% 9%;
+  --primary-foreground: 0 0% 98%;
+  --accent: 0 0% 96.1%;
+  --accent-foreground: 0 0% 9%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 0 0% 89.8%;
+  --ring: 0 0% 9%;
+  --radius: 0.5rem;
+  --mark-bg: 55 92% 80%;
+  --mark-fg: 0 0% 10%;
+  --surface: 0 0% 96.1%;
+  --surface-hover: 0 0% 94.9%;
+  --interaction-color-transition: 150ms;
+  --pfp-rest: 180deg;
+  --pfp-hover: 360deg;
+  --pc-g1-sl: 55% 93%;
+  --pc-g2-sl: 40% 91%;
+  --pc-glow1-sl: 70% 86%;
+  --pc-glow2-sl: 50% 85%;
+  --pc-hero-glow1-sl: 78% 83%;
+  --pc-hero-glow2-sl: 60% 82%;
+  --pc-hglow-sl: 85% 81%;
+  --pc-hglow-opacity: 0.85;
+  --pc-grain-opacity: 0.35;
+  --pw-shot-mix: 58%;
+  --pw-rail-chrome: 0%;
+  --project-window-image-inset: 0px;
+  --project-window-highlight: rgb(255 255 255 / 0.055);
+  --project-window-edge-shadow: inset 0 1px 0 var(--project-window-highlight);
+  --overlay-panel-hairline: 0 0 0 0 transparent;
+}
+
+/* ── Dark palette — declared twice (attribute + media) must stay identical ── */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --background: 0 0% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 98%;
+  --muted: 0 0% 14.9%;
+  --body-foreground: 0 0% 79%;
+  --muted-foreground: 0 0% 63.9%;
+  --faint-foreground: 0 0% 49%;
+  --border: 0 0% 14.9%;
+  --secondary: 0 0% 14.9%;
+  --secondary-foreground: 0 0% 98%;
+  --primary: 0 0% 98%;
+  --primary-foreground: 0 0% 9%;
+  --accent: 0 0% 14.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 63% 31%;
+  --destructive-foreground: 0 0% 98%;
+  --input: 0 0% 14.9%;
+  --ring: 0 0% 98%;
+  --mark-bg: 55 50% 30%;
+  --mark-fg: 0 0% 90%;
+  --surface: 0 0% 10.2%;
+  --surface-hover: 0 0% 14.5%;
+  --pfp-rest: 0deg;
+  --pfp-hover: 180deg;
+  --pc-g1-sl: 42% 14%;
+  --pc-g2-sl: 38% 9%;
+  --pc-glow1-sl: 62% 28%;
+  --pc-glow2-sl: 48% 17%;
+  --pc-hero-glow1-sl: 70% 34%;
+  --pc-hero-glow2-sl: 58% 23%;
+  --pc-hglow-sl: 65% 33%;
+  --pc-hglow-opacity: 0.6;
+  --pc-grain-opacity: 0.5;
+  --pw-shot-mix: 70%;
+  --pw-rail-chrome: 100%;
+  --project-window-image-inset: 1px;
+  --project-window-edge-shadow:
+    inset 0 1px 0 var(--project-window-highlight),
+    inset 1px 0 0 var(--project-window-highlight),
+    inset -1px 0 0 var(--project-window-highlight);
+  --overlay-panel-hairline: inset 0 0 0 1px hsl(var(--foreground) / 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 98%;
+    --muted: 0 0% 14.9%;
+    --body-foreground: 0 0% 79%;
+    --muted-foreground: 0 0% 63.9%;
+    --faint-foreground: 0 0% 49%;
+    --border: 0 0% 14.9%;
+    --secondary: 0 0% 14.9%;
+    --secondary-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --accent: 0 0% 14.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 0 0% 98%;
+    --input: 0 0% 14.9%;
+    --ring: 0 0% 98%;
+    --mark-bg: 55 50% 30%;
+    --mark-fg: 0 0% 90%;
+    --surface: 0 0% 10.2%;
+    --surface-hover: 0 0% 14.5%;
+    --pfp-rest: 0deg;
+    --pfp-hover: 180deg;
+    --pc-g1-sl: 42% 14%;
+    --pc-g2-sl: 38% 9%;
+    --pc-glow1-sl: 62% 28%;
+    --pc-glow2-sl: 48% 17%;
+    --pc-hero-glow1-sl: 70% 34%;
+    --pc-hero-glow2-sl: 58% 23%;
+    --pc-hglow-sl: 65% 33%;
+    --pc-hglow-opacity: 0.6;
+    --pc-grain-opacity: 0.5;
+    --pw-shot-mix: 70%;
+    --pw-rail-chrome: 100%;
+    --project-window-image-inset: 1px;
+    --project-window-edge-shadow:
+      inset 0 1px 0 var(--project-window-highlight),
+      inset 1px 0 0 var(--project-window-highlight),
+      inset -1px 0 0 var(--project-window-highlight);
+    --overlay-panel-hairline: inset 0 0 0 1px hsl(var(--foreground) / 0.12);
+  }
+}
+
+@theme inline {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-body-foreground: hsl(var(--body-foreground));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-faint-foreground: hsl(var(--faint-foreground));
+  --color-border: hsl(var(--border));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+  --color-surface: hsl(var(--surface));
+  --color-surface-hover: hsl(var(--surface-hover));
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.4;
+}

@@ -1,0 +1,292 @@
+/* base.css — skip, focus, resets, html/body, theme transition, selection, scrollbar, reduced-motion */
+.skip-to-content {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  padding: 0.75rem 1rem;
+  background: hsl(var(--foreground));
+  color: hsl(var(--background));
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 4px;
+  z-index: 9999;
+  text-decoration: none;
+  transition:
+    top 0.2s ease,
+    background-color var(--interaction-color-transition) ease,
+    color var(--interaction-color-transition) ease;
+}
+.skip-to-content:focus {
+  top: 1rem;
+  outline: 2px solid hsl(var(--foreground));
+  outline-offset: 2px;
+}
+:focus-visible:not(input):not(textarea):not(select) {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+* {
+  border-color: hsl(var(--border));
+  box-sizing: border-box;
+}
+html {
+  font-size: 120%;
+  scrollbar-gutter: stable;
+  scroll-behavior: smooth;
+}
+body {
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+html {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: ease;
+  mix-blend-mode: normal;
+}
+/* ── theme switch ──────────────────────────────────────────────────────────
+   `theme-view-transition` is on <html> only while a theme switch is in flight.
+   It does two things: holds per-element colour transitions still so they do not
+   run a second, slower fade underneath the snapshot cross-fade, and hands
+   view-transition names to the two elements that get their own choreography.
+
+   Transitions only — no `animation: none`. That was here once, and flipping
+   `animation-name` to none and back always spawns a *new* animation rather than
+   resuming the old one, even one that finished long ago. The page wrapper
+   carries `page-enter` after a visitor has navigated, so every theme toggle
+   replayed it: the whole article fading up from opacity 0.4 and sliding a rem,
+   which reads as the page reloading. */
+html.theme-view-transition *,
+html.theme-view-transition *::before,
+html.theme-view-transition *::after {
+  transition: none !important;
+}
+
+/* Only the icon visible in each captured theme takes the shared name, so the
+   old snapshot is the outgoing icon and the new one is its replacement — that
+   pairing is what makes them rotate into each other rather than cross-fade.
+   The attribute is already the new theme by the time the pseudo-elements are
+   styled, so the directional keyframes below read the destination. */
+:root.theme-view-transition[data-theme="light"] .theme-toggle-sun,
+:root.theme-view-transition[data-theme="dark"] .theme-toggle-moon {
+  view-transition-name: theme-icon;
+}
+
+::view-transition-new(theme-icon) {
+  mix-blend-mode: normal;
+  transform-origin: center;
+}
+
+:root[data-theme="dark"]::view-transition-old(theme-icon) {
+  animation: theme-icon-out-to-dark var(--theme-icon-duration) var(--theme-ease)
+    both;
+}
+
+:root[data-theme="dark"]::view-transition-new(theme-icon) {
+  animation: theme-icon-in-to-dark var(--theme-icon-duration) var(--theme-ease)
+    both;
+}
+
+:root[data-theme="light"]::view-transition-old(theme-icon) {
+  animation: theme-icon-out-to-light var(--theme-icon-duration)
+    var(--theme-ease) both;
+}
+
+:root[data-theme="light"]::view-transition-new(theme-icon) {
+  animation: theme-icon-in-to-light var(--theme-icon-duration) var(--theme-ease)
+    both;
+}
+
+@keyframes theme-icon-out-to-dark {
+  to {
+    transform: scale(0) rotate(-90deg);
+  }
+}
+
+@keyframes theme-icon-in-to-dark {
+  from {
+    transform: scale(0) rotate(90deg);
+  }
+}
+
+@keyframes theme-icon-out-to-light {
+  to {
+    transform: scale(0) rotate(90deg);
+  }
+}
+
+@keyframes theme-icon-in-to-light {
+  from {
+    transform: scale(0) rotate(-90deg);
+  }
+}
+
+/* The home page portrait turns over to reveal its other side. The card's own
+   hover-flip transition is suspended for the duration so the two rotations do
+   not compound. */
+:root.theme-view-transition .pfp-flip-card {
+  view-transition-name: profile-photo;
+}
+
+:root.theme-view-transition .pfp-flip-card-inner {
+  transition: none !important;
+}
+
+::view-transition-group(profile-photo) {
+  z-index: 3;
+  animation: none;
+}
+
+::view-transition-new(profile-photo) {
+  backface-visibility: hidden;
+  mix-blend-mode: normal;
+  transform-origin: center;
+}
+
+:root[data-theme="dark"]::view-transition-old(profile-photo) {
+  animation: profile-photo-old-to-dark var(--theme-photo-duration)
+    var(--theme-ease) both;
+}
+
+:root[data-theme="dark"]::view-transition-new(profile-photo) {
+  animation: profile-photo-new-to-dark var(--theme-photo-duration)
+    var(--theme-ease) both;
+}
+
+:root[data-theme="light"]::view-transition-old(profile-photo) {
+  animation: profile-photo-old-to-light var(--theme-photo-duration)
+    var(--theme-ease) both;
+}
+
+:root[data-theme="light"]::view-transition-new(profile-photo) {
+  animation: profile-photo-new-to-light var(--theme-photo-duration)
+    var(--theme-ease) both;
+}
+
+@keyframes profile-photo-old-to-dark {
+  from {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(1000px) rotateY(-180deg);
+  }
+}
+
+@keyframes profile-photo-new-to-dark {
+  from {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+  to {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+}
+
+@keyframes profile-photo-old-to-light {
+  from {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(1000px) rotateY(180deg);
+  }
+}
+
+@keyframes profile-photo-new-to-light {
+  from {
+    transform: perspective(1000px) rotateY(-180deg);
+  }
+  to {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+}
+::selection {
+  background-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+img,
+svg,
+video,
+canvas {
+  user-select: none;
+  -webkit-user-drag: none;
+}
+body,
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+li,
+blockquote,
+label,
+strong,
+em,
+b,
+i {
+  cursor: default;
+}
+a,
+a *,
+button,
+button *,
+[role="button"],
+[role="button"] *,
+.cursor-pointer,
+.cursor-pointer * {
+  cursor: pointer !important;
+}
+input,
+textarea {
+  cursor: text !important;
+}
+a {
+  transition:
+    color var(--interaction-color-transition) ease,
+    opacity var(--interaction-color-transition) ease;
+}
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border) / 0.5);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.3);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--border) / 0.5) transparent;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
