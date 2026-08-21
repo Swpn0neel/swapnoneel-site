@@ -45,13 +45,19 @@ export function ExperienceLogo({
         // No `sizes` — these are fixed-size, so Next emits a 1x/2x srcset
         // instead of a 17-entry responsive one spanning up to 1536w.
         // Eager so the logos are present on first paint rather than popping in
-        // as the experience section scrolls up. fetchPriority stays low
-        // so they queue behind the font and app chunks and don't push LCP out;
-        // low priority keeps the logos behind fonts and critical hero assets
-        // without visually delaying them. Quality is left at the default so every
-        // (url, width, quality) triple stays shared across pages.
+        // as the experience section scrolls up. No explicit fetchPriority: it
+        // used to be "low", which overrode the browser's own judgement in both
+        // directions — below the fold Chrome already keeps these Low by itself,
+        // and on a tall screen where they are visible it was holding back the
+        // only thing left to paint.
+        // quality={90} because Next encodes AVIF at quality-20 (see
+        // next.config), so the default shipped these at q55. Wordmarks and thin
+        // logo strokes are the worst case for that, and it is most of what made
+        // them read as cheap; every source here is 1-9 KB, so the crisper
+        // rendition costs a few hundred bytes. Set here rather than per-caller
+        // so the (url, width, quality) triple stays shared across pages.
         loading="eager"
-        fetchPriority="low"
+        quality={90}
         decoding="async"
         className={`relative rounded-md object-cover ${
           adaptsToTheme ? "dark:brightness-200 dark:invert" : ""

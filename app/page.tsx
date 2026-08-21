@@ -44,15 +44,23 @@ export default function Home() {
                     setting, so both load eagerly — this one used to be lazy on
                     the assumption that a first visit was always light, which
                     left dark-theme visitors watching the hero pop in.
-                    fetchPriority stays low: the LCP element is the bio
-                    paragraph, and neither face may compete with the font. */}
+                    No fetchPriority override any more: it was "low", which
+                    defeated the browser's own boost for an in-viewport image
+                    and parked the hero behind every JS chunk — measured
+                    arriving 130ms after the text it sits beside. Chrome
+                    promotes what is in the first viewport on its own, and the
+                    font keeps the preload head start display:optional needs.
+                    quality={90} because Next encodes AVIF at quality-20 (see
+                    next.config), so the default 75 shipped this portrait at
+                    AVIF q55 — soft in precisely the way a face shows. q70
+                    costs 3 KB more at 2x. */}
                 <Image
                   src={siteConfig.images.avatar}
                   alt={i18n.home.hero.avatarAlt}
                   width={140}
                   height={140}
                   loading="eager"
-                  fetchPriority="low"
+                  quality={90}
                   decoding="async"
                   placeholder="blur"
                   blurDataURL={blurMap[siteConfig.images.avatar]}
@@ -68,7 +76,7 @@ export default function Home() {
                   width={140}
                   height={140}
                   loading="eager"
-                  fetchPriority="low"
+                  quality={90}
                   decoding="async"
                   placeholder="blur"
                   blurDataURL={blurMap[siteConfig.images.avatarHover]}
@@ -125,11 +133,7 @@ export default function Home() {
       <hr className="border-border" />
 
       {/* Experience */}
-      <ExperienceSection
-        items={workItems}
-        seeAllHref="/work"
-        from="home"
-      />
+      <ExperienceSection items={workItems} seeAllHref="/work" from="home" />
 
       {/* Projects */}
       <section className="deferred-render">
