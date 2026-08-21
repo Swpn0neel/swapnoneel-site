@@ -1,5 +1,6 @@
 "use client";
 
+import { NavPendingLabel } from "@/components/nav-pending-label";
 import { navItems } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { Menu, X } from "lucide-react";
@@ -143,16 +144,23 @@ export function MobileNav() {
             <Link
               key={item.href}
               href={item.href}
-              // The panel is hidden with opacity, not display:none, so it keeps
-              // a layout box inside the viewport and Next's prefetch observer
-              // treats every link here as visible — ~150 KiB of RSC payloads
-              // fetched on first paint, which starves LCP on slow mobile.
-              prefetch={false}
+              // The panel is hidden with opacity, not display:none, so while it
+              // is closed it keeps a layout box inside the viewport and Next's
+              // prefetch observer treats every link here as visible — ~150 KiB
+              // of RSC payloads fetched on first paint, which starves LCP on
+              // slow mobile. So prefetch stays off while closed, but opening
+              // the menu is a statement of intent to navigate: flipping to
+              // "auto" remounts the prefetch observer, and the payloads (a few
+              // KB each, all prerendered) are in by the time a thumb reaches a
+              // link — which is what makes the tap swap instantly instead of
+              // paying a network round trip while the visitor wonders whether
+              // it registered.
+              prefetch={isOpen ? "auto" : false}
               onClick={closeMenu}
               className={`hover:text-foreground focus-visible:ring-ring w-full rounded-md py-2 text-center text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/80" : "text-muted-foreground"}`}
               aria-current={isActive ? "page" : undefined}
             >
-              {i18n.nav[item.key]}
+              <NavPendingLabel>{i18n.nav[item.key]}</NavPendingLabel>
             </Link>
           );
         })}

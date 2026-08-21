@@ -1,5 +1,6 @@
 "use client";
 
+import { NavPendingLabel } from "@/components/nav-pending-label";
 import { navItems, siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import Link from "next/link";
@@ -32,14 +33,19 @@ export function Navbar() {
               (item.href !== "/" && pathname.startsWith(`${item.href}/`));
 
             return (
+              // Default prefetch on purpose. Every route here is prerendered,
+              // so the payload is a one-off ~9 KB fetch per link — and having
+              // it cached is what makes a nav click swap instantly instead of
+              // paying a full network round trip at click time (measured
+              // 300–950ms against the CDN even on cache HITs). This container
+              // is display:none below md, so none of it is fetched on phones.
               <Link
                 key={item.href}
                 href={item.href}
-                prefetch={false}
                 className={`hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/90" : "text-muted-foreground"}`}
                 aria-current={isActive ? "page" : undefined}
               >
-                {i18n.nav[item.key]}
+                <NavPendingLabel>{i18n.nav[item.key]}</NavPendingLabel>
               </Link>
             );
           })}

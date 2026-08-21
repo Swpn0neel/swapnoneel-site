@@ -58,7 +58,6 @@ export function ExperienceSection({
         {seeAllHref && (
           <Link
             href={seeAllHref}
-            prefetch={false}
             className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
           >
             {i18n.common.seeAll}

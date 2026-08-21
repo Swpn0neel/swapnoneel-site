@@ -139,7 +139,6 @@ export default function Home() {
           </h2>
           <Link
             href="/work"
-            prefetch={false}
             className="text-muted-foreground hover:text-foreground text-xs underline transition-colors"
           >
             {i18n.common.seeAll}
