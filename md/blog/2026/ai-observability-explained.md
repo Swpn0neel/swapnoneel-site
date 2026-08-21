@@ -1,13 +1,15 @@
 ---
-title: "AI Observability Explained: What It Is and How It Works"
-date: "2026-08-18T06:25:25.000Z"
+title: 'AI Observability Explained: What It Is and How It Works'
+date: '2026-08-18T06:25:25.000Z'
 description: >-
   AI observability is how you see inside a non-deterministic system. What to
   trace on every call, why logs are not enough, and where it belongs.
 slug: ai-observability-explained
 link:
+  - "https://swapnoneel123.substack.com/p/ai-observability-explained"
+  - "https://swapnoneel.medium.com/ai-observability-explained-how-to-trace-evaluate-and-control-ai-systems-20052eef3bad"
   - "https://dev.to/swapnoneel123/ai-observability-explained-what-it-is-and-how-it-works-487"
-canonical: "https://www.swapnoneel.site/blog/ai-observability-explained"
+canonical: 'https://www.swapnoneel.site/blog/ai-observability-explained'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/81g9z5hg0w76ysc9c7um.png
 brand: maxim
@@ -16,6 +18,7 @@ tags:
   - beginners
   - ai
   - devops
+updated: '2026-08-21T18:03:35.610Z'
 ---
 
 Traditional monitoring rests on one quiet assumption that nobody ever writes down: the same input gives you the same output. Something breaks, you replay the request, you watch it break again, you fix it.
