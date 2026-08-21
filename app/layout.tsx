@@ -1,8 +1,6 @@
 import { BackToTop } from "@/components/back-to-top";
 import { Navbar } from "@/components/navbar";
 import { PageTransition } from "@/components/page-transition";
-import { ProgressiveImageListener } from "@/components/progressive-image-listener";
-import { RouteProgress } from "@/components/route-progress";
 import { SiteFooterLinks } from "@/components/site-footer-links";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/config";
@@ -12,15 +10,22 @@ import { safeJsonLd } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { preload } from "react-dom";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-// Inter is not loaded via next/font — it is subset by
-// scripts/generate-font-subset.mjs and declared in inter-subset.generated.css.
-// It is preloaded in <head> below so the fetch starts at HTML parse instead of
-// waiting for the stylesheet to resolve, and font-display: optional means a
-// face that loses that race is simply not used for that pageview rather than
-// repainting the LCP paragraph.
+// No `weight` list on purpose. Inter is a variable font, and naming weights
+// made next/font emit the same variable files three times over — 21 @font-face
+// rules where 7 do, and every extra rule is another unicode-range subset the
+// build ships. `variable` covers the whole axis in one face.
+//
+// display:"optional" means a face that loses the race to first paint is simply
+// not used for that pageview rather than repainting the article under the
+// reader, which is why the preloaded file's size matters more here than usual.
+const inter = Inter({
+  subsets: ["latin"],
+  display: "optional",
+  variable: "--font-inter",
+});
 
 // Writes the *resolved* theme to data-theme before <body> exists, whether the
 // visitor has a saved choice or is on "system". Resolving here rather than
@@ -82,26 +87,23 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  // Intercepted /work/[slug] project dialog. The slot lives at the root, not
+  // under app/work, because the project cards on the home page link here too —
+  // an interceptor inside app/work can only catch navigations that already
+  // start inside that segment, so from "/" it never fired and the card
+  // navigated away from the page instead of opening over it.
+  modal: React.ReactNode;
 }) {
-  // React hoists font/style preloads into <head> itself and dedupes them by
-  // href. Declaring this as a raw <link> in the tree below got it emitted
-  // twice — once hoisted, once in place — so it goes through react-dom's
-  // preload() instead, which is the API that hoisting is keyed on.
-  //
-  // React puts it ahead of the stylesheet, so the request is in flight before
-  // anything else in <head> runs. crossOrigin is required even for a
-  // same-origin font: without it the preload is fetched in a different mode
-  // than the CSS request and the file is downloaded twice.
-  preload("/font/inter-latin.woff2", {
-    as: "font",
-    type: "font/woff2",
-    crossOrigin: "anonymous",
-  });
-
   return (
-    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+    <html
+      lang="en"
+      suppressHydrationWarning
+      data-scroll-behavior="smooth"
+      className={inter.variable}
+    >
       <head>
         {/* Gives native controls and the browser canvas both supported schemes;
             CSS narrows this to the active scheme from the first rendered frame. */}
@@ -139,8 +141,6 @@ export default function RootLayout({
         className="bg-background text-foreground min-h-screen font-sans antialiased"
         suppressHydrationWarning
       >
-        <ProgressiveImageListener />
-        <RouteProgress />
         {/* Blog prose size (A-/A/A+). Unlike the theme this is a lasting
             accessibility preference, so it lives in localStorage — and it has
             to be applied before first paint or the article visibly resizes
@@ -183,6 +183,7 @@ export default function RootLayout({
             <main id="main-content" tabIndex={-1} className="flex-1">
               <PageTransition>{children}</PageTransition>
             </main>
+            {modal}
             <div className="print:hidden">
               <BackToTop />
             </div>

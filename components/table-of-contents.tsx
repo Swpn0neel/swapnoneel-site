@@ -19,11 +19,13 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
   );
 
   return (
-    <details className="group/toc details-animated border-border bg-secondary/15 relative mb-6 rounded-md border transition-all duration-300">
-      {/* Clickable Minimal Header Row */}
-      <summary className="group/head text-muted-foreground hover:text-foreground text-2xs flex w-full cursor-pointer list-none items-center justify-between p-4 font-bold tracking-wider uppercase transition-all duration-300 select-none focus:outline-none md:p-5 [&::-webkit-details-marker]:hidden">
+    <details className="group/toc details-animated border-border bg-secondary/15 relative mb-6 rounded-md border">
+      {/* transition-colors, not transition-all: the border and background flip
+          with the theme via the ViewTransition snapshot, but the header's own
+          hover still needs to ease rather than cut. */}
+      <summary className="group/head text-muted-foreground hover:text-foreground text-2xs flex w-full cursor-pointer list-none items-center justify-between p-4 font-bold tracking-wider uppercase transition-colors duration-300 select-none focus:outline-none md:p-5 [&::-webkit-details-marker]:hidden">
         <span>Table of Contents</span>
-        <ChevronDown className="text-faint-foreground group-hover/head:text-foreground group-open/toc:text-foreground h-4 w-4 transition-all duration-300 group-open/toc:rotate-180" />
+        <ChevronDown className="text-faint-foreground group-hover/head:text-foreground group-open/toc:text-foreground h-4 w-4 transition-transform duration-300 group-open/toc:rotate-180" />
       </summary>
 
       {/* Dynamic Collapsible Heading Navigation */}
@@ -68,7 +70,13 @@ export function TableOfContents({ headings }: TableOfContentsProps) {
                 // No base colour here: every depth branch sets its own, and two
                 // competing text-* utilities on one element resolve by
                 // Tailwind's output order rather than the order written here.
-                className={`hover:text-foreground block transition-colors ${indentClass}`}
+                //
+                // The underline carries the hover, not the colour lift. Depth 0
+                // is already text-foreground, so hover:text-foreground changes
+                // nothing for it — and when a post's headings are all the same
+                // level every row is depth 0, which left the whole panel inert.
+                // The colour lift still applies at the depths that are dimmed.
+                className={`hover:text-foreground block transition-colors hover:underline ${indentClass}`}
               >
                 {item.text}
               </a>

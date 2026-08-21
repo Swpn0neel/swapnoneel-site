@@ -35,9 +35,9 @@ function ensureCalLoaded(): Promise<void> {
       const d = C.document;
       C.Cal =
         C.Cal ||
-        function () {
+        function (...args: unknown[]) {
           const cal = C.Cal!;
-          const ar = Array.from(arguments);
+          const ar = args;
           if (!cal.loaded) {
             cal.ns = {};
             cal.q = cal.q || [];
@@ -49,8 +49,8 @@ function ensureCalLoaded(): Promise<void> {
             cal.loaded = true;
           }
           if (ar[0] === L) {
-            const api = function () {
-              p(api, Array.from(arguments));
+            const api = function (...apiArgs: unknown[]) {
+              p(api, apiArgs);
             };
             const namespace = ar[1] as string;
             (api as unknown as { q: unknown[] }).q = [];

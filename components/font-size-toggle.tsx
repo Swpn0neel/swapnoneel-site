@@ -14,7 +14,7 @@ const STEPS = [
 
 type StepId = (typeof STEPS)[number]["id"];
 
-export const PROSE_SCALE_KEY = "prose-scale";
+const PROSE_SCALE_KEY = "prose-scale";
 
 const isStepId = (value: string | null): value is StepId =>
   STEPS.some((s) => s.id === value);

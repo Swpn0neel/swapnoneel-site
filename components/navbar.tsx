@@ -5,13 +5,10 @@ import { i18n } from "@/lib/i18n";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MobileNav } from "./mobile-nav";
-import { useLikelyRoutePrefetch, useRoutePrefetch } from "./route-prefetch";
 import { ThemeToggle } from "./theme-toggle";
 
 export function Navbar() {
   const pathname = usePathname();
-  const prefetchRoute = useRoutePrefetch();
-  useLikelyRoutePrefetch("/work", pathname === "/");
 
   return (
     <nav
@@ -20,12 +17,9 @@ export function Navbar() {
     >
       <Link
         href="/"
-        // Route data is warmed by explicit intent. This avoids automatic work
-        // for the current route while pointer/focus/down still keeps clicks fast.
+        // Not prefetched: this is the current route often enough that the
+        // automatic fetch is wasted work, and the nav is always one tap away.
         prefetch={false}
-        onPointerEnter={() => prefetchRoute("/")}
-        onFocus={() => prefetchRoute("/")}
-        onPointerDown={() => prefetchRoute("/")}
         className="text-foreground hover:border-border border-b border-transparent text-sm font-medium transition-opacity duration-300 hover:opacity-60"
       >
         {siteConfig.person.shortName}
@@ -42,9 +36,6 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 prefetch={false}
-                onPointerEnter={() => prefetchRoute(item.href)}
-                onFocus={() => prefetchRoute(item.href)}
-                onPointerDown={() => prefetchRoute(item.href)}
                 className={`hover:text-foreground focus-visible:ring-ring rounded-sm text-sm transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none ${isActive ? "text-foreground/90" : "text-muted-foreground"}`}
                 aria-current={isActive ? "page" : undefined}
               >
@@ -55,7 +46,7 @@ export function Navbar() {
         </div>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <MobileNav onPrefetch={prefetchRoute} />
+          <MobileNav />
         </div>
       </div>
     </nav>

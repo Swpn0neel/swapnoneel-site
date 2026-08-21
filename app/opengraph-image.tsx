@@ -1,11 +1,21 @@
 import { siteConfig } from "@/lib/config";
+import { OG_IMAGE_CONTENT_TYPE, OG_IMAGE_SIZE } from "@/lib/og-image";
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
+// The site card is deliberately not the shared lib/og-image template. That one
+// stamps the display name in its footer, so passing the name as the title too
+// printed "swapnoneel saha" twice; it also has no avatar, no glow and no
+// wordmark, which is the whole identity of this card. Only the size and content
+// type are shared.
+//
+// No `runtime = "edge"` here either: edge opts the route out of static
+// generation, which turned the one card every crawler asks for into a
+// per-request render.
 export const alt = siteConfig.person.fullName;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const size = OG_IMAGE_SIZE;
+export const contentType = OG_IMAGE_CONTENT_TYPE;
 
 export default async function OpengraphImage() {
   const [interRegular, interSemiBold, avatar] = await Promise.all([

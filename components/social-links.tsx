@@ -2,7 +2,7 @@ import { socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { SmartCarousel } from "./smart-carousel";
 
-function SocialIcon({
+export function SocialIcon({
   brand,
   className,
 }: {

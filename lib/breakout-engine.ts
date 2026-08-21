@@ -82,8 +82,8 @@ const GLYPHS: Record<string, readonly string[]> = {
 const WORD = "404";
 const GLYPH_W = 5;
 const GLYPH_GAP = 1;
-export const WALL_ROWS = 7;
-export const WALL_COLS = WORD.length * GLYPH_W + (WORD.length - 1) * GLYPH_GAP;
+const WALL_ROWS = 7;
+const WALL_COLS = WORD.length * GLYPH_W + (WORD.length - 1) * GLYPH_GAP;
 
 /** Lays the matrix into an arbitrary box. Pure geometry, so the balance script
  *  builds the identical wall the page does. */

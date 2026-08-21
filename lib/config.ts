@@ -169,3 +169,15 @@ export const skills = {
     "UI/UX (Figma)",
   ],
 } as const;
+
+// The résumé's project section, in the order it should read — a deliberate
+// pitch, not a feed. It is kept apart from the `featured` frontmatter flag,
+// which drives the home page showcase: that one tracks what is newest and
+// most interesting, and letting it decide the résumé silently changed which
+// projects a recruiter sees the moment a flag moved.
+export const resumeProjectSlugs: readonly string[] = [
+  "scholarian",
+  "mesh-hop",
+  "term-chat",
+  "folio",
+];
