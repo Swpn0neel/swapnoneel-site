@@ -8,9 +8,11 @@ import {
   PADDLE_BOTTOM,
   PADDLE_H,
   PADDLE_W,
+  WORD,
   type Brick,
   type Stats,
 } from "@/lib/breakout-engine";
+import { FIELD } from "@/lib/breakout-field";
 import { i18n } from "@/lib/i18n";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -29,19 +31,18 @@ import { useCallback, useEffect, useRef, useState } from "react";
  * "break it" underneath was the only way in, and it is a poor bet against a
  * headline four hundred times its area.
  *
- * The wall is measured from the headline but not traced from it: the <p>'s own
- * box gives the rectangle, and the digit matrix in lib/breakout-engine.ts fills
- * it. Tracing Inter's outlines directly was the first attempt and it looked
- * wrong at every resolution short enough to keep the game playable — see the
- * note on GLYPHS. So the bricks take over the exact footprint the type had,
- * with letterforms drawn for the grid rather than crushed onto it.
+ * The wall is measured from the headline but not traced from it: every
+ * rendered digit is probed for the exact rectangle its ink occupies, and the
+ * digit matrices in lib/breakout-engine.ts fill those rectangles. Tracing
+ * Inter's outlines directly was the first attempt and it looked wrong at
+ * every resolution short enough to keep the game playable — see the note on
+ * GLYPHS. So the bricks take over the exact footprint each letter had, with
+ * letterforms drawn for the grid rather than crushed onto it.
  *
  * Physics lives in lib/breakout-engine.ts, which knows nothing about React or
  * the DOM. This file owns layout, input, painting and the HUD.
  */
 
-/** Space opened up below the headline to play in, in CSS pixels. */
-const FIELD = 168;
 /** Share of the assembly spent staggering rather than easing. Higher sweeps
  *  harder across the wall; lower makes it closer to a single pop. */
 const STAGGER = 0.55;
@@ -61,7 +62,20 @@ const TOUCH_GAIN = 1.45;
 
 const easeOut = (t: number) => 1 - Math.pow(1 - t, 3);
 
-export function FourOhFourBreakout() {
+/** Backing-store scale. Capped at 2 because a third of a pixel of extra
+ *  sharpness is not worth quadrupling the fill area on a phone. Read in two
+ *  places — the one that sizes the canvas, and the one that decides whether it
+ *  needs sizing again — which have to agree or the check is meaningless. */
+const canvasDpr = () => Math.min(window.devicePixelRatio || 1, 2);
+
+export function FourOhFourBreakout({
+  /** Told whenever the game enters or leaves play, so the slot can trade the
+   *  page's reserve for the field without the column's height ever changing.
+   *  See lib/breakout-field. */
+  onPlayingChange,
+}: {
+  onPlayingChange?: (playing: boolean) => void;
+}) {
   const wrapRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -75,6 +89,10 @@ export function FourOhFourBreakout() {
    *  be down at once, and releasing one should hand steering back to the
    *  other rather than stop the paddle dead. */
   const heldRef = useRef<Set<string>>(new Set());
+  /** A start is in flight — queued behind document.fonts — so further presses
+   *  are ignored until it lands. Without this, clicking the numeral twice
+   *  quickly queues two begins and the second silently restarts the first. */
+  const startingRef = useRef(false);
 
   const [stats, setStats] = useState<Stats>({
     phase: "idle",
@@ -82,6 +100,26 @@ export function FourOhFourBreakout() {
     lives: LIVES,
     stuck: true,
   });
+
+  /**
+   * Every stat the engine emits, plus the one bit the page outside this
+   * component needs.
+   *
+   * Reported through the engine's own callback rather than from an effect
+   * because the timing is the whole point: the reserve that pays for the field
+   * (see lib/breakout-field) has to start collapsing on the same frame the
+   * wrapper starts growing. An effect would land a commit later, and the page
+   * would lurch a full 168px for one frame before settling. Both setters called
+   * in one tick are batched into a single commit.
+   */
+  const handleStats = useCallback(
+    (s: Stats) => {
+      setStats(s);
+      onPlayingChange?.(s.phase === "playing");
+    },
+    [onPlayingChange]
+  );
+
   // Height animates from "just the headline" to "headline plus a field", so the
   // page only makes room once someone has chosen to play. The shift is
   // input-driven, which is both good manners and outside the CLS window.
@@ -229,7 +267,7 @@ export function FourOhFourBreakout() {
   const applySize = useCallback((w: number, h: number) => {
     const cv = canvasRef.current;
     if (!cv) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = canvasDpr();
     cv.width = Math.round(w * dpr);
     cv.height = Math.round(h * dpr);
     cv.style.height = `${h}px`;
@@ -239,8 +277,13 @@ export function FourOhFourBreakout() {
   }, []);
 
   /**
-   * Measures the box the real headline occupies and lays the wall into exactly
-   * that rectangle, so the bricks take over the footprint the type just had.
+   * Measures where each rendered digit actually sits and lays that digit's
+   * brick matrix into exactly its rectangle. One shared box stretched across
+   * the whole word put every glyph at the matrix's own proportions — the fat
+   * round 0 of the type became a narrow rectangle of bricks, and each digit
+   * read smaller than the letter it replaced even though the outer bounds
+   * agreed. Per-digit boxes are what make the wall a same-size, same-place
+   * takeover of the headline.
    */
   const wallFromHeadline = useCallback((w: number): Brick[] => {
     const textEl = textRef.current;
@@ -253,10 +296,14 @@ export function FourOhFourBreakout() {
     const probe = document.createElement("canvas").getContext("2d");
     if (!probe) return [];
     probe.font = `${cs.fontWeight} ${fontPx}px ${cs.fontFamily}`;
-    probe.textAlign = "center";
+    if ("letterSpacing" in probe) {
+      // The headline may inherit tracking; measuring without it would land
+      // every digit a few pixels off its true position.
+      probe.letterSpacing = cs.letterSpacing;
+    }
+    probe.textAlign = "left";
     probe.textBaseline = "alphabetic";
 
-    const m = probe.measureText("404");
     const tRect = textEl.getBoundingClientRect();
     const wRect = wrapEl.getBoundingClientRect();
 
@@ -267,20 +314,45 @@ export function FourOhFourBreakout() {
     // a few pixels off, because ink height and font height are not the same
     // number. That was the jump when the headline became bricks.
     const lineH = parseFloat(cs.lineHeight) || fontPx;
-    const fontAsc = m.fontBoundingBoxAscent || fontPx * 0.9;
-    const fontDesc = m.fontBoundingBoxDescent || fontPx * 0.22;
+    const whole = probe.measureText(WORD);
+    const fontAsc = whole.fontBoundingBoxAscent || fontPx * 0.9;
+    const fontDesc = whole.fontBoundingBoxDescent || fontPx * 0.22;
     const halfLeading = (lineH - (fontAsc + fontDesc)) / 2;
     const baseline = tRect.top - wRect.top + halfLeading + fontAsc;
 
-    // The box is the glyphs' own ink extents around that baseline, so the wall
-    // covers exactly what the type covered — no wider, no taller.
-    const cx = w / 2;
-    return buildWall({
-      left: cx - m.actualBoundingBoxLeft,
-      right: cx + m.actualBoundingBoxRight,
-      top: baseline - (m.actualBoundingBoxAscent || fontPx * 0.72),
-      bottom: baseline + (m.actualBoundingBoxDescent || 0),
+    // Pen positions come from prefix-width differences, which carry whatever
+    // shaping the browser applied between digits. The line is centred by its
+    // total advance, so the first pen sits half an advance left of centre —
+    // the same anchor text-align used.
+    const widths = [0];
+    for (let i = 1; i <= WORD.length; i++) {
+      widths.push(probe.measureText(WORD.slice(0, i)).width);
+    }
+    const startX = w / 2 - widths[WORD.length] / 2;
+
+    // The rows must stay on one grid across digits, so the shared band spans
+    // the extremes of every glyph's ink — the 0 overshoots the cap line by a
+    // hair, and clipping it to the 4's height would read as a misprint.
+    let ascMax = 0;
+    let descMax = 0;
+    const measures = [...WORD].map((ch) => {
+      const m = probe.measureText(ch);
+      ascMax = Math.max(ascMax, m.actualBoundingBoxAscent || fontPx * 0.72);
+      descMax = Math.max(descMax, m.actualBoundingBoxDescent || 0);
+      return m;
     });
+
+    return buildWall(
+      [...WORD].map((ch, i) => ({
+        ch,
+        box: {
+          left: startX + widths[i] - measures[i].actualBoundingBoxLeft,
+          right: startX + widths[i] + measures[i].actualBoundingBoxRight,
+          top: baseline - ascMax,
+          bottom: baseline + descMax,
+        },
+      }))
+    );
   }, []);
 
   // Only decides which hint to print — what the controls actually do is decided
@@ -298,10 +370,61 @@ export function FourOhFourBreakout() {
     const text = textRef.current;
     if (!wrap || !text) return;
 
-    const engine = new BreakoutEngine(setStats);
+    const engine = new BreakoutEngine(handleStats);
     engineRef.current = engine;
-    setTextH(text.offsetHeight);
-    applySize(wrap.clientWidth, text.offsetHeight);
+
+    // Every resize path funnels through here, so the wrapper, the canvas
+    // backing store and the engine agree on one measured size. Returns whether
+    // anything actually changed — a CSS height transition fires the observer
+    // every frame of its 500ms run, and none of those frames move geometry.
+    let lastW = -1;
+    let lastTextH = -1;
+    let lastField = false;
+    let lastDpr = 0;
+    const syncLayout = (field: boolean): boolean => {
+      const w = wrap.clientWidth;
+      const textH = text.offsetHeight;
+      if (!w || !textH) return false;
+      // The pixel ratio is part of the geometry, because applySize is what
+      // sizes the backing store in device pixels and this is its only caller.
+      // A window dragged to a monitor of a different density can leave every
+      // CSS measurement identical, and skipping on that would keep a backing
+      // store that is now the wrong resolution — a soft wall until something
+      // else happens to move. Clamped the way applySize clamps it, so a ratio
+      // that moves above the cap does not rebuild a backing store that would
+      // come out identical.
+      const dpr = canvasDpr();
+      const changed =
+        w !== lastW ||
+        textH !== lastTextH ||
+        field !== lastField ||
+        dpr !== lastDpr;
+      lastW = w;
+      lastTextH = textH;
+      lastField = field;
+      lastDpr = dpr;
+      if (!changed) return false;
+      setTextH(textH);
+      applySize(w, textH + (field ? FIELD : 0));
+      return true;
+    };
+    syncLayout(false);
+
+    /**
+     * A freshly measured wall, or null if the measurement came back empty.
+     *
+     * Empty is a real outcome, not a theoretical one: wallFromHeadline probes
+     * through a throwaway canvas, and getContext("2d") returns null once iOS
+     * Safari's canvas-memory cap is reached. Handing that to setWall deletes
+     * every brick, and because the win is only ever checked inside a brick
+     * collision the game would carry on being unwinnable. Keeping the wall the
+     * engine already has is wrong by a few pixels; emptying it is wrong
+     * outright.
+     */
+    const measureWall = (w: number): Brick[] | null => {
+      const wall = wallFromHeadline(w);
+      return wall.length ? wall : null;
+    };
 
     // The CSS side is handled by motion-safe:, but the canvas effects are
     // hand-rolled, so the engine has to be told directly.
@@ -323,21 +446,58 @@ export function FourOhFourBreakout() {
     touch.addEventListener("change", syncPointer);
 
     const frame = (now: number) => {
-      rafRef.current = requestAnimationFrame(frame);
-      const dt = Math.min((now - lastRef.current) / 1000, 0.05);
-      lastRef.current = now;
-      engine.tick(dt);
-      draw();
+      // Once nothing can change again — the game is over, ball and paddle have
+      // faded, the trail has drained — the loop stops scheduling itself instead
+      // of repainting a finished picture at 60fps for as long as the tab lives.
+      // Anything that needs a frame again goes through begin(), which restarts
+      // it; while the canvas is visible (in play, or mid-fade-out) at least one
+      // of these conditions is false, so theme changes keep landing live.
+      //
+      // The reschedule is in a finally because it is the only one there is: a
+      // throw anywhere in the tick or the paint would otherwise end the loop
+      // for the life of the page, with no way back other than starting a new
+      // game. Deciding to stop is a conclusion the frame has to reach, so a
+      // frame that did not finish keeps the loop alive by default.
+      let settled = false;
+      try {
+        const dt = Math.min((now - lastRef.current) / 1000, 0.05);
+        lastRef.current = now;
+        engine.tick(dt);
+        draw();
+        settled =
+          engine.phase !== "playing" &&
+          engine.reveal >= 1 &&
+          engine.settle >= 1 &&
+          engine.endFade >= 1 &&
+          engine.debris.length === 0 &&
+          engine.trail.length === 0;
+      } finally {
+        rafRef.current = settled ? 0 : requestAnimationFrame(frame);
+      }
     };
 
     startRef.current = () => {
+      // A restart from won/lost is fine; a second press while one is already
+      // queued behind document.fonts is not.
+      if (startingRef.current || engine.phase === "playing") return;
+      startingRef.current = true;
       // Measuring before the face resolves would size the wall to the fallback's
       // metrics, not Inter's, and the bricks would miss the headline's box.
       const begin = () => {
+        startingRef.current = false;
+        // The tab may have moved on between the click and this callback — an
+        // unmount replaced the engine, or a restart got in first.
+        if (engineRef.current !== engine || engine.phase === "playing") return;
         const w = wrap.clientWidth;
-        setTextH(text.offsetHeight);
-        applySize(w, text.offsetHeight + FIELD);
-        engine.setWall(wallFromHeadline(w));
+        // Measured before the layout is committed, so a failed probe leaves the
+        // headline exactly as it was rather than opening an empty field under
+        // it and starting a game with nothing in it to break. The measurement
+        // does not depend on the field being open, so nothing is lost by
+        // asking first.
+        const wall = measureWall(w);
+        if (!wall) return;
+        syncLayout(true);
+        engine.setWall(wall);
         engine.start();
         // Paint once up front. The text has already crossfaded to nothing by
         // this point, so if the first animation frame is late — a backgrounded
@@ -353,19 +513,18 @@ export function FourOhFourBreakout() {
     };
 
     const ro = new ResizeObserver(() => {
-      // The canvas keeps its full field size for as long as it is on screen,
-      // including while it fades out after the game; only the wrapper shrinks.
       const onScreen = engine.phase !== "idle";
-      const w = wrap.clientWidth;
-      setTextH(text.offsetHeight);
-      applySize(w, text.offsetHeight + (onScreen ? FIELD : 0));
-      // A resize invalidates every brick coordinate, so the wall is rebuilt
-      // from the newly laid-out text rather than stretched.
-      if (onScreen) {
-        engine.setWall(wallFromHeadline(w));
-        // No glide here: the field itself moved, so there is no previous
-        // position worth travelling from.
-        engine.resetBall(false);
+      const changed = syncLayout(onScreen);
+      if (changed && onScreen) {
+        // A resize invalidates every brick coordinate, so the wall is rebuilt
+        // from the newly laid-out text rather than stretched. Progress carries
+        // over in setWall — the wall does not heal itself.
+        const wall = measureWall(wrap.clientWidth);
+        if (wall) engine.setWall(wall);
+        // Park the ball only mid-rally. After the game the paddle stays where
+        // it was: resetBall here used to snap both to centre every observer
+        // frame of the collapse animation, right through the fade-out.
+        if (engine.phase === "playing") engine.resetBall(false);
       }
       draw();
     });
@@ -382,7 +541,7 @@ export function FourOhFourBreakout() {
       cancelAnimationFrame(rafRef.current);
       engineRef.current = null;
     };
-  }, [applySize, draw, wallFromHeadline]);
+  }, [applySize, draw, handleStats, wallFromHeadline]);
 
   const { phase, bricks, lives, stuck } = stats;
   const playing = phase === "playing";
@@ -458,9 +617,22 @@ export function FourOhFourBreakout() {
 
   return (
     <div className="flex flex-col items-center">
+      {/* min-h: both children are absolutely positioned, so before the first
+          measurement lands this box would otherwise be auto-height zero and
+          overflow-hidden would clip the numeral out of existence for a frame.
+          The fallback is the headline's own box — leading-none makes the line
+          exactly font-size tall, which is what the measurement returns too, so
+          nothing jumps when the real height replaces it. It repeats the <p>'s
+          own font-size clamp, and the placeholder in four-oh-four-game-slot
+          reserves the same box again; all three have to move together.
+
+          touch-action manipulation rather than auto: double-tapping the numeral
+          at rest must not answer with a viewport zoom. In play the canvas
+          overrides this inline with none, which an ancestor's setting only ever
+          narrows, never widens. */}
       <div
         ref={wrapRef}
-        className="group relative mx-auto w-full max-w-[460px] overflow-hidden motion-safe:transition-[height] motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)]"
+        className="group relative mx-auto min-h-[clamp(4rem,34vw,10rem)] w-full max-w-[460px] [touch-action:manipulation] overflow-hidden motion-safe:transition-[height] motion-safe:duration-500 motion-safe:ease-[cubic-bezier(0.22,1,0.36,1)]"
         style={{ height: displayHeight ?? undefined }}
       >
         {/* Warms one step towards full strength while the numeral is being

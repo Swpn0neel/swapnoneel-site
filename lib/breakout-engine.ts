@@ -79,45 +79,94 @@ const GLYPHS: Record<string, readonly string[]> = {
   "4": ["...#.", "..##.", ".#.#.", "#..#.", "#####", "...#.", "...#."],
   "0": [".###.", "#...#", "#...#", "#...#", "#...#", "#...#", ".###."],
 };
-const WORD = "404";
+export const WORD = "404";
 const GLYPH_W = 5;
 const GLYPH_GAP = 1;
 const WALL_ROWS = 7;
-const WALL_COLS = WORD.length * GLYPH_W + (WORD.length - 1) * GLYPH_GAP;
 
-/** Lays the matrix into an arbitrary box. Pure geometry, so the balance script
- *  builds the identical wall the page does. */
-export function buildWall(box: {
+/** One character of the word, laid into the rectangle its own rendered glyph
+ *  occupies. */
+export type GlyphBox = { ch: string; box: BrickBox };
+export type BrickBox = {
   left: number;
   top: number;
   right: number;
   bottom: number;
-}): Brick[] {
-  const cw = (box.right - box.left) / WALL_COLS;
-  const ch = (box.bottom - box.top) / WALL_ROWS;
-  const bricks: Brick[] = [];
+};
 
-  for (let g = 0; g < WORD.length; g++) {
-    const rows = GLYPHS[WORD[g]];
+/**
+ * Splits a word-level ink box into equal per-glyph slots separated by the
+ * matrix gap. Pure geometry — the balance script plays the same wall shape the
+ * page builds, without needing a DOM to measure real glyph extents.
+ */
+export function splitWordBox(word: string, box: BrickBox): GlyphBox[] {
+  const cols = word.length * GLYPH_W + (word.length - 1) * GLYPH_GAP;
+  const cw = (box.right - box.left) / cols;
+  return [...word].map((ch, g) => ({
+    ch,
+    box: {
+      left: box.left + g * (GLYPH_W + GLYPH_GAP) * cw,
+      right: box.left + (g * (GLYPH_W + GLYPH_GAP) + GLYPH_W) * cw,
+      top: box.top,
+      bottom: box.bottom,
+    },
+  }));
+}
+
+/**
+ * Lays each glyph's matrix into the rectangle its own digit occupies.
+ *
+ * All or nothing: a glyph with no matrix, or with no room to lay one in, fails
+ * the whole wall rather than being quietly left out. A "404" missing a digit is
+ * not a headline anyone would recognise, and a wall that is sometimes 44 bricks
+ * and sometimes 30 is one setWall has to reason about — see the note there.
+ */
+export function buildWall(glyphs: GlyphBox[]): Brick[] {
+  const bricks: Brick[] = [];
+  const cols = glyphs.length * GLYPH_W + (glyphs.length - 1) * GLYPH_GAP;
+
+  for (let g = 0; g < glyphs.length; g++) {
+    const { ch, box } = glyphs[g];
+    const rows = GLYPHS[ch];
+    if (!rows || box.right <= box.left) return [];
+    const cw = (box.right - box.left) / GLYPH_W;
+    const chh = (box.bottom - box.top) / WALL_ROWS;
     const colBase = g * (GLYPH_W + GLYPH_GAP);
+
     for (let r = 0; r < WALL_ROWS; r++) {
       for (let c = 0; c < GLYPH_W; c++) {
         if (rows[r][c] !== "#") continue;
         const col = colBase + c;
         bricks.push({
-          x: box.left + col * cw,
-          y: box.top + r * ch,
+          x: box.left + c * cw,
+          y: box.top + r * chh,
           w: cw,
-          h: ch,
+          h: chh,
           alive: true,
           // Diagonal sweep: the wall builds from the top-left corner outward,
           // which reads as construction rather than as a plain wipe.
-          seq: (col / WALL_COLS + r / WALL_ROWS) / 2,
+          seq: (col / cols + r / WALL_ROWS) / 2,
         });
       }
     }
   }
   return bricks;
+}
+
+/**
+ * Whether two walls were laid from the same matrix cells, which is what makes
+ * it safe to carry alive flags across by index.
+ *
+ * `seq` is the key because it is a pure function of (column, row) and no two
+ * cells in a grid share one: `col / cols + r / WALL_ROWS` collides only when
+ * the columns differ by a multiple of `cols` and the rows by a multiple of
+ * `WALL_ROWS`, which inside a single grid means not at all. Coordinates move
+ * when the headline is re-measured; cells do not.
+ */
+function sameCells(a: Brick[], b: Brick[]): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i].seq !== b[i].seq) return false;
+  return true;
 }
 
 export const PADDLE_W = 74;
@@ -146,6 +195,18 @@ const ASSIST_PULL = 330;
  *  started was. Above BALL_MAX on purpose, so the paddle can always out-run the
  *  ball's horizontal component rather than merely tie with it. */
 const PADDLE_SPEED = 820;
+/**
+ * Longest single integration step, in px of ball travel.
+ *
+ * Every collision check is discrete — it asks where the ball IS, never where it
+ * passed through. The paddle's catch band is ~13px tall and a phone-sized wall
+ * puts rows at ~11px, so one ordinary 60fps frame is already most of the way to
+ * a miss, and a throttled frame (the caller may hand in up to 0.05s ≈ 35px of
+ * travel at BALL_MAX) could jump straight through the paddle or an entire row.
+ * Anything faster is split into sub-steps no longer than this, which keeps every
+ * overlap test honest whatever the frame pacing does.
+ */
+const PHYS_STEP_PX = 6;
 
 export class BreakoutEngine {
   private onStats: (s: Stats) => void;
@@ -214,7 +275,24 @@ export class BreakoutEngine {
     this.h = h;
   }
 
+  /**
+   * Lays a rebuilt wall in. The matrix is fixed, so a rebuild — a resize
+   * re-measuring the headline — produces the same bricks in the same order at
+   * new coordinates, and the old alive flags carry over by index: progress
+   * survives a phone rotation mid-rally instead of the wall healing itself.
+   * A fresh game still revives everything, via start().
+   *
+   * Carrying over demands that the two walls be the same *cells*, which is a
+   * stricter thing than being the same length — buildWall skips a glyph it
+   * cannot lay, and dropping either 4 from "404" leaves 30 bricks both times,
+   * so a length check would happily map one 4's progress onto the other's.
+   */
   setWall(bricks: Brick[]) {
+    if (sameCells(this.bricks, bricks)) {
+      for (let i = 0; i < bricks.length; i++) {
+        bricks[i].alive = this.bricks[i].alive;
+      }
+    }
     this.bricks = bricks;
     this.emit();
   }
@@ -413,6 +491,22 @@ export class BreakoutEngine {
 
     if (!this.reduced) this.trail.push({ x: b.x, y: b.y, t: this.clock });
 
+    // Split the frame's travel into steps the collision checks can actually
+    // see (see PHYS_STEP_PX). A life lost or the win both end the loop mid-run.
+    const sp = Math.hypot(b.vx, b.vy);
+    const steps = Math.max(1, Math.ceil((sp * dt) / PHYS_STEP_PX));
+    const h = dt / steps;
+    for (let i = 0; i < steps; i++) {
+      if (this.phase !== "playing" || this.stuck) break;
+      this.physics(h);
+    }
+  }
+
+  /** One bounded integration step of the live ball. Never called while parked
+   *  or after the game has ended. */
+  private physics(dt: number) {
+    const b = this.ball;
+
     this.assist(dt);
     b.x += b.vx * dt;
     b.y += b.vy * dt;
@@ -483,7 +577,7 @@ export class BreakoutEngine {
       }
     }
 
-    if (b.y - BALL_R > this.h) {
+    if (this.phase === "playing" && b.y - BALL_R > this.h) {
       this.lives -= 1;
       if (this.lives <= 0) this.phase = "lost";
       else this.resetBall();

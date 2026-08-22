@@ -10,7 +10,13 @@
 //
 // Node's native type stripping runs the .ts engine directly — no build step.
 
-import { BreakoutEngine, buildWall, PADDLE_W } from "../lib/breakout-engine.ts";
+import {
+  BreakoutEngine,
+  buildWall,
+  PADDLE_W,
+  splitWordBox,
+  WORD,
+} from "../lib/breakout-engine.ts";
 
 // Matches the desktop layout: a 460px field under a ~160px headline.
 const W = 460;
@@ -20,9 +26,13 @@ const STEP = 1 / 60;
 const CAP_S = 240;
 
 /** The page's own wall builder, given the box a ~192px headline occupies at
- *  this width — so the simulation plays the exact wall the page does. */
+ *  this width — so the simulation plays the exact wall shape the page does.
+ *  The page gives each glyph its true measured rectangle; the simulation has
+ *  no DOM, so splitWordBox divides the word box into equal slots instead. */
 function wall() {
-  return buildWall({ left: 36, right: W - 36, top: 14, bottom: 151 });
+  return buildWall(
+    splitWordBox(WORD, { left: 36, right: W - 36, top: 14, bottom: 151 })
+  );
 }
 
 const results = [];
