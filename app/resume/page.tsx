@@ -38,6 +38,13 @@ export default function ResumePage() {
         <p className="text-muted-foreground text-sm leading-relaxed lowercase">
           {i18n.resume.summaryContent}
         </p>
+        <p className="text-muted-foreground mt-3 text-xs leading-relaxed">
+          Looking for source-backed verification? Review the{" "}
+          <Link href="/credentials" className="underline underline-offset-4">
+            credentials and evidence index
+          </Link>
+          , including its explicit limitations.
+        </p>
       </section>
 
       <ResumeSkills />
@@ -55,7 +62,11 @@ export default function ResumePage() {
 
       <footer className="border-border mt-16 border-t pt-8 text-center sm:mt-20 print:hidden">
         <Link href="/contact" className="block min-[420px]:inline-block">
-          <Button variant="primary" size="lg" className="h-11 w-full rounded-md min-[420px]:w-auto">
+          <Button
+            variant="primary"
+            size="lg"
+            className="h-11 w-full rounded-md min-[420px]:w-auto"
+          >
             {i18n.resume.hireMe}
           </Button>
         </Link>

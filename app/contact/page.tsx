@@ -255,7 +255,10 @@ export default function ContactPage() {
       </form>
 
       <div className="border-border -mt-2 border-t pt-8">
-        <h2 className="mb-2 text-xl font-semibold tracking-tight">
+        <h2
+          id="book-a-call"
+          className="mb-2 text-xl font-semibold tracking-tight"
+        >
           {i18n.contactPage.bookCall.title}
         </h2>
         <p className="text-muted-foreground mb-4 text-sm">

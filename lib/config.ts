@@ -1,6 +1,6 @@
 export type NavItemKey = "home" | "blog" | "work" | "contact" | "resume";
 
-export type FooterLinkKey = "source" | "resume" | "site" | "llms";
+export type FooterLinkKey = "about" | "privacy";
 
 export type SocialBrand =
   | "github"
@@ -73,9 +73,8 @@ export const navItems: readonly NavItem[] = [
 ];
 
 export const footerLinks: readonly FooterLink[] = [
-  { href: "/resume", key: "resume" },
-  { href: siteConfig.repository.sourceUrl, key: "source" },
-  { href: "/llms.txt", key: "llms" },
+  { href: "/about", key: "about" },
+  { href: "/privacy", key: "privacy" },
 ];
 
 export const socialLinks: readonly SocialLink[] = [

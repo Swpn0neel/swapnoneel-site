@@ -17,13 +17,10 @@ export const i18n = {
     toggleMenu: "Toggle menu",
     socialLinksRegion: "Social links",
     projectsCarousel: "Projects carousel",
-    closeOverlay: "Close overlay",
   },
   footer: {
-    llms: "summary",
-    source: "source",
-    resume: "resume",
-    site: "site",
+    about: "about",
+    privacy: "privacy",
     rightsReserved: "All rights reserved.",
   },
   home: {
@@ -222,10 +219,6 @@ export const i18n = {
   },
   calendar: {
     defaultButton: "Book 30 min meeting",
-  },
-  overlay: {
-    techStack: "Tech Stack",
-    features: "Features",
   },
   resume: {
     pageTitle: "Resume",
