@@ -4,10 +4,9 @@ date: "2026-05-08"
 description: "Premium portfolio engine designed for developers and designers."
 cover: "/project/folio.jpg"
 link: "https://fo1io.vercel.app"
+repo: "https://github.com/Swpn0neel/folio"
 featured: false
 ---
-
-## Folio
 
 Folio is a state-of-the-art portfolio generation platform designed for developers, designers, and creatives who want a professional, high-performance web presence without the overhead of manual coding.
 

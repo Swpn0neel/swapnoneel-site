@@ -4,10 +4,9 @@ date: "2026-05-07"
 description: "High-end research platform designed to transform academic tools into a focused, analytical journey."
 cover: "/project/scholarian.jpg"
 link: "https://scholarian.vercel.app"
+repo: "https://github.com/Swpn0neel/scholarian"
 featured: false
 ---
-
-## Scholarian
 
 A high-end, editorial research platform that replaces manual literature reviews with an intelligent pipeline that scours semantic databases and engages in context-aware interrogation.
 

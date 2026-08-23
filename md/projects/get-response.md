@@ -4,10 +4,9 @@ date: "2026-05-06"
 description: "Terminal-based AI chatbot and automation tool."
 cover: "/project/get-response.jpg"
 link: "https://get-response-site.vercel.app"
+repo: "https://github.com/Swpn0neel/get-response"
 featured: false
 ---
-
-## Get Response
 
 A terminal-based AI chatbot and automation tool that turns your command line into an intelligent assistant.
 

@@ -20,16 +20,18 @@ const palettes = paletteMap as Record<string, { h1: number; h2: number }>;
 
 // The framed-screenshot visual on its own: gradient derived from the
 // screenshot's dominant hues with a CSS-rendered browser window on top
-// (see .project-cover / .project-window in globals.css). Used bare by the
-// home carousel and wrapped with a caption by ProjectCard on /work.
+// (see .project-cover / .project-window in globals.css). Used by project
+// cards, the home carousel, and dedicated project pages.
 export function ProjectCover({
   cover,
   sizes,
   priority = false,
+  alt = "",
 }: {
   cover: string;
   sizes: string;
   priority?: boolean;
+  alt?: string;
 }) {
   const palette = palettes[cover];
 
@@ -43,7 +45,7 @@ export function ProjectCover({
         } as CSSProperties
       }
     >
-      <ProjectWindow src={cover} alt="" sizes={sizes} priority={priority} />
+      <ProjectWindow src={cover} alt={alt} sizes={sizes} priority={priority} />
     </div>
   );
 }
@@ -71,7 +73,7 @@ export function ProjectCard({
       )}
       <div className="p-3">
         <div className="flex items-center justify-between">
-          <p className="text-sm font-semibold">{item.meta.title}</p>
+          <h3 className="text-sm font-semibold">{item.meta.title}</h3>
         </div>
         {item.meta.description && (
           <p className="text-muted-foreground mt-1 line-clamp-2 text-xs leading-relaxed">

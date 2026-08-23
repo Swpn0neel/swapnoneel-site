@@ -8,8 +8,6 @@ featured: false
 hidden: true
 ---
 
-## InPoster
-
 A high-performance content generation tool that transforms simple keywords into polished, ready-to-post LinkedIn content using Google's Gemini AI.
 
 ### Tech Stack

@@ -162,9 +162,9 @@ function ExperienceRow({
               : undefined
           }
         >
-          <p className="text-sm font-medium group-hover:underline">
+          <h3 className="text-sm font-medium group-hover:underline">
             {item.meta.title}
-          </p>
+          </h3>
           <p className="text-muted-foreground mt-0.5 text-xs whitespace-nowrap md:mt-0">
             {item.meta.date}
           </p>

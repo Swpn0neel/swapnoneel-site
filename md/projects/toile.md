@@ -4,10 +4,9 @@ date: "2026-05-05"
 description: "Minimal CRUD application to showcase artistic works in an elegant way."
 cover: "/project/toile.jpg"
 link: "https://toile.vercel.app"
+repo: "https://github.com/Swpn0neel/toile"
 featured: true
 ---
-
-## Toile
 
 A clean, easy-to-use CRUD application for showcasing artistic works — built with a minimalistic and elegant design philosophy.
 

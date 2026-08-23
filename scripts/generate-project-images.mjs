@@ -8,7 +8,7 @@ const sourceDir = path.join(process.cwd(), "public", "project");
 const outputDir = path.join(process.cwd(), "public", "project-img");
 const manifestPath = path.join(process.cwd(), "lib", "project-images.json");
 
-// Project cards are shown at ~380px and overlay heroes top out at ~654px, but
+// Project cards are shown at ~380px and page heroes top out at ~654px, but
 // their ten JPEG sources are all 1920px and 265-936KB. Sending them through
 // /_next/image made the first visitor pay ten cold AVIF transcodes. These are
 // the same four widths next/image can request from next.config.ts, encoded once

@@ -1,6 +1,6 @@
 "use client";
 
-import type { ProjectCardData } from "@/lib/project-overlay-data";
+import type { ProjectCardData } from "@/lib/project-data";
 import { firstLink } from "@/lib/utils";
 import Link from "next/link";
 
@@ -26,13 +26,12 @@ export function ProjectIndex({
             className="group grid grid-cols-1 grid-rows-1 py-3 first:pt-0 last:pb-0 sm:flex sm:items-baseline sm:gap-4"
           >
             <Link
-              href={`/projects/${item.meta.slug}`}
-              scroll={false}
+              href={`/projects/${item.meta.slug}?from=home`}
               aria-current={active ? "true" : undefined}
-              aria-label={`Open details for ${item.meta.title}`}
+              aria-label={`View ${item.meta.title}`}
               className="col-start-1 row-start-1 flex min-w-0 flex-1 cursor-pointer flex-col gap-1 text-left sm:flex-row sm:items-baseline sm:gap-4"
             >
-              <span
+              <h3
                 className={`group-hover:text-foreground shrink-0 pr-6 text-sm transition-colors group-hover:underline sm:w-36 sm:pr-0 ${
                   active
                     ? "text-foreground font-semibold underline decoration-1 underline-offset-4"
@@ -40,7 +39,7 @@ export function ProjectIndex({
                 }`}
               >
                 {item.meta.title}
-              </span>
+              </h3>
               {item.meta.description && (
                 <span
                   className={`group-hover:text-foreground/80 line-clamp-2 min-w-0 flex-1 text-xs transition-colors sm:line-clamp-1 ${
@@ -66,7 +65,6 @@ export function ProjectIndex({
                   active ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
-                {/* Same tilted-arrow glyph as the overlay's live link */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="1em"

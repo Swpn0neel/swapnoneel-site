@@ -1,4 +1,4 @@
-import type { ProjectCardData } from "@/lib/project-overlay-data";
+import type { ProjectCardData } from "@/lib/project-data";
 import Link from "next/link";
 import { ProjectCard } from "./project-card";
 
@@ -9,9 +9,8 @@ export function ProjectGrid({ items }: { items: ProjectCardData[] }) {
         <Link
           key={item.meta.slug}
           href={`/projects/${item.meta.slug}`}
-          scroll={false}
           className="block cursor-pointer text-left"
-          aria-label={`Open details for ${item.meta.title}`}
+          aria-label={`View ${item.meta.title}`}
         >
           <ProjectCard
             item={item}

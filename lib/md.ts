@@ -21,6 +21,7 @@ export type PostMeta = {
   description?: string;
   cover?: string;
   link?: string | string[];
+  repo?: string;
   tags?: string[];
   brand?: string;
   featured?: boolean;
@@ -59,6 +60,7 @@ function readBySlug(
     description: entry.description as string | undefined,
     cover: entry.cover as string | undefined,
     link: anyEntry.link as string | string[] | undefined,
+    repo: anyEntry.repo as string | undefined,
     tags: anyEntry.tags as string[] | undefined,
     brand: anyEntry.brand as string | undefined,
     featured: anyEntry.featured as boolean | undefined,

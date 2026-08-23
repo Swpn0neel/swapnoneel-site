@@ -7,8 +7,6 @@ link: "https://www.figma.com/design/ksN1tWLNzpI6Hoi5yiVwc5/Omni-Learner?node-id=
 featured: true
 ---
 
-## OmniLearner
-
 An award-winning design concept developed for the Smart India Hackathon 2023, aimed at breaking language barriers in education through high-speed, affordable AI translations of global resources.
 
 ### Tech Stack

@@ -53,6 +53,7 @@ const projects = defineCollection({
       description: s.string().optional(),
       cover: s.string().optional(),
       link: s.union([s.string(), s.array(s.string())]).optional(),
+      repo: s.string().optional(),
       featured: s.boolean().optional(),
       hidden: s.boolean().optional(),
       path: s.path(),

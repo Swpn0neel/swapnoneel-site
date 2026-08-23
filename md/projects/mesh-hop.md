@@ -4,10 +4,9 @@ date: "2026-07-19"
 description: "Desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies."
 cover: "/project/mesh-hop.jpg"
 link: "https://mesh-hop.vercel.app"
+repo: "https://github.com/Swpn0neel/mesh-hop"
 featured: true
 ---
-
-## MeshHop
 
 A lightweight, self-contained desktop application that automatically discovers working public proxies for a chosen region, verifies them end-to-end, and routes a dedicated browser profile through the best one. It automates the tedious parts of finding, testing, ranking, and rotating public exits, and wires a hardened Firefox profile to the result.
 

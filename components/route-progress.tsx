@@ -134,9 +134,8 @@ export function RouteProgress() {
     const handleClick = (event: MouseEvent) => {
       if (startsNavigation(event)) start();
     };
-    // Back/forward. Programmatic router.push() is not covered and does not need
-    // to be: the only one on the site closes the project dialog onto a page the
-    // router already has cached, which commits well inside APPEAR_DELAY.
+    // Back/forward. Programmatic router.push() is intentionally outside this
+    // listener; normal site navigation is handled by links and browser history.
     const handlePopState = () => start();
 
     document.addEventListener("click", handleClick, { capture: true });

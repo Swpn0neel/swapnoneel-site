@@ -9,7 +9,7 @@ interface ProjectWindowProps {
 }
 
 /**
- * The single compositing surface used for project thumbnails and overlay heroes.
+ * The single compositing surface used for project thumbnails and page heroes.
  * Chrome and screenshot remain in normal flow inside one clipped window so they
  * cannot drift onto separate compositor layers during carousel transforms.
  */

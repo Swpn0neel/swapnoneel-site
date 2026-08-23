@@ -4,10 +4,9 @@ date: "2026-07-01"
 description: "Client-side Next.js web application designed to scan GitHub repositories, resolve contributor identities, and audit commit counts directly in the browser."
 cover: "/project/blame.jpg"
 link: "https://gitblame.vercel.app"
+repo: "https://github.com/Swpn0neel/blame"
 featured: false
 ---
-
-## Blame
 
 A powerful client-side contributor aggregation and outreach tool designed to answer one crucial question for any GitHub repository: "who actually contributed, and how much?" By extracting names, emails, and commit frequencies directly from the browser, Blame enables recruiters, project leads, and open-source audit tools to quickly locate and connect with repository contributors.
 

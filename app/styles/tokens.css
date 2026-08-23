@@ -39,8 +39,6 @@
   --pc-g2-sl: 40% 91%;
   --pc-glow1-sl: 70% 86%;
   --pc-glow2-sl: 50% 85%;
-  --pc-hero-glow1-sl: 78% 83%;
-  --pc-hero-glow2-sl: 60% 82%;
   --pc-hglow-sl: 85% 81%;
   --pc-hglow-opacity: 0.85;
   --pc-grain-opacity: 0.35;
@@ -49,7 +47,6 @@
   --project-window-image-inset: 0px;
   --project-window-highlight: rgb(255 255 255 / 0.055);
   --project-window-edge-shadow: inset 0 1px 0 var(--project-window-highlight);
-  --overlay-panel-hairline: 0 0 0 0 transparent;
 }
 
 /* ── Dark palette — declared twice (attribute + media) must stay identical ── */
@@ -84,8 +81,6 @@
   --pc-g2-sl: 38% 9%;
   --pc-glow1-sl: 62% 28%;
   --pc-glow2-sl: 48% 17%;
-  --pc-hero-glow1-sl: 70% 34%;
-  --pc-hero-glow2-sl: 58% 23%;
   --pc-hglow-sl: 65% 33%;
   --pc-hglow-opacity: 0.6;
   --pc-grain-opacity: 0.5;
@@ -96,7 +91,6 @@
     inset 0 1px 0 var(--project-window-highlight),
     inset 1px 0 0 var(--project-window-highlight),
     inset -1px 0 0 var(--project-window-highlight);
-  --overlay-panel-hairline: inset 0 0 0 1px hsl(var(--foreground) / 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -131,8 +125,6 @@
     --pc-g2-sl: 38% 9%;
     --pc-glow1-sl: 62% 28%;
     --pc-glow2-sl: 48% 17%;
-    --pc-hero-glow1-sl: 70% 34%;
-    --pc-hero-glow2-sl: 58% 23%;
     --pc-hglow-sl: 65% 33%;
     --pc-hglow-opacity: 0.6;
     --pc-grain-opacity: 0.5;
@@ -143,7 +135,6 @@
       inset 0 1px 0 var(--project-window-highlight),
       inset 1px 0 0 var(--project-window-highlight),
       inset -1px 0 0 var(--project-window-highlight);
-    --overlay-panel-hairline: inset 0 0 0 1px hsl(var(--foreground) / 0.12);
   }
 }
 

@@ -7,8 +7,6 @@ link: "https://www.figma.com/design/QtUW4ih2Ny2pRE4ZerZ0Me/SIH-23?node-id=0-1&t=
 featured: false
 ---
 
-## YDub
-
 A high-fidelity design conceptualized for the Smart India Hackathon 2023, focused on making AI video dubbing accessible, affordable, and accurate for the Indian market.
 
 ### Tech Stack

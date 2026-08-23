@@ -7,8 +7,6 @@ link: "https://anrl-site.vercel.app"
 featured: true
 ---
 
-## ANRL (AI-Native Representation Language)
-
 A paradigm-shifting representation system designed specifically for Large Language Models, replacing human-centric data formats like JSON with transformer-optimized schemas. By explicitly encoding how a model should "think" about data, ANRL eliminates attention drift and structural noise to provide AI systems with prioritized reasoning, epistemic clarity, and unshakeable relational anchoring.
 
 ### Tech Stack

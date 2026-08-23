@@ -10,11 +10,6 @@ export interface ProjectCardData {
   meta: ProjectMeta;
 }
 
-export interface ProjectOverlayContent {
-  features: string[];
-  techStack: string[];
-}
-
 export function toProjectCardData(project: {
   meta: ProjectMeta;
 }): ProjectCardData {

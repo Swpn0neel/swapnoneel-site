@@ -4,10 +4,9 @@ date: "2026-05-09"
 description: "Terminal-based messaging hub for real-time communication, collaboration, and AI-powered interactions."
 cover: "/project/term-chat.jpg"
 link: "https://term-chat.vercel.app"
+repo: "https://github.com/Swpn0neel/term-chat"
 featured: true
 ---
-
-## Term Chat
 
 A terminal-based messaging hub designed for real-time communication, group collaboration, and AI-powered interactions, all within the command-line interface.
 

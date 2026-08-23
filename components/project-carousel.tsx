@@ -1,7 +1,7 @@
 "use client";
 
 import { i18n } from "@/lib/i18n";
-import type { ProjectCardData } from "@/lib/project-overlay-data";
+import type { ProjectCardData } from "@/lib/project-data";
 import Link from "next/link";
 import { useCallback, useState } from "react";
 import { ProjectCover } from "./project-card";
@@ -56,10 +56,9 @@ export function ProjectCarousel({
                 aria-current={active ? "true" : undefined}
               >
                 <Link
-                  href={`/projects/${item.meta.slug}`}
-                  scroll={false}
+                  href={`/projects/${item.meta.slug}?from=home`}
                   className="group border-border block h-full w-full overflow-hidden rounded-md border"
-                  aria-label={`Open details for ${item.meta.title}`}
+                  aria-label={`View ${item.meta.title}`}
                 >
                   {item.meta.cover ? (
                     <ProjectCover

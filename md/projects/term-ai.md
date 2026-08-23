@@ -4,11 +4,10 @@ date: "2026-05-04"
 description: "AI-powered cloud terminal for seamless coding on any device."
 cover: "/project/term-ai.jpg"
 link: "https://term-ai.vercel.app/"
+repo: "https://github.com/Swpn0neel/term-ai"
 featured: false
 hidden: true
 ---
-
-## TermAI
 
 A powerful, browser-based cloud terminal environment that combines traditional command-line efficiency with modern AI automation and real-time synchronization.
 
