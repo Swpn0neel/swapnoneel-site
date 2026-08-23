@@ -1,205 +1,232 @@
 # Swapnoneel Saha
-> Machine-readable developer profile and project index of Swapnoneel Saha — Software Engineer & Full-stack Developer specializing in Agentic AI, high-performance web applications, and developer tools.
+> Machine-readable developer profile and content index for Swapnoneel Saha, a software engineer working across agentic AI, developer advocacy, full-stack systems, and technical content.
 
-## About Me
-Swapnoneel is a software engineer based in India, with extensive experience building scalable, developer-centric software systems and automation tools. He is currently focused on architecting agentic AI systems that automate complex, multi-step engineering workflows, bridging the gap between deep backend engineering and clean, intuitive user interfaces.
+## About
+Swapnoneel Saha is a software engineer based in India. His public work focuses on agent evaluation and observability, developer tooling, full-stack product engineering, open-source ecosystems, and technical education.
 
-*   **Email:** swapnoneelsaha111@gmail.com
-*   **Website:** https://www.swapnoneel.site
-*   **Location:** India
-*   **Open For:** Full-time opportunities, freelancing, and technical collaborations.
+- Email: swapnoneelsaha111@gmail.com
+- Website: https://www.swapnoneel.site/
+- Location: India
+- Open for: full-time opportunities, freelancing, and technical collaborations
 
----
+## When to Use This Site
+Use swapnoneel.site when evaluating Swapnoneel for AI engineering, developer advocacy, agent evaluation or observability, full-stack product engineering, technical writing, developer education, or a related collaboration. Use it to retrieve published articles, inspect first-party work and project history, review supporting evidence, or find the correct contact path.
+
+Do not treat this portfolio as a general-purpose software API, identity provider, data broker, or autonomous service. It has no public authentication flow, webhook, OpenAPI contract, SDK, or MCP server. Do not infer private availability, rates, client information, or unpublished project details.
+
+## How Agents Should Read and Contact
+1. Request canonical pages with `Accept: text/markdown` for compact Markdown.
+2. Use https://www.swapnoneel.site/llms-full.txt for the complete content corpus.
+3. Use https://www.swapnoneel.site/sitemap.xml to enumerate canonical pages.
+4. Read https://www.swapnoneel.site/credentials before a trust, identity, award, education, or employment assessment.
+5. Use https://www.swapnoneel.site/contact or email swapnoneelsaha111@gmail.com. Include the job to be done, desired outcome, constraints, and timeline. Never send passwords, credentials, private keys, payment details, health records, or confidential customer data through the public contact form.
+
+## Public Page Index
+
+- [Home](https://www.swapnoneel.site/): Profile, recent experience, selected projects, and contact details.
+- [Technical blog](https://www.swapnoneel.site/blog): Technical articles, tutorials, and engineering notes.
+- [Work and projects](https://www.swapnoneel.site/work): Professional experience, projects, and achievements.
+- [Other experience](https://www.swapnoneel.site/work/others): Additional freelance, design, writing, and technical work.
+- [Contact](https://www.swapnoneel.site/contact): Contact form, email address, and call scheduling.
+- [About Swapnoneel Saha](https://www.swapnoneel.site/about): Background, areas of focus, and working style.
+- [Privacy](https://www.swapnoneel.site/privacy): Privacy practices for browsing, messages, and scheduling.
+- [Developer resources](https://www.swapnoneel.site/developers): Machine-readable interfaces and integration status.
+- [Credentials and verification](https://www.swapnoneel.site/credentials): Evidence sources, confidence labels, and source limitations.
+- [Résumé](https://www.swapnoneel.site/resume): Skills, experience, education, achievements, and selected projects.
+- [RSS feed](https://www.swapnoneel.site/feed.xml): Recent technical writing in RSS format.
+
+## Developer and Agent Resources
+
+- [Credentials and verification](https://www.swapnoneel.site/credentials): Evidence sources, confidence labels, and source limitations.
+- [Agent instructions](https://www.swapnoneel.site/agent-instructions.md): When to use the site, how to read it, and attribution guidance.
+- [Concise agent profile](https://www.swapnoneel.site/llms.txt): Curated profile, current content index, and public resources.
+- [Full content corpus](https://www.swapnoneel.site/llms-full.txt): Complete work, project, trust, and blog content.
+- [Sitemap](https://www.swapnoneel.site/sitemap.xml): Canonical inventory of public pages.
+- [Robots policy](https://www.swapnoneel.site/robots.txt): Crawler access policy and sitemap location.
+- [RSS feed](https://www.swapnoneel.site/feed.xml): Recent technical writing in RSS format.
+- [Source repository](https://github.com/Swpn0neel/swapnoneel-site): Source code for swapnoneel.site.
 
 ## Core Competencies
 
-### Languages
-*   **TypeScript / JavaScript** (ES6+, Node.js, React ecosystem)
-*   **Python** (OOP, scripting, RAG pipelines, ML workflows)
-*   **GoLang** (API development, CLI tools)
-*   **Java** (Backend systems)
-*   **SQL** (Relational database modeling)
-*   **C / C++** (Algorithms and data structures)
-
-### Frameworks & Libraries
-*   **Web Frameworks:** Next.js (App Router, Turbopack), React, TanStack Start, Django, Flask, Express, Socket.io
-*   **Database & ORMs:** Prisma, Mongoose, Appwrite Backend
-*   **Styling & Animations:** Tailwind CSS v4, Motion (Framer Motion), GSAP, Radix UI, Base UI, Tailwind Animate
-
-### Tools & Infrastructure
-*   **Containerization & Deployments:** Docker, Google Cloud Run, Vercel
-*   **Databases:** MongoDB, PostgreSQL, Supabase, Cloudflare R2 (storage)
-*   **Development Tools:** Git, GitHub API, Neovim, Tree-Sitter compilers, MessagePack, Fastembed, Tesseract.js, PDF-Parse
-*   **Design:** UI/UX prototyping in Figma
-
----
+- Languages: TypeScript, JavaScript, Python, GoLang, Java, SQL, C/C++
+- Frameworks: Next.js, Django, Node.js, Flask, Socket.io, Prisma, Tailwind CSS
+- Tools and specialties: Docker, MongoDB, PostgreSQL, Git, RAG (AI), API Design, UI/UX (Figma)
 
 ## Professional Experience
 
-### GTM Engineer • Maxim AI
-*July 2026 – Present* | [Maxim AI](https://www.getmaxim.ai)
-*   **Description:** Maxim AI is building the GenAI evaluation and observability platform, empowering AI teams to ship reliable agents with enterprise-grade quality and performance monitoring.
-*   **Impact & Core Achievements:**
-    *   **Developer Advocacy & Enablement:** Driving technical GTM initiatives, developer advocacy, and enablement for Maxim's AI evaluation and observability suite.
-    *   **Agent Observability & Evals Integration:** Engaging with engineering teams to integrate gateway governance, evals, and observability tools into real-world AI agent workflows.
+### [GTM Engineer • Maxim AI](https://www.swapnoneel.site/work/maxim)
 
-### GTM Engineer • Zonko Labs
-*April 2026 – July 2026* | [Zonko Labs](https://zonko.ai)
-*   **Description:** Zonko Labs is a frontier AI lab building the first truly global, daily-use, everyone-opens-it product born in India.
-*   **Impact & Core Achievements:**
-    *   **Agent QA & Reliability:** Formed the first layer of internal testing for *Luffy*, an AI co-worker in Slack, catching bugs before they reached core users.
-    *   **Observability Tooling:** Built an internal tool capturing Luffy's data logs and generating reports on latency and probable slowdowns.
-    *   **User Growth:** Grew Luffy's user base from **0 to 50+ users**, primarily startups with 1–50 employees, while relaying early-adopter feedback and feature requests to the dev team.
-    *   **Web Presence:** Rebuilt the company website, replacing a low-quality, outdated version.
+Date: Jul 2026 - Present
+Summary: Managing the open-source community and working on Bifrost, running the social handles, and creating video content and technical blogs.
 
-### DevRel Engineer • Keploy
-*May 2024 – Dec 2024* | [Keploy Website](https://keploy.io)
-*   **Description:** Worked on Keploy, an open-source API testing platform that auto-generates test cases and mock data from real traffic.
-*   **Impact & Core Achievements:**
-    *   **RAG-Powered AI Integration:** Designed and implemented a fully-functional RAG-based AI chatbot for Keploy's documentation workspace, lowering developer integration friction and decreasing documentation navigation time.
-    *   **Cross-Language Integration Scaffolding:** Engineered and shipped multiple end-to-end sample application integrations in Rust, Go, Spring Boot, Flask, and Django to prove Keploy's test case generation capabilities.
-    *   **Core UI/UX Revamp:** Re-architected and polished key structural sections of the Keploy landing homepage, increasing visual clarity and conversion rates for visiting developers.
-    *   **Developer Advocacy & Community Building:** Structured and directed *Keploy Rain of Code*, an open-source outreach campaign. Mentored and led 50+ contributors, driving core code commits and building a sustainable pipeline for junior developer recruitment.
-    *   **Technical Content Optimization:** Authored 25+ technical deep-dives on API architectures and test generation while optimizing community social channels, delivering a **120% growth in developer engagement** and a **30% rise in follower count**.
+### [GTM Engineer • Zonko Labs](https://www.swapnoneel.site/work/zonko)
 
-### Technical Writer • Tutorials Point
-*May 2023 – May 2025* | [Tutorials Point](https://www.tutorialspoint.com)
-*   **Description:** Authored and managed developer tutorials for a platform with millions of active users.
-*   **Impact & Core Achievements:**
-    *   **Curriculum Development & Monetization:** Designed and authored a comprehensive *Advanced Python Course* spanning over 40 technical modules. The course scaled to **9,800+ paid students** within 12 months, making it one of the platform's highest-converting resources.
-    *   **Developer Onboarding Acceleration:** Created curriculum and educational paths for MySQL and frontend engineering, enabling smoother onboarding for beginner developers.
-    *   **Editorial Leadership:** Acted as Content Lead and managed review cycles for **200+ technical publications** submitted by a team of 10+ contributing writers, ensuring rigorous coding standards and readability.
+Date: Mar 2026 - Jul 2026
+Summary: Tested and launched Luffy (an AI Slack co-worker), built internal latency logging tools, grew the user base, and rebuilt the company website.
 
-### Software Developer • Wizdom
-*Jan 2024 – May 2024* | [Wizdom App](https://wizdomapp.com)
-*   **Description:** Rebuilt client-facing systems for a book insights and podcast platform with over 20,000 users.
-*   **Impact & Core Achievements:**
-    *   **UI/UX Modernization:** Re-engineered application UI layouts into a clean, modern design system, enhancing the daily visual interface for **20,000+ active users**.
-    *   **Performance Optimization:** Refactored React rendering paths, optimized bundle sizes, and streamlined API payloads, shaving **1200ms – 1800ms** off initial page load times.
-    *   **Audio Pipeline Upgrade:** Rebuilt the core podcast streaming interface to enhance buffering, playback stability, and audio control elements, increasing average user session times.
-    *   **System Migration:** Led the transition of legacy codebase structures to a modern Next.js/React framework stack, collaborating with product managers to minimize downtime.
+### [DevRel Engineer • Keploy](https://www.swapnoneel.site/work/keploy)
 
----
+Date: May 2024 - Jan 2025
+Summary: Built sample applications and a RAG-based chatbot, designed homepage sections, and led developer relations and community programs.
 
-## Key Projects
+### [Software Developer • Wizdom](https://www.swapnoneel.site/work/wizdom)
 
-### [ANRL](https://anrl-site.vercel.app)
-*AI-Native Representation Language*
-*   **Pitch & Impact:** An innovative graph-native representation language built explicitly to replace verbose, human-centric data serialization formats (JSON, YAML) with transformer-optimized schemas. By encoding token significance directly, it eliminates context drift and structural noise in LLMs.
-*   **Rigorous Implementation:** 
-    *   Designed a parser compiler in Rust for ultra-fast compilation.
-    *   Utilized MessagePack to yield dense, sub-token binary serialization.
-    *   Integrated Tree-Sitter for code syntax analysis and Fastembed for opt-in semantic enrichment to detect implicit document dependencies.
-    *   **Results:** Significantly reduces delimiter token overhead by over 40%, preventing model context fragmentation.
+Date: Jan 2024 - May 2024
+Summary: Revamped the app UI and website, optimized codebase performance to reduce load times, and enhanced the podcast audio playback experience.
 
-### [Folio](https://fo1io.vercel.app)
-*Premium Developer Portfolio Engine*
-*   **Pitch & Impact:** A drag-and-drop web builder empowering designers and developers to deploy fully-customized, high-performance portfolios without writing any code.
-*   **Rigorous Implementation:**
-    *   Built on TanStack Start and TypeScript for absolute type safety and sub-second page loads.
-    *   Developed drag-and-drop mechanics using `@dnd-kit` to allow live-updating UI canvases.
-    *   Integrated Supabase for immediate data persistence, secure OAuth, and dynamic asset bucket management.
+### [Technical Writer • Tutorials Point](https://www.swapnoneel.site/work/tutorials-point)
 
-### [Get Response](https://get-response-site.vercel.app)
-*CLI AI Assistant & Automation Hub*
-*   **Pitch & Impact:** An intelligent terminal-based assistant that converts plain English prompts into automated terminal actions, bridging the CLI shell with OpenAI/Gemini models to accelerate shell engineering workflows.
-*   **Rigorous Implementation:**
-    *   Leveraged Google Gemini API to dynamically scaffold scripts and execute commands.
-    *   Integrated Tesseract.js and PDF-Parse to extract content from images and papers directly in the console.
-    *   Built code parsing pipelines mapping visual structural diagrams using Mermaid.js.
-    *   **Results:** Removes context switching by bringing AI debugging and Stack Exchange lookups straight to the shell.
+Date: May 2023 - May 2025
+Summary: Authored a successful Advanced Python course, contributed to database and web courses, and edited over 200 technical articles as a content manager.
 
-### [MeshHop](https://mesh-hop.vercel.app)
-*Public Proxy Discovery, Benchmarking, and Browsing Desktop Client*
-*   **Pitch & Impact:** A lightweight, self-contained desktop application that automates discovering, verifying, and rotating public proxies for any chosen region. It secures the final internet hop by routing a dedicated, proxy-hardened browser profile with leak-prevention mechanisms directly through verified exits.
-*   **Rigorous Implementation:**
-    *   Developed a desktop client using Tauri 2 and Rust for local sidecar process controls and minimized resource footprints.
-    *   Engineered a concurrent Node.js search and testing sidecar engine to benchmark candidates against active endpoints, including Cloudflare trace details.
-    *   Designed automated integration hooks launching isolated, proxy-configured Firefox profiles pre-loaded with uBlock Origin.
+## Projects
 
-### [Scholarian](https://scholarian.vercel.app)
-*Editorial Research Platform*
-*   **Pitch & Impact:** An academic literature analysis platform that automates systematic paper reviews and research pipelines.
-*   **Rigorous Implementation:**
-    *   Built using Next.js, Google Gemini API, and Supabase for persistent history lookup.
-    *   Managed optimistic state updates via Zustand.
-    *   Created custom search iteration loops designed to refine search intents, along with a high-fidelity PDF report generation engine.
-    *   **Results:** Accelerates the academic literature review cycle by automating systematic querying and structured extraction.
+### [Mesh Hop](https://www.swapnoneel.site/projects/mesh-hop)
 
-### [TermAI](https://term-ai.vercel.app)
-*Cloud Terminal and AI Workspace*
-*   **Pitch & Impact:** A secure, cloud-hosted coding terminal proxy that permits low-latency developer actions from any mobile or desktop screen.
-*   **Rigorous Implementation:**
-    *   Utilized Next.js, Socket.io, and node-pty to bridge containerized cloud runtimes with interactive shell environments.
-    *   Supported complete browser-based terminal interfaces (with Neovim capabilities) inside Docker containers.
-    *   Integrated a context-aware AI command suggestions system.
+Date: 2026-07-19
+Summary: Desktop app that automatically discovers, verifies, and routes an isolated browser profile through the best public proxies.
 
-### [Term Chat](https://term-chat.vercel.app)
-*Terminal-Based Social & Chat Hub*
-*   **Pitch & Impact:** A terminal-native messaging application and group server allowing developers to communicate, share files, and collaborate without leaving their development environments.
-*   **Rigorous Implementation:**
-    *   Built with Node.js and Socket.io, utilizing Supabase for real-time presence management and chat history storage.
-    *   Integrated Cloudflare R2 storage, enabling users to seamlessly upload and share files/directories (which are zipped automatically on-the-fly) from the terminal.
-    *   Secured login credentials using client-side password encryption and bcrypt.
+### [Blame](https://www.swapnoneel.site/projects/blame)
 
-### [Toile](https://toile.vercel.app)
-*Artistic Portfolio Dashboard*
-*   **Pitch & Impact:** A minimalistic CRUD application crafted to showcase digital designs and art portfolios using premium animations.
-*   **Rigorous Implementation:**
-    *   Leveraged React.js with GSAP timeline sequencing to build smooth, high-fidelity page transitions and layouts.
-    *   Built on Appwrite serverless functions for database persistence and authentication.
+Date: 2026-07-01
+Summary: Client-side Next.js web application designed to scan GitHub repositories, resolve contributor identities, and audit commit counts directly in the browser.
 
----
+### [ANRL](https://www.swapnoneel.site/projects/anrl)
+
+Date: 2026-06-08
+Summary: Graph-native representation language explicitly designed to optimize attention allocation and semantic saliency for Large Language Models.
+
+### [Term Chat](https://www.swapnoneel.site/projects/term-chat)
+
+Date: 2026-05-09
+Summary: Terminal-based messaging hub for real-time communication, collaboration, and AI-powered interactions.
+
+### [Folio](https://www.swapnoneel.site/projects/folio)
+
+Date: 2026-05-08
+Summary: Premium portfolio engine designed for developers and designers.
+
+### [Scholarian](https://www.swapnoneel.site/projects/scholarian)
+
+Date: 2026-05-07
+Summary: High-end research platform designed to transform academic tools into a focused, analytical journey.
+
+### [Get Response](https://www.swapnoneel.site/projects/get-response)
+
+Date: 2026-05-06
+Summary: Terminal-based AI chatbot and automation tool.
+
+### [Toile](https://www.swapnoneel.site/projects/toile)
+
+Date: 2026-05-05
+Summary: Minimal CRUD application to showcase artistic works in an elegant way.
+
+### [Omni Learner](https://www.swapnoneel.site/projects/omni-learner)
+
+Date: 2026-05-02
+Summary: Universal AI-powered translation platform design for educational accessibility.
+
+### [Y Dub](https://www.swapnoneel.site/projects/ydub)
+
+Date: 2026-05-01
+Summary: Premium AI-powered video dubbing platform design.
+
+## Recent Technical Writing
+
+### [AI Observability Explained: What It Is and How It Works](https://www.swapnoneel.site/blog/ai-observability-explained)
+
+Date: 2026-08-18T06:25:25.000Z
+Summary: AI observability is how you see inside a non-deterministic system. What to trace on every call, why logs are not enough, and where it belongs.
+
+### [Bifrost for Enterprises: Adaptive Routing, Guardrails and much more](https://www.swapnoneel.site/blog/bifrost-for-enterprises)
+
+Date: 2026-08-09T15:41:05.000Z
+Summary: I explored the enterprise features of Bifrost, including Audit Logs, MCP Tool Groups, Adaptive Routing, and custom Guardrails, and provided an honest verdict.
+
+### [Deep Diving Into Bifrost: Virtual Keys, MCP and Skills](https://www.swapnoneel.site/blog/deep-dive-into-bifrost)
+
+Date: 2026-07-31T00:00:00.000Z
+Summary: Going further into the Bifrost dashboard: virtual keys and rate limits, the MCP gateway, prompt and skill repositories, and custom log headers.
+
+### [GEO for Developers: Get Cited by ChatGPT and Perplexity](https://www.swapnoneel.site/blog/geo-for-developers)
+
+Date: 2026-07-08T00:00:00.000Z
+Summary: GEO for developers, minus the agency fluff. Here's what actually matters if you want ChatGPT and Perplexity to cite your blog posts in 2026.
+
+### [How I made an AI Agent write in my voice](https://www.swapnoneel.site/blog/make-ai-write-in-your-voice)
+
+Date: 2026-07-06T00:00:00.000Z
+Summary: You can make AI write in your voice, but a prompt won't get you there...
+
+### [Kimi K3 and the Rise of Open Weight Frontier Models](https://www.swapnoneel.site/blog/rise-of-open-weight-frontier-models-kimi-k3)
+
+Date: 2026-07-23T00:00:00.000Z
+Summary: Kimi K3 just landed a 2.8T open weight model a hair behind GPT-5.6 Sol and Fable 5. Here's why open weight frontier models finally matter.
+
+### [Nobody's Testing AI Coding Agents Enough](https://www.swapnoneel.site/blog/testing-ai-coding-agents)
+
+Date: 2026-07-24T00:00:00.000Z
+Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped being optional, here's what I learned being paid to do it.
+
+### [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)
+
+Date: 2026-07-30T00:00:00.000Z
+Summary: I set up Bifrost locally with OpenCode, tested automatic model fallback and complexity-based routing, and it fixed how I juggle LLM providers.
+
+### [Why Vercel is still my default for shipping frontend projects](https://www.swapnoneel.site/blog/vercel-frontend-deployment-default)
+
+Date: 2026-07-13T00:00:00.000Z
+Summary: Why I keep reaching for Vercel for frontend projects — and where Cloudflare, Netlify, and Railway are the better choice.
+
+### [What is Adaptive Load Balancing, and Why AI Needs It](https://www.swapnoneel.site/blog/what-is-adaptive-load-balancing)
+
+Date: 2026-08-17T00:00:00.000Z
+Summary: Adaptive load balancing routes by live health, not a fixed rotation. How the scoring actually works, and why AI traffic breaks the older algorithms.
+
+### [What Is Semantic Caching, and Where It Quietly Breaks](https://www.swapnoneel.site/blog/what-is-semantic-caching)
+
+Date: 2026-08-19T17:39:37.000Z
+Summary: Semantic caching serves cached LLM answers to queries that only match in meaning. How it works, the threshold trap, real hit rates, and when to skip it.
+
+### [Chaos Testing Explained: A Comprehensive Guide](https://www.swapnoneel.site/blog/chaos-testing-explained-a-comprehensive-guide)
+
+Date: 2025-01-09T01:26:15.000Z
+Summary: Table of Contents Chaos testing, also known as chaos engineering, is one of the most-used methodology to test the resilience and reliability of systems, and is a key part of modern resilience testing practices. Originating from Netflix’s famous Chaos Monkey tool, chaos testing has become a key practice in building robust distributed systems. In this [...]
+
+For every published article in full, use the full content corpus or RSS feed.
 
 ## Education
 
-*   **B.Tech in Computer Science & Engineering** (2022 – 2026) | *MAKAUT* (CGPA: 8.2/10)
-*   **12th CBSE Board** (2020 – 2022) | *Kalyani Public School* (Score: 93%)
-*   **10th ICSE Board** (2018 – 2020) | *The Central Modern School* (Score: 97%)
+- B.Tech in Computer Science & Engineering, MAKAUT (2022 — 2026) — CGPA: 8.2
+- 12th Boards (CBSE), Kalyani Public School (2020 — 2022) — 93%
+- 10th Boards (ICSE), The Central Modern School (2018 — 2020) — 97%
 
----
+## Achievements
 
-## Achievements & Milestones
+- Winner of the Hack Around the World 2 Hackathon offered by MLH Hacks.
+- Second Runner-Up of Hack 4 Bengal 3.0, Eastern India's Largest Offline Hackathon.
+- Second Runner-Up of the Treasure Hacks 3.0 Hackathon among 600 participants.
+- Winner of MAKATHON, an intra-university hackathon under Smart India Hackathon '23.
+- Contributed to multiple large Open-Source projects like MindsDB, Keploy & was a contributor at GSSOC '23.
+- Organized multiple educational sessions for students at our University involving DSA, Development & Open-Source.
+- Solved over 1200+ questions on LeetCode, and have an overall contest rating of 1650+.
 
-*   **Hackathon Success:**
-    *   **Winner:** MLH *Hack Around the World 2.0*
-    *   **Second Runner-Up:** *Hack 4 Bengal 3.0* (Eastern India's largest offline hackathon)
-    *   **Second Runner-Up:** *Treasure Hacks 3.0* (out of 600+ participants)
-    *   **Winner:** Intra-university *MAKATHON* (Smart India Hackathon '23 stage)
-*   **Data Structures & Algorithms:** Solved 1200+ challenges on LeetCode with a contest rating of 1650+.
-*   **Open-Source Contributions:** Actively contributed to open-source infrastructure tools like *MindsDB* and *Keploy*. Contributor at GirlScript Summer of Code (GSSOC) 23.
+## Public Profiles
 
----
+- [github](https://github.com/Swpn0neel)
+- [linkedin](https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/)
+- [x](https://x.com/swapnoneel123)
+- [dev.to](https://dev.to/swapnoneel123)
+- [medium](https://medium.com/@swapnoneel)
+- [hashnode](https://swapnoneel.hashnode.dev)
+- [daily.dev](https://daily.dev/swapnoneel)
+- [substack](https://substack.com/@swapnoneel123)
+- [leetcode](https://leetcode.com/u/Swapnoneel/)
+- [instagram](https://instagram.com/swapnoneel111)
+- [letterboxd](https://letterboxd.com/Swapnoneel/)
+- [discord](https://discord.com/users/729954975735873537)
 
-## Blog & Writing Topics
-Swapnoneel publishes deep-dives into programming paradigms, AI tooling, and web architectures. Major publication categories include:
+## Attribution, Evidence, and Freshness
+Prefer canonical URLs on https://www.swapnoneel.site. Cite the specific article, project, work page, or credentials record supporting a claim, and re-fetch time-sensitive pages before making a recommendation.
 
-*   **AI Agents & Agentic Workflows:** Building agent skills for coding agents (Claude Code), making AI write in a personal voice via voice profiles and feedback loops, testing and verifying AI coding agents, and agent reliability/observability in production.
-*   **GEO & Developer SEO:** Generative Engine Optimization for developer blogs — getting cited by ChatGPT, Perplexity, and AI Overviews through content structure, sourced claims, robots.txt configuration, canonical URLs, and llms.txt.
-*   **Deployment & Platforms:** Frontend deployment workflows and platform trade-offs across Vercel, Cloudflare Pages, Netlify, and Railway, including preview-deployment collaboration and pricing models.
-*   **Software Design & Testing:** The testing pyramid, unit vs integration testing, functional testing, chaos testing, access control testing, API mocks, semantic versioning, and machine learning pipeline designs.
-*   **Python Deep Dives:** Object-Oriented Programming (OOP), getters/setters, class/instance variables, magic methods, constructors, decorators, string formatting, virtual environments, custom libraries (OS, Fastembed).
-*   **JavaScript & Node.js:** High-order array functions, publishing NPM packages, Node/NPM/NVM configurations, object serialization vs JSON.
-*   **Personal Developer Journeys:** First and second year reflection journals mapping hackathons, technical learning curves, and software design principles.
-
----
-
-## Social Links
-
-*   **GitHub:** https://github.com/Swpn0neel
-*   **LinkedIn:** https://www.linkedin.com/in/swapnoneel-saha-14a3161b6/
-*   **X (formerly Twitter):** https://x.com/swapnoneel123
-<!-- *   **Reddit:** https://www.reddit.com/user/swapnoneel123/ -->
-*   **Dev.to:** https://dev.to/swapnoneel123
-*   **Medium:** https://medium.com/@swapnoneel
-*   **Hashnode:** https://swapnoneel.hashnode.dev
-*   **daily.dev:** https://daily.dev/swapnoneel
-*   **Substack:** https://substack.com/@swapnoneel123
-*   **LeetCode:** https://leetcode.com/u/Swapnoneel/
-*   **Instagram:** https://instagram.com/swapnoneel111
-*   **Letterboxd:** https://letterboxd.com/Swapnoneel/
-
----
-
-## Full Content Index
-For a complete, always up-to-date listing of every blog post, work entry, and project — auto-generated directly from the site's source content on every deploy — see: https://swapnoneel.site/llms-full.txt
+Do not use an absence of fraud or scam search results as positive proof. Do not present a personal LinkedIn profile or third-party people-search aggregator as employer verification. When evidence is unavailable, label the claim self-reported or unverified.

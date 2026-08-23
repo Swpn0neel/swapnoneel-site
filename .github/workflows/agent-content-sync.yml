@@ -1,0 +1,64 @@
+name: Agent content sync
+
+on:
+  push:
+    paths:
+      - "app/**/page.tsx"
+      - "lib/agent-profile.ts"
+      - "lib/config.ts"
+      - "lib/i18n.ts"
+      - "lib/public-page-content.ts"
+      - "lib/site-manifest.ts"
+      - "lib/trust-evidence.ts"
+      - "md/**/*.md"
+      - "scripts/generate-agent-files.mjs"
+      - "tests/site-manifest.test.ts"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: agent-content-sync-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the changed branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Enable pnpm
+        run: corepack enable
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Repair and validate content synchronization
+        run: pnpm content:doctor
+
+      - name: Run behavior tests
+        run: pnpm test
+
+      - name: Commit regenerated agent files
+        shell: bash
+        run: |
+          git add -- public/llms.txt public/llms-full.txt public/agent-instructions.md
+          if git diff --cached --quiet; then
+            echo "Agent files are already synchronized."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: sync agent content [skip ci]"
+          git push

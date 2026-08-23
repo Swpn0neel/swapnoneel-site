@@ -11,14 +11,13 @@ const force = args.includes("--force");
 // output. Worth keeping true: generate-blur scans public/{work,project,img} and
 // generate-palette public/project — the *source* images, not the encoded
 // public/{blog-img,project-img} the heavy scripts write — while
-// generate-llms-full and generate-project-overlay-content read md/ alone. A new
+// generate-agent-files reads canonical content sources only. A new
 // script that consumes one of these outputs belongs after the batch, next to
 // align-narrations, not in it.
 const fastScripts = [
   "scripts/generate-blur.mjs",
   "scripts/generate-palette.mjs",
-  "scripts/generate-project-overlay-content.mjs",
-  "scripts/generate-llms-full.mjs",
+  "scripts/generate-agent-files.mjs",
 ];
 
 const heavyScripts = [
@@ -39,15 +38,16 @@ function run(script) {
   // explicitly rather than sniffed from the filename, which was easy to get
   // subtly wrong as scripts gained imports.
   const NEEDS_STRIP_TYPES = new Set([
-    "scripts/generate-llms-full.mjs",
+    "scripts/generate-agent-files.mjs",
     "scripts/generate-narrations.mjs",
     "scripts/align-narrations.mjs",
     "scripts/mirror-blog-images.mjs",
     "scripts/generate-project-images.mjs",
   ]);
-  const cmdArgs = NEEDS_STRIP_TYPES.has(script) || script.endsWith(".ts")
-    ? ["--experimental-strip-types", script]
-    : [script];
+  const cmdArgs =
+    NEEDS_STRIP_TYPES.has(script) || script.endsWith(".ts")
+      ? ["--experimental-strip-types", script]
+      : [script];
   return new Promise((resolve, reject) => {
     const child = spawn("node", cmdArgs, { stdio: "inherit" });
     child.on("close", (code) => {
@@ -63,7 +63,11 @@ function newestMtime(dir, depth = 6) {
   function walk(d, lvl) {
     if (lvl < 0) return;
     let entries;
-    try { entries = fs.readdirSync(d, { withFileTypes: true }); } catch { return; }
+    try {
+      entries = fs.readdirSync(d, { withFileTypes: true });
+    } catch {
+      return;
+    }
     for (const e of entries) {
       const p = path.join(d, e.name);
       try {
@@ -78,7 +82,11 @@ function newestMtime(dir, depth = 6) {
 }
 
 function mtimeOf(file) {
-  try { return fs.statSync(file).mtimeMs; } catch { return 0; }
+  try {
+    return fs.statSync(file).mtimeMs;
+  } catch {
+    return 0;
+  }
 }
 
 function needsMirror() {
@@ -102,7 +110,9 @@ function needsProjectImages() {
       const out = path.join(process.cwd(), "public", "project-img");
       const files = fs.readdirSync(out);
       return files.length === 0;
-    } catch { return true; }
+    } catch {
+      return true;
+    }
   })();
   if (outMissing) return true;
   return srcNew > m;
@@ -133,12 +143,16 @@ async function runVelite() {
 }
 
 const t0 = Date.now();
-console.log(`[pipeline] mode=${isDev ? "dev" : isBuild ? "build" : "default"}${force ? " --force" : ""}`);
+console.log(
+  `[pipeline] mode=${isDev ? "dev" : isBuild ? "build" : "default"}${force ? " --force" : ""}`
+);
 console.log("[pipeline] velite (serial, content layer)...");
 await runVelite();
 console.log("[pipeline] update-blog-dates (serial, mutates md)...");
 await run("scripts/update-blog-dates.mjs");
-console.log(`[pipeline] update-blog-dates done in ${((Date.now() - t0) / 1000).toFixed(1)}s`);
+console.log(
+  `[pipeline] update-blog-dates done in ${((Date.now() - t0) / 1000).toFixed(1)}s`
+);
 
 let toRun = [...fastScripts];
 let heavy = [];
@@ -160,8 +174,12 @@ const t1 = Date.now();
 console.log(`[pipeline] running ${toRun.length} scripts in parallel...`);
 try {
   await Promise.all(toRun.map(run));
-  console.log(`[pipeline] parallel batch done in ${((Date.now() - t1) / 1000).toFixed(1)}s`);
-  console.log("[pipeline] align-narrations (serial, reads narration output)...");
+  console.log(
+    `[pipeline] parallel batch done in ${((Date.now() - t1) / 1000).toFixed(1)}s`
+  );
+  console.log(
+    "[pipeline] align-narrations (serial, reads narration output)..."
+  );
   await run(afterNarration);
   console.log(`[pipeline] total ${((Date.now() - t0) / 1000).toFixed(1)}s`);
 } catch (err) {

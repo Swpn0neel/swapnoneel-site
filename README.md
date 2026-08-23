@@ -12,6 +12,9 @@ An architecturally elegant, state-of-the-art developer portfolio and digital gar
 
 ## Key Features & Engineering Highlights
 
+Content ownership and synchronization rules are documented in
+[CONTENT_SYSTEM.md](./CONTENT_SYSTEM.md).
+
 This is not just another simple static portfolio. It is engineered from the ground up with automated content pipelines, custom build scripts, and modern web standards.
 
 - **Next.js 16 & React 19 Engine**: Built entirely on the latest App Router architecture with Turbopack for ultra-fast compilation and optimal bundle delivery.
