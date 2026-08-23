@@ -1,4 +1,5 @@
 import { getAllBlogPosts, getAllProjects, getAllWorkItems } from "@/lib/md";
+import { absoluteSiteUrl, sitePages } from "@/lib/site-manifest";
 import type { MetadataRoute } from "next";
 
 function parseValidDate(dateStr: string | undefined): Date {
@@ -13,50 +14,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const workItems = getAllWorkItems();
   const projects = getAllProjects();
 
-  const staticRoutes: MetadataRoute.Sitemap = [
-    {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/work`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/work/others`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/resume`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.6,
-    },
-    {
-      url: `${baseUrl}/feed.xml`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.3,
-    },
-  ];
+  const staticRoutes: MetadataRoute.Sitemap = sitePages.map((page) => ({
+    url: absoluteSiteUrl(page.path),
+    lastModified: new Date(),
+    changeFrequency: page.changeFrequency,
+    priority: page.priority,
+  }));
 
   const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
     url: `${baseUrl}/blog/${post.slug}`,

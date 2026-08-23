@@ -56,6 +56,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.swapnoneel.site"),
   alternates: {
     canonical: "/",
+    types: { "text/markdown": "/index.md" },
   },
   openGraph: {
     title: siteConfig.person.fullName,
@@ -88,15 +89,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  modal,
 }: {
   children: React.ReactNode;
-  // Intercepted /work/[slug] project dialog. The slot lives at the root, not
-  // under app/work, because the project cards on the home page link here too —
-  // an interceptor inside app/work can only catch navigations that already
-  // start inside that segment, so from "/" it never fired and the card
-  // navigated away from the page instead of opening over it.
-  modal: React.ReactNode;
 }) {
   return (
     <html
@@ -172,7 +166,6 @@ export default function RootLayout({
             <main id="main-content" tabIndex={-1} className="flex-1">
               <PageTransition>{children}</PageTransition>
             </main>
-            {modal}
             <div className="print:hidden">
               <BackToTop />
             </div>
