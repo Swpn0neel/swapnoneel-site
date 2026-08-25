@@ -19,7 +19,7 @@ const APPEAR_DELAY = 150;
  * a destination that resolves back to the current page — would otherwise leave
  * it crawling forever.
  */
-const SAFETY_TIMEOUT = 10_000;
+const SAFETY_TIMEOUT = 30_000;
 
 /** Must stay in step with the opacity transition in components.css. */
 const EXIT_DURATION = 260;
