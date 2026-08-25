@@ -11,7 +11,7 @@ import { safeJsonLd } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 
 // No `weight` list on purpose. Inter is a variable font, and naming weights
@@ -26,6 +26,18 @@ const inter = Inter({
   subsets: ["latin"],
   display: "optional",
   variable: "--font-inter",
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  display: "optional",
+  variable: "--font-geist",
+});
+
+const geistMono = Geist_Mono({
+  subsets: ["latin"],
+  display: "optional",
+  variable: "--font-geist-mono",
 });
 
 // Writes the *resolved* theme to data-theme before <body> exists, whether the
@@ -97,7 +109,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={inter.variable}
+      className={`${inter.variable} ${geist.variable} ${geistMono.variable}`}
     >
       <head>
         {/* Gives native controls and the browser canvas both supported schemes;

@@ -42,7 +42,7 @@ export function ProjectIndex({
               </h3>
               {item.meta.description && (
                 <span
-                  className={`group-hover:text-foreground/80 line-clamp-2 min-w-0 flex-1 text-xs transition-colors sm:line-clamp-1 ${
+                  className={`group-hover:text-foreground/80 line-clamp-2 min-w-0 flex-1 text-sm transition-colors sm:line-clamp-1 ${
                     active ? "text-foreground/80" : "text-muted-foreground"
                   }`}
                 >
