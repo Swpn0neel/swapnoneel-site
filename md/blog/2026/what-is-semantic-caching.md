@@ -7,6 +7,8 @@ description: >-
   it.
 slug: what-is-semantic-caching
 link:
+  - 'https://swapnoneel123.substack.com/p/what-is-semantic-caching'
+  - 'https://swapnoneel.medium.com/what-is-semantic-caching-2e4de93e25b0'
   - >-
     https://dev.to/swapnoneel123/what-is-semantic-caching-and-where-it-quietly-breaks-514o
 canonical: 'https://www.swapnoneel.site/blog/what-is-semantic-caching'
@@ -18,7 +20,7 @@ tags:
   - beginners
   - ai
   - performance
-updated: '2026-08-21T05:40:31.914Z'
+updated: '2026-08-25T03:44:38.334Z'
 ---
 
 Two people open your support chatbot within the same minute. One types `How do I reset my password?` and the other types `i forgot my password, how do i get a new one`.
