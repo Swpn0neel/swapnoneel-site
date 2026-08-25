@@ -615,6 +615,17 @@
       1521
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0642lcmw6j9v4tbn0b9t.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/0642lcmw6j9v4tbn0b9t-c716dc39.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0jqt2fv5869zcc74abon.png": {
     "local": "/blog-img/2026/ai-observability-explained/0jqt2fv5869zcc74abon-dcb709be.webp",
     "width": 1536,
@@ -639,6 +650,28 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/28o1zintr6j86wowkvn0.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/28o1zintr6j86wowkvn0-6699323c.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/2r7xnd21yjazp4j7r2n0.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/2r7xnd21yjazp4j7r2n0-52250ec4.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3a7fh72t7zb1yamry238.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/3a7fh72t7zb1yamry238-4826a8f5.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -907,6 +940,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/aehpz9omezpmc0ei8gr0.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/aehpz9omezpmc0ei8gr0-a07d458e.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/aovia04alqss3g389xah.png": {
     "local": "/blog-img/2026/vercel-frontend-deployment-default/aovia04alqss3g389xah-8059eaea.webp",
     "width": 1536,
@@ -1080,8 +1124,30 @@
       1277
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ijjzcxkuo8eij5svwypk.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/ijjzcxkuo8eij5svwypk-e4977ca6.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/j0aqe0r43weglq9cpqb3.png": {
     "local": "/blog-img/2026/vercel-frontend-deployment-default/j0aqe0r43weglq9cpqb3-bf787044.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/j1duf0pqm9wh4m8sooj0.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/j1duf0pqm9wh4m8sooj0-4e2b1ac7.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1106,6 +1172,17 @@
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/jn984noo2rlwqhqq6b3q-a1c12583.webp",
     "width": 1536,
     "height": 1156,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/kgoac0gdz8fyn2k7yfjy.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/kgoac0gdz8fyn2k7yfjy-68f25e01.webp",
+    "width": 1536,
+    "height": 864,
     "renditions": [
       640,
       960,
@@ -1242,6 +1319,17 @@
       779
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/t2h6z4udvqeugogh29f5.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/t2h6z4udvqeugogh29f5-2641c70f.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tjxt9en3l4yzf1gelqlr.png": {
     "local": "/blog-img/2026/what-is-adaptive-load-balancing/tjxt9en3l4yzf1gelqlr-e024e93c.webp",
     "width": 1536,
@@ -1329,6 +1417,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/uu54npgbb94cpswizr6u.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/uu54npgbb94cpswizr6u-a853b103.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ux3cdjdufpwk8zivmwo1.png": {
     "local": "/blog-img/2026/what-is-semantic-caching/ux3cdjdufpwk8zivmwo1-ee3509d5.webp",
     "width": 1536,
@@ -1363,6 +1462,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/vx141iz8mc6jumndcpk8.png": {
     "local": "/blog-img/2026/what-is-semantic-caching/vx141iz8mc6jumndcpk8-b425e0a4.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/wcx40cj0bon9l2lr74x7.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/wcx40cj0bon9l2lr74x7-358533ac.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1451,6 +1561,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yxaj337vywpb3o2aygoa.png": {
     "local": "/blog-img/2026/deep-dive-into-bifrost/yxaj337vywpb3o2aygoa-3aca0a80.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yyqtk1qqtnuyues2j9ll.png": {
+    "local": "/blog-img/2026/claude-pro-usage-limits/yyqtk1qqtnuyues2j9ll-a97b12e2.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
