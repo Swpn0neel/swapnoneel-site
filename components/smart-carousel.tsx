@@ -196,25 +196,44 @@ export function SmartCarousel({
   // Waiting for onPointerUpCapture there latches interactingRef on for the
   // life of the page and autoplay never comes back. Bind the release to the
   // window, where it always lands.
-  const pauseForInteraction = useCallback(() => {
-    interactingRef.current = true;
-    if (interactionTimerRef.current !== null) {
-      window.clearTimeout(interactionTimerRef.current);
-      interactionTimerRef.current = null;
-    }
-    clearAutoplayTimer();
+  const pauseForInteraction = useCallback(
+    (event: React.PointerEvent<HTMLDivElement>) => {
+      interactingRef.current = true;
+      if (interactionTimerRef.current !== null) {
+        window.clearTimeout(interactionTimerRef.current);
+        interactionTimerRef.current = null;
+      }
+      clearAutoplayTimer();
 
-    if (releaseInteractionRef.current) return;
-    const release = () => {
-      window.removeEventListener("pointerup", release);
-      window.removeEventListener("pointercancel", release);
-      releaseInteractionRef.current = null;
-      resumeAfterInteraction();
-    };
-    releaseInteractionRef.current = release;
-    window.addEventListener("pointerup", release);
-    window.addEventListener("pointercancel", release);
-  }, [clearAutoplayTimer, resumeAfterInteraction]);
+      const startX = event.clientX;
+      const startY = event.clientY;
+
+      if (releaseInteractionRef.current) return;
+      const release = (upEvent?: PointerEvent) => {
+        window.removeEventListener("pointerup", release);
+        window.removeEventListener("pointercancel", release);
+        releaseInteractionRef.current = null;
+
+        if (upEvent && rootRef.current) {
+          const diffX = Math.abs(upEvent.clientX - startX);
+          const diffY = Math.abs(upEvent.clientY - startY);
+          if (diffX > 5 || diffY > 5) {
+            rootRef.current.dataset.preventClick = "true";
+            const root = rootRef.current;
+            window.setTimeout(() => {
+              delete root.dataset.preventClick;
+            }, 0);
+          }
+        }
+
+        resumeAfterInteraction();
+      };
+      releaseInteractionRef.current = release;
+      window.addEventListener("pointerup", release);
+      window.addEventListener("pointercancel", release);
+    },
+    [clearAutoplayTimer, resumeAfterInteraction]
+  );
 
   useEffect(() => {
     pausedRef.current = paused;

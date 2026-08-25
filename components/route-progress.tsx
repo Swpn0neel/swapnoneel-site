@@ -47,6 +47,12 @@ function startsNavigation(event: MouseEvent): boolean {
     return false;
 
   const target = event.target;
+  if (
+    target instanceof Element &&
+    target.closest('[data-prevent-click="true"]')
+  ) {
+    return false;
+  }
   const anchor = target instanceof Element ? target.closest("a") : null;
   // Not `!anchor`: an <a> inside an SVG is an SVGAElement, whose href is not a
   // resolved string and which cannot be a router link.
