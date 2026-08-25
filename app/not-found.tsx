@@ -2,7 +2,6 @@
 // for why the game may not be a static import from this file.
 import { FourOhFourGameSlot } from "@/components/four-oh-four-game-slot";
 import { i18n } from "@/lib/i18n";
-import Link from "next/link";
 
 /**
  * The 404, which is the game and one sentence.
@@ -56,26 +55,6 @@ export default function NotFound() {
           <p className="text-muted-foreground mt-2 text-sm">
             {i18n.notFound.sub}
           </p>
-          <nav
-            aria-label="404 recovery"
-            className="text-muted-foreground mt-4 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs"
-          >
-            <Link href="/" className="hover:text-foreground underline">
-              home
-            </Link>
-            <a href="/sitemap.xml" className="hover:text-foreground underline">
-              sitemap
-            </a>
-            <a href="/llms.txt" className="hover:text-foreground underline">
-              agent summary
-            </a>
-            <Link
-              href="/developers"
-              className="hover:text-foreground underline"
-            >
-              developer resources
-            </Link>
-          </nav>
         </div>
       </FourOhFourGameSlot>
     </div>

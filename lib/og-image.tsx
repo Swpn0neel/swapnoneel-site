@@ -4,38 +4,37 @@ import { ImageResponse } from "next/og";
 export const OG_IMAGE_SIZE = { width: 1200, height: 630 };
 export const OG_IMAGE_CONTENT_TYPE = "image/png";
 
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
+
+let cachedFonts:
+  | [
+      { name: string; data: Buffer; weight: 400; style: "normal" },
+      { name: string; data: Buffer; weight: 600; style: "normal" },
+      { name: string; data: Buffer; weight: 700; style: "normal" },
+    ]
+  | null = null;
+
 async function loadOgFonts() {
+  if (cachedFonts) return cachedFonts;
   try {
     const [regular, semiBold] = await Promise.all([
-      fetch(new URL("../assets/fonts/Inter-Regular.ttf", import.meta.url)).then(
-        (res) => {
-          if (!res.ok) throw new Error(`Failed to fetch Inter-Regular: ${res.status}`);
-          return res.arrayBuffer();
-        }
-      ),
-      fetch(new URL("../assets/fonts/Inter-SemiBold.ttf", import.meta.url)).then(
-        (res) => {
-          if (!res.ok) throw new Error(`Failed to fetch Inter-SemiBold: ${res.status}`);
-          return res.arrayBuffer();
-        }
-      ),
+      readFile(join(process.cwd(), "assets/fonts/Inter-Regular.ttf")),
+      readFile(join(process.cwd(), "assets/fonts/Inter-SemiBold.ttf")),
     ]);
 
-    return [
+    cachedFonts = [
       { name: "Inter", data: regular, weight: 400 as const, style: "normal" as const },
       { name: "Inter", data: semiBold, weight: 600 as const, style: "normal" as const },
       { name: "Inter", data: semiBold, weight: 700 as const, style: "normal" as const },
     ];
+    return cachedFonts;
   } catch {
-    // In node-prerender (build) `fetch(file://)` is not yet implemented.
-    // Returning undefined falls back to system font so the build still
-    // succeeds; on the edge runtime the fetch above will succeed.
     return undefined;
   }
 }
 
-// Single renderer for all opengraph-image routes. Uses edge-compatible fetch
-// for fonts (no node:fs readFile) so it can run on the edge runtime and at build.
+// Single renderer for all opengraph-image routes.
 export async function renderOgImage(title: string, description?: string) {
   const fonts = await loadOgFonts();
 

@@ -6,6 +6,7 @@ interface ProjectWindowProps {
   alt: string;
   sizes: string;
   priority?: boolean;
+  loading?: "eager" | "lazy";
 }
 
 /**
@@ -18,6 +19,7 @@ export function ProjectWindow({
   alt,
   sizes,
   priority = false,
+  loading,
 }: ProjectWindowProps) {
   // Pre-encoded by scripts/generate-project-images.mjs. A cover it has not seen
   // falls through to the optimizer rather than to guessed filenames.
@@ -41,7 +43,7 @@ export function ProjectWindow({
             className="object-cover object-top"
             sizes={sizes}
             critical={priority}
-            loading={priority ? "eager" : undefined}
+            loading={loading ?? (priority ? "eager" : undefined)}
             fetchPriority={priority ? "high" : undefined}
             unoptimized={Boolean(renditions)}
             sourceSets={renditions?.sources.map((source) => ({

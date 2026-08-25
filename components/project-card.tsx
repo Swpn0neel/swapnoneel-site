@@ -26,11 +26,13 @@ export function ProjectCover({
   cover,
   sizes,
   priority = false,
+  loading,
   alt = "",
 }: {
   cover: string;
   sizes: string;
   priority?: boolean;
+  loading?: "eager" | "lazy";
   alt?: string;
 }) {
   const palette = palettes[cover];
@@ -45,7 +47,13 @@ export function ProjectCover({
         } as CSSProperties
       }
     >
-      <ProjectWindow src={cover} alt={alt} sizes={sizes} priority={priority} />
+      <ProjectWindow
+        src={cover}
+        alt={alt}
+        sizes={sizes}
+        priority={priority}
+        loading={loading}
+      />
     </div>
   );
 }

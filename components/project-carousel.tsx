@@ -48,6 +48,12 @@ export function ProjectCarousel({
         <ul className="smart-carousel__container flex">
           {items.map((item, i) => {
             const active = i === activeIndex;
+            // The first slide (0), second slide (1, right peek), and the last
+            // slide (items.length - 1, looped left peek) are all visible when
+            // the carousel renders. Load their images eagerly without preloading
+            // in <head> so the left-peeking card loads alongside slides 1 and 2.
+            const isInitialVisible =
+              i === 0 || i === 1 || i === items.length - 1;
             return (
               <li
                 key={`${item.meta.slug}-${i}`}
@@ -64,6 +70,7 @@ export function ProjectCarousel({
                     <ProjectCover
                       cover={item.meta.cover}
                       sizes="(min-width: 640px) 580px, 82vw"
+                      loading={isInitialVisible ? "eager" : "lazy"}
                     />
                   ) : (
                     <span className="bg-secondary text-muted-foreground flex aspect-video w-full items-center justify-center px-4 text-center font-mono text-xs">
