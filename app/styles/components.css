@@ -306,30 +306,36 @@
 .route-progress__bar {
   position: absolute;
   inset-block: 0;
-  inline-size: 40%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    hsl(var(--foreground) / 0.55),
-    transparent
-  );
-  transform: translate3d(-110%, 0, 0);
+  inset-inline-start: 0;
+  inline-size: 100%;
+  background: hsl(var(--foreground) / 0.85);
+  transform: scaleX(0);
+  transform-origin: left;
   will-change: transform;
-  animation: route-progress-slide 1.15s ease-in-out infinite;
 }
-@keyframes route-progress-slide {
-  to {
-    transform: translate3d(260%, 0, 0);
+.route-progress[data-route-progress="pending"] .route-progress__bar {
+  animation: route-progress-load 12s cubic-bezier(0.08, 0.85, 0.15, 1) forwards;
+}
+.route-progress[data-route-progress="leaving"] .route-progress__bar {
+  transform: scaleX(1);
+  transition: transform 260ms ease-out;
+}
+@keyframes route-progress-load {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(0.9);
   }
 }
 /* No travel, so the bar reports the wait by being present at all. Opacity is
    still transitioned, which reduced-motion permits — it is a fade, not motion. */
 @media (prefers-reduced-motion: reduce) {
   .route-progress__bar {
-    inline-size: 100%;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
     background: hsl(var(--foreground) / 0.32);
-    transform: none;
-    animation: none;
   }
 }
 @media print {
