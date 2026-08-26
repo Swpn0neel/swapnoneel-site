@@ -148,6 +148,11 @@ Summary: I explored the enterprise features of Bifrost, including Audit Logs, MC
 Date: 2026-08-25T17:05:36.000Z
 Summary: Claude Pro usage limits run on two clocks, not a message counter. What really drains them, how to read the meter, and eight ways to get more from one plan.
 
+### [Fixing Claude Rate Limit Errors with an AI Gateway](https://www.swapnoneel.site/blog/claude-rate-limit-error)
+
+Date: 2026-08-26T18:04:49.000Z
+Summary: A Claude rate limit error is five different failures wearing one status code. How to tell them apart, retry correctly, and route around the ceiling.
+
 ### [Deep Diving Into Bifrost: Virtual Keys, MCP and Skills](https://www.swapnoneel.site/blog/deep-dive-into-bifrost)
 
 Date: 2026-07-31T00:00:00.000Z
@@ -187,11 +192,6 @@ Summary: Why I keep reaching for Vercel for frontend projects — and where Clou
 
 Date: 2026-08-17T00:00:00.000Z
 Summary: Adaptive load balancing routes by live health, not a fixed rotation. How the scoring actually works, and why AI traffic breaks the older algorithms.
-
-### [What Is Semantic Caching, and Where It Quietly Breaks](https://www.swapnoneel.site/blog/what-is-semantic-caching)
-
-Date: 2026-08-19T17:39:37.000Z
-Summary: Semantic caching serves cached LLM answers to queries that only match in meaning. How it works, the threshold trap, real hit rates, and when to skip it.
 
 For every published article in full, use the full content corpus or RSS feed.
 

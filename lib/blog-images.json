@@ -734,6 +734,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/46c0m6i2doo5k0h0c299.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/46c0m6i2doo5k0h0c299-db485708.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4loyitgxbfeatne9i0tw.png": {
     "local": "/blog-img/2026/deep-dive-into-bifrost/4loyitgxbfeatne9i0tw-1394ff9c.webp",
     "width": 1536,
@@ -747,6 +758,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4pd0cgpsjrqtwi6jdlro.png": {
     "local": "/blog-img/2026/testing-ai-coding-agents/4pd0cgpsjrqtwi6jdlro-7e88209c.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4xkzvwwu4uwqzxsaiuvz.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/4xkzvwwu4uwqzxsaiuvz-b3644053.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -888,6 +910,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8e30q00qh3ztb3x6cfzi.png": {
     "local": "/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/8e30q00qh3ztb3x6cfzi-6fc04529.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8fsszd8u7gfiw96tlmhi.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/8fsszd8u7gfiw96tlmhi-a526deff.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1103,6 +1136,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/hmklnlthq7ogxtpyf8hz.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/hmklnlthq7ogxtpyf8hz-b734f78c.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/i8fz76dcy7hsjskwcovi.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/i8fz76dcy7hsjskwcovi-7ebda806.webp",
     "width": 1536,
@@ -1126,6 +1170,28 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ijjzcxkuo8eij5svwypk.png": {
     "local": "/blog-img/2026/claude-pro-usage-limits/ijjzcxkuo8eij5svwypk-e4977ca6.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ipw85rkw6py2uyu78m46.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/ipw85rkw6py2uyu78m46-79c42f1d.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/izmrdm5d9upjquptckub.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/izmrdm5d9upjquptckub-f8a9708b.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1255,6 +1321,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/phfhxeina7wuku5szc27.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/phfhxeina7wuku5szc27-7f6cc7f0.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/pivin0jtpppbxla1ajho.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/pivin0jtpppbxla1ajho-69cc7de6.webp",
     "width": 1536,
@@ -1321,6 +1398,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/t2h6z4udvqeugogh29f5.png": {
     "local": "/blog-img/2026/claude-pro-usage-limits/t2h6z4udvqeugogh29f5-2641c70f.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ti2ch28898n2suxkmr9i.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/ti2ch28898n2suxkmr9i-458bf76f.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1447,6 +1535,17 @@
       640,
       960,
       1274
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/vex8uyya3rxfgb8c32fk.png": {
+    "local": "/blog-img/2026/claude-rate-limit-error/vex8uyya3rxfgb8c32fk-1e757267.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
     ]
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/vr4zw9hox2yybrgbhzqs.png": {
