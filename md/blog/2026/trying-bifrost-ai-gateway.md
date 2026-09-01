@@ -2,8 +2,9 @@
 title: "Trying Bifrost: An AI Gateway That Simplified My Setup"
 date: "2026-07-30T00:00:00.000Z"
 description: >-
-  I set up Bifrost locally with OpenCode, tested automatic model fallback and
-  complexity-based routing, and it fixed how I juggle LLM providers.
+  A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI
+  providers, covering local OpenCode setup, automatic fallbacks, and
+  complexity-based routing.
 slug: trying-bifrost-ai-gateway
 link:
   - "https://substack.com/home/post/p-210123962"
@@ -23,9 +24,9 @@ tags:
 updated: "2026-08-07T17:43:55.040Z"
 ---
 
-I try a lot of models daily, and I kept ending up with a separate API key for every model provider I wanted to test with my desired harness. So I decided to try [Bifrost](https://www.getmaxim.ai/bifrost) on my local machine, to see if it would actually fix that.
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I tried it locally because I use several model providers and was tired of managing a separate API key and connection for each one.
 
-Bifrost is a high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost), built in Go. It puts multiple AI providers behind a single OpenAI-compatible API, and it does that with ultra-low latency, automatic failover, load balancing, and enterprise governance features baked in.
+Bifrost is written in Go and includes automatic failover, load balancing, semantic caching, and a built-in web UI for configuration and real-time monitoring.
 
 If you've used LiteLLM before, it may sound familiar on paper, but the experience is pretty different in practice. LiteLLM is a Python library and proxy you configure and run yourself; Bifrost ships as a standalone Go binary with a full web dashboard baked in, so there's no separate observability stack to stand up just to see what's actually happening to your requests. That dashboard ended up being the thing I used the most, as you'll see below.
 

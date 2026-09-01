@@ -178,7 +178,9 @@ Where it does earn its place: support bots, docs assistants, FAQ layers, onboard
 
 ## How Bifrost does semantic caching at the gateway
 
-I have been running [Bifrost](https://www.getmaxim.ai/bifrost) as my AI gateway for a while now. Its semantic cache follows the design described above, and the code is available in its [GitHub repository](https://github.com/maximhq/bifrost).
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as my AI gateway for a while now.
+
+Its [semantic cache](https://docs.getbifrost.ai/features/semantic-caching) combines exact hash matching with vector similarity search, supports per-request TTL and threshold overrides, and keeps cache entries separate by model and provider by default.
 
 The design choice I like most is that it is **two layers, not one**.
 

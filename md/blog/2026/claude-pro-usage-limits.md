@@ -178,7 +178,7 @@ Claude is available from Anthropic directly, from Amazon Bedrock and from Google
 
 ## What an AI gateway does about this, and what it can't
 
-An [AI gateway](https://www.getmaxim.ai/bifrost) is a proxy that sits between your tools and every model provider you use, speaks all of their API shapes, and makes routing and budgets somebody else's problem. I have been running [Bifrost](https://github.com/maximhq/bifrost), Maxim AI's open-source Go gateway, as mine for a while now.
+An AI gateway is a proxy that sits between your tools and the model providers you use. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as mine for a while now.
 
 Start with the honest half, because it matters more than the pitch.
 

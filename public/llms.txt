@@ -57,7 +57,7 @@ Do not treat this portfolio as a general-purpose software API, identity provider
 ### [GTM Engineer • Maxim AI](https://www.swapnoneel.site/work/maxim)
 
 Date: Jul 2026 - Present
-Summary: Managing the open-source community and working on Bifrost, running the social handles, and creating video content and technical blogs.
+Summary: Managing the open-source community and working on Bifrost, Maxim AI's high-performance gateway for accessing 20+ AI providers through one OpenAI-compatible API, while also running social channels and creating video and technical content.
 
 ### [GTM Engineer • Zonko Labs](https://www.swapnoneel.site/work/zonko)
 
@@ -141,7 +141,7 @@ Summary: AI observability is how you see inside a non-deterministic system. What
 ### [Bifrost for Enterprises: Adaptive Routing, Guardrails and much more](https://www.swapnoneel.site/blog/bifrost-for-enterprises)
 
 Date: 2026-08-09T15:41:05.000Z
-Summary: I explored the enterprise features of Bifrost, including Audit Logs, MCP Tool Groups, Adaptive Routing, and custom Guardrails, and provided an honest verdict.
+Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit logs, MCP tool groups, adaptive routing, and guardrails. This is a hands-on review of those features.
 
 ### [Claude Pro Usage Limits Explained and How to Work Around Them](https://www.swapnoneel.site/blog/claude-pro-usage-limits)
 
@@ -156,7 +156,7 @@ Summary: A Claude rate limit error is five different failures wearing one status
 ### [Deep Diving Into Bifrost: Virtual Keys, MCP and Skills](https://www.swapnoneel.site/blog/deep-dive-into-bifrost)
 
 Date: 2026-07-31T00:00:00.000Z
-Summary: Going further into the Bifrost dashboard: virtual keys and rate limits, the MCP gateway, prompt and skill repositories, and custom log headers.
+Summary: A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering virtual keys, MCP, prompts, skills, and custom log headers.
 
 ### [GEO for Developers: Get Cited by ChatGPT and Perplexity](https://www.swapnoneel.site/blog/geo-for-developers)
 
@@ -181,7 +181,7 @@ Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents 
 ### [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)
 
 Date: 2026-07-30T00:00:00.000Z
-Summary: I set up Bifrost locally with OpenCode, tested automatic model fallback and complexity-based routing, and it fixed how I juggle LLM providers.
+Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering local OpenCode setup, automatic fallbacks, and complexity-based routing.
 
 ### [Why Vercel is still my default for shipping frontend projects](https://www.swapnoneel.site/blog/vercel-frontend-deployment-default)
 

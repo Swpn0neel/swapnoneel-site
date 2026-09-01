@@ -41,7 +41,7 @@ And there are whole categories of failure your stack has no field for. It has no
 
 ![Why standard monitoring misses AI quality failures](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/72i1wisqwyz7zwvurepu.png)
 
-Something has to hold those fields instead, which is the entire reason this tooling exists. My team uses [Bifrost](https://www.getmaxim.ai/bifrost), so I will use it as the example throughout this post. It's an [open-source AI gateway](https://github.com/maximhq/bifrost) from Maxim, so anything I claim about what it records per request is something you can go check line by line. Most tools here put their telemetry story on a marketing page and stop there.
+Something has to hold those fields instead, which is the entire reason this tooling exists. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. My team uses it, so I will use it as the example throughout this post. Because the source is public, anything I claim about what it records per request is something you can check line by line.
 
 ## What one AI request actually looks like when you trace it
 

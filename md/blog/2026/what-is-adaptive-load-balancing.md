@@ -58,7 +58,7 @@ And the weights are not recalculated per request, because that would drop real w
 
 ![Live signals become route weights](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tpeg1tbewphirbc8s1pa.png)
 
-[Bifrost](https://www.getmaxim.ai/bifrost), the open-source AI gateway from Maxim, is the clearest published example of this that I have come across. Its adaptive load balancer scores routes on error penalty (50% of the score), a token-aware latency score (20%), and utilization (5%), plus a momentum bias that speeds up recovery once a bad route starts behaving again. Weights recalculate every 5 seconds, and route selection adds under 10 microseconds to the hot path, [per its documentation](https://docs.getbifrost.ai/enterprise/adaptive-load-balancing).
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its enterprise adaptive load balancer scores routes on error penalty (50% of the score), a token-aware latency score (20%), and utilization (5%), plus a momentum bias that speeds up recovery once a bad route starts behaving again. Weights recalculate every 5 seconds, and route selection adds under 10 microseconds to the hot path, [per its documentation](https://docs.getbifrost.ai/enterprise/adaptive-load-balancing).
 
 The entire source code is on [GitHub](https://github.com/maximhq/bifrost), so you can go read how the scoring is implemented rather than taking a feature page's word for it. Most load balancers describe their algorithm as "intelligent" and then stop talking.
 

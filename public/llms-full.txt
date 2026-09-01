@@ -81,7 +81,7 @@ Last reviewed: 23 August 2026. External pages can change; re-check the linked so
 ## GTM Engineer • Maxim AI
 URL: https://www.swapnoneel.site/work/maxim
 Date: Jul 2026 - Present
-Summary: Managing the open-source community and working on Bifrost, running the social handles, and creating video content and technical blogs.
+Summary: Managing the open-source community and working on Bifrost, Maxim AI's high-performance gateway for accessing 20+ AI providers through one OpenAI-compatible API, while also running social channels and creating video and technical content.
 
 [Maxim AI](https://www.getmaxim.ai) is building the evaluation and observability platform for GenAI, empowering AI teams to ship agents with enterprise-grade reliability and performance.
 
@@ -406,7 +406,7 @@ And there are whole categories of failure your stack has no field for. It has no
 
 ![Why standard monitoring misses AI quality failures](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/72i1wisqwyz7zwvurepu.png)
 
-Something has to hold those fields instead, which is the entire reason this tooling exists. My team uses [Bifrost](https://www.getmaxim.ai/bifrost), so I will use it as the example throughout this post. It's an [open-source AI gateway](https://github.com/maximhq/bifrost) from Maxim, so anything I claim about what it records per request is something you can go check line by line. Most tools here put their telemetry story on a marketing page and stop there.
+Something has to hold those fields instead, which is the entire reason this tooling exists. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. My team uses it, so I will use it as the example throughout this post. Because the source is public, anything I claim about what it records per request is something you can check line by line.
 
 ## What one AI request actually looks like when you trace it
 
@@ -514,9 +514,11 @@ You can find me on [X](https://x.com/swapnoneel123) where I post about most of w
 ## Bifrost for Enterprises: Adaptive Routing, Guardrails and much more
 URL: https://www.swapnoneel.site/blog/bifrost-for-enterprises
 Date: 2026-08-09T15:41:05.000Z
-Summary: I explored the enterprise features of Bifrost, including Audit Logs, MCP Tool Groups, Adaptive Routing, and custom Guardrails, and provided an honest verdict.
+Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit logs, MCP tool groups, adaptive routing, and guardrails. This is a hands-on review of those features.
 
-As you all might have seen, in the past two blogs, I wrote about how I explored the different features of Bifrost, and how each one of them improved my workflow, and how I interact with different harnesses through one common gateway. If you haven’t read them yet, go check them out from [the blog archive](https://www.swapnoneel.site/blog). So after exploring all the free features, I was getting the urge to try the Enterprise version as well (for my personal use, though). So, I contacted the [Bifrost](https://github.com/maximhq/bifrost/) team, and thanks to them, they gave me limited access to try out their paid features for free!! So, in this blog, I will be exploring the most prominent paid features, and would give an honest verdict on whether it’s great for personal use or not, or whether you should even give it a try for your enterprise use case.
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. [Bifrost Enterprise](https://docs.getbifrost.ai/enterprise/overview) is a strict superset of that gateway, adding high-availability clustering, adaptive load balancing, identity and access controls, audit logs, guardrails, and private deployment options.
+
+After writing about the open-source gateway in my previous two posts, I asked the Bifrost team for access to the Enterprise version. They gave me limited access to the paid features for free. This article covers what I tested and whether those features make sense for personal and enterprise use.
 
 ## Transparency through Audit Logs
 
@@ -783,7 +785,7 @@ Claude is available from Anthropic directly, from Amazon Bedrock and from Google
 
 ## What an AI gateway does about this, and what it can't
 
-An [AI gateway](https://www.getmaxim.ai/bifrost) is a proxy that sits between your tools and every model provider you use, speaks all of their API shapes, and makes routing and budgets somebody else's problem. I have been running [Bifrost](https://github.com/maximhq/bifrost), Maxim AI's open-source Go gateway, as mine for a while now.
+An AI gateway is a proxy that sits between your tools and the model providers you use. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as mine for a while now.
 
 Start with the honest half, because it matters more than the pitch.
 
@@ -1048,7 +1050,7 @@ This is the job an [AI gateway](https://www.getmaxim.ai/bifrost) does, which you
 
 Let me lead with what it cannot do, because that part gets oversold constantly. A gateway does not raise Anthropic's ceiling. Your Start tier is still your Start tier. If you run one Anthropic key through a gateway and change nothing else, you will hit exactly the same 429 at exactly the same token count, plus a few microseconds of hop.
 
-What it changes is how many buckets a single request can reach, and how fast it gives up on a bad one. I'll use [Bifrost](https://github.com/maximhq/bifrost) for the config examples, since it is open source and the failure behaviour is documented precisely enough to quote.
+What it changes is how many buckets a single request can reach, and how fast it gives up on a bad one. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I'll use it for the config examples because its failure behavior is documented precisely enough to quote.
 
 ### Pooling keys so one bucket is not the whole story
 
@@ -1158,9 +1160,11 @@ If you have hit a `429` shape that doesn't fit any of the five rows in that tabl
 ## Deep Diving Into Bifrost: Virtual Keys, MCP and Skills
 URL: https://www.swapnoneel.site/blog/deep-dive-into-bifrost
 Date: 2026-07-31T00:00:00.000Z
-Summary: Going further into the Bifrost dashboard: virtual keys and rate limits, the MCP gateway, prompt and skill repositories, and custom log headers.
+Summary: A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering virtual keys, MCP, prompts, skills, and custom log headers.
 
-In my previous blog, I mentioned how I got tired of switching providers every time I hit a rate limit, and how I finally found Bifrost, which actually solves that. If you haven't read it, [please do check it out from here!](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API.
+
+In my previous blog, I explained how I started using Bifrost to avoid switching provider connections whenever I hit a rate limit. You can read that setup in [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway).
 
 Since then, I have been daily driving [Bifrost](https://github.com/maximhq/bifrost/) with multiple coding harnesses including OpenCode, jcode and Pi, to name a few. Initially, I was perfectly fine with just the fallback mechanism and complexity routing. But every time I skimmed through the dashboard, the other features kept intriguing me.
 
@@ -1646,7 +1650,9 @@ Stop reviewing agent output the way you review your own code, and start reviewin
 
 Concretely: never let an agent pipe raw, unreviewed strings into a shell without a real evaluator in between, GuardFall exists because teams assumed string-matching was enough. Budget actual human review time as a fixed cost of using these tools, not a nice-to-have. And track your own vulnerability trend line the way Georgia Tech tracked the industry's, because "it hasn't broken yet" is not the same thing as "it's fine."
 
-And testing an agent isn't only about catching bugs before they ship, it's also about watching what the agent quietly costs you over time. That's exactly why I built that internal latency-tracking tool in the first place, numbers on slowdowns catch problems long before a user ever complains. If you don't want to build that yourself, tools are starting to do it for you: I recently found [Bifrost](https://www.getmaxim.ai/bifrost) from Maxim AI, a gateway that sits between you and your coding agents and gives you latency, cost, and token usage in one dashboard, plus fallback logic for when a model starts misbehaving. Worth a look if you're juggling as many agents and LLMs as most of us are these days.
+And testing an agent isn't only about catching bugs before they ship, it's also about watching what the agent quietly costs you over time. That's exactly why I built that internal latency-tracking tool in the first place, numbers on slowdowns catch problems long before a user ever complains.
+
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its [built-in observability](https://docs.getbifrost.ai/features/observability/default) records request inputs, outputs, tokens, costs, and latency, while automatic fallbacks can reroute a request when its primary provider fails.
 
 Do use these agents. Really do, they're not going anywhere and they've earned their place in my own workflow. But treat testing them as the actual job, not the afterthought, because right now, for most teams, it still is one.
 
@@ -1657,11 +1663,11 @@ If you're building your own testing layer for an AI tool, or you've been burned 
 ## Trying Bifrost: An AI Gateway That Simplified My Setup
 URL: https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway
 Date: 2026-07-30T00:00:00.000Z
-Summary: I set up Bifrost locally with OpenCode, tested automatic model fallback and complexity-based routing, and it fixed how I juggle LLM providers.
+Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering local OpenCode setup, automatic fallbacks, and complexity-based routing.
 
-I try a lot of models daily, and I kept ending up with a separate API key for every model provider I wanted to test with my desired harness. So I decided to try [Bifrost](https://www.getmaxim.ai/bifrost) on my local machine, to see if it would actually fix that.
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I tried it locally because I use several model providers and was tired of managing a separate API key and connection for each one.
 
-Bifrost is a high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost), built in Go. It puts multiple AI providers behind a single OpenAI-compatible API, and it does that with ultra-low latency, automatic failover, load balancing, and enterprise governance features baked in.
+Bifrost is written in Go and includes automatic failover, load balancing, semantic caching, and a built-in web UI for configuration and real-time monitoring.
 
 If you've used LiteLLM before, it may sound familiar on paper, but the experience is pretty different in practice. LiteLLM is a Python library and proxy you configure and run yourself; Bifrost ships as a standalone Go binary with a full web dashboard baked in, so there's no separate observability stack to stand up just to see what's actually happening to your requests. That dashboard ended up being the thing I used the most, as you'll see below.
 
@@ -1942,7 +1948,7 @@ And the weights are not recalculated per request, because that would drop real w
 
 ![Live signals become route weights](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tpeg1tbewphirbc8s1pa.png)
 
-[Bifrost](https://www.getmaxim.ai/bifrost), the open-source AI gateway from Maxim, is the clearest published example of this that I have come across. Its adaptive load balancer scores routes on error penalty (50% of the score), a token-aware latency score (20%), and utilization (5%), plus a momentum bias that speeds up recovery once a bad route starts behaving again. Weights recalculate every 5 seconds, and route selection adds under 10 microseconds to the hot path, [per its documentation](https://docs.getbifrost.ai/enterprise/adaptive-load-balancing).
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its enterprise adaptive load balancer scores routes on error penalty (50% of the score), a token-aware latency score (20%), and utilization (5%), plus a momentum bias that speeds up recovery once a bad route starts behaving again. Weights recalculate every 5 seconds, and route selection adds under 10 microseconds to the hot path, [per its documentation](https://docs.getbifrost.ai/enterprise/adaptive-load-balancing).
 
 The entire source code is on [GitHub](https://github.com/maximhq/bifrost), so you can go read how the scoring is implemented rather than taking a feature page's word for it. Most load balancers describe their algorithm as "intelligent" and then stop talking.
 
@@ -2186,7 +2192,9 @@ Where it does earn its place: support bots, docs assistants, FAQ layers, onboard
 
 ## How Bifrost does semantic caching at the gateway
 
-I have been running [Bifrost](https://www.getmaxim.ai/bifrost) as my AI gateway for a while now. Its semantic cache follows the design described above, and the code is available in its [GitHub repository](https://github.com/maximhq/bifrost).
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as my AI gateway for a while now.
+
+Its [semantic cache](https://docs.getbifrost.ai/features/semantic-caching) combines exact hash matching with vector similarity search, supports per-request TTL and threshold overrides, and keeps cache entries separate by model and provider by default.
 
 The design choice I like most is that it is **two layers, not one**.
 

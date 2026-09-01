@@ -196,7 +196,7 @@ This is the job an [AI gateway](https://www.getmaxim.ai/bifrost) does, which you
 
 Let me lead with what it cannot do, because that part gets oversold constantly. A gateway does not raise Anthropic's ceiling. Your Start tier is still your Start tier. If you run one Anthropic key through a gateway and change nothing else, you will hit exactly the same 429 at exactly the same token count, plus a few microseconds of hop.
 
-What it changes is how many buckets a single request can reach, and how fast it gives up on a bad one. I'll use [Bifrost](https://github.com/maximhq/bifrost) for the config examples, since it is open source and the failure behaviour is documented precisely enough to quote.
+What it changes is how many buckets a single request can reach, and how fast it gives up on a bad one. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I'll use it for the config examples because its failure behavior is documented precisely enough to quote.
 
 ### Pooling keys so one bucket is not the whole story
 

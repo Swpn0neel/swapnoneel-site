@@ -2,8 +2,9 @@
 title: "Deep Diving Into Bifrost: Virtual Keys, MCP and Skills"
 date: "2026-07-31T00:00:00.000Z"
 description: >-
-  Going further into the Bifrost dashboard: virtual keys and rate limits, the
-  MCP gateway, prompt and skill repositories, and custom log headers.
+  A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI
+  providers, covering virtual keys, MCP, prompts, skills, and custom log
+  headers.
 slug: deep-dive-into-bifrost
 link:
   - "https://swapnoneel123.substack.com/p/deep-diving-into-bifrost"
@@ -23,7 +24,9 @@ tags:
 updated: "2026-08-12T22:48:56.997Z"
 ---
 
-In my previous blog, I mentioned how I got tired of switching providers every time I hit a rate limit, and how I finally found Bifrost, which actually solves that. If you haven't read it, [please do check it out from here!](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API.
+
+In my previous blog, I explained how I started using Bifrost to avoid switching provider connections whenever I hit a rate limit. You can read that setup in [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway).
 
 Since then, I have been daily driving [Bifrost](https://github.com/maximhq/bifrost/) with multiple coding harnesses including OpenCode, jcode and Pi, to name a few. Initially, I was perfectly fine with just the fallback mechanism and complexity routing. But every time I skimmed through the dashboard, the other features kept intriguing me.
 
