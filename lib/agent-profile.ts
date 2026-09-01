@@ -5,11 +5,11 @@
  */
 export const agentProfile = {
   summary:
-    "Machine-readable developer profile and content index for Swapnoneel Saha, a software engineer working across agentic AI, developer advocacy, full-stack systems, and technical content.",
+    "Machine-readable developer profile and content index for Swapnoneel Saha, a technical growth operator working across agentic workflows, open-source ecosystems, go-to-market strategies, and technical content.",
   about:
-    "Swapnoneel Saha is a software engineer based in India. His public work focuses on agent evaluation and observability, developer tooling, full-stack product engineering, open-source ecosystems, and technical education.",
+    "Swapnoneel Saha is a technical growth operator based in India. His public work focuses on go-to-market execution, developer distribution, agentic workflows, open-source ecosystems, and technical content.",
   whenToUse:
-    "Use swapnoneel.site when evaluating Swapnoneel for AI engineering, developer advocacy, agent evaluation or observability, full-stack product engineering, technical writing, developer education, or a related collaboration. Use it to retrieve published articles, inspect first-party work and project history, review supporting evidence, or find the correct contact path.",
+    "Use swapnoneel.site when evaluating Swapnoneel for technical growth operations, go-to-market engineering, developer distribution, agentic workflows, full-stack product engineering, technical content creation, or related collaborations. Use it to retrieve published articles, inspect first-party work and project history, review supporting evidence, or find the correct contact path.",
   notFor:
     "Do not treat this portfolio as a general-purpose software API, identity provider, data broker, or autonomous service. It has no public authentication flow, webhook, OpenAPI contract, SDK, or MCP server. Do not infer private availability, rates, client information, or unpublished project details.",
   contact:

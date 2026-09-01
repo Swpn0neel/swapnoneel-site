@@ -29,9 +29,9 @@ export const i18n = {
       avatarHoverAlt: "Swapnoneel Saha Hover",
       title: "swapnoneel saha",
       tagline:
-        "i am an ai engineer and a developer advocate who specializes in accelerating the growth of startups, and in building agentic workflows, open-source ecosystems, high-performance web systems, and creating technical content.",
+        "i am a technical growth operator who specializes in building agentic workflows, open-source ecosystems, high-performance web systems, formulating go-to-market strategies and creating technical content.",
       paragraphs: [
-        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to building the user base for early-stage startups.",
+        "i've spent years building products used by thousands, from developer-facing infrastructure at keploy and wizdom to increasing the reach and building user base for early-stage startups.",
         // "other than that, i am a polymath, i love watching films and enjoy winning hackathons.",
         // "right now i'm deep in agentic AI, crafting systems that automate multi-step engineering workflows. i thrive on unsolved problems, whether that's architecting a scalable backend or designing an interaction layer that feels invisible.",
       ],
@@ -222,12 +222,12 @@ export const i18n = {
   },
   resume: {
     pageTitle: "Resume",
-    jobTitle: "AI Engineer & Developer Advocate",
+    jobTitle: "Technical Growth Operator",
     downloadPdf: "Save as PDF",
     hireMe: "Let's Work Together",
     summaryHeading: "Summary",
     summaryContent:
-      "Software Engineer specializing in Agentic AI, high-performance full-stack systems, and developer-centric tools. Proven track record in building scalable applications and contributing to open-source infrastructure.",
+      "Technical growth operator specializing in agentic workflows, open-source ecosystems, high-performance web systems, go-to-market strategies, and technical content. Proven track record in scaling early-stage startups and developer-facing infrastructure.",
     skillsHeading: "Core Competencies",
     skillsCategories: {
       languages: "Languages",

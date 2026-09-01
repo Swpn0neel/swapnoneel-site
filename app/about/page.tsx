@@ -32,7 +32,7 @@ export default function AboutPage() {
         </p>
         <ul className="divide-border divide-y text-sm">
           {[
-            ["Credentials and source limitations", "/credentials"],
+            ["Credentials and verification", "/credentials"],
             ["Professional résumé", "/resume"],
             ["Work samples and case studies", "/work"],
             [

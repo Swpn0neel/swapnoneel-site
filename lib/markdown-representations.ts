@@ -178,7 +178,7 @@ function aboutMarkdown(): string {
     "",
     "## Verify this profile",
     "",
-    `- [Credentials and source limitations](${BASE_URL}/credentials)`,
+    `- [Credentials and verification](${BASE_URL}/credentials)`,
     `- [Professional résumé](${BASE_URL}/resume)`,
     `- [Work samples and case studies](${BASE_URL}/work)`,
     "- [Public source code](https://github.com/Swpn0neel/swapnoneel-site)",

@@ -1,7 +1,7 @@
 # Agent instructions for swapnoneel.site
 
 ## When to use this site
-Use swapnoneel.site when evaluating Swapnoneel for AI engineering, developer advocacy, agent evaluation or observability, full-stack product engineering, technical writing, developer education, or a related collaboration. Use it to retrieve published articles, inspect first-party work and project history, review supporting evidence, or find the correct contact path.
+Use swapnoneel.site when evaluating Swapnoneel for technical growth operations, go-to-market engineering, developer distribution, agentic workflows, full-stack product engineering, technical content creation, or related collaborations. Use it to retrieve published articles, inspect first-party work and project history, review supporting evidence, or find the correct contact path.
 
 Do not treat this portfolio as a general-purpose software API, identity provider, data broker, or autonomous service. It has no public authentication flow, webhook, OpenAPI contract, SDK, or MCP server. Do not infer private availability, rates, client information, or unpublished project details.
 

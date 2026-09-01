@@ -13,21 +13,21 @@ export type PublicPageContent = {
 export const aboutPage: PublicPageContent = {
   title: "About Swapnoneel Saha",
   description:
-    "Background, working style, and areas of focus for Swapnoneel Saha, an AI engineer and developer advocate based in India.",
+    "Background, working style, and areas of focus for Swapnoneel Saha, a technical growth operator and GTM engineer based in India.",
   intro:
-    "I’m an AI engineer and developer advocate based in India. I work where product engineering, agentic systems, and developer communication meet: building software, explaining how it works, and helping technical products earn trust with the people who use them.",
+    "I’m a technical growth operator based in India. I work where product engineering, go-to-market strategies, agentic workflows, and technical content meet: building systems, driving developer distribution, and helping early-stage startups scale their user base and reach.",
   sections: [
     {
       heading: "What I work on",
       paragraphs: [
-        "My work spans agent evaluation and observability, developer tooling, full-stack web systems, automation, and technical education. I have built developer-facing integrations and documentation experiences, worked on production interfaces used by thousands of people, and helped early-stage teams turn rough technical ideas into products that can be tested and understood.",
+        "My work spans technical go-to-market strategies, developer distribution, open-source ecosystems, agentic workflows, and high-performance web systems. I have built developer-facing integrations, driven community distribution reaching hundreds of thousands of impressions, and helped early-stage teams turn technical products into fast-growing developer ecosystems.",
         "I’m especially interested in reliable AI agents: systems whose behavior can be observed, evaluated, and improved instead of treated as a black box. That interest also shapes this site. Its articles, project notes, machine-readable indexes, and Markdown responses are designed to be useful to both people and software agents.",
       ],
     },
     {
       heading: "How I collaborate",
       paragraphs: [
-        "I’m most useful on work that needs engineering depth and clear communication at the same time. That can mean prototyping an agent workflow, improving a developer experience, creating a technical content system, reviewing an integration path, or translating product behavior into documentation developers can act on.",
+        "I’m most useful on work that needs engineering depth, growth execution, and clear technical communication at the same time. That can mean formulating a go-to-market strategy, prototyping an agent workflow, orchestrating developer distribution, creating technical content engines, or scaling open-source communities.",
         "For a fuller record, see the work page, résumé, project case studies, and technical blog. For collaboration, freelance work, full-time opportunities, or a specific technical question, use the contact page and include the problem, relevant constraints, and the outcome you want.",
       ],
     },

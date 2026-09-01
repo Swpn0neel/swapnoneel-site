@@ -44,7 +44,7 @@ export const siteConfig = {
   },
   metadata: {
     description:
-      "Software Engineer based in India, with extensive experience in building scalable and maintainable software systems. Open to freelancing and full-time opportunities.",
+      "Technical growth operator and software engineer specializing in agentic workflows, open-source ecosystems, go-to-market strategies, and technical content.",
   },
   images: {
     avatar: "/img/pfp-dark.webp",
