@@ -1,18 +1,18 @@
 ---
-title: "Trying Bifrost: An AI Gateway That Simplified My Setup"
-date: "2026-07-30T00:00:00.000Z"
+title: 'Trying Bifrost: An AI Gateway That Simplified My Setup'
+date: '2026-07-30T00:00:00.000Z'
 description: >-
   A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI
   providers, covering local OpenCode setup, automatic fallbacks, and
   complexity-based routing.
 slug: trying-bifrost-ai-gateway
 link:
-  - "https://substack.com/home/post/p-210123962"
+  - 'https://substack.com/home/post/p-210123962'
   - >-
     https://swapnoneel.medium.com/trying-bifrost-an-ai-gateway-that-simplified-my-setup-2011a7be76b3
   - >-
     https://dev.to/swapnoneel123/trying-bifrost-an-ai-gateway-that-simplified-my-setup-5c62
-canonical: "https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway"
+canonical: 'https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yf5e404oqqi9lk161aik.png
 brand: maxim
@@ -21,12 +21,12 @@ tags:
   - webdev
   - ai
   - opensource
-updated: "2026-08-07T17:43:55.040Z"
+updated: '2026-09-01T07:58:14.648Z'
 ---
 
 [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I tried it locally because I use several model providers and was tired of managing a separate API key and connection for each one.
 
-Bifrost is written in Go and includes automatic failover, load balancing, semantic caching, and a built-in web UI for configuration and real-time monitoring.
+Bifrost is written in Go, and its gateway includes a built-in web UI for provider configuration and real-time monitoring. For this setup, the important part is that OpenCode can keep one base URL while Bifrost handles provider credentials, routing, [automatic failover](https://docs.getbifrost.ai/features/retries-and-fallbacks), and request logs behind it.
 
 If you've used LiteLLM before, it may sound familiar on paper, but the experience is pretty different in practice. LiteLLM is a Python library and proxy you configure and run yourself; Bifrost ships as a standalone Go binary with a full web dashboard baked in, so there's no separate observability stack to stand up just to see what's actually happening to your requests. That dashboard ended up being the thing I used the most, as you'll see below.
 
@@ -34,7 +34,7 @@ I wired it into [OpenCode](https://opencode.ai), an open-source coding harness s
 
 ## Installation and Setup
 
-The installation and setup was very simple, and quick.
+The local setup took two commands.
 
 First, I installed the Bifrost CLI using this command:
 
@@ -44,7 +44,7 @@ npx -y @maximhq/bifrost
 
 Note: This requires Node and NPM to be installed on your machine, otherwise it won't work. If you want to know how to install and manage node versions, [you can follow this blog that I've written earlier](https://www.swapnoneel.site/blog/nodejs-npm-nvm).
 
-Now, it's time to run Bifrost! I'm doing it in a directory level, but you can also do it in a system level as well, if you want. For that, you can easily follow the [Bifrost documentation](https://docs.getbifrost.ai/quickstart/gateway/setting-up).
+I ran Bifrost with a project-local application directory so its configuration and logs stayed with this setup. The [Bifrost documentation](https://docs.getbifrost.ai/quickstart/gateway/setting-up) also covers system-level installation.
 
 ```bash
 npx -y @maximhq/bifrost -app-dir ./my-bifrost-data
@@ -52,7 +52,7 @@ npx -y @maximhq/bifrost -app-dir ./my-bifrost-data
 
 I ran this command in my working directory, and this will create the configuration files and the logs db using SQLite.
 
-And also, this will expose our dashboard in port 8080, and from there we can easily set our API keys and use them in our applications, which I will get to you later in this blog.
+The same command starts the dashboard on port 8080. I used it to add the provider API keys that OpenCode would access through Bifrost.
 
 ## Connecting Your Providers
 
@@ -146,7 +146,7 @@ As you can see, the user didn't get any interruption at all. Let's check the log
 
 As we can see, the gemini model gave an error, and it automatically fell back to big-pickle, and gave me the response.
 
-That's the magic of Bifrost.
+The fallback happened inside the gateway, so OpenCode received a response without needing to know that Gemini had failed.
 
 ## The Complexity Router
 

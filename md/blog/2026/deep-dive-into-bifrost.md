@@ -1,18 +1,18 @@
 ---
-title: "Deep Diving Into Bifrost: Virtual Keys, MCP and Skills"
-date: "2026-07-31T00:00:00.000Z"
+title: 'Deep Diving Into Bifrost: Virtual Keys, MCP and Skills'
+date: '2026-07-31T00:00:00.000Z'
 description: >-
   A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI
   providers, covering virtual keys, MCP, prompts, skills, and custom log
   headers.
 slug: deep-dive-into-bifrost
 link:
-  - "https://swapnoneel123.substack.com/p/deep-diving-into-bifrost"
+  - 'https://swapnoneel123.substack.com/p/deep-diving-into-bifrost'
   - >-
     https://swapnoneel.medium.com/deep-diving-into-bifrost-virtual-keys-mcp-and-skills-ea1237b58a88
   - >-
     https://dev.to/swapnoneel123/deep-diving-into-bifrost-virtual-keys-mcp-and-skills-30i4
-canonical: "https://www.swapnoneel.site/blog/deep-dive-into-bifrost"
+canonical: 'https://www.swapnoneel.site/blog/deep-dive-into-bifrost'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yxaj337vywpb3o2aygoa.png
 brand: maxim
@@ -21,16 +21,18 @@ tags:
   - webdev
   - ai
   - opensource
-updated: "2026-08-12T22:48:56.997Z"
+updated: '2026-09-01T07:58:14.648Z'
 ---
 
 [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API.
+
+The features in this post all use that shared gateway layer. [Virtual keys](https://docs.getbifrost.ai/features/governance/virtual-keys) can restrict providers and models, enforce budgets and rate limits, and control which MCP tools a client can use. The [MCP gateway](https://docs.getbifrost.ai/mcp/overview) connects to external tool servers and exposes the permitted tools through one endpoint, so each coding harness can have a different policy without carrying a separate copy of every provider and MCP configuration.
 
 In my previous blog, I explained how I started using Bifrost to avoid switching provider connections whenever I hit a rate limit. You can read that setup in [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway).
 
 Since then, I have been daily driving [Bifrost](https://github.com/maximhq/bifrost/) with multiple coding harnesses including OpenCode, jcode and Pi, to name a few. Initially, I was perfectly fine with just the fallback mechanism and complexity routing. But every time I skimmed through the dashboard, the other features kept intriguing me.
 
-So, I sat down and decided to explore all of them one-by-one, and see if any of them solve problems that I'm not even aware of yet. So, let's begin!
+I wanted to find out whether those features solved problems beyond the rate-limit setup I already had.
 
 ## Setting Limits With Virtual Keys
 
@@ -89,8 +91,6 @@ So the limit isn't checked against the size of the request you're about to make,
 
 One more thing to notice in that screenshot: each failed attempt shows up twice, once against gemini and once against big-pickle. That's the fallback rule from the last blog doing its job. Bifrost tried the fallback, and the fallback got refused by the same virtual key, which is exactly what you'd want.
 
-Now, let's see what more we have in our box!
-
 ## The MCP Gateway
 
 This is the one that I regret not trying earlier.
@@ -129,11 +129,9 @@ Let's test it by asking OpenCode something that can only be answered by fetching
 
 And there they are. Two tool calls, `resolve-library-id` followed by `query-docs`, both against the Context7 server, both successful. So the MCP is working perfectly as intended, and I never had to put a Context7 config into OpenCode at all.
 
-Now, Bifrost has a similar thing going on for prompts and skills as well, so let's check them out too!
-
 ## The Prompt and Skills Repositories
 
-So, before coming to the skills, let's talk about the Prompt Repository. Here, we can test our prompts against various models, see the results and tweak them. This is really important, because I was able to thoroughly test my prompts here before turning them into a skill.
+I used the Prompt Repository to test the same prompt against different models and revise it before turning it into a skill.
 
 And as you can see, I've created a code review prompt that accepts the language, the review focus and the code snippet, and gives you a detailed review of it, along with the revised code if your code needs any fixing.
 

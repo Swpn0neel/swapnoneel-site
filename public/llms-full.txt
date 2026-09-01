@@ -406,7 +406,7 @@ And there are whole categories of failure your stack has no field for. It has no
 
 ![Why standard monitoring misses AI quality failures](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/72i1wisqwyz7zwvurepu.png)
 
-Something has to hold those fields instead, which is the entire reason this tooling exists. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. My team uses it, so I will use it as the example throughout this post. Because the source is public, anything I claim about what it records per request is something you can check line by line.
+Something has to hold those fields instead, which is the entire reason this tooling exists. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its position between the application and the model providers makes it useful for observability: every model request and response passes through the same layer, regardless of provider. Bifrost's [built-in observability](https://docs.getbifrost.ai/features/observability/default) records the input, output, provider, model, token usage, cost, latency, errors, and status for each call, then makes those fields searchable in a live dashboard. Those are the details standard HTTP telemetry misses even when the request returns `200`.
 
 ## What one AI request actually looks like when you trace it
 
@@ -518,6 +518,8 @@ Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit 
 
 [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. [Bifrost Enterprise](https://docs.getbifrost.ai/enterprise/overview) is a strict superset of that gateway, adding high-availability clustering, adaptive load balancing, identity and access controls, audit logs, guardrails, and private deployment options.
 
+Those additions matter when several teams share the gateway. Routing rules, access policies, MCP tool permissions, and administrative changes can be managed and audited in one layer instead of being implemented separately in every AI application.
+
 After writing about the open-source gateway in my previous two posts, I asked the Bifrost team for access to the Enterprise version. They gave me limited access to the paid features for free. This article covers what I tested and whether those features make sense for personal and enterprise use.
 
 ## Transparency through Audit Logs
@@ -526,7 +528,7 @@ So, before creating any new Enterprise configuration, I wanted to see whether Bi
 
 ![Bifrost dashboard showing the Audit Logs interface.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/cgnv1ejfcvkgmrohejyj.png)
 
-It is not the most exciting feature on its own, and for personal use, this might not be that useful, but in an enterprise setting, it is probably one of the most important ones to have, when you are working with a large group of people, and you have to keep tabs on everything that’s going on.
+For a personal setup, audit logs may be more detail than you need. In a company, they give security and platform teams a record of who changed shared routing, access, and guardrail configuration.
 
 ## What are MCP Tool Groups?
 
@@ -596,7 +598,7 @@ This makes the feature more useful for companies that maintain multiple provider
 
 ## How to set Guardrails?
 
-Every model has a set of their own guardrails by default, but while working on them you might need to put your own custom guardrails as well. And the best place to do that is to integrate it directly into your AI gateway!
+Provider safety controls do not cover every organization's policies. Putting custom guardrails at the gateway lets the same input and output checks run across every model behind it.
 
 This feature is meant to protect both the prompts sent to a model and the responses coming back from it. Bifrost separates the feature into two parts: rules decide when a check should run, while profiles define what kind of check should be performed. For this test, I wanted to avoid adding another external API key, so I chose Bifrost's built-in Custom Regex provider. According to the [Guardrails documentation](https://docs.getbifrost.ai/enterprise/guardrails), Custom Regex runs locally and can be used for deterministic pattern checks.
 
@@ -606,7 +608,7 @@ So, I created two guardrail rules. One for the input, and the other one for the 
 
 So, now if I send a request like `Reply with exactly: BIFROST_GUARDRAIL_TEST`, I get a `regex pattern matched` error. That’s where the guardrail is actually doing its job.
 
-It is as simple as that. No fancy setup needed for a working guardrail.
+The regex rule blocked the matching output without calling an external guardrail service.
 
 ## Final thoughts
 
@@ -633,7 +635,7 @@ It wasn't. Anthropic's Thariq Shihipar [posted on X](https://x.com/trq212/status
 
 Claude Pro meters you on two clocks at once: a rolling 5-hour session window and a weekly cap, shared across claude.ai, Claude Code and the desktop app. Neither one is a message counter. Both are token meters, and what drains them fastest is not how much you ask, it is how much you make Claude re-read.
 
-That distinction is the whole post. Once you read the meter properly, most of the "limits" problem turns into a context management problem, and context is something you actually control.
+Once you read the meter properly, most of the "limits" problem becomes context management, and context is something you control.
 
 ## What are Claude Pro's usage limits, exactly?
 
@@ -655,17 +657,13 @@ There is one more distinction worth holding onto, because it changes what you do
 
 ## Why your limit drains faster than your typing
 
-Let's do a quick prediction exercise, because I think most people's mental model here is exactly backwards.
-
 Two developers, same Pro plan, same afternoon.
 
 **Developer A** opens a fresh Claude Code session, asks 40 short questions about a small file, and closes it.
 
 **Developer B** opens one session at 9am, works on and off all day across three unrelated tasks without ever clearing, and sends 12 messages total.
 
-Which one burns more of the plan? Commit to an answer before you read on.
-
-It's B, and it is not even close! Here is why, straight from [Anthropic's cost documentation](https://code.claude.com/docs/en/costs):
+Developer B burns more of the plan. [Anthropic's cost documentation](https://code.claude.com/docs/en/costs) explains why:
 
 > Claude Code sends your full conversation with every request, and each time Claude uses tools it sends another request carrying that batch of tool results.
 
@@ -785,9 +783,7 @@ Claude is available from Anthropic directly, from Amazon Bedrock and from Google
 
 ## What an AI gateway does about this, and what it can't
 
-An AI gateway is a proxy that sits between your tools and the model providers you use. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as mine for a while now.
-
-Start with the honest half, because it matters more than the pitch.
+An AI gateway is a proxy that sits between your tools and the model providers you use. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. For usage limits, the relevant features are ordered [provider fallbacks](https://docs.getbifrost.ai/features/retries-and-fallbacks) and [virtual keys](https://docs.getbifrost.ai/features/governance/virtual-keys) with their own budgets and rate limits. Together, they create a separately metered API route for overflow traffic, but they do not increase the Claude Pro subscription allowance.
 
 **A gateway cannot raise your Claude Pro cap.** Your subscription is an OAuth relationship between Claude Code and Anthropic, and no proxy in the world changes that arithmetic. Worse, the moment you point Claude Code at a gateway you are authenticating with API keys, which means that traffic bills per token and doesn't touch your subscription at all. Different cost model, and you should walk into it knowingly.
 
@@ -806,7 +802,7 @@ Pointing Claude Code at it is two lines in `~/.claude/settings.json`, or `%USERP
 
 The path is `/anthropic` and not `/v1/anthropic`, which is the mistake everyone makes exactly once. From there, `/model openai/gpt-5.5` or `/model vertex/claude-haiku-4-5` switches providers mid-session, and the harness never knows anything changed.
 
-Now the four things that are actually worth having.
+The gateway adds four controls that help manage the separate API meter.
 
 **Failover that fires on the error you care about.** [Fallback chains](https://docs.getbifrost.ai/features/retries-and-fallbacks) are declared as an ordered list, and every provider in the chain gets its own full retry budget:
 
@@ -863,7 +859,7 @@ Underneath the harnesses that aren't Claude Code, my traffic goes through the ga
 
 ![A repeatable limit-management workflow](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/kgoac0gdz8fyn2k7yfjy.png)
 
-Start with `/usage` this week. Find your biggest behavior flag and fix that before you spend a rupee on a bigger plan. If it says long context, you have a `/clear` habit to build. If it says cache misses, you have a scheduling problem. Either way you will know, and knowing is most of it.
+Start with `/usage` this week. Find your biggest behavior flag and fix that before you spend a rupee on a bigger plan. If it says long context, you have a `/clear` habit to build. If it says cache misses, you have a scheduling problem. `/usage` tells you which habit to change first.
 
 And if you have found a genuinely clever way to stretch a Pro plan that isn't on this list, I want to hear it in the comments. I write more about LLM infrastructure and building with AI over at [swapnoneel.site](https://www.swapnoneel.site), and I'm on [X (swapnoneel123)](https://x.com/swapnoneel123) if you want to argue about any of this.
 
@@ -882,7 +878,7 @@ And the difference matters far more than it sounds, because two of those three c
 
 ## The five failures behind one Claude rate limit error
 
-Here is the thing nobody puts in the first paragraph: `rate_limit_error` is not one condition. Anthropic returns the same string for several different situations, and the correct response ranges from "wait 8 seconds" to "waiting will never work, go change a setting."
+`rate_limit_error` is not one condition. Anthropic returns the same string for several different situations, and the correct response may be to wait a few seconds or to change a setting that retrying cannot fix.
 
 ![Diagnostic flow for five Claude API failure types](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/46c0m6i2doo5k0h0c299.png)
 
@@ -898,7 +894,7 @@ The [Claude API errors reference](https://platform.claude.com/docs/en/api/errors
 
 That last row is the one that trips people up most. The Claude overloaded error gets searched more than any specific 429 phrasing, and almost every guide lumps it in with rate limits. It isn't yours. A `529` means the API is temporarily overloaded across all users, so no amount of tier upgrading or key rotation on your side moves it.
 
-And the second row is the genuinely nasty one. It looks identical to a normal rate limit at the status-code level, the official SDKs will happily auto-retry it, and every retry fails. The tell is the missing `retry-after` header plus that `error_code`.
+The second row is easy to misdiagnose. It looks identical to a normal rate limit at the status-code level, the official SDKs will happily auto-retry it, and every retry fails. The tell is the missing `retry-after` header plus that `error_code`.
 
 So before anything else, log the full error body. Not `err.status`. The body.
 
@@ -940,8 +936,6 @@ I hit this exact shape of problem building [Scholarian](https://scholarian.verce
 
 ### The one number most people get wrong
 
-Here is the lever that matters more than everything else combined, and it sits in a footnote in the docs.
-
 For most Claude models, only uncached input tokens count against ITPM.
 
 Specifically: `input_tokens` and `cache_creation_input_tokens` count, and `cache_read_input_tokens` does not. So a cache hit is free as far as your rate limit is concerned, and it is billed at a reduced rate on top of that. (Claude Haiku 3.5 is the exception and does count cache reads.)
@@ -980,13 +974,11 @@ Run that and you get back a block of `anthropic-ratelimit-*` headers. The ones w
 
 Two gotchas here. The `remaining` values are rounded to the nearest thousand, so treat them as a gauge and not as an accountant. And the generic `anthropic-ratelimit-tokens-*` triplet reports whichever limit is currently most restrictive, which means the number can jump between input and output accounting between requests without anything being wrong.
 
-Now notice what has happened so far in this post: we have identified the exact failure and found the headroom signal, and we have not changed a single line of application logic yet. That ordering is deliberate. Most "fix your 429s" advice opens at retry code, which is step three at best, and every hour spent tuning a backoff curve against a spend cap is an hour spent on the wrong problem.
+Identify the failure and read the remaining-capacity headers before changing retry logic. Backoff cannot fix a spend cap, and tuning it first wastes time.
 
 At one of my previous roles I built an internal tool that pulled the data logs off an AI product and turned them into latency and slowdown reports, and the useful part was never the clever part. It was just having the numbers somewhere you could look at them without reproducing the bug first. Same idea here. Export those three headers as gauges and most rate limit debugging stops being detective work.
 
 ## Retrying correctly, and where retrying stops helping
-
-Alright, now the retry code.
 
 ![Retry backoff with jitter and hard ceilings](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/izmrdm5d9upjquptckub.png)
 
@@ -1050,7 +1042,7 @@ This is the job an [AI gateway](https://www.getmaxim.ai/bifrost) does, which you
 
 Let me lead with what it cannot do, because that part gets oversold constantly. A gateway does not raise Anthropic's ceiling. Your Start tier is still your Start tier. If you run one Anthropic key through a gateway and change nothing else, you will hit exactly the same 429 at exactly the same token count, plus a few microseconds of hop.
 
-What it changes is how many buckets a single request can reach, and how fast it gives up on a bad one. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I'll use it for the config examples because its failure behavior is documented precisely enough to quote.
+What it changes is how many buckets a single request can reach, and how fast it gives up on a bad one. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its [retry and fallback layer](https://docs.getbifrost.ai/features/retries-and-fallbacks) distinguishes upstream failures from credential failures: it retries `5xx` and network errors against the same key, rotates keys for `429`, `401`, `402`, and `403` responses, and moves to the next provider only after the current provider's retry budget is exhausted. That behavior maps directly to the different Claude failure modes in this post.
 
 ### Pooling keys so one bucket is not the whole story
 
@@ -1117,7 +1109,7 @@ export ANTHROPIC_API_KEY=dummy-key
 
 The path is `/anthropic`, and not `/v1/anthropic`. And the key can be a placeholder because the real credentials live inside the gateway.
 
-Worth repeating the honest version once more, though: this bills per token against API keys. It is a different meter from a Pro or Max subscription, and it is not a bigger one.
+Gateway traffic is billed per token against API keys. It uses a separate meter from Pro or Max subscriptions, not a larger subscription allowance.
 
 ## What a gateway will not fix
 
@@ -1164,11 +1156,13 @@ Summary: A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI p
 
 [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API.
 
+The features in this post all use that shared gateway layer. [Virtual keys](https://docs.getbifrost.ai/features/governance/virtual-keys) can restrict providers and models, enforce budgets and rate limits, and control which MCP tools a client can use. The [MCP gateway](https://docs.getbifrost.ai/mcp/overview) connects to external tool servers and exposes the permitted tools through one endpoint, so each coding harness can have a different policy without carrying a separate copy of every provider and MCP configuration.
+
 In my previous blog, I explained how I started using Bifrost to avoid switching provider connections whenever I hit a rate limit. You can read that setup in [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway).
 
 Since then, I have been daily driving [Bifrost](https://github.com/maximhq/bifrost/) with multiple coding harnesses including OpenCode, jcode and Pi, to name a few. Initially, I was perfectly fine with just the fallback mechanism and complexity routing. But every time I skimmed through the dashboard, the other features kept intriguing me.
 
-So, I sat down and decided to explore all of them one-by-one, and see if any of them solve problems that I'm not even aware of yet. So, let's begin!
+I wanted to find out whether those features solved problems beyond the rate-limit setup I already had.
 
 ## Setting Limits With Virtual Keys
 
@@ -1227,8 +1221,6 @@ So the limit isn't checked against the size of the request you're about to make,
 
 One more thing to notice in that screenshot: each failed attempt shows up twice, once against gemini and once against big-pickle. That's the fallback rule from the last blog doing its job. Bifrost tried the fallback, and the fallback got refused by the same virtual key, which is exactly what you'd want.
 
-Now, let's see what more we have in our box!
-
 ## The MCP Gateway
 
 This is the one that I regret not trying earlier.
@@ -1267,11 +1259,9 @@ Let's test it by asking OpenCode something that can only be answered by fetching
 
 And there they are. Two tool calls, `resolve-library-id` followed by `query-docs`, both against the Context7 server, both successful. So the MCP is working perfectly as intended, and I never had to put a Context7 config into OpenCode at all.
 
-Now, Bifrost has a similar thing going on for prompts and skills as well, so let's check them out too!
-
 ## The Prompt and Skills Repositories
 
-So, before coming to the skills, let's talk about the Prompt Repository. Here, we can test our prompts against various models, see the results and tweak them. This is really important, because I was able to thoroughly test my prompts here before turning them into a skill.
+I used the Prompt Repository to test the same prompt against different models and revise it before turning it into a skill.
 
 And as you can see, I've created a code review prompt that accepts the language, the review focus and the code snippet, and gives you a detailed review of it, along with the revised code if your code needs any fixing.
 
@@ -1612,11 +1602,9 @@ Code review used to be the part everyone complained about. Slow, nitpicky, the t
 
 And for a while, AI coding agents made it feel optional. The agent writes the code, the code compiles, the tests pass, ship it.
 
-But have you ever wondered, what does that actually look like once you zoom out to the whole industry, and not just your own repo? Not great. Somewhere between 40 to 62% of AI-generated code got shipped with security or design flaws by March 2026, and roughly one in five breaches this year traces back to AI-written code, [according to industry analysis on the verification gap](https://futurumgroup.com/insights/why-ai-coding-agents-need-an-independent-review-layer-trust-not-output-is-the-bottleneck/). Code generation got really fast. Verification did not pick up the same pace. Testing AI coding agents properly is where that gap actually lives, whether your team has staffed for it or not.
+The industry-wide numbers are worse than what most developers see in their own repositories. Somewhere between 40 to 62% of AI-generated code got shipped with security or design flaws by March 2026, and roughly one in five breaches this year traces back to AI-written code, [according to industry analysis on the verification gap](https://futurumgroup.com/insights/why-ai-coding-agents-need-an-independent-review-layer-trust-not-output-is-the-bottleneck/). Code generation got really fast. Verification did not pick up the same pace. Testing AI coding agents properly is where that gap lives, whether your team has staffed for it or not.
 
 ## What's actually breaking?
-
-Let's get specific.
 
 In late June 2026, security researchers at Adversa AI disclosed something called GuardFall, a shell-interpretation bypass that worked against 10 of 11 popular open-source AI coding and computer-use agents, [including Aider, Cline, Goose, and OpenHands](https://securityaffairs.com/194546/ai/guardfall-flaw-hits-10-of-11-popular-open-source-ai-agents.html). The agents were checking the raw command text for danger before running it, but bash rewrites that text through quoting, substitution, and expansion before it actually executes. So a command that looks harmless to the safety check can still detonate once the shell gets its hands on it. And only one tool in the survey actually held up!
 
@@ -1628,13 +1616,13 @@ And it's not just an edge case for people running agents locally. A scan of 5,60
 
 ## Why is this happening if the models got so much better?
 
-Well, that's exactly the part people get backwards.
-
 Better models didn't remove the need for verification, they just moved the bottleneck. Generating a solution stopped being the hard part a while ago. Deciding whether you can actually trust that solution is the hard part now, and [55.4% of enterprise decision-makers already name agent reliability and hallucination management as their top production challenge](https://futurumgroup.com/insights/why-ai-coding-agents-need-an-independent-review-layer-trust-not-output-is-the-bottleneck/). The code compiles, the tests pass, and reviewers still have to reconstruct what the change was even trying to do before they can tell if it's safe.
 
 ## I've actually had this job, and it's not glamorous
 
-I'm not writing this from the outside. I recently worked with an early-stage startup that's figuring out their PMF before going full-throttle. I was the first layer of internal testing for the product, which was a self-evolving super agent (keeping it a bit vague, can't reveal more than this lol), and my entire job was catching bugs before the core users on it ever saw them. I also built an internal tool which was an agent chain based on strict rules that pulled the agent's data logs and evaluated them to ensure that the self-learning from feedback and real-life scenarios aren't being hallucinated, and if the agent is trying to manipulate the guidelines itself. Also, I generated reports on latency and probable slowdowns, because "it seems to be working" isn't a testing strategy, numbers are.
+I recently worked with an early-stage startup testing a self-evolving agent. My job was to catch failures before its core users saw them.
+
+I also built an internal evaluation chain that pulled the agent's logs and checked whether its learning from feedback matched real scenarios, whether it hallucinated improvements, and whether it tried to work around its own guidelines. The same tool reported latency and likely slowdowns. "It seems to be working" was not enough; I needed numbers.
 
 ![Someone has to stand between the output and the door. That someone had a job title.](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/9hvhj0y9fidrjdbapalx.png)
 
@@ -1652,9 +1640,9 @@ Concretely: never let an agent pipe raw, unreviewed strings into a shell without
 
 And testing an agent isn't only about catching bugs before they ship, it's also about watching what the agent quietly costs you over time. That's exactly why I built that internal latency-tracking tool in the first place, numbers on slowdowns catch problems long before a user ever complains.
 
-[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its [built-in observability](https://docs.getbifrost.ai/features/observability/default) records request inputs, outputs, tokens, costs, and latency, while automatic fallbacks can reroute a request when its primary provider fails.
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. For agent testing, that gateway position creates one record of requests and responses across models and providers. Its [built-in observability](https://docs.getbifrost.ai/features/observability/default) records inputs, outputs, provider, model, tokens, cost, latency, errors, and status for each call, so teams can compare agent behavior and operational cost without building a different logging path for every provider integration.
 
-Do use these agents. Really do, they're not going anywhere and they've earned their place in my own workflow. But treat testing them as the actual job, not the afterthought, because right now, for most teams, it still is one.
+I use these agents in my own workflow, but testing them is part of the work. Teams need to staff and plan for it instead of treating it as a final checkbox.
 
 If you're building your own testing layer for an AI tool, or you've been burned by one that didn't have one, I'd genuinely like to hear about it, drop it in the comments. I write more about agent tooling and building with AI at [swapnoneel.site](https://www.swapnoneel.site), including [how I built a self-improving writing agent](https://www.swapnoneel.site/blog/make-ai-write-in-your-voice), and you can find me on [X (swapnoneel123)](https://x.com/swapnoneel123).
 
@@ -1667,7 +1655,7 @@ Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI p
 
 [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I tried it locally because I use several model providers and was tired of managing a separate API key and connection for each one.
 
-Bifrost is written in Go and includes automatic failover, load balancing, semantic caching, and a built-in web UI for configuration and real-time monitoring.
+Bifrost is written in Go, and its gateway includes a built-in web UI for provider configuration and real-time monitoring. For this setup, the important part is that OpenCode can keep one base URL while Bifrost handles provider credentials, routing, [automatic failover](https://docs.getbifrost.ai/features/retries-and-fallbacks), and request logs behind it.
 
 If you've used LiteLLM before, it may sound familiar on paper, but the experience is pretty different in practice. LiteLLM is a Python library and proxy you configure and run yourself; Bifrost ships as a standalone Go binary with a full web dashboard baked in, so there's no separate observability stack to stand up just to see what's actually happening to your requests. That dashboard ended up being the thing I used the most, as you'll see below.
 
@@ -1675,7 +1663,7 @@ I wired it into [OpenCode](https://opencode.ai), an open-source coding harness s
 
 ## Installation and Setup
 
-The installation and setup was very simple, and quick.
+The local setup took two commands.
 
 First, I installed the Bifrost CLI using this command:
 
@@ -1685,7 +1673,7 @@ npx -y @maximhq/bifrost
 
 Note: This requires Node and NPM to be installed on your machine, otherwise it won't work. If you want to know how to install and manage node versions, [you can follow this blog that I've written earlier](https://www.swapnoneel.site/blog/nodejs-npm-nvm).
 
-Now, it's time to run Bifrost! I'm doing it in a directory level, but you can also do it in a system level as well, if you want. For that, you can easily follow the [Bifrost documentation](https://docs.getbifrost.ai/quickstart/gateway/setting-up).
+I ran Bifrost with a project-local application directory so its configuration and logs stayed with this setup. The [Bifrost documentation](https://docs.getbifrost.ai/quickstart/gateway/setting-up) also covers system-level installation.
 
 ```bash
 npx -y @maximhq/bifrost -app-dir ./my-bifrost-data
@@ -1693,7 +1681,7 @@ npx -y @maximhq/bifrost -app-dir ./my-bifrost-data
 
 I ran this command in my working directory, and this will create the configuration files and the logs db using SQLite.
 
-And also, this will expose our dashboard in port 8080, and from there we can easily set our API keys and use them in our applications, which I will get to you later in this blog.
+The same command starts the dashboard on port 8080. I used it to add the provider API keys that OpenCode would access through Bifrost.
 
 ## Connecting Your Providers
 
@@ -1787,7 +1775,7 @@ As you can see, the user didn't get any interruption at all. Let's check the log
 
 As we can see, the gemini model gave an error, and it automatically fell back to big-pickle, and gave me the response.
 
-That's the magic of Bifrost.
+The fallback happened inside the gateway, so OpenCode received a response without needing to know that Gemini had failed.
 
 ## The Complexity Router
 
@@ -1916,8 +1904,6 @@ Well, because an equal share of requests is not an equal share of work.
 
 **Adaptive load balancing** is a routing strategy that picks a destination using live health signals like error rate, latency and utilization, instead of a fixed rotation. The balancer keeps scoring every backend while traffic flows, shifts weight toward the ones behaving well, and pulls weight away from the ones going bad.
 
-That's the definition. But the definition is the boring part, so let's get into what the balancer is actually measuring, how fast it reacts, and why this suddenly matters a lot more in 2026 than it did five years ago.
-
 ## What is a load balancer?
 
 A load balancer is just a thing sitting in front of your servers, deciding which one gets the next request. That's it.
@@ -1948,9 +1934,9 @@ And the weights are not recalculated per request, because that would drop real w
 
 ![Live signals become route weights](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/tpeg1tbewphirbc8s1pa.png)
 
-[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its enterprise adaptive load balancer scores routes on error penalty (50% of the score), a token-aware latency score (20%), and utilization (5%), plus a momentum bias that speeds up recovery once a bad route starts behaving again. Weights recalculate every 5 seconds, and route selection adds under 10 microseconds to the hot path, [per its documentation](https://docs.getbifrost.ai/enterprise/adaptive-load-balancing).
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. That makes it a useful case study here: the gateway sees provider, model, and API-key routes from one layer, which is the full decision surface its adaptive balancer needs. The [documented implementation](https://docs.getbifrost.ai/enterprise/adaptive-load-balancing) scores routes on error penalty, token-aware latency, utilization, and recovery momentum. It recalculates weights every 5 seconds, monitors both provider and key performance, and keeps route selection under 10 microseconds on the hot path.
 
-The entire source code is on [GitHub](https://github.com/maximhq/bifrost), so you can go read how the scoring is implemented rather than taking a feature page's word for it. Most load balancers describe their algorithm as "intelligent" and then stop talking.
+That provider-and-key view matters because a provider can remain healthy while one API key is throttled or exhausted. A balancer that only watches provider health would miss that failure and keep sending traffic to a route that cannot serve it.
 
 The other half of the mechanism is state. A good adaptive balancer doesn't just have a dial, it has an opinion about what each route currently is: healthy, degraded, failed, or recovering.
 
@@ -1958,7 +1944,7 @@ And the recovering state is the one people forget. A route that failed does not 
 
 ## Adaptive load balancing vs round robin and least connections
 
-Everyone puts these in a table. I would rather just tell you where each one stops working.
+Each static strategy fails in a different way.
 
 **Round robin** rotates blindly. Fine when every server and every request is genuinely identical, which is basically never.
 
@@ -1972,13 +1958,11 @@ Adaptive load balancing is the version that stops relying on any single number. 
 
 Does the extra machinery pay off? Envoy's own benchmark for its Peak EWMA policy puts it at a 99.9% success rate under a 1-second timeout, against 99% for least-loaded and 95% for round robin ([Envoy docs](https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/contrib/load_balancing_policies/peak_ewma/peak_ewma)). That gap between adaptive and round robin is made entirely of user-visible failures.
 
-## Alright, so far this is a decades-old idea
+## Why an old routing idea matters again
 
-And it genuinely is. Adaptive load balancing has been in networking gear and reverse proxies forever, and if you run a normal web app behind NGINX, least connections is probably good enough and you can stop reading here.
+Adaptive load balancing has been used in networking gear and reverse proxies for years. For a normal web app behind NGINX, least connections is often enough.
 
-So why is the term suddenly everywhere again?
-
-Because AI traffic breaks nearly every assumption the older algorithms were built on. That is where this stops being system-design trivia and starts being your on-call pager, so let's get into it.
+AI traffic changes that because it breaks the assumptions behind the older algorithms.
 
 ## Why LLM traffic makes static load balancing fall apart?
 
@@ -2010,8 +1994,6 @@ I went through the practical side of this in my post on [Bifrost's enterprise fe
 
 ![Sparse signals and weak capacity call for caution](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3e6j3ogmivqjmcrf5vl8.png)
 
-Now the honest part, because none of this is free.
-
 **You need real telemetry before you need adaptive routing.** At a contract role earlier this year I built an internal tool that captured our AI product's logs and generated reports on latency and probable slowdowns, and the uncomfortable lesson was that most of the wins came from simply _seeing_ the numbers. Half the routing problems people want an adaptive balancer to solve turn out to be one bad prompt template or one undersized instance, and a dashboard finds those faster than an algorithm hides them.
 
 **Low traffic means no signal.** Scoring on error rate and latency needs enough requests per window to mean anything. At 5 requests a minute, an adaptive balancer is mostly reacting to noise, and reacting to noise is worse than not reacting at all.
@@ -2020,7 +2002,7 @@ Now the honest part, because none of this is free.
 
 **And it is one more moving part.** More state, more tuning, one more thing to reason about at 3am. If round robin across two identical boxes is working for you, keep it.
 
-## So what's the final message?
+## Choosing the right routing strategy
 
 If you run a plain web service on infrastructure you control, least connections is fine and adaptive load balancing is over-engineering.
 
@@ -2134,11 +2116,11 @@ You can use all three together. A request can try the semantic cache first, fall
 
 ![Real-world hits are a minority of requests](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u8og1qce297e7399xh0h.png)
 
-This is where I want to be blunt, because the marketing on this topic is bad.
+The 95% figure quoted in semantic-caching marketing is easy to misread.
 
 You will see 95% quoted constantly. Trace that number back and it almost never refers to hit rate. It refers to **match accuracy**, meaning the cached response was correct 95% of the time it was served. Those are entirely different claims, and the second one tells you nothing about how much money you saved.
 
-Actual production numbers are much lower. A [breakdown of real deployment data](https://dev.to/gauravdagde/llm-semantic-caching-the-95-hit-rate-myth-and-what-production-data-actually-shows-8ga) puts typical hit rates at **20 to 45%**, with Portkey seeing around 20% on retrieval-augmented workloads and an EdTech platform hitting about 45% on student question-and-answer traffic. Open-ended chat sits at 10 to 20%, because open-ended chat is genuinely open-ended.
+Actual production numbers are much lower. A [breakdown of real deployment data](https://dev.to/gauravdagde/llm-semantic-caching-the-95-hit-rate-myth-and-what-production-data-actually-shows-8ga) puts typical hit rates at **20 to 45%**, with Portkey seeing around 20% on retrieval-augmented workloads and an EdTech platform hitting about 45% on student question-and-answer traffic. Open-ended chat sits at 10 to 20% because its queries repeat less often.
 
 Academic results land in a similar band. The [GPT Semantic Cache paper](https://arxiv.org/pdf/2411.05276) reports cutting API calls by up to **68.8%**, but that is on query categories picked for repetition, which is exactly the workload where this technique looks its best.
 
@@ -2192,11 +2174,11 @@ Where it does earn its place: support bots, docs assistants, FAQ layers, onboard
 
 ## How Bifrost does semantic caching at the gateway
 
-[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as my AI gateway for a while now.
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Because semantic caching runs at the gateway, one cache policy is applied before requests reach any configured model provider.
 
 Its [semantic cache](https://docs.getbifrost.ai/features/semantic-caching) combines exact hash matching with vector similarity search, supports per-request TTL and threshold overrides, and keeps cache entries separate by model and provider by default.
 
-The design choice I like most is that it is **two layers, not one**.
+Bifrost uses two cache layers.
 
 Every request first goes through a direct hash lookup. If the prompt is byte-identical to something already cached, it returns immediately with zero embedding overhead, which matters because you just skipped the round trip that would otherwise tax every request in the system. Only on a direct miss does it embed the query and run the similarity search. So the cheap path stays cheap, and the expensive path only runs when it might actually pay off.
 
@@ -2212,7 +2194,7 @@ Its other defaults are:
 - `cache_by_model` and `cache_by_provider` are both on by default, so a cached GPT answer never gets served to a Claude request.
 - The vector store is pluggable across Redis or Valkey, Weaviate, Qdrant, and Pinecone, so you are not forced into adopting a new database.
 
-And every response carries a `cache_debug` block with `cache_hit`, `hit_type` (direct or semantic), the actual `similarity` score, and a `cache_id`. That last one is what makes invalidation possible, since you can delete a single poisoned entry by its ID, or clear an entire partition by cache key, straight over the API. If you have ever had to explain to a customer why the bot gave them the wrong answer twice, you will understand why having that similarity score visible per request is worth a lot.
+Every response carries a `cache_debug` block with `cache_hit`, `hit_type` (direct or semantic), the actual `similarity` score, and a `cache_id`. The similarity score helps diagnose a bad match, while `cache_id` lets you remove the affected entry or clear its partition through the API.
 
 Every cache hit avoids the completion cost. At the gateway, the cache sits next to budgets, virtual keys, and routing. The same layer that chooses *which* provider gets a request can first decide whether the request needs a provider at all. I cover the routing side separately in [what adaptive load balancing actually is](https://www.swapnoneel.site/blog/what-is-adaptive-load-balancing).
 
@@ -2226,7 +2208,7 @@ Start by measuring how repetitive your traffic is. Take a week of your logs, emb
 
 If that number comes back at 30% or better, turn semantic caching on at your gateway. Partition the cache key by tenant from day one and keep the expiry short. For the first few weeks, watch the similarity scores on cache hits instead of trusting the threshold.
 
-If it comes back at 8%, you have found a much more interesting problem than caching, which is that your users are all asking different things.
+If it comes back at 8%, the workload is too varied for semantic caching to save much.
 
 ![Measure repetition before turning caching on](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/wpivlvi3ri9qiqp79l0k.png)
 

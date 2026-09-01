@@ -20,7 +20,7 @@ tags:
   - beginners
   - ai
   - performance
-updated: '2026-08-25T03:44:38.334Z'
+updated: '2026-09-01T07:58:14.648Z'
 ---
 
 Two people open your support chatbot within the same minute. One types `How do I reset my password?` and the other types `i forgot my password, how do i get a new one`.
@@ -120,11 +120,11 @@ You can use all three together. A request can try the semantic cache first, fall
 
 ![Real-world hits are a minority of requests](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u8og1qce297e7399xh0h.png)
 
-This is where I want to be blunt, because the marketing on this topic is bad.
+The 95% figure quoted in semantic-caching marketing is easy to misread.
 
 You will see 95% quoted constantly. Trace that number back and it almost never refers to hit rate. It refers to **match accuracy**, meaning the cached response was correct 95% of the time it was served. Those are entirely different claims, and the second one tells you nothing about how much money you saved.
 
-Actual production numbers are much lower. A [breakdown of real deployment data](https://dev.to/gauravdagde/llm-semantic-caching-the-95-hit-rate-myth-and-what-production-data-actually-shows-8ga) puts typical hit rates at **20 to 45%**, with Portkey seeing around 20% on retrieval-augmented workloads and an EdTech platform hitting about 45% on student question-and-answer traffic. Open-ended chat sits at 10 to 20%, because open-ended chat is genuinely open-ended.
+Actual production numbers are much lower. A [breakdown of real deployment data](https://dev.to/gauravdagde/llm-semantic-caching-the-95-hit-rate-myth-and-what-production-data-actually-shows-8ga) puts typical hit rates at **20 to 45%**, with Portkey seeing around 20% on retrieval-augmented workloads and an EdTech platform hitting about 45% on student question-and-answer traffic. Open-ended chat sits at 10 to 20% because its queries repeat less often.
 
 Academic results land in a similar band. The [GPT Semantic Cache paper](https://arxiv.org/pdf/2411.05276) reports cutting API calls by up to **68.8%**, but that is on query categories picked for repetition, which is exactly the workload where this technique looks its best.
 
@@ -178,11 +178,11 @@ Where it does earn its place: support bots, docs assistants, FAQ layers, onboard
 
 ## How Bifrost does semantic caching at the gateway
 
-[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. I have been running it as my AI gateway for a while now.
+[Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Because semantic caching runs at the gateway, one cache policy is applied before requests reach any configured model provider.
 
 Its [semantic cache](https://docs.getbifrost.ai/features/semantic-caching) combines exact hash matching with vector similarity search, supports per-request TTL and threshold overrides, and keeps cache entries separate by model and provider by default.
 
-The design choice I like most is that it is **two layers, not one**.
+Bifrost uses two cache layers.
 
 Every request first goes through a direct hash lookup. If the prompt is byte-identical to something already cached, it returns immediately with zero embedding overhead, which matters because you just skipped the round trip that would otherwise tax every request in the system. Only on a direct miss does it embed the query and run the similarity search. So the cheap path stays cheap, and the expensive path only runs when it might actually pay off.
 
@@ -198,7 +198,7 @@ Its other defaults are:
 - `cache_by_model` and `cache_by_provider` are both on by default, so a cached GPT answer never gets served to a Claude request.
 - The vector store is pluggable across Redis or Valkey, Weaviate, Qdrant, and Pinecone, so you are not forced into adopting a new database.
 
-And every response carries a `cache_debug` block with `cache_hit`, `hit_type` (direct or semantic), the actual `similarity` score, and a `cache_id`. That last one is what makes invalidation possible, since you can delete a single poisoned entry by its ID, or clear an entire partition by cache key, straight over the API. If you have ever had to explain to a customer why the bot gave them the wrong answer twice, you will understand why having that similarity score visible per request is worth a lot.
+Every response carries a `cache_debug` block with `cache_hit`, `hit_type` (direct or semantic), the actual `similarity` score, and a `cache_id`. The similarity score helps diagnose a bad match, while `cache_id` lets you remove the affected entry or clear its partition through the API.
 
 Every cache hit avoids the completion cost. At the gateway, the cache sits next to budgets, virtual keys, and routing. The same layer that chooses *which* provider gets a request can first decide whether the request needs a provider at all. I cover the routing side separately in [what adaptive load balancing actually is](https://www.swapnoneel.site/blog/what-is-adaptive-load-balancing).
 
@@ -212,7 +212,7 @@ Start by measuring how repetitive your traffic is. Take a week of your logs, emb
 
 If that number comes back at 30% or better, turn semantic caching on at your gateway. Partition the cache key by tenant from day one and keep the expiry short. For the first few weeks, watch the similarity scores on cache hits instead of trusting the threshold.
 
-If it comes back at 8%, you have found a much more interesting problem than caching, which is that your users are all asking different things.
+If it comes back at 8%, the workload is too varied for semantic caching to save much.
 
 ![Measure repetition before turning caching on](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/wpivlvi3ri9qiqp79l0k.png)
 

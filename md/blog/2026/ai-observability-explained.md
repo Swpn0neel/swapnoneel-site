@@ -6,9 +6,11 @@ description: >-
   trace on every call, why logs are not enough, and where it belongs.
 slug: ai-observability-explained
 link:
-  - "https://swapnoneel123.substack.com/p/ai-observability-explained"
-  - "https://swapnoneel.medium.com/ai-observability-explained-how-to-trace-evaluate-and-control-ai-systems-20052eef3bad"
-  - "https://dev.to/swapnoneel123/ai-observability-explained-what-it-is-and-how-it-works-487"
+  - 'https://swapnoneel123.substack.com/p/ai-observability-explained'
+  - >-
+    https://swapnoneel.medium.com/ai-observability-explained-how-to-trace-evaluate-and-control-ai-systems-20052eef3bad
+  - >-
+    https://dev.to/swapnoneel123/ai-observability-explained-what-it-is-and-how-it-works-487
 canonical: 'https://www.swapnoneel.site/blog/ai-observability-explained'
 cover: >-
   https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/81g9z5hg0w76ysc9c7um.png
@@ -18,7 +20,7 @@ tags:
   - beginners
   - ai
   - devops
-updated: '2026-08-21T18:03:35.610Z'
+updated: '2026-09-01T07:58:14.648Z'
 ---
 
 Traditional monitoring rests on one quiet assumption that nobody ever writes down: the same input gives you the same output. Something breaks, you replay the request, you watch it break again, you fix it.
@@ -41,7 +43,7 @@ And there are whole categories of failure your stack has no field for. It has no
 
 ![Why standard monitoring misses AI quality failures](https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/72i1wisqwyz7zwvurepu.png)
 
-Something has to hold those fields instead, which is the entire reason this tooling exists. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. My team uses it, so I will use it as the example throughout this post. Because the source is public, anything I claim about what it records per request is something you can check line by line.
+Something has to hold those fields instead, which is the entire reason this tooling exists. [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. Its position between the application and the model providers makes it useful for observability: every model request and response passes through the same layer, regardless of provider. Bifrost's [built-in observability](https://docs.getbifrost.ai/features/observability/default) records the input, output, provider, model, token usage, cost, latency, errors, and status for each call, then makes those fields searchable in a live dashboard. Those are the details standard HTTP telemetry misses even when the request returns `200`.
 
 ## What one AI request actually looks like when you trace it
 
