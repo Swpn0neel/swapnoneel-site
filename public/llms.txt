@@ -133,65 +133,65 @@ Summary: Premium AI-powered video dubbing platform design.
 
 ## Recent Technical Writing
 
-### [AI Observability Explained: What It Is and How It Works](https://www.swapnoneel.site/blog/ai-observability-explained)
+### [What Is an MCP Server? A Beginner's Guide](https://www.swapnoneel.site/blog/what-is-an-mcp-server)
 
-Date: 2026-08-18T06:25:25.000Z
-Summary: AI observability is how you see inside a non-deterministic system. What to trace on every call, why logs are not enough, and where it belongs.
-
-### [Bifrost for Enterprises: Audit Logs, MCP Tool Groups, Adaptive Routing, and Guardrails](https://www.swapnoneel.site/blog/bifrost-for-enterprises)
-
-Date: 2026-08-09T15:41:05.000Z
-Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit logs, MCP tool groups, adaptive routing, and guardrails. This is a hands-on review of those features.
-
-### [Claude Pro Usage Limits Explained and How to Work Around Them](https://www.swapnoneel.site/blog/claude-pro-usage-limits)
-
-Date: 2026-08-25T17:05:36.000Z
-Summary: Claude Pro usage limits run on two clocks, not a message counter. What really drains them, how to read the meter, and eight ways to get more from one plan.
+Date: 2026-09-02T18:48:39.000Z
+Summary: What is an MCP server, in plain words? How the Model Context Protocol works, what MCP servers do, MCP vs API, and when you need a gateway.
 
 ### [Fixing Claude Rate Limit Errors with an AI Gateway](https://www.swapnoneel.site/blog/claude-rate-limit-error)
 
 Date: 2026-08-26T18:04:49.000Z
 Summary: A Claude rate limit error is five different failures wearing one status code. How to tell them apart, retry correctly, and route around the ceiling.
 
+### [Claude Pro Usage Limits Explained and How to Work Around Them](https://www.swapnoneel.site/blog/claude-pro-usage-limits)
+
+Date: 2026-08-25T17:05:36.000Z
+Summary: Claude Pro usage limits run on two clocks, not a message counter. What really drains them, how to read the meter, and eight ways to get more from one plan.
+
+### [What Is Semantic Caching, and Where It Quietly Breaks](https://www.swapnoneel.site/blog/what-is-semantic-caching)
+
+Date: 2026-08-19T17:39:37.000Z
+Summary: Semantic caching serves cached LLM answers to queries that only match in meaning. How it works, the threshold trap, real hit rates, and when to skip it.
+
+### [AI Observability Explained: What It Is and How It Works](https://www.swapnoneel.site/blog/ai-observability-explained)
+
+Date: 2026-08-18T06:25:25.000Z
+Summary: AI observability is how you see inside a non-deterministic system. What to trace on every call, why logs are not enough, and where it belongs.
+
+### [What is Adaptive Load Balancing, and Why AI Needs It](https://www.swapnoneel.site/blog/what-is-adaptive-load-balancing)
+
+Date: 2026-08-17T00:00:00.000Z
+Summary: Adaptive load balancing routes by live health, not a fixed rotation. How the scoring actually works, and why AI traffic breaks the older algorithms.
+
+### [Bifrost for Enterprises: Audit Logs, MCP Tool Groups, Adaptive Routing, and Guardrails](https://www.swapnoneel.site/blog/bifrost-for-enterprises)
+
+Date: 2026-08-09T15:41:05.000Z
+Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit logs, MCP tool groups, adaptive routing, and guardrails. This is a hands-on review of those features.
+
 ### [Deep Diving Into Bifrost: Virtual Keys, MCP and Skills](https://www.swapnoneel.site/blog/deep-dive-into-bifrost)
 
 Date: 2026-07-31T00:00:00.000Z
 Summary: A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering virtual keys, MCP, prompts, skills, and custom log headers.
-
-### [GEO for Developers: Get Cited by ChatGPT and Perplexity](https://www.swapnoneel.site/blog/geo-for-developers)
-
-Date: 2026-07-08T00:00:00.000Z
-Summary: GEO for developers, minus the agency fluff. Here's what actually matters if you want ChatGPT and Perplexity to cite your blog posts in 2026.
-
-### [How I made an AI Agent write in my voice](https://www.swapnoneel.site/blog/make-ai-write-in-your-voice)
-
-Date: 2026-07-06T00:00:00.000Z
-Summary: You can make AI write in your voice, but a prompt won't get you there...
-
-### [Kimi K3 and the Rise of Open Weight Frontier Models](https://www.swapnoneel.site/blog/rise-of-open-weight-frontier-models-kimi-k3)
-
-Date: 2026-07-23T00:00:00.000Z
-Summary: Kimi K3 just landed a 2.8T open weight model a hair behind GPT-5.6 Sol and Fable 5. Here's why open weight frontier models finally matter.
-
-### [Nobody's Testing AI Coding Agents Enough](https://www.swapnoneel.site/blog/testing-ai-coding-agents)
-
-Date: 2026-07-24T00:00:00.000Z
-Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped being optional, here's what I learned being paid to do it.
 
 ### [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)
 
 Date: 2026-07-30T00:00:00.000Z
 Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering local OpenCode setup, automatic fallbacks, and complexity-based routing.
 
+### [Nobody's Testing AI Coding Agents Enough](https://www.swapnoneel.site/blog/testing-ai-coding-agents)
+
+Date: 2026-07-24T00:00:00.000Z
+Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped being optional, here's what I learned being paid to do it.
+
+### [Kimi K3 and the Rise of Open Weight Frontier Models](https://www.swapnoneel.site/blog/rise-of-open-weight-frontier-models-kimi-k3)
+
+Date: 2026-07-23T00:00:00.000Z
+Summary: Kimi K3 just landed a 2.8T open weight model a hair behind GPT-5.6 Sol and Fable 5. Here's why open weight frontier models finally matter.
+
 ### [Why Vercel is still my default for shipping frontend projects](https://www.swapnoneel.site/blog/vercel-frontend-deployment-default)
 
 Date: 2026-07-13T00:00:00.000Z
 Summary: Why I keep reaching for Vercel for frontend projects — and where Cloudflare, Netlify, and Railway are the better choice.
-
-### [What is Adaptive Load Balancing, and Why AI Needs It](https://www.swapnoneel.site/blog/what-is-adaptive-load-balancing)
-
-Date: 2026-08-17T00:00:00.000Z
-Summary: Adaptive load balancing routes by live health, not a fixed rotation. How the scoring actually works, and why AI traffic breaks the older algorithms.
 
 For every published article in full, use the full content corpus or RSS feed.
 

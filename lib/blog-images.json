@@ -659,8 +659,30 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/2drkhh86pse6ywt0qc93.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/2drkhh86pse6ywt0qc93-b56d6825.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/2r7xnd21yjazp4j7r2n0.png": {
     "local": "/blog-img/2026/claude-pro-usage-limits/2r7xnd21yjazp4j7r2n0-52250ec4.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/39n9a5s3scezxm38907y.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/39n9a5s3scezxm38907y-4dca92db.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -833,6 +855,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/6h5paxmrnp4uqsebb6x1.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/6h5paxmrnp4uqsebb6x1-77466737.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/6t4h091k4dsmanep2cfy.png": {
     "local": "/blog-img/2026/deep-dive-into-bifrost/6t4h091k4dsmanep2cfy-6bbbfba5.webp",
     "width": 1536,
@@ -930,6 +963,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8ovdnlvnm2h0i8g3p7zt.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/8ovdnlvnm2h0i8g3p7zt-c6436c8e.webp",
+    "width": 1536,
+    "height": 865,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8skbo3bygfl4pfwmfo0o.png": {
     "local": "/blog-img/2026/vercel-frontend-deployment-default/8skbo3bygfl4pfwmfo0o-4b3617d6.webp",
     "width": 1274,
@@ -975,6 +1019,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/aehpz9omezpmc0ei8gr0.png": {
     "local": "/blog-img/2026/claude-pro-usage-limits/aehpz9omezpmc0ei8gr0-a07d458e.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/anj3y8v5zl4rj4mqz44c.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/anj3y8v5zl4rj4mqz44c-519d324d.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1147,6 +1202,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/htd147sayh27qovbfh4s.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/htd147sayh27qovbfh4s-9472fbeb.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/i8fz76dcy7hsjskwcovi.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/i8fz76dcy7hsjskwcovi-7ebda806.webp",
     "width": 1536,
@@ -1267,6 +1333,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/l74ofosewn670mplaspz.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/l74ofosewn670mplaspz-600929bd.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/mnf69thhecu599edac1q.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/mnf69thhecu599edac1q-f624c866.webp",
     "width": 1536,
@@ -1301,6 +1378,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/o2albu3d51p4reqzb2w0.png": {
     "local": "/blog-img/2026/what-is-semantic-caching/o2albu3d51p4reqzb2w0-d074186e.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ohphuoh9pi3b1sm6dg8h.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/ohphuoh9pi3b1sm6dg8h-e40df459.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1496,6 +1584,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/uinoqqnkifadoeg9a002.png": {
     "local": "/blog-img/2026/rise-of-open-weight-frontier-models-kimi-k3/uinoqqnkifadoeg9a002-d3e5ee25.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/uqm68vyb9mbz3kdjgz25.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-server/uqm68vyb9mbz3kdjgz25-77a5cd39.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
