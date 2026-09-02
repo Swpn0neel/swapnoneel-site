@@ -2,20 +2,43 @@ import { ExperienceSection } from "@/components/experience-section";
 import { PfpSpin } from "@/components/pfp-spin";
 import { ProjectShowcase } from "@/components/project-showcase";
 import { SocialLinks } from "@/components/social-links";
+import { StaticImage } from "@/components/static-image";
 import blurMap from "@/lib/blur-map.json";
 import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getAllWorkItems, getFeaturedProjects } from "@/lib/md";
 import { toProjectCardData } from "@/lib/project-data";
-import { buildPersonSchema } from "@/lib/structured-data";
+import { PERSON_ID } from "@/lib/structured-data";
+import { uiImage } from "@/lib/ui-image-loader";
 import { safeJsonLd } from "@/lib/utils";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 
 const CalBooking = dynamic(() =>
   import("@/components/cal-booking").then((m) => m.CalBooking)
 );
+
+function PfpFace({ src, alt }: { src: string; alt: string }) {
+  const image = uiImage(src);
+  return (
+    <StaticImage
+      src={image?.fallback ?? src}
+      alt={alt}
+      width={140}
+      height={140}
+      sources={image?.sources}
+      sizes="140px"
+      loading="eager"
+      preload
+      // The 16px blur sits under the portrait until it decodes; a shimmer on
+      // top of it would only tint it.
+      blurDataURL={blurMap[src as keyof typeof blurMap]}
+      showSkeleton={false}
+      frameClassName="size-full"
+      className="pfp-image-flip"
+    />
+  );
+}
 
 export default function Home() {
   const workItems = getAllWorkItems();
@@ -29,7 +52,13 @@ export default function Home() {
           __html: safeJsonLd({
             "@context": "https://schema.org",
             "@type": "ProfilePage",
-            mainEntity: buildPersonSchema(),
+            // A reference, not a copy: the full Person node is already in this
+            // document from the root layout, under the same @id.
+            mainEntity: {
+              "@type": "Person",
+              "@id": PERSON_ID,
+              name: siteConfig.person.fullName,
+            },
           }),
         }}
       />
@@ -40,47 +69,27 @@ export default function Home() {
             <div className="pfp-flip-card-inner">
               <div className="pfp-flip-card-front">
                 {/* Front face is the resting face in dark theme. Which of the
-                    two faces a visitor sees first now depends on their OS
-                    setting, so both load eagerly — this one used to be lazy on
-                    the assumption that a first visit was always light, which
-                    left dark-theme visitors watching the hero pop in.
-                    No fetchPriority override any more: it was "low", which
-                    defeated the browser's own boost for an in-viewport image
-                    and parked the hero behind every JS chunk — measured
-                    arriving 130ms after the text it sits beside. Chrome
-                    promotes what is in the first viewport on its own, and the
-                    font keeps the preload head start display:optional needs.
-                    quality={90} because Next encodes AVIF at quality-20 (see
-                    next.config), so the default 75 shipped this portrait at
-                    AVIF q55 — soft in precisely the way a face shows. q70
-                    costs 3 KB more at 2x. */}
-                <Image
+                    two faces a visitor sees first depends on their OS setting,
+                    so both are eager and both are preloaded — this one used to
+                    be lazy on the assumption that a first visit was always
+                    light, which left dark-theme visitors watching the hero pop
+                    in. No fetchPriority: it was "low" once, which defeated the
+                    browser's own boost for an in-viewport image and parked the
+                    hero behind every JS chunk. Both faces are encoded at build
+                    by scripts/generate-ui-images.mjs at the 140/280 widths this
+                    slot renders and served immutable — the optimizer used to
+                    answer them with max-age=0 on every repeat visit. */}
+                <PfpFace
                   src={siteConfig.images.avatar}
                   alt={i18n.home.hero.avatarAlt}
-                  width={140}
-                  height={140}
-                  loading="eager"
-                  quality={90}
-                  decoding="async"
-                  placeholder="blur"
-                  blurDataURL={blurMap[siteConfig.images.avatar]}
-                  className="pfp-image-flip"
                 />
               </div>
               <div className="pfp-flip-card-back">
                 {/* Back face is the resting face in light theme. See the note
                     on the front face for why both load eagerly. */}
-                <Image
+                <PfpFace
                   src={siteConfig.images.avatarHover}
                   alt={i18n.home.hero.avatarHoverAlt}
-                  width={140}
-                  height={140}
-                  loading="eager"
-                  quality={90}
-                  decoding="async"
-                  placeholder="blur"
-                  blurDataURL={blurMap[siteConfig.images.avatarHover]}
-                  className="pfp-image-flip"
                 />
               </div>
             </div>

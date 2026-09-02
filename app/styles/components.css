@@ -55,10 +55,43 @@
   transform: translate3d(-140%, 0, 0);
   will-change: transform;
 }
-.image-shimmer[data-shimmer-active="true"]::before {
+/* ── image frames ───────────────────────────────────────────────────────────
+   StaticImage renders the frame; ImageLoadListener writes data-image-state
+   (loading / loaded / error) and data-image-near onto it. A frame with no
+   state — before the listener runs, or with scripting off — shows the image
+   as it arrives over a static shimmer tint, and hides nothing. */
+[data-image-frame] picture {
+  display: contents;
+}
+[data-image-frame] img,
+[data-image-frame] .image-shimmer {
+  transition: opacity 300ms ease-out;
+}
+/* Only while the listener is watching, and never for the LCP candidate: the
+   priority image must paint the moment it decodes, not a class later. */
+[data-image-frame]:not([data-image-priority])[data-image-state="loading"] img {
+  opacity: 0;
+}
+[data-image-frame][data-image-state="loading"][data-image-near="true"]
+  .image-shimmer::before {
   animation: shimmer-transform 1.5s ease-in-out infinite;
 }
+[data-image-frame][data-image-state="loaded"] .image-shimmer,
+[data-image-frame][data-image-state="error"] .image-shimmer {
+  opacity: 0;
+  pointer-events: none;
+}
+.image-frame__error {
+  display: none;
+}
+[data-image-frame][data-image-state="error"] .image-frame__error {
+  display: flex;
+}
 @media (prefers-reduced-motion: reduce) {
+  [data-image-frame] img,
+  [data-image-frame] .image-shimmer {
+    transition: none;
+  }
   .image-shimmer::before {
     animation: none !important;
     transform: translate3d(40%, 0, 0);

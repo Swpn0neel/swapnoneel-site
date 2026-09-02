@@ -1,54 +1,85 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-  appendVaryAccept,
+  acceptsMarkdownOnly,
   canonicalPathFromMarkdown,
+  isNegotiablePagePath,
   markdownSiblingPath,
-  preferredContentType,
 } from "../lib/content-negotiation.ts";
 
-test("defaults browsers and unconstrained clients to HTML", () => {
-  assert.equal(preferredContentType(null), "text/html");
-  assert.equal(preferredContentType("*/*"), "text/html");
+test("browsers and unconstrained clients keep HTML", () => {
+  assert.equal(acceptsMarkdownOnly(null), false);
+  assert.equal(acceptsMarkdownOnly("*/*"), false);
   assert.equal(
-    preferredContentType(
+    acceptsMarkdownOnly(
       "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8"
     ),
-    "text/html"
+    false
   );
 });
 
-test("honors Markdown preference, q-values, specificity, and q=0", () => {
-  assert.equal(preferredContentType("text/markdown"), "text/markdown");
-  assert.equal(
-    preferredContentType("text/markdown, text/html;q=0.8"),
-    "text/markdown"
-  );
-  assert.equal(
-    preferredContentType("text/markdown;q=0.3, text/html;q=0.9"),
-    "text/html"
-  );
-  assert.equal(preferredContentType("text/html;q=0, */*;q=1"), "text/markdown");
-  assert.equal(
-    preferredContentType("text/markdown;q=0, text/html"),
-    "text/html"
-  );
+test("clients asking only for Markdown get Markdown", () => {
+  assert.equal(acceptsMarkdownOnly("text/markdown"), true);
+  assert.equal(acceptsMarkdownOnly("text/markdown, */*;q=0.1"), true);
+  assert.equal(acceptsMarkdownOnly("text/markdown;q=0.9, text/plain"), true);
 });
 
-test("returns null when no available representation is acceptable", () => {
-  assert.equal(preferredContentType("application/pdf"), null);
-  assert.equal(
-    preferredContentType("text/html;q=0, text/markdown;q=0, */*;q=0"),
-    null
-  );
+test("a client that also lists HTML gets HTML", () => {
+  assert.equal(acceptsMarkdownOnly("text/markdown, text/html;q=0.8"), false);
+  assert.equal(acceptsMarkdownOnly("text/html, text/markdown"), false);
 });
 
-test("adds Accept to Vary without dropping existing cache dimensions", () => {
-  const headers = new Headers({ Vary: "RSC, Accept-Encoding" });
-  appendVaryAccept(headers);
-  assert.equal(headers.get("Vary"), "RSC, Accept-Encoding, Accept");
-  appendVaryAccept(headers);
-  assert.equal(headers.get("Vary"), "RSC, Accept-Encoding, Accept");
+test("q=0 rejects a representation", () => {
+  // Markdown explicitly rejected: HTML even though the token appears.
+  assert.equal(acceptsMarkdownOnly("text/markdown;q=0, */*;q=1"), false);
+  assert.equal(acceptsMarkdownOnly("text/markdown;q=0.0, text/html"), false);
+  // HTML explicitly rejected: Markdown, whether asked for by name or wildcard.
+  assert.equal(acceptsMarkdownOnly("text/markdown, text/html;q=0"), true);
+  assert.equal(acceptsMarkdownOnly("text/html;q=0, text/markdown"), true);
+  assert.equal(acceptsMarkdownOnly("text/html;q=0, */*;q=1"), true);
+  assert.equal(acceptsMarkdownOnly("text/html;q=0, text/*"), true);
+  // Both rejected, or nothing usable: HTML, the default representation.
+  assert.equal(
+    acceptsMarkdownOnly("text/html;q=0, text/markdown;q=0, */*;q=0"),
+    false
+  );
+  // A low but non-zero q is still acceptance.
+  assert.equal(acceptsMarkdownOnly("text/markdown;q=0.01, text/html"), false);
+  assert.equal(acceptsMarkdownOnly("text/html;q=0.01, */*"), false);
+});
+
+test("q=0 is recognised after media-type parameters", () => {
+  // The weight follows any parameters on the range (RFC 9110 §12.4.2).
+  assert.equal(
+    acceptsMarkdownOnly("text/markdown;charset=utf-8;q=0, */*;q=1"),
+    false
+  );
+  assert.equal(
+    acceptsMarkdownOnly("text/markdown, text/html;charset=utf-8;q=0"),
+    true
+  );
+  assert.equal(
+    acceptsMarkdownOnly("text/html;level=1;charset=utf-8;q=0, */*"),
+    true
+  );
+  // Anything after the weight is an accept extension, not a parameter.
+  assert.equal(acceptsMarkdownOnly("text/markdown;q=0;ext=1, */*"), false);
+  // A parameter with no weight is still plain acceptance.
+  assert.equal(
+    acceptsMarkdownOnly("text/markdown;charset=utf-8, text/html;q=0.5"),
+    false
+  );
+  assert.equal(acceptsMarkdownOnly("text/markdown;charset=utf-8"), true);
+});
+
+test("negotiation applies to page paths only", () => {
+  assert.equal(isNegotiablePagePath("/about"), true);
+  assert.equal(isNegotiablePagePath("/work/bifrost"), true);
+  assert.equal(isNegotiablePagePath("/blog/some-post"), true);
+  assert.equal(isNegotiablePagePath("/api/markdown"), false);
+  assert.equal(isNegotiablePagePath("/_next/static/chunks/a.js"), false);
+  assert.equal(isNegotiablePagePath("/robots.txt"), false);
+  assert.equal(isNegotiablePagePath("/index.md"), false);
 });
 
 test("maps canonical pages to discoverable Markdown siblings", () => {

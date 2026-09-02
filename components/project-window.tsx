@@ -1,4 +1,4 @@
-import { OptimizedImage } from "@/components/optimized-image";
+import { StaticImage } from "@/components/static-image";
 import { projectRenditions } from "@/lib/project-image-loader";
 
 interface ProjectWindowProps {
@@ -22,7 +22,7 @@ export function ProjectWindow({
   loading,
 }: ProjectWindowProps) {
   // Pre-encoded by scripts/generate-project-images.mjs. A cover it has not seen
-  // falls through to the optimizer rather than to guessed filenames.
+  // renders the original file rather than guessed filenames.
   const renditions = projectRenditions(src);
 
   return (
@@ -36,32 +36,18 @@ export function ProjectWindow({
       </div>
       <div className="project-window-shot">
         <div className="project-window-shot-crop">
-          <OptimizedImage
+          <StaticImage
             src={src}
             alt={alt}
+            sources={renditions?.sources}
+            sizes={sizes}
             fill
             className="object-cover object-top"
-            sizes={sizes}
-            critical={priority}
-            loading={loading ?? (priority ? "eager" : undefined)}
-            fetchPriority={priority ? "high" : undefined}
-            unoptimized={Boolean(renditions)}
-            sourceSets={renditions?.sources.map((source) => ({
-              ...source,
-              sizes,
-            }))}
+            priority={priority}
+            // Undefined falls through to StaticImage's lazy default; the
+            // carousel passes eager for the slides that are on screen.
+            loading={loading}
           />
-          {priority && renditions && (
-            <link
-              rel="preload"
-              as="image"
-              type="image/avif"
-              href={renditions.widest}
-              imageSrcSet={renditions.sources[0].srcSet}
-              imageSizes={sizes}
-              fetchPriority="high"
-            />
-          )}
         </div>
       </div>
     </div>

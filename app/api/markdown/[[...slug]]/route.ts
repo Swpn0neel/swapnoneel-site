@@ -4,14 +4,13 @@ import type { NextRequest } from "next/server";
 const BASE_URL = "https://www.swapnoneel.site";
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ slug?: string[] }> }
 ) {
   const { slug = [] } = await params;
   const pathname = `/${slug.join("/")}`;
   const representation = getMarkdownRepresentation(pathname);
   const canonicalUrl = new URL(representation.canonicalPath, BASE_URL);
-  const explicitSibling = request.headers.get("x-markdown-sibling") === "1";
 
   return new Response(`${representation.body.trim()}\n`, {
     status: representation.status,
@@ -24,9 +23,10 @@ export async function GET(
       "Content-Type": "text/markdown; charset=utf-8",
       Link: `<${canonicalUrl.toString()}>; rel="canonical"; type="text/html"`,
       Vary: "Accept, Accept-Encoding",
-      ...(representation.status === 404 || explicitSibling
-        ? { "X-Robots-Tag": "noindex" }
-        : {}),
+      // Explicit .md siblings get their noindex from next.config.ts headers(),
+      // matched on the URL the client requested; this route only sees the
+      // rewritten path.
+      ...(representation.status === 404 ? { "X-Robots-Tag": "noindex" } : {}),
     },
   });
 }

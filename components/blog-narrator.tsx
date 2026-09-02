@@ -157,28 +157,36 @@ type NarrationManifest = {
  *
  * The spans are created on first playback rather than at mount or on the
  * server: a long post is ~3,000 of them, and the large majority of readers
- * never press play.
+ * never press play. The manifest is treated the same way — its duration comes
+ * down as a prop (the server read the file anyway to decide whether to emit
+ * anchors), and the ~70 KB timings array is fetched on the first hover, focus
+ * or play rather than on every page view.
  */
 export function BlogNarrator({
   articleId,
   slug,
   year,
   available = true,
+  durationMs: initialDurationMs = 0,
 }: {
   articleId: string;
   slug: string;
   year: number | string;
   /** False when the build could not line the timings up with this article. */
   available?: boolean;
+  /** From the manifest, read on the server; 0 when narration is unavailable. */
+  durationMs?: number;
 }) {
   const [supported, setSupported] = useState(true);
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
+  // Waiting on the timings after the reader pressed play.
+  const [pending, setPending] = useState(false);
   const [playing, setPlaying] = useState(false);
   const [rateIdx, setRateIdx] = useState(2); // 1x
   const [dragging, setDragging] = useState(false);
   const [speedOpen, setSpeedOpen] = useState(false);
-  const [durationMs, setDurationMs] = useState(0);
+  const [durationMs, setDurationMs] = useState(initialDurationMs);
   const [curMs, setCurMs] = useState(0);
   const speedMenuRef = useRef<HTMLDivElement>(null);
 
@@ -192,7 +200,16 @@ export function BlogNarrator({
   const rateRef = useRef(1);
   const wordIdxRef = useRef(0);
   const playingRef = useRef(false);
-  const durationMsRef = useRef(0);
+  const durationMsRef = useRef(initialDurationMs);
+  // Token count the article's anchors add up to; the manifest must agree.
+  const expectedRef = useRef(0);
+  // One fetch per mount, shared by hover, focus and play.
+  const manifestRef = useRef<Promise<boolean> | null>(null);
+  const manifestAbortRef = useRef<AbortController | null>(null);
+  const pendingRef = useRef(false);
+  // A play() that is still waiting on the manifest when the reader navigates
+  // away must not start audio on the next page, where nothing could stop it.
+  const mountedRef = useRef(false);
   // Position exists independently of the media element, so the timeline can be
   // scrubbed before play without ever requesting the MP3.
   const audioPositionMsRef = useRef(0);
@@ -286,9 +303,12 @@ export function BlogNarrator({
     return () => observer.disconnect();
   }, [ready, setProgressUI]);
 
-  // ---- mount: read the build's anchors, load the manifest ----
+  // ---- mount: read the build's anchors ----
+  // No network here. Everything the idle player draws is known already: the
+  // duration arrived as a prop and the anchors are in the HTML. The timings
+  // are loaded by loadManifest() below on the first sign of intent.
   useEffect(() => {
-    if (!available) {
+    if (!available || initialDurationMs <= 0) {
       setSupported(false);
       return;
     }
@@ -302,36 +322,59 @@ export function BlogNarrator({
 
     let expected = 0;
     for (const block of blocks) expected += Number(block.dataset.nwc ?? 0);
+    expectedRef.current = expected;
+    setReady(true);
+  }, [articleId, available, initialDurationMs]);
 
+  // ---- the timings, on demand ----
+  // Resolves true once starts/audio are in place. A stale manifest (token
+  // count disagrees with the anchors) hides the player — highlighting the
+  // wrong words is worse than not offering it. A network failure leaves the
+  // player up with a retry, and clears the memo so the retry actually refetches.
+  const loadManifest = useCallback((): Promise<boolean> => {
+    if (manifestRef.current) return manifestRef.current;
     const controller = new AbortController();
-    fetch(`/narration/${year}/${slug}.json`, { signal: controller.signal })
+    manifestAbortRef.current = controller;
+    const request = fetch(`/narration/${year}/${slug}.json`, {
+      signal: controller.signal,
+    })
       .then((res) =>
         res.ok ? (res.json() as Promise<NarrationManifest>) : null
       )
       .then((data) => {
-        if (!data || !Array.isArray(data.starts) || !data.audio) {
+        if (!mountedRef.current) return false;
+        if (
+          !data ||
+          !Array.isArray(data.starts) ||
+          !data.audio ||
+          data.starts.length !== expectedRef.current
+        ) {
           setSupported(false);
-          return;
-        }
-        // The anchors and the timings are generated together, so a mismatch
-        // means one of them is stale. Highlighting the wrong words is worse
-        // than not offering the player.
-        if (data.starts.length !== expected) {
-          setSupported(false);
-          return;
+          return false;
         }
         startsRef.current = data.starts;
         audioSrcRef.current = data.audio;
-        durationMsRef.current = data.durationMs;
-        setDurationMs(data.durationMs);
-        setReady(true);
+        if (data.durationMs > 0) {
+          durationMsRef.current = data.durationMs;
+          setDurationMs(data.durationMs);
+        }
+        return true;
       })
-      .catch((err) => {
-        if ((err as Error)?.name !== "AbortError") setSupported(false);
+      .catch(() => {
+        manifestRef.current = null;
+        // Unmount aborts the request; that is not a failure to report.
+        if (mountedRef.current) setFailed(true);
+        return false;
       });
+    manifestRef.current = request;
+    return request;
+  }, [slug, year]);
 
-    return () => controller.abort();
-  }, [articleId, available, slug, year]);
+  // Hover or focus on the player is the earliest honest signal that the
+  // timings will be wanted; fetching then hides the latency behind the click.
+  const warm = useCallback(() => {
+    if (ready) void loadManifest();
+  }, [loadManifest, ready]);
 
   // ---- lazy word wrapping ----
   // Runs once, on the first action that needs word-level positions. Each block
@@ -542,27 +585,49 @@ export function BlogNarrator({
   }, [stopLoop]);
 
   const play = useCallback(() => {
-    if (!ready) return;
+    if (!ready || pendingRef.current) return;
     if (!ensureWrapped()) {
       setSupported(false);
       return;
     }
     setFailed(false);
-    const audio = ensureAudio();
-    audio.playbackRate = rateRef.current;
-    proseRef.current?.classList.add("narrating");
-    applyHighlight(wordIdxRef.current, true, true);
-    playingRef.current = true;
-    setPlaying(true);
-    stopLoop();
-    rafRef.current = requestAnimationFrame(() => tickRef.current());
-    audio.play().catch(() => {
-      playingRef.current = false;
-      setPlaying(false);
+
+    const begin = () => {
+      const audio = ensureAudio();
+      audio.playbackRate = rateRef.current;
+      proseRef.current?.classList.add("narrating");
+      // From the position, not wordIdxRef: a scrub made before the timings
+      // arrived could only ever have landed the index on word 0.
+      applyHighlight(
+        wordIdxForMs(startsRef.current, audioPositionMsRef.current),
+        true,
+        true
+      );
+      playingRef.current = true;
+      setPlaying(true);
       stopLoop();
-      setFailed(true);
+      rafRef.current = requestAnimationFrame(() => tickRef.current());
+      audio.play().catch(() => {
+        playingRef.current = false;
+        setPlaying(false);
+        stopLoop();
+        setFailed(true);
+      });
+    };
+
+    if (startsRef.current.length > 0) {
+      begin();
+      return;
+    }
+    pendingRef.current = true;
+    setPending(true);
+    void loadManifest().then((ok) => {
+      pendingRef.current = false;
+      if (!mountedRef.current) return;
+      setPending(false);
+      if (ok) begin();
     });
-  }, [applyHighlight, ensureAudio, ensureWrapped, ready, stopLoop]);
+  }, [applyHighlight, ensureAudio, ensureWrapped, loadManifest, ready, stopLoop]);
 
   const seekToMs = useCallback(
     (ms: number, resume: boolean) => {
@@ -576,13 +641,17 @@ export function BlogNarrator({
         durationMsRef.current > 0 ? clamped / durationMsRef.current : 0
       );
 
-      if (ensureWrapped()) {
+      // Scrubbing is intent too. Until the timings are here there is no word
+      // to land on; play() recomputes the index from the position once they are.
+      if (startsRef.current.length > 0 && ensureWrapped()) {
         applyHighlight(wordIdxForMs(startsRef.current, clamped), true, resume);
+      } else {
+        void loadManifest();
       }
       if (audioRef.current) audioRef.current.currentTime = clamped / 1000;
       if (resume) play();
     },
-    [applyHighlight, ensureWrapped, play, setProgressUI]
+    [applyHighlight, ensureWrapped, loadManifest, play, setProgressUI]
   );
 
   const seekToFraction = useCallback(
@@ -617,7 +686,10 @@ export function BlogNarrator({
 
   // Tear down on unmount.
   useEffect(() => {
+    mountedRef.current = true;
     return () => {
+      mountedRef.current = false;
+      manifestAbortRef.current?.abort();
       stopLoop();
       dragCleanupRef.current();
       if (audioRef.current) {
@@ -787,16 +859,22 @@ export function BlogNarrator({
 
   return (
     <div
-      aria-busy={!ready}
-      data-narration-state={ready ? "ready" : "loading"}
+      aria-busy={!ready || pending}
+      data-narration-state={
+        !ready ? "loading" : pending ? "buffering" : "ready"
+      }
+      onPointerEnter={warm}
+      onFocusCapture={warm}
       className="blog-narrator border-border bg-secondary/15 mb-6 rounded-md border p-2.5 sm:p-3"
     >
       <span className="sr-only" role="status" aria-live="polite">
         {failed
           ? "Narration audio could not be loaded. Press play to retry."
-          : ready
-            ? "Narration ready."
-            : "Preparing narration."}
+          : pending
+            ? "Loading narration."
+            : ready
+              ? "Narration ready."
+              : "Preparing narration."}
       </span>
       <div className="flex items-center gap-1.5 sm:gap-2">
         <button

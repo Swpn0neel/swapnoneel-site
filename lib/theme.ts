@@ -10,9 +10,9 @@ export type ResolvedTheme = "light" | "dark";
  * one case that cannot have an attribute — scripting disabled — where CSS
  * follows the OS and anything reading the theme has to resolve the same query.
  *
- * Read here rather than from next-themes' `resolvedTheme` on purpose: this is
- * correct before mount, and it is the value the pixels on screen were painted
- * from even if React state has not caught up.
+ * Read here rather than from ThemeProvider's `resolvedTheme` on purpose: this
+ * is correct before mount, and it is the value the pixels on screen were
+ * painted from even if React state has not caught up.
  */
 export function getRenderedTheme(): ResolvedTheme {
   const theme = document.documentElement.dataset.theme;

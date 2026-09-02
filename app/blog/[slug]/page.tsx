@@ -194,6 +194,7 @@ export default async function BlogPostPage({
         slug={slug}
         year={d.getFullYear()}
         available={narration.enabled}
+        durationMs={narration.durationMs}
       />
 
       {/* Main Content */}

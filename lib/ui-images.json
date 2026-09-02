@@ -1,0 +1,131 @@
+{
+  "pipeline": {
+    "version": 1,
+    "formats": {
+      "avif": {
+        "quality": 70,
+        "effort": 6
+      },
+      "webp": {
+        "quality": 82,
+        "effort": 6
+      }
+    },
+    "hashes": {
+      "/img/pfp-dark.webp": "3d98b712",
+      "/img/pfp-light.webp": "c186059b",
+      "/work/bifrost.webp": "5c93a728",
+      "/work/keploy.webp": "f29c17c1",
+      "/work/tutorials-point.webp": "719d6c03",
+      "/work/wizdom.webp": "b15c45af",
+      "/work/zonko.webp": "5b7f424f"
+    }
+  },
+  "sources": {
+    "/img/pfp-dark.webp": {
+      "width": 280,
+      "height": 280,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/pfp-dark-3d98b712-140.avif 140w, /ui-img/pfp-dark-3d98b712-280.avif 280w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/pfp-dark-3d98b712-140.webp 140w, /ui-img/pfp-dark-3d98b712-280.webp 280w"
+        }
+      ],
+      "fallback": "/ui-img/pfp-dark-3d98b712-280.webp"
+    },
+    "/img/pfp-light.webp": {
+      "width": 280,
+      "height": 280,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/pfp-light-c186059b-140.avif 140w, /ui-img/pfp-light-c186059b-280.avif 280w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/pfp-light-c186059b-140.webp 140w, /ui-img/pfp-light-c186059b-280.webp 280w"
+        }
+      ],
+      "fallback": "/ui-img/pfp-light-c186059b-280.webp"
+    },
+    "/work/bifrost.webp": {
+      "width": 240,
+      "height": 240,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/bifrost-5c93a728-60.avif 60w, /ui-img/bifrost-5c93a728-120.avif 120w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/bifrost-5c93a728-60.webp 60w, /ui-img/bifrost-5c93a728-120.webp 120w"
+        }
+      ],
+      "fallback": "/ui-img/bifrost-5c93a728-120.webp"
+    },
+    "/work/keploy.webp": {
+      "width": 120,
+      "height": 120,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/keploy-f29c17c1-60.avif 60w, /ui-img/keploy-f29c17c1-120.avif 120w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/keploy-f29c17c1-60.webp 60w, /ui-img/keploy-f29c17c1-120.webp 120w"
+        }
+      ],
+      "fallback": "/ui-img/keploy-f29c17c1-120.webp"
+    },
+    "/work/tutorials-point.webp": {
+      "width": 120,
+      "height": 120,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/tutorials-point-719d6c03-60.avif 60w, /ui-img/tutorials-point-719d6c03-120.avif 120w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/tutorials-point-719d6c03-60.webp 60w, /ui-img/tutorials-point-719d6c03-120.webp 120w"
+        }
+      ],
+      "fallback": "/ui-img/tutorials-point-719d6c03-120.webp"
+    },
+    "/work/wizdom.webp": {
+      "width": 192,
+      "height": 192,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/wizdom-b15c45af-60.avif 60w, /ui-img/wizdom-b15c45af-120.avif 120w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/wizdom-b15c45af-60.webp 60w, /ui-img/wizdom-b15c45af-120.webp 120w"
+        }
+      ],
+      "fallback": "/ui-img/wizdom-b15c45af-120.webp"
+    },
+    "/work/zonko.webp": {
+      "width": 120,
+      "height": 120,
+      "sources": [
+        {
+          "type": "image/avif",
+          "srcSet": "/ui-img/zonko-5b7f424f-60.avif 60w, /ui-img/zonko-5b7f424f-120.avif 120w"
+        },
+        {
+          "type": "image/webp",
+          "srcSet": "/ui-img/zonko-5b7f424f-60.webp 60w, /ui-img/zonko-5b7f424f-120.webp 120w"
+        }
+      ],
+      "fallback": "/ui-img/zonko-5b7f424f-120.webp"
+    }
+  }
+}

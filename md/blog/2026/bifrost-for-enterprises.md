@@ -1,6 +1,7 @@
 ---
 title: >-
-  Bifrost for Enterprises: Adaptive Routing, Guardrails and much more
+  Bifrost for Enterprises: Audit Logs, MCP Tool Groups, Adaptive Routing, and
+  Guardrails
 date: '2026-08-09T15:41:05.000Z'
 description: >-
   Bifrost Enterprise builds on Maxim AI's open-source gateway with audit logs,
@@ -22,7 +23,7 @@ tags:
   - tutorial
   - opensource
   - webdev
-updated: '2026-09-01T07:58:14.648Z'
+updated: '2026-09-02T11:05:46.497Z'
 ---
 
 [Bifrost](https://docs.getbifrost.ai/overview) is Maxim AI's high-performance, [open-source AI gateway](https://github.com/maximhq/bifrost) that unifies access to 20+ providers through a single OpenAI-compatible API. [Bifrost Enterprise](https://docs.getbifrost.ai/enterprise/overview) is a strict superset of that gateway, adding high-availability clustering, adaptive load balancing, identity and access controls, audit logs, guardrails, and private deployment options.

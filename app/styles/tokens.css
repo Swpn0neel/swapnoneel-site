@@ -168,5 +168,9 @@
   --text-sm--line-height: 1.6;
   --font-sans: var(--font-geist), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-heading: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
+  /* No Geist Mono here: the face is only mounted under .mono-scope (blog
+     routes), and a var() to a name that is undefined on this element would
+     make the whole declaration invalid — `font-mono` outside the scope would
+     then *inherit* the sans stack instead of falling to a monospace one. */
+  --font-mono: ui-monospace, SFMono-Regular, "Cascadia Code", Consolas, monospace;
 }

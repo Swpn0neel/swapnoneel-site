@@ -59,6 +59,15 @@ h5,
 h6 {
   font-family: var(--font-heading);
 }
+/* Geist Mono is declared in lib/fonts.ts and mounted by app/blog/layout.tsx,
+   which puts --font-geist-mono on this wrapper. --font-mono has to be
+   redeclared here rather than reference the variable from :root: a custom
+   property resolves its var()s on the element that declares it, so the :root
+   value would only ever see :root's (absent) --font-geist-mono. */
+.mono-scope {
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular,
+    "Cascadia Code", Consolas, monospace;
+}
 html {
   transition:
     background-color 150ms ease,

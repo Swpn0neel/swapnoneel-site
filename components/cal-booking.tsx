@@ -4,7 +4,7 @@ import { siteConfig } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 import { getRenderedTheme } from "@/lib/theme";
 import { Calendar } from "lucide-react";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/components/theme-provider";
 import { useCallback } from "react";
 
 type CalApiFunction = (action: string, ...args: unknown[]) => void;

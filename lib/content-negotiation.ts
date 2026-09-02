@@ -1,103 +1,49 @@
-export const PRODUCED_CONTENT_TYPES = ["text/html", "text/markdown"] as const;
+/**
+ * The site's Markdown representation is selected in next.config.ts, not in
+ * middleware. A middleware ran in front of every HTML request purely to read
+ * the Accept header; a header-conditioned rewrite does the same routing in the
+ * platform's routing layer with no function invocation, so the static HTML is
+ * served straight from the CDN cache again.
+ *
+ * `has.value` in a Next rewrite is a regular expression that Next anchors as
+ * ^…$, so the whole thing is one non-capturing group. Markdown is chosen when
+ *
+ *   - text/markdown is listed and not rejected, and text/html is either
+ *     absent or rejected; or
+ *   - text/html is rejected and a wildcard (*​/​* or text/*) is accepted.
+ *
+ * "Rejected" is a q=0 weight on the range, the one RFC 9110 mechanism for
+ * excluding a representation. The weight follows any media-type parameters
+ * (`text/markdown;charset=utf-8;q=0` is a rejection too), so the pattern skips
+ * parameters that are not `q=` before looking for it; anything after the
+ * weight is an accept extension and does not matter. A client listing both
+ * types with non-zero q gets HTML regardless of order; the middleware weighed
+ * q-values against each other, but a regex cannot, and every browser lands in
+ * the HTML branch either way.
+ */
+const REJECTED = String.raw`(?:\s*;\s*(?!q=)[^;,]*)*\s*;\s*q=0(?:\.0+)?\s*(?:[,;]|$)`;
+const wanted = (type: string) => `${type}(?!${REJECTED})`;
 
-export type ProducedContentType = (typeof PRODUCED_CONTENT_TYPES)[number];
+export const MARKDOWN_ACCEPT_PATTERN =
+  `(?:(?!.*${wanted("text/html")}).*${wanted("text/markdown")}.*` +
+  `|(?=.*text/html${REJECTED}).*(?:${wanted(String.raw`\*/\*`)}|${wanted(String.raw`text/\*`)}).*)`;
 
-type AcceptEntry = {
-  type: string;
-  q: number;
-  specificity: number;
-  position: number;
-};
-
-function parseAccept(header: string): AcceptEntry[] {
-  return header
-    .split(",")
-    .map((raw, position) => {
-      const parts = raw
-        .trim()
-        .split(";")
-        .map((part) => part.trim());
-      const type = (parts[0] ?? "").toLowerCase();
-      let q = 1;
-
-      for (const parameter of parts.slice(1)) {
-        const [rawName, rawValue] = parameter
-          .split("=")
-          .map((part) => part.trim());
-        if (rawName?.toLowerCase() !== "q") continue;
-        const parsed = Number(rawValue);
-        if (!Number.isNaN(parsed)) q = Math.max(0, Math.min(1, parsed));
-      }
-
-      const specificity = type === "*/*" ? 0 : type.endsWith("/*") ? 1 : 2;
-      return { type, q, specificity, position };
-    })
-    .filter((entry) => entry.type.length > 0);
-}
-
-function matches(entry: AcceptEntry, candidate: ProducedContentType): boolean {
-  if (entry.type === "*/*") return true;
-  if (entry.type.endsWith("/*")) {
-    return candidate.startsWith(entry.type.slice(0, -1));
-  }
-  return entry.type === candidate;
+export function acceptsMarkdownOnly(accept: string | null): boolean {
+  if (accept === null) return false;
+  return new RegExp(`^${MARKDOWN_ACCEPT_PATTERN}$`, "s").test(accept);
 }
 
 /**
- * Selects between the site's HTML and Markdown representations using the
- * precedence rules in RFC 9110 section 12.5.1. A null result means the client
- * explicitly rejected every representation the site can produce.
+ * Body of the `:path(...)` parameter used by the negotiation rewrite and the
+ * alternate-link header in next.config.ts: any page path, but never the API,
+ * the framework's own routes, or a file with an extension — the same set the
+ * middleware matcher used to exclude.
  */
-export function preferredContentType(
-  header: string | null
-): ProducedContentType | null {
-  if (!header) return PRODUCED_CONTENT_TYPES[0];
+export const PAGE_PATH_PATTERN =
+  "(?!api/|_next/|_vercel/)(?!.*\\.[A-Za-z0-9]+$).+";
 
-  const entries = parseAccept(header);
-  if (entries.length === 0) return PRODUCED_CONTENT_TYPES[0];
-
-  let bestType: ProducedContentType | null = null;
-  let bestQ = -1;
-  let bestPosition = Number.POSITIVE_INFINITY;
-
-  for (const candidate of PRODUCED_CONTENT_TYPES) {
-    let matched: AcceptEntry | null = null;
-
-    for (const entry of entries) {
-      if (!matches(entry, candidate)) continue;
-      if (
-        matched === null ||
-        entry.specificity > matched.specificity ||
-        (entry.specificity === matched.specificity &&
-          entry.position < matched.position)
-      ) {
-        matched = entry;
-      }
-    }
-
-    if (!matched || matched.q <= 0) continue;
-    if (
-      matched.q > bestQ ||
-      (matched.q === bestQ && matched.position < bestPosition)
-    ) {
-      bestType = candidate;
-      bestQ = matched.q;
-      bestPosition = matched.position;
-    }
-  }
-
-  return bestType;
-}
-
-export function appendVaryAccept(headers: Headers): void {
-  const existing = headers.get("Vary");
-  if (!existing) {
-    headers.set("Vary", "Accept");
-    return;
-  }
-
-  const tokens = existing.split(",").map((token) => token.trim().toLowerCase());
-  if (!tokens.includes("accept")) headers.set("Vary", `${existing}, Accept`);
+export function isNegotiablePagePath(pathname: string): boolean {
+  return new RegExp(`^/(?:${PAGE_PATH_PATTERN})$`).test(pathname);
 }
 
 export function markdownSiblingPath(pathname: string): string {

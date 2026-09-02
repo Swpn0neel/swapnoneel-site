@@ -8,7 +8,8 @@ const isBuild = args.includes("--build");
 const force = args.includes("--force");
 
 // These run concurrently, which is only safe because none of them reads another's
-// output. Worth keeping true: generate-blur scans public/{work,project,img} and
+// output. Worth keeping true: generate-blur scans public/{work,project,img},
+// generate-ui-images reads public/{img,work} and writes public/ui-img, and
 // generate-palette public/project — the *source* images, not the encoded
 // public/{blog-img,project-img} the heavy scripts write — while
 // generate-agent-files reads canonical content sources only. A new
@@ -16,6 +17,7 @@ const force = args.includes("--force");
 // align-narrations, not in it.
 const fastScripts = [
   "scripts/generate-blur.mjs",
+  "scripts/generate-ui-images.mjs",
   "scripts/generate-palette.mjs",
   "scripts/generate-agent-files.mjs",
 ];
@@ -43,6 +45,7 @@ function run(script) {
     "scripts/align-narrations.mjs",
     "scripts/mirror-blog-images.mjs",
     "scripts/generate-project-images.mjs",
+    "scripts/generate-ui-images.mjs",
   ]);
   const cmdArgs =
     NEEDS_STRIP_TYPES.has(script) || script.endsWith(".ts")

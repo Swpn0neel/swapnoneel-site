@@ -68,7 +68,7 @@ export const developersPage: PublicPageContent = {
     {
       heading: "Machine-readable interfaces",
       paragraphs: [
-        "Canonical page URLs support HTTP content negotiation. Send Accept: text/markdown to receive a UTF-8 Markdown representation; send Accept: text/html for the browser document. Negotiated responses vary on Accept, explicit .md sibling URLs are available for page content, and unsupported media requests receive HTTP 406. The sitemap, robots file, RSS feed, concise llms.txt profile, full llms-full.txt corpus, and agent instructions are linked below.",
+        "Canonical page URLs support HTTP content negotiation. Send Accept: text/markdown to receive a UTF-8 Markdown representation; send Accept: text/html for the browser document. Negotiated responses vary on Accept, a client that lists text/html alongside text/markdown receives HTML unless it rejects HTML with q=0, and explicit .md sibling URLs are available for every page. The sitemap, robots file, RSS feed, concise llms.txt profile, full llms-full.txt corpus, and agent instructions are linked below.",
         "Blog posts retain their authored Markdown, while index and profile pages expose concise Markdown assembled from the same source data used by the visible site. A missing page returns HTTP 404 in both HTML and Markdown. The Markdown 404 includes recovery links so an automated client can continue from the sitemap or content indexes.",
       ],
     },

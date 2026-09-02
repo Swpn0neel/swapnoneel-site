@@ -1,4 +1,5 @@
 import { BackToTop } from "@/components/back-to-top";
+import { ImageLoadListener } from "@/components/image-load-listener";
 import { Navbar } from "@/components/navbar";
 import { PageTransition } from "@/components/page-transition";
 import { RouteProgress } from "@/components/route-progress";
@@ -11,7 +12,7 @@ import { safeJsonLd } from "@/lib/utils";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Geist, Inter } from "next/font/google";
 import "./globals.css";
 
 // No `weight` list on purpose. Inter is a variable font, and naming weights
@@ -34,24 +35,22 @@ const geist = Geist({
   variable: "--font-geist",
 });
 
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  display: "optional",
-  variable: "--font-geist-mono",
-});
+// Geist Mono is not declared here. See lib/fonts.ts: it is mounted only by
+// app/blog/layout.tsx, so its preload stops shipping to pages without code.
 
 // Writes the *resolved* theme to data-theme before <body> exists, whether the
 // visitor has a saved choice or is on "system". Resolving here rather than
 // leaving the attribute off and letting the prefers-color-scheme block in
 // globals.css handle "system" is what keeps the page internally consistent: the
-// media query can only restate the palette, so in the gap before next-themes
+// media query can only restate the palette, so in the gap before React
 // hydrates, every `dark:` utility and every rule keyed on the attribute would
 // still render its light form over an already-dark background — company logos
 // un-inverted on black, the profile card resting on the wrong face.
 //
-// This does not pin the theme. next-themes still owns the preference and still
-// rewrites data-theme when the OS flips while "system" is selected; the
-// attribute being present up front changes nothing about that.
+// This does not pin the theme. ThemeProvider (components/theme-provider.tsx)
+// owns the preference once mounted and rewrites data-theme when the OS flips
+// while "system" is selected; the attribute being present up front changes
+// nothing about that. It reads the same localStorage key this script does.
 //
 // The storage read is guarded because some privacy modes and embedded browsers
 // make localStorage throw, and colorScheme is set alongside so form controls,
@@ -109,7 +108,7 @@ export default function RootLayout({
       lang="en"
       suppressHydrationWarning
       data-scroll-behavior="smooth"
-      className={`${inter.variable} ${geist.variable} ${geistMono.variable}`}
+      className={`${inter.variable} ${geist.variable}`}
     >
       <head>
         {/* Gives native controls and the browser canvas both supported schemes;
@@ -145,15 +144,14 @@ export default function RootLayout({
             of that would be positioned against the animating box instead of
             the viewport, and would slide with it. */}
         <RouteProgress />
-        {/* next-themes remains the application state and live system-preference
-            owner; the toggle mirrors its resolved value to data-theme inside
-            the same synchronous mutation used by the visual transition. */}
-        <ThemeProvider
-          attribute="data-theme"
-          defaultTheme="system"
-          enableSystem
-          enableColorScheme
-        >
+        {/* One listener for every image on the site: writes load state onto
+            StaticImage frames so the CSS can fade them in and retire shimmers
+            without a hydrated component per image. */}
+        <ImageLoadListener />
+        {/* Application state and live system-preference owner; the toggle
+            writes data-theme inside the same synchronous mutation used by the
+            visual transition and then tells the provider. */}
+        <ThemeProvider>
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{

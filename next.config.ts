@@ -1,5 +1,9 @@
 import withBundleAnalyzer from "@next/bundle-analyzer";
 import fs from "fs";
+import {
+  MARKDOWN_ACCEPT_PATTERN,
+  PAGE_PATH_PATTERN,
+} from "./lib/content-negotiation";
 import { DEVICE_SIZES } from "./lib/images.config";
 import type { NextConfig } from "next";
 import path from "path";
@@ -73,14 +77,53 @@ const nextConfig: NextConfig = {
   outputFileTracingIncludes: {
     "/api/blog/[slug]/raw": ["./md/blog/**/*.md"],
   },
+  // Markdown representations, in the routing layer rather than middleware.
+  // proxy.ts used to run in front of every HTML request to read the Accept
+  // header and add a Link header; both are expressible here, where they are
+  // evaluated by the CDN's router with no function in the request path.
+  //
+  // The negotiation rules are `beforeFiles` because they have to win over an
+  // existing page: an afterFiles rewrite is only consulted once no page or
+  // public file matched, and /about is a page. The `.md` siblings have no page
+  // of their own, so they sit in afterFiles — and the blog's raw-source rule
+  // must come before the generic one.
   async rewrites() {
-    return [
-      {
-        // /blog/my-post.md  →  /api/blog/my-post/raw
-        source: "/blog/:slug.md",
-        destination: "/api/blog/:slug/raw",
-      },
+    const wantsMarkdown = [
+      { type: "header" as const, key: "accept", value: MARKDOWN_ACCEPT_PATTERN },
     ];
+    return {
+      beforeFiles: [
+        {
+          // Accept: text/markdown against a canonical URL. See
+          // MARKDOWN_ACCEPT_PATTERN for what counts.
+          source: `/:path(${PAGE_PATH_PATTERN})`,
+          has: wantsMarkdown,
+          destination: "/api/markdown/:path",
+        },
+        {
+          source: "/",
+          has: wantsMarkdown,
+          destination: "/api/markdown",
+        },
+      ],
+      afterFiles: [
+        {
+          // /blog/my-post.md  →  the authored markdown, verbatim
+          source: "/blog/:slug.md",
+          destination: "/api/blog/:slug/raw",
+        },
+        {
+          source: "/index.md",
+          destination: "/api/markdown",
+        },
+        {
+          // /about.md, /work/bifrost.md, … → the page's Markdown rendering.
+          source: "/:path*.md",
+          destination: "/api/markdown/:path*",
+        },
+      ],
+      fallback: [],
+    };
   },
   async redirects() {
     return [
@@ -101,7 +144,35 @@ const nextConfig: NextConfig = {
     ];
   },
   async headers() {
+    const alternate = (path: string) => ({
+      key: "Link",
+      value: `<https://www.swapnoneel.site${path}>; rel="alternate"; type="text/markdown"`,
+    });
+    // The .md siblings are alternates of the canonical pages and must not be
+    // indexed in their own right. Set here, keyed on the URL the client asked
+    // for, because a query string added by a rewrite does not reach the route
+    // handler's request URL. agent-instructions.md is a literal public file,
+    // not a sibling, and is left indexable as before.
+    const noindex = { key: "X-Robots-Tag", value: "noindex" };
+    // Advertises the Markdown sibling on every page, as the middleware did.
+    // No `Vary: Accept` here: Next writes its own Vary on prerendered HTML and
+    // a value from this list does not merge into it (verified against `next
+    // start`). The CDN does not need it — a negotiated request is rewritten to
+    // /api/markdown/* before any cache lookup, so the two representations never
+    // share a cache key — and the Markdown route sets Vary: Accept itself.
     return [
+      {
+        source: "/:path((?!agent-instructions\\.md$).*\\.md)",
+        headers: [noindex],
+      },
+      {
+        source: "/",
+        headers: [alternate("/index.md")],
+      },
+      {
+        source: `/:path(${PAGE_PATH_PATTERN})`,
+        headers: [alternate("/:path.md")],
+      },
       {
         source: "/blog-img/:path*",
         headers: [
@@ -120,8 +191,40 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      {
+        // Content-hashed by scripts/generate-ui-images.mjs, so a changed source
+        // gets a new URL and the old one can be cached forever.
+        source: "/ui-img/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=31536000, immutable",
+          },
+        ],
+      },
+      {
+        // Narration manifests are static files but were served with max-age=0.
+        // They only change with a deploy, and the player re-checks the token
+        // count against the article before trusting one, so a stale copy can
+        // hide the player for an hour but never mis-highlight.
+        source: "/narration/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, stale-while-revalidate=86400",
+          },
+        ],
+      },
     ];
   },
+  // No page renders through /_next/image any more: blog images, project
+  // covers, the profile portraits and the work logos are all encoded at build
+  // time and served as static <picture> sources (see components/static-image
+  // and the generate-*/mirror-* scripts). The optimizer still answers one URL —
+  // the og:image in app/blog/[slug]/page.tsx, which social scrapers fetch and
+  // which needs a format they all decode — so the settings that URL depends on
+  // stay: a remote host for covers that never mirrored, 1280 in the width list
+  // and 75 in the quality list.
   images: {
     remotePatterns: [
       {
@@ -146,26 +249,9 @@ const nextConfig: NextConfig = {
       },
     ],
     formats: ["image/avif", "image/webp"],
-    // Next encodes AVIF at `quality - 20` (see optimizeImage in
-    // next/dist/server/image-optimizer.js), so the default 75 ships AVIF q55 —
-    // visibly soft on screenshots and diagrams. 90 lands the AVIF at q70.
-    //
-    // Blog images no longer come through here at all; they are pre-encoded at
-    // build time and served by the loader in lib/blog-image-loader.ts. This
-    // still covers the two paths that remain: blog images that failed to mirror
-    // (dead upstream URLs) and the OG card URL in app/blog/[slug]/page.tsx.
-    //
-    // 75 stays in the list because it is Next's default and every image that
-    // does not opt in explicitly still requests it — dropping it 400s them.
     qualities: [75, 90],
-    // next/image builds its srcset from these whatever loader is in play, so
-    // this list decides which AVIF renditions scripts/mirror-blog-images.mjs
-    // has to emit as well. Four widths cover the real layout — 640 for 1x
-    // phones, 960 for 1x desktop, 1280 for high-DPR phones, 1536 for retina
-    // desktop.
-    //
+    // Shared with the build-time encoders through lib/images.config.ts.
     deviceSizes: [...DEVICE_SIZES],
-    imageSizes: [16, 32, 48, 60, 64, 96, 120, 128, 140, 256, 280, 384],
     minimumCacheTTL: 31536000,
   },
   turbopack: {

@@ -138,7 +138,7 @@ Summary: Premium AI-powered video dubbing platform design.
 Date: 2026-08-18T06:25:25.000Z
 Summary: AI observability is how you see inside a non-deterministic system. What to trace on every call, why logs are not enough, and where it belongs.
 
-### [Bifrost for Enterprises: Adaptive Routing, Guardrails and much more](https://www.swapnoneel.site/blog/bifrost-for-enterprises)
+### [Bifrost for Enterprises: Audit Logs, MCP Tool Groups, Adaptive Routing, and Guardrails](https://www.swapnoneel.site/blog/bifrost-for-enterprises)
 
 Date: 2026-08-09T15:41:05.000Z
 Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit logs, MCP tool groups, adaptive routing, and guardrails. This is a hands-on review of those features.

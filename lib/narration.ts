@@ -49,6 +49,12 @@ export type NarrationInfo = {
   enabled: boolean;
   /** Token count derived from the markdown. */
   count: number;
+  /**
+   * Audio length, handed to the player as a prop so it can draw its idle state
+   * without fetching the manifest — the timings array is only requested once
+   * a reader shows intent to play.
+   */
+  durationMs: number;
 };
 
 /**
@@ -63,12 +69,13 @@ export const getNarrationInfo = cache(
   (slug: string, year: number, markdown: string): NarrationInfo => {
     const count = narrationTokens(markdown).length;
     const manifest = readManifest(slug, year);
-    if (!manifest || count === 0) return { enabled: false, count };
+    if (!manifest || count === 0) return { enabled: false, count, durationMs: 0 };
 
     // Only v2 is token-indexed. A v1 manifest left over from before the
     // conversion describes TTS tokens, which these indices are not — run
     // scripts/align-narrations.mjs to upgrade it.
-    if (manifest.v < 2) return { enabled: false, count };
-    return { enabled: manifest.starts?.length === count, count };
+    if (manifest.v < 2) return { enabled: false, count, durationMs: 0 };
+    const enabled = manifest.starts?.length === count;
+    return { enabled, count, durationMs: enabled ? manifest.durationMs : 0 };
   }
 );

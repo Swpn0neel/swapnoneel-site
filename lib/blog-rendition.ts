@@ -1,9 +1,8 @@
-// Deliberately imports nothing. This is the half of the rendition logic that
-// has to run in the browser (next/image calls the loader again on hydration),
-// and lib/blog-image-loader.ts pulls in the whole 61 KB image manifest — which
-// would land in the client bundle for every blog reader if the two lived
-// together. The widths arrive as a prop instead: a handful of integers per
-// image, already in the RSC payload.
+// Deliberately imports nothing. This used to be the browser half of the
+// rendition logic, back when next/image re-ran the loader on hydration; images
+// are server-rendered <picture> elements now, so it only runs at build. It
+// stays separate from lib/blog-image-loader.ts (which imports the 76 KB
+// manifest) so that a client component can still call it if one ever needs to.
 export function pickRendition(
   src: string,
   widths: number[],

@@ -24,3 +24,12 @@ export function mirroredAspectRatio(src: string): number {
   if (!dims?.width || !dims.height) return FALLBACK_RATIO;
   return dims.width / dims.height;
 }
+
+// Intrinsic size for the <img> attributes. Null for images that did not mirror.
+export function mirroredDimensions(
+  src: string
+): { width: number; height: number } | null {
+  const dims = MIRRORED[src];
+  if (!dims?.width || !dims.height) return null;
+  return { width: dims.width, height: dims.height };
+}

@@ -1,13 +1,15 @@
 import { siteConfig, skills, socialLinks } from "@/lib/config";
 import { i18n } from "@/lib/i18n";
 
-// Single source of truth for the Person entity used in JSON-LD across the
-// site (root layout's sitewide Person, homepage's ProfilePage mainEntity),
-// so the two never drift out of sync with each other or with the real
-// skills/education data shown elsewhere on the site.
+// The one Person node in the site's JSON-LD. The root layout emits it on every
+// page; anything else that needs the person (the home page's ProfilePage) points
+// at it through PERSON_ID rather than embedding a second copy.
+export const PERSON_ID = "https://www.swapnoneel.site/#person";
+
 export function buildPersonSchema() {
   return {
     "@type": "Person",
+    "@id": PERSON_ID,
     name: siteConfig.person.fullName,
     url: "https://www.swapnoneel.site",
     image: `https://www.swapnoneel.site${siteConfig.images.avatar}`,
