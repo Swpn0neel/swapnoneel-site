@@ -714,6 +714,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3ipt2u41nve3knvc35mw.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/3ipt2u41nve3knvc35mw-22da0335.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/3njozpqr6g3ytrb177ar.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/3njozpqr6g3ytrb177ar-0ee2729c.webp",
     "width": 926,
@@ -791,6 +802,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/4xkzvwwu4uwqzxsaiuvz.png": {
     "local": "/blog-img/2026/claude-rate-limit-error/4xkzvwwu4uwqzxsaiuvz-b3644053.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/50ddyc6s28ybregird9b.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/50ddyc6s28ybregird9b-4a709f9f.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -997,6 +1019,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a877ztvlh1in45i8vcxu.png": {
     "local": "/blog-img/2026/geo-for-developers/a877ztvlh1in45i8vcxu-2d3c354f.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/a8xm1mq9er7negb7t9pk.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/a8xm1mq9er7negb7t9pk-cb5ba780.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1213,6 +1246,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/i22v87okxx5uvd00vqpj.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/i22v87okxx5uvd00vqpj-358231a4.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/i8fz76dcy7hsjskwcovi.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/i8fz76dcy7hsjskwcovi-7ebda806.webp",
     "width": 1536,
@@ -1333,6 +1377,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/l26d4gjc9hd97mgyq20n.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/l26d4gjc9hd97mgyq20n-7de604c8.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/l74ofosewn670mplaspz.png": {
     "local": "/blog-img/2026/what-is-an-mcp-server/l74ofosewn670mplaspz-600929bd.webp",
     "width": 1536,
@@ -1431,6 +1486,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/qs9x9rz2fbirqpw1blod.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/qs9x9rz2fbirqpw1blod-1b9f77eb.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/re84bfyifr07hwij3hl5.png": {
     "local": "/blog-img/2026/bifrost-for-enterprises/re84bfyifr07hwij3hl5-09757adb.webp",
     "width": 1536,
@@ -1455,6 +1521,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/rlgf0fpspsc35cdk60qi.png": {
     "local": "/blog-img/2026/what-is-adaptive-load-balancing/rlgf0fpspsc35cdk60qi-931a60df.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/rn9r5gkpkapsxcflqcaf.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/rn9r5gkpkapsxcflqcaf-1b9e6e40.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1561,6 +1638,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9rcbgnto1tedc55k1jr.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/u9rcbgnto1tedc55k1jr-f89721ad.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/u9xplxu74ikwfrltmxfi.png": {
     "local": "/blog-img/2026/geo-for-developers/u9xplxu74ikwfrltmxfi-b4b4f8d4.webp",
     "width": 1536,
@@ -1606,6 +1694,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/uu54npgbb94cpswizr6u.png": {
     "local": "/blog-img/2026/claude-pro-usage-limits/uu54npgbb94cpswizr6u-a853b103.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/uuwk5bjxm48xciuypotn.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/uuwk5bjxm48xciuypotn-611b44ed.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1783,6 +1882,17 @@
     "local": "/blog-img/2026/deep-dive-into-bifrost/z86aq2lb1z6jcc9xygxu-092957d9.webp",
     "width": 1536,
     "height": 695,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/zednfcf3a863ewj396eg.png": {
+    "local": "/blog-img/2026/what-is-an-mcp-registry/zednfcf3a863ewj396eg-7f97b140.webp",
+    "width": 1536,
+    "height": 864,
     "renditions": [
       640,
       960,

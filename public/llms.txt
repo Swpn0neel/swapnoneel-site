@@ -133,6 +133,11 @@ Summary: Premium AI-powered video dubbing platform design.
 
 ## Recent Technical Writing
 
+### [What Is an MCP Registry? Discovering & Governing MCP Servers](https://www.swapnoneel.site/blog/what-is-an-mcp-registry)
+
+Date: 2026-09-03T17:01:44Z
+Summary: What is an MCP registry? It helps you discover MCP servers, but not govern them. How discovery works, why it isn't security, and where a gateway fits.
+
 ### [What Is an MCP Server? A Beginner's Guide](https://www.swapnoneel.site/blog/what-is-an-mcp-server)
 
 Date: 2026-09-02T18:48:39.000Z
@@ -187,11 +192,6 @@ Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents 
 
 Date: 2026-07-23T00:00:00.000Z
 Summary: Kimi K3 just landed a 2.8T open weight model a hair behind GPT-5.6 Sol and Fable 5. Here's why open weight frontier models finally matter.
-
-### [Why Vercel is still my default for shipping frontend projects](https://www.swapnoneel.site/blog/vercel-frontend-deployment-default)
-
-Date: 2026-07-13T00:00:00.000Z
-Summary: Why I keep reaching for Vercel for frontend projects — and where Cloudflare, Netlify, and Railway are the better choice.
 
 For every published article in full, use the full content corpus or RSS feed.
 
