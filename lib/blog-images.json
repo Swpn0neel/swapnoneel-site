@@ -659,6 +659,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/2a7hdpvlwqgicugxqn6t.png": {
+    "local": "/blog-img/2026/reduce-time-to-first-token/2a7hdpvlwqgicugxqn6t-8b26704f.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/2drkhh86pse6ywt0qc93.png": {
     "local": "/blog-img/2026/what-is-an-mcp-server/2drkhh86pse6ywt0qc93-b56d6825.webp",
     "width": 1536,
@@ -1158,10 +1169,32 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/ffbxbe31nm566wdsjr83.png": {
+    "local": "/blog-img/2026/reduce-time-to-first-token/ffbxbe31nm566wdsjr83-58eeab32.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/fncld2oo6svgypq11g2t.png": {
     "local": "/blog-img/2026/bifrost-for-enterprises/fncld2oo6svgypq11g2t-4423be34.webp",
     "width": 1536,
     "height": 896,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/frcs5m2rndvoa1kcu30p.png": {
+    "local": "/blog-img/2026/reduce-time-to-first-token/frcs5m2rndvoa1kcu30p-9a687432.webp",
+    "width": 1536,
+    "height": 864,
     "renditions": [
       640,
       960,
@@ -1344,6 +1377,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/j1oicxsoo0ifd0x86jk9.png": {
+    "local": "/blog-img/2026/reduce-time-to-first-token/j1oicxsoo0ifd0x86jk9-c3093203.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/jn984noo2rlwqhqq6b3q.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/jn984noo2rlwqhqq6b3q-a1c12583.webp",
     "width": 1536,
@@ -1501,6 +1545,17 @@
     "local": "/blog-img/2026/bifrost-for-enterprises/re84bfyifr07hwij3hl5-09757adb.webp",
     "width": 1536,
     "height": 926,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/rf535slag36i104uuh4q.png": {
+    "local": "/blog-img/2026/reduce-time-to-first-token/rf535slag36i104uuh4q-d8d535a2.webp",
+    "width": 1536,
+    "height": 864,
     "renditions": [
       640,
       960,
@@ -1832,6 +1887,17 @@
       960,
       1280,
       1301
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/y9jvmyx3gxotsz4y6atd.png": {
+    "local": "/blog-img/2026/reduce-time-to-first-token/y9jvmyx3gxotsz4y6atd-8d66e30d.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
     ]
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/yf5e404oqqi9lk161aik.png": {

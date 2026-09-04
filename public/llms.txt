@@ -133,6 +133,11 @@ Summary: Premium AI-powered video dubbing platform design.
 
 ## Recent Technical Writing
 
+### [How to Cut Time to First Token (TTFT) in LLM Apps](https://www.swapnoneel.site/blog/reduce-time-to-first-token)
+
+Date: 2026-09-04T15:49:58.000Z
+Summary: Time to first token is the blank-screen wait before your LLM replies. Here is how to cut TTFT, from prompt caching to routing, biggest wins first.
+
 ### [What Is an MCP Registry? Discovering & Governing MCP Servers](https://www.swapnoneel.site/blog/what-is-an-mcp-registry)
 
 Date: 2026-09-03T17:01:44Z
@@ -187,11 +192,6 @@ Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI p
 
 Date: 2026-07-24T00:00:00.000Z
 Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped being optional, here's what I learned being paid to do it.
-
-### [Kimi K3 and the Rise of Open Weight Frontier Models](https://www.swapnoneel.site/blog/rise-of-open-weight-frontier-models-kimi-k3)
-
-Date: 2026-07-23T00:00:00.000Z
-Summary: Kimi K3 just landed a 2.8T open weight model a hair behind GPT-5.6 Sol and Fable 5. Here's why open weight frontier models finally matter.
 
 For every published article in full, use the full content corpus or RSS feed.
 
