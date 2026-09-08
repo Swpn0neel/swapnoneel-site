@@ -15,11 +15,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             {label}
           </label>
         )}
+        {/* text-base below `sm`, not text-sm: the root font-size is the
+            browser default on phones (base.css), which puts text-sm under
+            16px, and iOS Safari zooms the whole page into any focused
+            control smaller than that. */}
         <input
           ref={ref}
           id={id}
           className={cn(
-            "border-input focus-visible:ring-ring/40 flex w-full rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 md:h-10",
+            "border-input focus-visible:ring-ring/40 flex w-full rounded-sm border bg-transparent px-3 py-2 text-base transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm md:h-10",
             error && "border-red-500",
             className
           )}
@@ -51,7 +55,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
           ref={ref}
           id={id}
           className={cn(
-            "border-input focus-visible:ring-ring/40 flex w-full resize-y rounded-sm border bg-transparent px-3 py-2 text-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+            "border-input focus-visible:ring-ring/40 flex w-full resize-y rounded-sm border bg-transparent px-3 py-2 text-base transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm",
             error && "border-red-500",
             className
           )}

@@ -20,8 +20,9 @@ interface BlogImageProps {
   hideCaption?: boolean;
 }
 
-// The rendered column is ~770px: max-w-2xl is 42rem and the root font-size is
-// 120%, so the container is ~806px and the content ~770px wide.
+// The rendered column is ~770px at desktop widths: max-w-2xl is 42rem and the
+// root font-size is 120% from 960px up (base.css), so the container is ~806px
+// and the content ~770px wide.
 //
 // The two density conditions still hold high-DPR phones below their nominal
 // pixel count — a 390px-wide phone asking for the literal ~1170px it wants at

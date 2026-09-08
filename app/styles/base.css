@@ -39,7 +39,16 @@ button:focus-visible {
   box-sizing: border-box;
 }
 html {
-  font-size: 120%;
+  /* The type is set a fifth larger than the browser default, and the desktop
+     column was designed around that. Phones get the plain browser default:
+     the same 120% on a 375px screen put body copy at ~17.8px and headings at
+     29–36px, out of proportion with the width. Between the two the scale
+     ramps rather than steps — 100% at 320px and below, 120% at 960px and up —
+     so tablets, phones in landscape and narrow desktop windows land in
+     between. Percentages, so a visitor's own browser font-size preference
+     still scales everything. Tailwind's breakpoints do not move: rem inside
+     @media resolves against the initial font-size, never this rule. */
+  font-size: clamp(100%, 90% + 0.5vw, 120%);
   scrollbar-gutter: stable;
   scroll-behavior: smooth;
 }
