@@ -626,8 +626,41 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0b26aun3ymuigydo8d7e.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/0b26aun3ymuigydo8d7e-e8853d04.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0jqt2fv5869zcc74abon.png": {
     "local": "/blog-img/2026/ai-observability-explained/0jqt2fv5869zcc74abon-dcb709be.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0qb993dvkxs1ylwkf0oz.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/0qb993dvkxs1ylwkf0oz-3e14bbdd.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/1d5dafilojaeqhim8tnp.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/1d5dafilojaeqhim8tnp-f4d5b32c.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -996,6 +1029,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8hu0md48n2dqt5acghor.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/8hu0md48n2dqt5acghor-5efe5011.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/8ovdnlvnm2h0i8g3p7zt.png": {
     "local": "/blog-img/2026/what-is-an-mcp-server/8ovdnlvnm2h0i8g3p7zt-c6436c8e.webp",
     "width": 1536,
@@ -1140,6 +1184,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/c8hkbqxrhshh2kazha4j.png": {
     "local": "/blog-img/2026/what-is-adaptive-load-balancing/c8hkbqxrhshh2kazha4j-fad51149.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/cdsfsn8vb8rqw6avn3d7.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/cdsfsn8vb8rqw6avn3d7-cd1c28ab.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1475,6 +1530,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/noxgvap6bfhk954kxr02.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/noxgvap6bfhk954kxr02-b3ef12ee.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/o2albu3d51p4reqzb2w0.png": {
     "local": "/blog-img/2026/what-is-semantic-caching/o2albu3d51p4reqzb2w0-d074186e.webp",
     "width": 1536,
@@ -1521,6 +1587,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/pivin0jtpppbxla1ajho.png": {
     "local": "/blog-img/2026/make-ai-write-in-your-voice/pivin0jtpppbxla1ajho-69cc7de6.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/qpfssqij5pizxiple4ef.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/qpfssqij5pizxiple4ef-3c6bbc73.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1598,6 +1675,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s436tk6aszvy9g079vjt.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/s436tk6aszvy9g079vjt-cfad970a.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/sescauz6xlvbfj8wgbv1.png": {
+    "local": "/blog-img/2026/building-great-claude-skills/sescauz6xlvbfj8wgbv1-72775a82.webp",
     "width": 1536,
     "height": 864,
     "renditions": [

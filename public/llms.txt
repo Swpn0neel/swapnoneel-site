@@ -133,6 +133,11 @@ Summary: Premium AI-powered video dubbing platform design.
 
 ## Recent Technical Writing
 
+### [Three Insights for Building Great Claude Skills](https://www.swapnoneel.site/blog/building-great-claude-skills)
+
+Date: 2026-09-08T18:32:06.000Z
+Summary: The three things that separate Claude skills that work from ones that never trigger: a clear description, a lean SKILL.md, and putting fragile steps into scripts.
+
 ### [How to Cut Time to First Token (TTFT) in LLM Apps](https://www.swapnoneel.site/blog/reduce-time-to-first-token)
 
 Date: 2026-09-04T15:49:58.000Z
@@ -187,11 +192,6 @@ Summary: A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI p
 
 Date: 2026-07-30T00:00:00.000Z
 Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering local OpenCode setup, automatic fallbacks, and complexity-based routing.
-
-### [Nobody's Testing AI Coding Agents Enough](https://www.swapnoneel.site/blog/testing-ai-coding-agents)
-
-Date: 2026-07-24T00:00:00.000Z
-Summary: 40-62% of AI-generated code ships with flaws. Testing AI coding agents stopped being optional, here's what I learned being paid to do it.
 
 For every published article in full, use the full content corpus or RSS feed.
 
