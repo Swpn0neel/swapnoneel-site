@@ -133,6 +133,11 @@ Summary: Premium AI-powered video dubbing platform design.
 
 ## Recent Technical Writing
 
+### [What Is Granular Access Control? RBAC, ABAC, and AI](https://www.swapnoneel.site/blog/what-is-granular-access-control)
+
+Date: 2026-09-09T17:25:41.000Z
+Summary: What is granular access control? The five dimensions a permission can narrow on, how it differs from RBAC and ABAC, and where AI agents break it.
+
 ### [Three Insights for Building Great Claude Skills](https://www.swapnoneel.site/blog/building-great-claude-skills)
 
 Date: 2026-09-08T18:32:06.000Z
@@ -187,11 +192,6 @@ Summary: Bifrost Enterprise builds on Maxim AI's open-source gateway with audit 
 
 Date: 2026-07-31T00:00:00.000Z
 Summary: A hands-on look at Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering virtual keys, MCP, prompts, skills, and custom log headers.
-
-### [Trying Bifrost: An AI Gateway That Simplified My Setup](https://www.swapnoneel.site/blog/trying-bifrost-ai-gateway)
-
-Date: 2026-07-30T00:00:00.000Z
-Summary: A hands-on test of Bifrost, Maxim AI's open-source gateway for 20+ AI providers, covering local OpenCode setup, automatic fallbacks, and complexity-based routing.
 
 For every published article in full, use the full content corpus or RSS feed.
 

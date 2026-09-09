@@ -637,6 +637,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0bpbcye3j3npblkge18e.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/0bpbcye3j3npblkge18e-539132db.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/0jqt2fv5869zcc74abon.png": {
     "local": "/blog-img/2026/ai-observability-explained/0jqt2fv5869zcc74abon-dcb709be.webp",
     "width": 1536,
@@ -659,6 +670,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/1bdcwewx8ia7x11uym7b.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/1bdcwewx8ia7x11uym7b-a0f72d07.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/1d5dafilojaeqhim8tnp.png": {
     "local": "/blog-img/2026/building-great-claude-skills/1d5dafilojaeqhim8tnp-f4d5b32c.webp",
     "width": 1536,
@@ -672,6 +694,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/1qpab5iqbnfib7t76sfx.png": {
     "local": "/blog-img/2026/what-is-semantic-caching/1qpab5iqbnfib7t76sfx-cbf8ef8e.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/1s1helwzy5pt4fwewzsa.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/1s1helwzy5pt4fwewzsa-06c664ef.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -921,6 +954,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/61eygqjuow0cu6nh8hzp.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/61eygqjuow0cu6nh8hzp-38c00086.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/6h5paxmrnp4uqsebb6x1.png": {
     "local": "/blog-img/2026/what-is-an-mcp-server/6h5paxmrnp4uqsebb6x1-77466737.webp",
     "width": 1536,
@@ -1149,6 +1193,17 @@
       1536
     ]
   },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/b4iz8a40bn41yzz76ga2.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/b4iz8a40bn41yzz76ga2-dccb01a1.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/bca2riv6xiz4clpbngq4.png": {
     "local": "/blog-img/2026/what-is-semantic-caching/bca2riv6xiz4clpbngq4-ae7fe762.webp",
     "width": 1536,
@@ -1314,6 +1369,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/hmklnlthq7ogxtpyf8hz.png": {
     "local": "/blog-img/2026/claude-rate-limit-error/hmklnlthq7ogxtpyf8hz-b734f78c.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/hnm88ok73kltdi8mcuu7.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/hnm88ok73kltdi8mcuu7-a8a8eb33.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1489,6 +1555,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/l74ofosewn670mplaspz.png": {
     "local": "/blog-img/2026/what-is-an-mcp-server/l74ofosewn670mplaspz-600929bd.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/lhlbqhdkv87js27zudwx.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/lhlbqhdkv87js27zudwx-ce18dfee.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
@@ -1675,6 +1752,17 @@
   },
   "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/s436tk6aszvy9g079vjt.png": {
     "local": "/blog-img/2026/trying-bifrost-ai-gateway/s436tk6aszvy9g079vjt-cfad970a.webp",
+    "width": 1536,
+    "height": 864,
+    "renditions": [
+      640,
+      960,
+      1280,
+      1536
+    ]
+  },
+  "https://dev-to-uploads.s3.us-east-2.amazonaws.com/uploads/articles/sca2l1cfdi41lpzjhyar.png": {
+    "local": "/blog-img/2026/what-is-granular-access-control/sca2l1cfdi41lpzjhyar-14d117ec.webp",
     "width": 1536,
     "height": 864,
     "renditions": [
