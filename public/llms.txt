@@ -57,7 +57,7 @@ Do not treat this portfolio as a general-purpose software API, identity provider
 ### [GTM Engineer • Bifrost](https://www.swapnoneel.site/work/bifrost)
 
 Date: Jul 2026 - Present
-Summary: Leading technical go-to-market strategies for Bifrost, authoring architectural deep-dives, driving 300K+ impressions across developer communities, and scaling backlink and creator pipelines.
+Summary: Running technical go-to-market for Bifrost: growing GitHub stars from 6.4K to 10K+, raising domain authority and AI search visibility, building the GTM team's internal tools, and running content, creator, and community programs.
 
 ### [GTM Engineer • Zonko Labs](https://www.swapnoneel.site/work/zonko)
 
